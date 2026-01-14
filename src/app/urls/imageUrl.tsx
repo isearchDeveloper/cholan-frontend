@@ -1,0 +1,1 @@
+export const devImgPath = "https://cholan-admin.maxbridgesolution.in/public/storage";

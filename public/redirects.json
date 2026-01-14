@@ -1,0 +1,74 @@
+[
+  {
+    "from": "/india/tamilnadu-tour-packages",
+    "to": "/india/tamil-nadu-tour-packages",
+    "permanent": true
+  },
+  {
+    "from": "/car",
+    "to": "/car-rental",
+    "permanent": true
+  },
+  {
+    "from": "/bus",
+    "to": "/bus-rental",
+    "permanent": true
+  },
+  {
+    "from": "/international",
+    "to": "/international-holidays",
+    "permanent": true
+  },
+  {
+    "from": "/customized",
+    "to": "/customized-holidays",
+    "permanent": true
+  },
+  {
+    "from": "/about",
+    "to": "/about-us",
+    "permanent": true
+  },
+   {
+    "from": "/dmc",
+    "to": "/indian-dmc",
+    "permanent": true
+  },
+   {
+    "from": "/contact",
+    "to": "/contact-us",
+    "permanent": true
+  },  
+   {
+    "from": "/awards",
+    "to": "/awards-and-achievements",
+    "permanent": true
+  },
+   
+   {
+    "from": "/achievements",
+    "to": "/awards-and-achievements",
+    "permanent": true
+  },
+   {
+    "from": "/team",
+    "to": "/our-team",
+    "permanent": true
+  },
+   {
+    "from": "/partners",
+    "to": "/our-partners",
+    "permanent": true
+  },
+   {
+    "from": "/privacy",
+    "to": "/privacy-policy",
+    "permanent": true
+  },
+   {
+    "from": "/terms",
+    "to": "/terms-and-conditions",
+    "permanent": true
+  }
+ 
+]

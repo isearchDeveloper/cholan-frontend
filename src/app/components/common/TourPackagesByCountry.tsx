@@ -1,0 +1,271 @@
+
+"use client";
+ 
+import React, { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { Swiper as SwiperType } from "swiper";
+import { useRouter } from "next/navigation";
+ 
+type PackageItem = {
+  id?: string | number;
+  slug: string;
+  display_slug?: string;
+  title: string;
+  primary_image?: string;
+  primary_image_alt?: string | null;
+  images?: Array<{ id?: string | number; image_path: string; image_alt?: string | null }>;
+  rating?: number | null;
+  short_description?: string;
+  details?: {
+    facilities?: string[];
+    duration_nights?: number;
+    duration_days?: number;
+  };
+  location?: {
+    name?: string;
+    country?: {
+      name?: string;
+    };
+  };
+};
+ 
+function truncateTitle(text: string, wordLimit = 5) {
+  const words = text.split(" ");
+  if (words.length <= wordLimit) return text;
+  return words.slice(0, wordLimit).join(" ") + "...";
+}
+ 
+const amenitiesData = [
+  { name: "flight", img: "/images/flight.png", label: "Flights" },
+  { name: "transport", img: "/images/bus.png", label: "Transfers" },
+  { name: "breakfast", img: "/images/food.png", label: "Breakfast" },
+  { name: "hotel", img: "/hotel.svg", label: "Hotel" },
+  { name: "train", img: "/train.png", label: "Train" },
+  { name: "sightseeing", img: "/landscape.svg", label: "Sightseeing" },
+  { name: "meal", img: "/meal.svg", label: "Meal" },
+  { name: "restaurant", img: "/restaurant.svg", label: "Restaurant" },
+  { name: "bar", img: "/pub.svg", label: "Bar" },
+  { name: "wifi", img: "/wifi.svg", label: "Wi-Fi" },
+];
+ 
+function sanitizeAndTrimHtml(html?: string, words = 15) {
+  if (!html) return "";
+  const text = html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+  const parts = text.split(" ");
+  return parts.length > words ? parts.slice(0, words).join(" ") + "..." : text;
+}
+ 
+const TourPackagesByCountry = ({ exclusiveIndiaPackage = [] as PackageItem[] }: any) => {
+  const swiperRef = useRef<SwiperType | null>(null);
+  const innerSwiperRefs = useRef<Record<string, SwiperType | null>>({});
+  const router = useRouter();
+ 
+  const [mounted, setMounted] = useState(false);
+ 
+  useEffect(() => {
+    // JS enabled → remove no-js class for global fallbacks
+    document?.body?.classList?.remove("no-js");
+    setMounted(true);
+  }, []);
+ 
+  const goToPackage = (slug: string) => router.push(`/packages/${slug}`);
+ 
+  // helper: choose an image for noscript/fallback
+  const firstImage = (p: PackageItem) =>
+    p.images?.[0]?.image_path || p.primary_image || "/images/no-img.webp";
+ 
+  const firstAlt = (p: PackageItem) =>
+    p.images?.[0]?.image_alt || p.primary_image_alt || "image";
+ 
+  const countryNameLower =
+    exclusiveIndiaPackage?.[0]?.location?.country?.name?.toLowerCase() || "";
+ 
+  if (!exclusiveIndiaPackage || exclusiveIndiaPackage.length === 0) {
+    return null;
+  }
+  return (
+    <section className="py-1 pb-3 using-for-dubbl-slider india-popular-packages">
+      <div className="container">
+        <div className="common-header-center">
+          <h2 className="fs-3">Popular India Tour Packages</h2>
+        </div>
+ 
+        {/* ===== JS ON: Full slider UI ===== */}
+        <div
+          className="js-only"
+          onMouseEnter={() => swiperRef.current?.autoplay?.stop()}
+          onMouseLeave={() => swiperRef.current?.autoplay?.start()}
+        >
+          <Swiper
+            modules={[Navigation, Pagination, Autoplay]}
+            onSwiper={(swiper) => (swiperRef.current = swiper)}
+            navigation={{enabled: true}}
+            pagination={{ clickable: true }}
+            autoplay={{ delay: 3000 }}
+            loop={true}
+            spaceBetween={30}
+            slidesPerView={4}
+           
+            breakpoints={{
+              0: { slidesPerView: 1 },
+              640: { slidesPerView: 2 },
+              1024: { slidesPerView: 3 },
+            }}
+            className="india-international-packages-slider"
+          >
+           
+            {exclusiveIndiaPackage.map((exclusive: PackageItem) => {
+              const key = String(exclusive.slug);
+ 
+              return (
+                <SwiperSlide key={exclusive.id ?? key}>
+                  <div className="slider-card">
+                    <div className="sngl-card-wraper">
+                     <a href={`/packages/${exclusive.slug}`}>
+                      <div className="ts-holiday-card">
+                        <img src={exclusive.primary_image || "/images/no-img.webp"} />
+                        <div className="ts-holiday-content">
+                          <h3 className="ts-holiday-title">{truncateTitle(exclusive.title, 4)}</h3>
+                          <div className="ts-holiday-duration">
+                            <span>
+                              <img
+                                src="/images/moon.png"
+                                width="16"
+                                height="16"
+                                alt=""
+                              />
+                            </span>
+                            {exclusive.details?.duration_nights ?? 0}{" "}
+                            {(exclusive.details?.duration_nights ?? 0) < 2 ? "Night" : "Nights"}{" "}
+                            / {exclusive.details?.duration_days ?? 0}{" "}
+                            {(exclusive.details?.duration_days ?? 0) < 2 ? "Day" : "Days"}</div>
+                          <a href={`/packages/${exclusive.slug}`} className="ts-holiday-btn">Explore More</a>
+                        </div>
+                      </div>
+                      </a>
+ 
+                    </div>
+                  </div>
+                </SwiperSlide>
+              );
+            })}
+          </Swiper>
+        </div>
+ 
+        {/* ===== JS OFF: show first 3 static cards (no slider) ===== */}
+        <noscript>
+          <div className="row mt-4">
+            {exclusiveIndiaPackage.slice(0, 3).map((exclusive: PackageItem) => (
+              <div className="col-md-4 mb-3" key={exclusive.slug}>
+                <div className="slider-card">
+                  <div className="sngl-card-wraper">
+                    <a href={`/packages/${exclusive.slug}`}>
+                      <div className="image-box">
+                        <img
+                          src={firstImage(exclusive)}
+                          alt={firstAlt(exclusive)}
+                          style={{ width: "100%", height: "200px", objectFit: "cover" }}
+                        />
+                      </div></a>
+ 
+                    <div className="content-box"><a href={`/packages/${exclusive.slug}`}>
+                      <h3 title={exclusive.title} className="truncate line-clamp-hotel_one">
+                        {exclusive.title}
+                      </h3></a>
+ 
+                      <ul className="location-box mb-2">
+                        <li>
+                          <div className="left-area">
+                            <span>
+                              <img
+                                width={12}
+                                height={12}
+                                src="/images/location.png"
+                                alt=""
+                                style={{ verticalAlign: "middle" }}
+                              />
+                            </span>
+                            {exclusive.location?.country?.name || ""}
+                          </div>
+                        </li>
+                      </ul>
+ 
+                      <div className="tour-short-details">
+                        <div className="line-clamp">
+                          {sanitizeAndTrimHtml(exclusive.short_description, 15)}
+                        </div>
+                      </div>
+ 
+                      <ul className="fecility-box">
+                        {(exclusive.details?.facilities || []).slice(0, 4).map((facility) => {
+                          const amenity = amenitiesData.find((a) => a.name === facility);
+                          if (!amenity) return null;
+                          return (
+                            <li key={facility}>
+                              <span>
+                                <img width={16} height={16} src={amenity.img} alt={amenity.label} />
+                              </span>
+                              {amenity.label}
+                            </li>
+                          );
+                        })}
+                        <li>
+                          <span>
+                            <img width={16} height={16} src="/images/moon.png" alt="" />
+                          </span>
+                          {(exclusive.details?.duration_nights ?? 0)}{" "}
+                          {(exclusive.details?.duration_nights ?? 0) < 2 ? "Night" : "Nights"} /{" "}
+                          {(exclusive.details?.duration_days ?? 0)}{" "}
+                          {(exclusive.details?.duration_days ?? 0) < 2 ? "Day" : "Days"}
+                        </li>
+                      </ul>
+ 
+                      <div className="btm-btn">
+                        <a href={`/packages/${exclusive.slug}`} className="btn blue-btn">
+                          Explore More
+                          <span>
+                            <img width={23} height={23} src="/images/button-arrow.png" alt="" />
+                          </span>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </noscript>
+ 
+        {/* Bottom CTA */}
+        {/* <div className="btm-button text-center mt-4">
+          <Link
+            href={countryNameLower ? `/${countryNameLower}` : "#"}
+            className="btn blue-btn"
+          >
+            View All Packages
+            <span>
+              <Image
+                width={23}
+                height={23}
+                sizes="100vw"
+                src="/images/button-arrow.png"
+                alt=""
+              />
+            </span>
+          </Link>
+        </div> */}
+      </div>
+    </section>
+  );
+};
+ 
+export default TourPackagesByCountry;
+ 
+ 
+ 

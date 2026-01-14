@@ -1,0 +1,417 @@
+"use client";
+import React, { useState, useEffect } from "react";
+import TourCard from "@/app/components/common/TourCard";
+import Banner from "@/app/components/common/banner";
+import Sidebar from "@/app/components/common/sidebar";
+import ExpandableText from "@/app/components/common/ExpandableText";
+import FAQAccordion from "@/app/components/common/FAQAccordion";
+
+import AOS from "aos";
+import "aos/dist/aos.css";
+import { notFound, useParams } from "next/navigation";
+import { XPublicToken } from "@/app/urls/apiUrls";
+import axios from "axios";
+import FAQAccordionListing from "@/app/components/common/FAQAccordionForListing";
+import Breadcrumb from "@/app/components/common/Breadcrumb";
+import { fetchWorldPackageListingData } from "@/app/services/internationaltourService";
+
+const InternationalPackageListing = ({
+  packageList1,
+  initialPage,
+  slug1, ssrFixedData,
+}: any) => {
+  const [packageList, setPackageList] = useState<any>(packageList1 || null);
+  const [currentPage, setCurrentPage] = useState(initialPage);
+  const [totalPages, setTotalPages] = useState(1);
+  const [showLoader, setShowLoader] = useState(true);
+  const [categorySlug, setCategorySlug] = useState<any>("");
+  const [fixedData, setfixedData] = useState<any>("");
+  const [scope, setScope] = useState<"country" | "location">("country");
+  const [jsEnabled, setJsEnabled] = useState(false);
+
+  useEffect(() => {
+    setJsEnabled(true);
+  }, []);
+  useEffect(() => {
+    AOS.init({
+      duration: 800,
+      easing: "ease-in-out",
+      once: true,
+    });
+  }, []);
+
+  useEffect(() => {
+    if (packageList1?.pagination) {
+      const totalItems = packageList1.pagination.total || 0;
+      const itemsPerPage = packageList1.pagination.limit || 10;
+      setTotalPages(Math.ceil(totalItems / itemsPerPage));
+    }
+  }, [packageList1]);
+
+  useEffect(() => {
+    if (categorySlug) {
+      setCurrentPage(1);
+      // handlePageChange(1); // reset page when category changes
+    }
+  }, [categorySlug]);
+
+  // Fetch data when slug or currentPage changes
+  useEffect(() => {
+    if (!slug1) return;
+
+    const fetchPackages = async () => {
+      setShowLoader(true);
+
+      try {
+        // ✅ determine scope from existing loaded data
+        const detectedScope =
+          fixedData?.country?.slug ? "country" : "location";
+
+        const response = await fetchWorldPackageListingData({
+          slug1,
+          currentPage,
+          categorySlug,
+          scopeFromData: detectedScope, // ✅ always correct
+        });
+
+        if (response?.data) {
+          setPackageList(response.data);
+
+          // ✅ only update fixedData on FIRST load, not category filter
+          if (!categorySlug) {
+            setfixedData(response.data);
+          }
+
+          const totalItems = response.data.pagination?.total || 0;
+          const itemsPerPage = response.data.pagination?.limit || 10;
+          setTotalPages(Math.ceil(totalItems / itemsPerPage));
+        } else {
+          setPackageList(null);
+        }
+      } catch (err) {
+        console.error("Failed to fetch world packages:", err);
+        setPackageList(null);
+      } finally {
+        setShowLoader(false);
+      }
+    };
+
+    fetchPackages();
+  }, [slug1, currentPage, categorySlug]);
+
+
+  const handlePageChange = async (page: number) => {
+    if (page < 1 || page > totalPages) return;
+    if (!slug1) return;
+
+    setShowLoader(true);
+
+    try {
+      // ✅ determine scope EXACTLY like main fetch
+      const detectedScope =
+        fixedData?.country?.slug ? "country" : "location";
+
+      const response = await fetchWorldPackageListingData({
+        slug1,
+        currentPage: page,
+        categorySlug,
+        scopeFromData: detectedScope,  // ✅ IMPORTANT FIX
+      });
+
+      if (response?.data) {
+        setPackageList(response.data);
+
+        const totalItems = response.data.pagination?.total || 0;
+        const itemsPerPage = response.data.pagination?.limit || 10;
+        setTotalPages(Math.ceil(totalItems / itemsPerPage));
+
+        setCurrentPage(page);
+
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } else {
+        setPackageList(null);
+      }
+    } catch (err) {
+      console.error("Failed to fetch world packages:", err);
+      setPackageList(null);
+    } finally {
+      setShowLoader(false);
+    }
+  };
+
+
+
+  // Generate page numbers for pagination
+  const generatePageNumbers = () => {
+    const pages = [];
+    const maxVisiblePages = 5;
+    let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+    let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+    // Adjust if we're at the beginning
+    if (endPage - startPage + 1 < maxVisiblePages) {
+      startPage = Math.max(1, endPage - maxVisiblePages + 1);
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(i);
+    }
+
+    return pages;
+  };
+
+  const breadcrumbItems: any = [
+    { label: "Home", href: "/" },
+    { label: `International Tour Packages`, href: "/international-holidays" },
+    {
+      label: `${fixedData?.country?.name
+        ? fixedData?.country?.name
+        : fixedData?.location?.name
+        } Tour Packages`,
+      isCurrent: true,
+    },
+  ];
+  return (
+    <div className="tour-listing p-0">
+      {packageList?.country?.details?.title ||
+        packageList?.location?.details?.title ||
+        packageList?.country?.details?.sub_title ||
+        packageList?.location?.details?.sub_title ||
+        packageList?.country?.details?.banner_image ||
+        packageList?.location?.details?.banner_image ? (
+        <Banner
+          title={
+            packageList?.country?.details?.title
+              ? packageList?.country?.details?.title
+              : packageList?.location?.details?.title
+          }
+          subtitle={
+            packageList?.country?.details?.sub_title
+              ? packageList?.country?.details?.sub_title
+              : packageList?.location?.details?.sub_title
+          }
+          imageUrl={
+            packageList?.country?.details?.banner_image
+              ? packageList?.country?.details?.banner_image
+              : packageList?.location?.details?.banner_image
+          }
+        />
+      ) : null}
+
+      <div className="listing-inner-wrapper">
+        <div className="container mx-auto pt-4 pb-5">
+          <Breadcrumb items={breadcrumbItems} />
+          <div className="row">
+            <div className="col-12 col-lg-3">
+
+              {/* <Sidebar
+                data={fixedData}
+                cities={
+                  fixedData?.country?.name
+                    ? fixedData?.country?.name
+                    : fixedData?.location?.name
+                }
+                categorySlug={categorySlug}
+                setCategorySlug={(slug: any) => {
+                  setCurrentPage(1);  
+                  setCategorySlug(slug);
+                }}
+              /> */}
+
+              {/* ✅ JS Disabled Sidebar */}
+              {!jsEnabled ? (
+                <Sidebar
+                  data={ssrFixedData}
+                  cities={
+                    ssrFixedData?.country?.name
+                      ? ssrFixedData?.country?.name
+                      : ssrFixedData?.location?.name
+                  }
+                  categorySlug={null}
+                  setCategorySlug={() => { }}
+                />
+              ) : (
+                /* ✅ JS Enabled Sidebar */
+                <Sidebar
+                  data={fixedData}
+                  cities={
+                    fixedData?.country?.name
+                      ? fixedData?.country?.name
+                      : fixedData?.location?.name
+                  }
+                  categorySlug={categorySlug}
+                  setCategorySlug={(slug: any) => {
+                    setCurrentPage(1);
+                    setCategorySlug(slug);
+                  }}
+                />
+              )}
+
+
+            </div>
+
+            <div className="col-12 col-lg-9">
+              {packageList?.country?.name ||
+                packageList?.location?.name ||
+                packageList?.country?.details?.sub_title ||
+                packageList?.location?.details?.sub_title ||
+                packageList?.country?.details?.about ||
+                packageList?.location?.details?.about ? (
+                <ExpandableText
+                  title={
+                    packageList?.country?.name
+                      ? packageList?.country?.name
+                      : packageList?.location?.name
+                  }
+                  subtitle={
+                    packageList?.country?.details?.sub_title
+                      ? packageList?.country?.details?.sub_title
+                      : packageList?.location?.details?.sub_title
+                  }
+                  text={
+                    packageList?.country?.details?.about
+                      ? packageList?.country?.details?.about
+                      : packageList?.location?.details?.about
+                  }
+                  collapsedLines={2}
+                />
+              ) : null}
+
+              {/* {packageList?.packages?.length < 1 ? null : (
+                <div className="showing-count my-3 text-sm">
+                  <div className="flex gap-2 fs-6 align-items-lg-center">
+                    {`Showing 1-${packageList?.packages?.length} packages from`}{" "}
+
+                    <h2 className="fs-6 m-0">
+                      {fixedData?.location?.details?.title ||
+                        fixedData?.location?.name ||
+                        fixedData?.country?.details?.title ||
+                        fixedData?.country?.name ||
+                        ""}
+                    </h2>
+
+                  </div>
+                </div>
+              )} */}
+
+              {packageList?.packages?.length < 1 ? null : (
+                <div className="showing-count my-3 text-sm">
+                  <div className="flex gap-2 fs-6 align-items-lg-center">
+                    {`Showing 1-${packageList?.packages?.length} packages from`}{" "}
+
+                    <h2 className="fs-6 m-0">
+                      {jsEnabled
+                        ? (
+                          fixedData?.location?.details?.title ||
+                          fixedData?.location?.name ||
+                          fixedData?.country?.details?.title ||
+                          fixedData?.country?.name ||
+                          ""
+                        )
+                        : (
+                          ssrFixedData?.location?.details?.title ||
+                          ssrFixedData?.location?.name ||
+                          ssrFixedData?.country?.details?.title ||
+                          ssrFixedData?.country?.name ||
+                          ""
+                        )}
+                    </h2>
+
+                  </div>
+                </div>
+              )}
+
+
+              {packageList?.packages?.length < 1 ? null : (
+                <div className="grid grid-cols-1 gap-6">
+                  {packageList?.packages?.map((tour: any) => (
+                    <TourCard
+                      key={tour.slug}
+                      slug={tour.slug}
+                      title={tour.title}
+                      rating={5}
+                      duration={`${tour.details.duration_nights} Nights ${tour.details.duration_days} Days`}
+                      tourTime={`${tour.details.start_date} - ${tour.details.end_date}`}
+                      highlights={tour.details.tour_highlights}
+                      imageUrl={tour.primary_image}
+                    />
+                  ))}
+                </div>
+              )}
+              {/* Pagination Section */}
+              {packageList?.packages?.length < 1 ? (
+                <h6 className="mt-5 text-danger text-center">
+                  No Packages Found
+                </h6>
+              ) : (
+                <div className="pagination-container mt-4">
+                  <nav aria-label="Page navigation">
+                    <ul className="pagination justify-content-center">
+                      {/* Previous Button */}
+                      <li
+                        className={`page-item ${currentPage === 1 ? "disabled" : ""
+                          }`}
+                      >
+                        <button
+                          className="page-link"
+                          onClick={() => handlePageChange(currentPage - 1)}
+                          disabled={currentPage === 1}
+                        >
+                          &laquo;
+                        </button>
+                      </li>
+
+                      {/* Page Numbers */}
+                      {generatePageNumbers().map((page) => (
+                        <li
+                          key={page}
+                          className={`page-item ${currentPage === page ? "active" : ""
+                            }`}
+                        >
+                          <button
+                            className="page-link"
+                            onClick={() => handlePageChange(page)}
+                          >
+                            {page}
+                          </button>
+                        </li>
+                      ))}
+
+                      {/* Next Button */}
+                      <li
+                        className={`page-item ${currentPage === totalPages ? "disabled" : ""
+                          }`}
+                      >
+                        <button
+                          className="page-link"
+                          onClick={() => handlePageChange(currentPage + 1)}
+                          disabled={currentPage === totalPages}
+                        >
+                          &raquo;
+                        </button>
+                      </li>
+                    </ul>
+                  </nav>
+                </div>
+              )}
+
+              {/* )} */}
+
+              {/* )} */}
+
+              {fixedData?.country?.faqs?.length < 1 ? null : (
+                <div className="mt-5">
+                  <FAQAccordionListing
+                    faqs={packageList?.country?.faqs} location={packageList?.country?.faq_title || packageList?.country?.name}
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default InternationalPackageListing;
