@@ -1,8 +1,10 @@
-// 
+//
 
 import React from "react";
 import "aos/dist/aos.css";
 import IndiaPackageListing from "@/app/components/indiaPackageListing/indiaPackageListing";
+import CityIntroPage from "@/app/components/city/CityIntroPage";
+
 import { XPublicToken } from "@/app/urls/apiUrls";
 import { getCanonical } from "@/app/lib/getCanonical";
 import { fetchIndiaPackageData } from "@/app/services/indiaPackageListService";
@@ -10,10 +12,10 @@ import { notFound } from "next/navigation";
 
 interface TourListingPageProps {
   params: { slug: string };
- searchParams?: {
-  page?: string;
-  category_slug?: string;
-};
+  searchParams?: {
+    page?: string;
+    category_slug?: string;
+  };
 }
 
 /* =========================
@@ -22,7 +24,7 @@ interface TourListingPageProps {
 export async function generateMetadata({ params }: any) {
   const { slug } = params;
 
-  // 🔥 Use URL slug ONLY to fetch location data
+  //  Use URL slug ONLY to fetch location data
   const res = await fetchIndiaPackageData(slug);
 
   if (!res?.data?.location) {
@@ -48,6 +50,11 @@ export default async function TourListingPage({
   searchParams,
 }: TourListingPageProps) {
   const { slug } = params;
+
+  // 👉 If it's NOT a package slug, show static city intro page
+  if (!slug.endsWith("-tour-packages")) {
+    return <CityIntroPage slug={slug} />;
+  }
   const page = Number(searchParams?.page) || 1;
 
   /**
@@ -88,8 +95,8 @@ export default async function TourListingPage({
     listingData = null;
   }
 
-  /**
-   * 4️⃣ MERGE DATA SAFELY
+  /*
+   * MERGE DATA SAFELY
    */
   const mergedData = {
     packages: listingData?.data?.packages || [],
@@ -108,16 +115,15 @@ export default async function TourListingPage({
   };
 
   /**
-   * 5️⃣ PASS BACKEND SLUG TO CLIENT
+   *  PASS BACKEND SLUG TO CLIENT
    *    (client APIs must use this slug)
    */
   return (
     <IndiaPackageListing
-  packageList1={mergedData}
-  initialPage={page}
-  slug1={locationSlug}
-  initialCategorySlug={searchParams?.category_slug || ""}
-/>
-
+      packageList1={mergedData}
+      initialPage={page}
+      slug1={locationSlug}
+      initialCategorySlug={searchParams?.category_slug || ""}
+    />
   );
 }

@@ -1,7 +1,4 @@
 
-
-
-
 import Breadcrumb from "@/app/components/common/Breadcrumb";
 import Tourpackages from "@/app/components/internationalTourPackages/tourpackages";
 import TravelPackages from "@/app/components/common/travelpackages";
@@ -14,6 +11,7 @@ import IntFaq from "@/app/components/internationalTourPackages/intFaq";
 import { fetchCountryPageData,fetchSpecialData } from "@/app/services/countryService";
 import CountryExpandableText from "../country/countryExpandableText";
 import ImageComponentCountry from "../country/tabWithImagesForCountry";
+import CityStateListStatic from "../country/CityStateListStatic";
 import TourpackagesCountry from "../country/tourPackagesByInterest";
 import TourPackagesByCountry from "@/app/components/common/TourPackagesByCountry";
 // import { fetchHomeExclusiveData } from "@/app/services/homeService";
@@ -89,6 +87,7 @@ export default async function PackagelistByCountry({ slug }: any) {
         )}
 
           <ImageComponentCountry slug={slug} initialData={countryData.data} />
+          <CityStateListStatic />
           <TravelPackages internationalData={countryData?.data.deal_packages} />
            <TourpackagesCountry countryData={countryData?.data} ssrPackages={{ honeymoon: ssrHoneymoonData }} />
           {countryData?.data?.details?.faqs.length < 1 ? null :

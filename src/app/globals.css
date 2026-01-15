@@ -10025,3 +10025,230 @@ body {
   margin-bottom: 30px;
   text-align: center;
 }
+
+
+
+/* css for city page place tio visit slider  */
+
+/* .city-slider .swiper-button-next,
+.city-slider .swiper-button-prev {
+  width: 40px;
+  height: 40px;
+  background: black;
+  border-radius: 50%;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+}
+
+.city-slider .swiper-button-next:after,
+.city-slider .swiper-button-prev:after {
+  font-size: 18px;
+  color: #333;
+}
+
+.city-slider .swiper-pagination-bullet {
+  background: #666;
+  opacity: 0.5;
+}
+
+.city-slider .swiper-pagination-bullet-active {
+  background: #000;
+  opacity: 1;
+} */
+
+
+/* things to do cared css */
+/* 
+.things-card {
+  transition: all 0.3s ease;
+  background: #fff;
+}
+.things-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+} */
+
+.things-card {
+  background: #ffffff;
+  border: 2px solid #dfe9ff;
+  border-radius: 18px;
+  overflow: hidden;
+  text-align: center;
+  transition: 0.3s ease-in-out;
+}
+
+.things-img-wrap {
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+  border-bottom: 2px solid #dfe9ff;
+}
+
+.things-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 16px 16px 0 0;
+}
+
+.things-title {
+  font-size: 18px;
+  font-weight: 700;
+  padding: 15px 10px;
+  color: #002b5c;
+  margin: 0;
+}
+
+/* things to do and place to visit css  */
+
+.places-card-outer {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 5px;
+  height: 100%;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.14);
+  transition: all 0.3s ease;
+}
+
+.places-card-inner {
+  border-radius: 20px;
+  overflow: hidden;
+  height: 360px;
+  position: relative;
+}
+
+.places-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.places-card-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 15px;
+  background: linear-gradient(180deg, transparent 20%, rgba(0,0,0,0.65));
+}
+
+.places-card-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 5px;
+}
+
+.places-card-subtitle {
+  font-size: 13px;
+  font-weight: 400;
+  color: #ffffff;
+  margin: 0;
+}
+
+
+
+/* popular package of city page css  */
+/* 
+.package-card {
+  background: #ffffff;
+  border-radius: 18px;
+  border: 1px solid #d7dce5;
+  overflow: hidden;
+  transition: all 0.25s ease;
+}
+
+.package-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.package-img-wrap {
+  width: 100%;
+  height: 260px;
+  overflow: hidden;
+}
+
+.package-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.package-content {
+  padding: 18px;
+}
+
+.package-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.package-location {
+  font-size: 14px;
+  color: #444;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.package-desc {
+  font-size: 14px;
+  color: #555;
+  margin: 10px 0;
+}
+
+.package-icons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 0;
+  list-style: none;
+  margin: 10px 0;
+}
+
+.package-icons li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #333;
+}
+
+.package-duration {
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+.package-btn {
+  margin-top: 12px;
+  width: 100%;
+  display: block;
+  text-align: center;
+  border: 2px solid #0a2a59;
+  padding: 10px 0;
+  border-radius: 12px;
+  text-decoration: none;
+  color: #0a2a59;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.package-btn:hover {
+  background: #0a2a59;
+  color: white;
+} */
+.package-img-wrap {
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
+}
+
+.package-img {
+  width: 100%;
+  height: 250px;
+  min-height: 250px;
+  object-fit: cover;
+  /* background-color: #f2f2f2; */
+}
