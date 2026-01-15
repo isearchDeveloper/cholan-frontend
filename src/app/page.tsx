@@ -35,8 +35,8 @@ import ReviewsWidget from "./components/ReviewsWidget";
 //   const metaDetails = meta.meta_details || "";
 
 //   return {
-//     title: meta?.meta_title || "cholan tours",
-//     description: meta?.meta_description || "cholan tours",
+//     title: meta?.meta_title || "Cholan Tours",
+//     description: meta?.meta_description || "Cholan Tours",
 //     keywords: meta.meta_keywords || "",
 //     alternates: { canonical },
 

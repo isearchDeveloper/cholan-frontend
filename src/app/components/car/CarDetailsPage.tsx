@@ -36,16 +36,45 @@ export default function CarDetails({ data, slug, carCities }: any) {
   const [isMobile, setIsMobile] = useState(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
 
-  const staticBreadcrumbItems = [
-    { label: "Home", href: "/" },
-    { label: "Car Rental", href: "/car-rental" },
-    {
-      label: `${
-        data?.data?.route?.details?.title || data?.data?.city?.location
-      }`,
-      isCurrent: true,
-    },
-  ];
+  // const staticBreadcrumbItems = [
+  //   { label: "Home", href: "/" },
+  //   { label: "Car Rental", href: "/car-rental" },
+  //   {
+  //     label: `${
+  //       data?.data?.route?.details?.title || data?.data?.city?.location
+  //     }`,
+  //     isCurrent: true,
+  //   },
+  // ];
+
+const staticBreadcrumbItems = [
+  { label: "Home", href: "/" },
+  { label: "Car Rental", href: "/car-rental" },
+
+  // city breadcrumb
+  {
+    label:
+      data?.data?.city?.location || data?.data?.route?.from_location || "",
+    href: `/car-rental/${
+      data?.data?.city?.slug ||
+      (data?.data?.route?.from_location
+        ?.toLowerCase()
+        .replace(/\s+/g, "-"))
+    }`,
+  },
+
+  // route breadcrumb only if route present
+  ...(data?.data?.route?.details?.title
+    ? [
+        {
+          label: data?.data?.route?.details?.title,
+          isCurrent: true,
+        },
+      ]
+    : []),
+];
+
+
 
   useEffect(() => {
     const checkMobile = () => {

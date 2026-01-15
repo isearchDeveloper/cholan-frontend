@@ -28,20 +28,20 @@ export async function generateMetadata({
   const canonical = await getCanonical(`/car-rental/${slug}`);
 
   return {
-    title: meta?.meta_title || "cholan tours",
-    description: meta?.meta_description || "cholan tours",
+    title: meta?.meta_title || "Cholan Tours",
+    description: meta?.meta_description || "Cholan Tours",
     keywords: meta?.meta_keywords || "",
     alternates: { canonical },
 
     openGraph: {
-      title: meta?.meta_title || "cholan tours",
-      description: meta?.meta_description || "cholan tours",
+      title: meta?.meta_title || "Cholan Tours",
+      description: meta?.meta_description || "Cholan Tours",
       url: canonical,
     },
 
     twitter: {
-      title: meta?.meta_title || "cholan tours",
-      description: meta?.meta_description || "cholan tours",
+      title: meta?.meta_title || "Cholan Tours",
+      description: meta?.meta_description || "Cholan Tours",
       url: canonical,
     },
   };

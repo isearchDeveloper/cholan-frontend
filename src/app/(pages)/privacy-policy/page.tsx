@@ -17,23 +17,23 @@ export async function generateMetadata({ params }: any) {
   const currentUrl = canonical;
 
   return {
-    title: meta?.meta_title || "cholan tours",
-    description: meta?.meta_description || "cholan tours",
+    title: meta?.meta_title || "Cholan Tours",
+    description: meta?.meta_description || "Cholan Tours",
     keywords: meta.meta_keywords || "",
     alternates: { canonical },
 
     
 
     openGraph: {
-      title: meta?.meta_title || "cholan tours",
+      title: meta?.meta_title || "Cholan Tours",
       url: currentUrl,
-      description: meta?.meta_description || "cholan tours",
+      description: meta?.meta_description || "Cholan Tours",
     },
 
     twitter: {
-      title: meta?.meta_title || "cholan tours",
+      title: meta?.meta_title || "Cholan Tours",
       url: currentUrl,
-      description: meta?.meta_description || "cholan tours",
+      description: meta?.meta_description || "Cholan Tours",
     },
 
     // Dynamically inject the meta_details content into head

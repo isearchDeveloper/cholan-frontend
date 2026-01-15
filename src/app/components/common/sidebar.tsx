@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import Link from "next/link";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 
 interface SidebarProps {
   themes: string[];
@@ -11,6 +12,14 @@ interface SidebarProps {
 }
 
 const Sidebar: any = ({ data, cities, categorySlug, setCategorySlug }: any) => {
+  const router = useRouter();
+  const pathname = usePathname();
+  // const searchParams = useSearchParams();
+
+  const basePath = pathname.startsWith("/international-holidays")
+  ? "/international-holidays"
+  : "/india";
+
   useEffect(() => {
     AOS.init({
       duration: 800,
@@ -19,15 +28,51 @@ const Sidebar: any = ({ data, cities, categorySlug, setCategorySlug }: any) => {
     });
   }, []);
 
-  return (
-    <div
-      className="sidebar-listing"
-    >
-      {data?.categories?.length < 1 ? null : (
-        <div
-          className="mb-4 theme-section shadow-sm c-sec"
+  // const handleCategoryClick = (categorySlug: string) => {
+  //   setCategorySlug(categorySlug);
 
-        >
+  //   const citySlug = cities
+  //     ?.toLowerCase()
+  //     .replace(/\s+/g, "-");
+
+  //   let finalCategorySlug = categorySlug;
+
+  //   // 🔥 prevent duplicate "-tour-packages"
+  //   if (!finalCategorySlug.endsWith("tour-packages")) {
+  //     finalCategorySlug = `${finalCategorySlug}`;
+  //   }
+
+  //   const prettyUrl = `/india/${citySlug}-${finalCategorySlug}-tours-packages`;
+
+  //   router.push(prettyUrl);
+  // };
+
+  // optuion one
+
+  // const handleCategoryClick = (categorySlug: string) => {
+  //   setCategorySlug(categorySlug);
+
+  //   const citySlug = cities?.toLowerCase().replace(/\s+/g, "-"); // Delhi → delhi
+
+  //   const prettyUrl = `/india/${citySlug}/by/${categorySlug}`;
+
+  //   router.push(prettyUrl);
+  // };
+  const handleCategoryClick = (categorySlug: string) => {
+    setCategorySlug(categorySlug);
+
+    const citySlug = cities?.toLowerCase().replace(/\s+/g, "-");
+
+   const prettyUrl = `${basePath}/${citySlug}/${categorySlug}`;
+
+
+    router.push(prettyUrl);
+  };
+
+  return (
+    <div className="sidebar-listing">
+      {data?.categories?.length < 1 ? null : (
+        <div className="mb-4 theme-section shadow-sm c-sec">
           <div className="d-flex align-items-center p-3 p-lg-3  text-white">
             <img
               src="/images/icon-head-1.svg"
@@ -40,10 +85,25 @@ const Sidebar: any = ({ data, cities, categorySlug, setCategorySlug }: any) => {
           </div>
           <ul className="list-unstyled p-4">
             {data?.categories?.map((cat: any) => (
+              // <li
+              //   onClick={() => handleCategoryClick(cat.slug)}
+              //   key={cat.slug}
+              //   className={`mb-2 text-decoration-none text-dark hover-link ${
+              //     categorySlug === cat.slug ? "active-category" : ""
+              //   }`}
+              //   style={{ cursor: "pointer" }}
+              // >
+              //   {cities} {cat.name}
+              // </li>
+
+              // option one
+
               <li
-                onClick={() => setCategorySlug(cat.slug)}
                 key={cat.slug}
-                className={`mb-2 text-decoration-none text-dark hover-link ${categorySlug === cat.slug ? "active-category" : ""}`}
+                onClick={() => handleCategoryClick(cat.slug)}
+                className={`mb-2 text-decoration-none text-dark hover-link ${
+                  categorySlug === cat.slug ? "active-category" : ""
+                }`}
                 style={{ cursor: "pointer" }}
               >
                 {cities} {cat.name}
@@ -83,8 +143,6 @@ const Sidebar: any = ({ data, cities, categorySlug, setCategorySlug }: any) => {
           </ul>
         </div>
       )}
-
-
     </div>
   );
 };

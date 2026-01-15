@@ -80,7 +80,7 @@ const HeaderSec = ({ headerData }: any) => {
 
   // List of 10 languages + flagsss
   const languageOptions = [
-    { code: "en", label: "English", img: "/images/flags/us.svg" },
+    { code: "en", label: "English", img: "/images/flags/uk.svg" },
     {
       code: "zh-CN",
       label: "Chinese (Simplified)",
