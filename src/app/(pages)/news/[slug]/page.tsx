@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import Breadcrumb from "@/app/components/common/Breadcrumb";
 import GetInTouchForm from "@/app/components/customize-holidays/GetInTouchForm";
 import NewsForm from "@/app/components/news-letter/NewsForm";
+import FAQAccordionForNews from "@/app/components/news-letter/FAQAccordionForNews";
 import { XPublicToken } from "@/app/urls/apiUrls";
 
 type PageProps = {
@@ -104,6 +105,8 @@ export default async function NewsDetails({ params }: PageProps) {
     { label: news.title, isCurrent: true },
   ];
 
+  
+
   return (
     <div className="news-details-wrapper">
       <div className="pt-4 pb-5">
@@ -139,6 +142,18 @@ export default async function NewsDetails({ params }: PageProps) {
               <NewsForm />
               </div>
             </div>
+          </div>
+          <div className="row">
+             {news?.faqs && news.faqs.length > 0 && (
+              <div className="row mt-5">
+                <div className="col-12">
+                  <FAQAccordionForNews
+                    faqs={news.faqs}
+                    name={news.faq_title}
+                  />
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
