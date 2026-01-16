@@ -9042,6 +9042,20 @@ body {
   margin: 0 auto;
   padding: 0 80px;
 }
+.newsletter-page-title {
+  color: #ffffff !important;
+}
+.news-hero-banner {
+  min-height: 50vh !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+
+  background-size: cover !important;
+  background-position: center !important;
+}
+
  
 .news-magazine-title {
   font-size: 2.5rem;
@@ -10252,3 +10266,5 @@ body {
   object-fit: cover;
   /* background-color: #f2f2f2; */
 }
+
+

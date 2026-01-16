@@ -58,17 +58,15 @@ export default async function NewsLetter() {
 <div className="min-vh-100 bg-light">
       {/* Banner */}
 <section
-        className="py-5 text-white"
+        className="news-hero-banner"
         style={{
           backgroundImage: `linear-gradient(rgba(0,0,0,0.0), rgba(0,0,0,0.3)), url('${pageData.banner_image}')`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
         }}
         aria-label={pageData.banner_image_alt || pageData.title}
->
-<div className="container text-center py-5">
-<h1 className="fw-bold display-4">{pageData.title}</h1>
-</div>
+ >
+      <div className="container text-center py-5">
+      <h1 className="fw-bold display-4 newsletter-page-title">{pageData.title}</h1>
+      </div>
 </section>
  
       {/* Short Description */}
