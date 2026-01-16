@@ -1,129 +1,79 @@
-//
-
 import React from "react";
-import "aos/dist/aos.css";
 import IndiaPackageListing from "@/app/components/indiaPackageListing/indiaPackageListing";
+import { XPublicToken } from "@/app/urls/apiUrls";
+import { notFound } from "next/navigation";
 import CityIntroPage from "@/app/components/city/CityIntroPage";
 
-import { XPublicToken } from "@/app/urls/apiUrls";
-import { getCanonical } from "@/app/lib/getCanonical";
-import { fetchIndiaPackageData } from "@/app/services/indiaPackageListService";
-import { notFound } from "next/navigation";
+// const API_BASE = "https://crm.cholantours.com/api/v1/packages/city";
+const API_BASE = `${process.env.NEXT_PUBLIC_UAT_URL}/api/v1/packages/city`;
 
-interface TourListingPageProps {
-  params: { slug: string };
-  searchParams?: {
-    page?: string;
-    category_slug?: string;
-  };
-}
+/* ===============================
+   SMART SLUG RESOLVER
+================================ */
+async function resolveCityAndCategory(slug: string, page: number) {
+  // 1️⃣ Try slug as CITY directly
+  const directRes = await fetch(
+    `${API_BASE}/${slug}?page=${page}&package_country=india`,
+    { headers: { "X-Public-Token": XPublicToken } }
+  );
 
-/* =========================
-   METADATA
-   ========================= */
-export async function generateMetadata({ params }: any) {
-  const { slug } = params;
-
-  //  Use URL slug ONLY to fetch location data
-  const res = await fetchIndiaPackageData(slug);
-
-  if (!res?.data?.location) {
-    return {};
+  if (directRes.ok) {
+    return {
+      city: slug,
+      category: null,
+      data: await directRes.json(),
+    };
   }
 
-  const meta = res.data.location.meta || {};
-  const canonical = await getCanonical(`/india/${slug}`);
-
-  return {
-    title: meta.meta_title || "Cholan Tours",
-    description: meta.meta_description || "Cholan Tours",
-    keywords: meta.meta_keywords || "",
-    alternates: { canonical },
-  };
-}
-
-/* =========================
-   PAGE
-   ========================= */
-export default async function TourListingPage({
-  params,
-  searchParams,
-}: TourListingPageProps) {
-  const { slug } = params;
-
-  // 👉 If it's NOT a package slug, show static city intro page
+  // 2️⃣ Try splitting RIGHT → LEFT
   if (!slug.endsWith("-tour-packages")) {
-    return <CityIntroPage slug={slug} />;
-  }
-  const page = Number(searchParams?.page) || 1;
-
-  /**
-   * 1️⃣ FIRST CALL: LOCATION API
-   *    (URL slug is allowed here)
-   */
-  const locationRes = await fetchIndiaPackageData(slug);
-
-  if (!locationRes?.data?.location) {
-    notFound(); // ❌ invalid city only
+    notFound();
   }
 
-  const locationData = locationRes.data;
+  const base = slug.replace("-tour-packages", "");
+  const parts = base.split("-");
 
-  /**
-   * 2️⃣ SINGLE SOURCE OF TRUTH FOR BACKEND
-   */
-  const locationSlug = locationData.location.slug; // ✅ backend-approved slug
+  for (let i = parts.length - 1; i > 0; i--) {
+    const possibleCity = `${parts.slice(0, i).join("-")}-tour-packages`;
+    const possibleCategory = parts.slice(i).join("-");
 
-  /**
-   * 3️⃣ LISTING API (ALWAYS use location.slug)
-   */
-  let listingData: any = null;
-
-  try {
     const res = await fetch(
-      `https://crm.cholantours.com/api/v1/packages/city/${locationSlug}?page=${page}&package_country=india`,
-      {
-        headers: { "X-Public-Token": XPublicToken },
-        cache: "no-store",
-      }
+      `${API_BASE}/${possibleCity}?page=${page}&package_country=india&category_slug=${possibleCategory}`,
+      { headers: { "X-Public-Token": XPublicToken } }
     );
 
     if (res.ok) {
-      listingData = await res.json();
+      return {
+        city: possibleCity,
+        category: possibleCategory,
+        data: await res.json(),
+      };
     }
-  } catch {
-    listingData = null;
   }
 
-  /*
-   * MERGE DATA SAFELY
-   */
-  const mergedData = {
-    packages: listingData?.data?.packages || [],
-    pagination: listingData?.data?.pagination || {
-      total: 0,
-      limit: 10,
-      page,
-    },
+  notFound();
+}
 
-    // Sidebar data
-    categories: locationData.categories || [],
-    sourceLocations: locationData.sourceLocations || [],
+/* ===============================
+   PAGE
+================================ */
+export default async function TourListingPage({ params, searchParams }: any) {
+  const { slug } = params;
 
-    // Page content
-    location: locationData.location,
-  };
+  if (!slug.endsWith("-tour-packages")) {
+      return <CityIntroPage slug={slug} />;
+    }
 
-  /**
-   *  PASS BACKEND SLUG TO CLIENT
-   *    (client APIs must use this slug)
-   */
+  const page = Number(searchParams?.page) || 1;
+
+  const resolved = await resolveCityAndCategory(slug, page);
+
   return (
     <IndiaPackageListing
-      packageList1={mergedData}
+      packageList1={resolved.data.data}
       initialPage={page}
-      slug1={locationSlug}
-      initialCategorySlug={searchParams?.category_slug || ""}
+      slug1={resolved.city}
+      categorySlug={resolved.category}
     />
   );
 }
