@@ -53,7 +53,7 @@ export default async function TourListingPage({
 
   // 👉 If it's NOT a package slug, show static city intro page
   if (!slug.endsWith("-tour-packages")) {
-    return <CityIntroPage slug={slug} />;
+    return <CityIntroPage slug={slug} country={"india"} />;
   }
   const page = Number(searchParams?.page) || 1;
 

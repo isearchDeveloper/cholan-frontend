@@ -5,7 +5,12 @@ import TravelPackages from "@/app/components/common/travelpackages";
 import IntBanner from "@/app/components/internationalTourPackages/intBanner";
 import IntExpandableText from "@/app/components/internationalTourPackages/intExpandableText";
 import TabWithImages from "@/app/components/internationalTourPackages/tabwithimages";
-import { fetchInternationalPageData, fetchNoJsCountries, fetchNoJsTourPackages, specialInternationalPackageData } from "@/app/services/internationaltourService";
+import {
+  fetchInternationalPageData,
+  fetchNoJsCountries,
+  fetchNoJsTourPackages,
+  specialInternationalPackageData,
+} from "@/app/services/internationaltourService";
 import { unstable_cache } from "next/cache";
 import IntFaq from "@/app/components/internationalTourPackages/intFaq";
 import { getCanonical } from "@/app/lib/getCanonical";
@@ -16,7 +21,7 @@ import AboutSection from "@/app/components/home/AboutSection";
 import LogoSlider from "@/app/components/home/LogoSlider";
 import { trendingInternationalHomePackageData } from "@/app/services/homeService";
 
-
+import CityStateListStatic from "@/app/components/country/CityStateListStatic";
 
 export async function generateMetadata() {
   const data = await fetchInternationalPageData();
@@ -24,7 +29,6 @@ export async function generateMetadata() {
   const meta = data?.data?.details?.meta || {};
   const canonical = await getCanonical("/international-holiday");
   const currentUrl = canonical;
-
 
   // Extract the meta_details from API
   const metaDetails = meta.meta_details || "";
@@ -50,9 +54,16 @@ export async function generateMetadata() {
 }
 
 export default async function Page() {
-
-  const [internationalData, noJsCountries, noJsTourPackages, trendingInternationalData] = await Promise.all([
-    fetchInternationalPageData(), fetchNoJsCountries(), fetchNoJsTourPackages(), specialInternationalPackageData(),
+  const [
+    internationalData,
+    noJsCountries,
+    noJsTourPackages,
+    trendingInternationalData,
+  ] = await Promise.all([
+    fetchInternationalPageData(),
+    fetchNoJsCountries(),
+    fetchNoJsTourPackages(),
+    specialInternationalPackageData(),
   ]);
   const breadcrumbItems = [
     { label: "Home", href: "/" },
@@ -65,7 +76,6 @@ export default async function Page() {
       <div className="details-wrapper-inner international">
         <div className="pt-4 pb-5">
           <div className="container">
-
             <Breadcrumb items={breadcrumbItems} />
             <IntExpandableText
               data={internationalData.data.details}
@@ -81,19 +91,31 @@ export default async function Page() {
             </div>
           )}
 
-          <TabWithImages internationalData={internationalData.data} noJsCountries={noJsCountries} />
-          <TravelPackages internationalData={internationalData.data.deal_packages} />
-          <Tourpackages internationalData={internationalData.data} noJsTourPackages={noJsTourPackages} />
+          <TabWithImages
+            internationalData={internationalData.data}
+            noJsCountries={noJsCountries}
+          />
+          {/* ✅ International City / Country Intro Section */}
+          <CityStateListStatic country="international-holidays" />
 
-          {internationalData?.data?.details?.faqs.length < 1 ? null :
+          <TravelPackages
+            internationalData={internationalData.data.deal_packages}
+          />
+          <Tourpackages
+            internationalData={internationalData.data}
+            noJsTourPackages={noJsTourPackages}
+          />
+
+          {internationalData?.data?.details?.faqs.length < 1 ? null : (
             <div className="faqs pt-5">
               <div className="container">
-                <IntFaq faqs={internationalData?.data?.details?.faqs} faqtitle={internationalData?.data?.details?.faq_title} />
+                <IntFaq
+                  faqs={internationalData?.data?.details?.faqs}
+                  faqtitle={internationalData?.data?.details?.faq_title}
+                />
               </div>
-            </div>}
-
-
-
+            </div>
+          )}
 
           <div className="py-5">
             <ReviewsWidget />
@@ -106,7 +128,6 @@ export default async function Page() {
           <LogoSlider />
         </div>
       </div>
-
     </div>
   );
 }

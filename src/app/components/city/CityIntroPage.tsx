@@ -10,18 +10,33 @@ import LogoSlider from "@/app/components/home/LogoSlider";
 import ThingsToDo from "@/app/components/city/ThingsToDo";
 import AboutSection from "@/app/components/home/AboutSection";
 import PopularPackages from "@/app/components/city/PopularPackages";
-export default function CityIntroPage({ slug }: { slug: string }) {
+import CityBanner from "@/app/components/city/CityBanner";
+
+export default function CityIntroPage({
+  slug,
+  country,
+}: {
+  slug: string;
+  country: "india" | "international-holidays";
+}) {
   // STATIC TEMP DATA (you can replace later when backend is ready)
   //   const cityName = slug.replace(/-/g, " ").toUpperCase();
-   
+
   const cityName = slug
     .split("-")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
-;
+  // const breadcrumbItems = [
+  //   { label: "Home", href: "/" },
+  //   { label: "India", href: "/india" },
+  //   { label: cityName, isCurrent: true },
+  // ];
   const breadcrumbItems = [
     { label: "Home", href: "/" },
-    { label: "India", href: "/india" },
+    {
+      label: country === "india" ? "India" : "International Holidays",
+      href: country === "india" ? "/india" : "/international-holidays",
+    },
     { label: cityName, isCurrent: true },
   ];
 
@@ -77,19 +92,23 @@ export default function CityIntroPage({ slug }: { slug: string }) {
   ];
   const thingsToDoData = [
     { title: "Ayurvedic Massage", image: "/images/tour/backwaters.png" },
-            { title: "Kathakali Dance", image: "/images/tour/elephant.png" },
-            { title: "Spice Plantation", image: "/images/tour/spa.png" },
-            { title: "Canoeing", image: "/images/tour/tea.png" },
-            { title: "Ayurvedic Massage", image: "/images/tour/backwaters.png" },
-            { title: "Kathakali Dance", image: "/images/tour/elephant.png" },
-            { title: "Spice Plantation", image: "/images/tour/spa.png" },
-            { title: "Canoeing", image: "/images/tour/tea.png" },
-            
+    { title: "Kathakali Dance", image: "/images/tour/elephant.png" },
+    { title: "Spice Plantation", image: "/images/tour/spa.png" },
+    { title: "Canoeing", image: "/images/tour/tea.png" },
+    { title: "Ayurvedic Massage", image: "/images/tour/backwaters.png" },
+    { title: "Kathakali Dance", image: "/images/tour/elephant.png" },
+    { title: "Spice Plantation", image: "/images/tour/spa.png" },
+    { title: "Canoeing", image: "/images/tour/tea.png" },
   ];
 
   return (
     <div className="city-intro-page">
-      <Banner
+      {/* <Banner
+        title={bannerData.title}
+        subtitle={bannerData.subtitle}
+        imageUrl={bannerData.imageUrl}
+      /> */}
+      <CityBanner
         title={bannerData.title}
         subtitle={bannerData.subtitle}
         imageUrl={bannerData.imageUrl}
@@ -116,15 +135,15 @@ export default function CityIntroPage({ slug }: { slug: string }) {
       <div className="py-5">
         <PlacesToVisit cityName={cityName} data={placesToVisit} />
       </div>
-        <PopularPackages citySlug={slug} />
+      <PopularPackages
+        citySlug={slug}
+        country={country === "india" ? "india" : "international"}
+      />
       <div className="py-5">
-        <ThingsToDo
-          cityName={cityName}
-          data={thingsToDoData}
-        />
+        <ThingsToDo cityName={cityName} data={thingsToDoData} />
       </div>
 
-    <div className="py-5">
+      <div className="py-5">
         <ToursitAttraction cityName={cityName} data={placesToVisit} />
       </div>
 
@@ -132,10 +151,10 @@ export default function CityIntroPage({ slug }: { slug: string }) {
         <ReviewsWidget />
       </div>
       <div className="home-about">
-          <AboutSection />
-        </div>
-        <div className="py-5">
-      <LogoSlider />
+        <AboutSection />
+      </div>
+      <div className="py-5">
+        <LogoSlider />
       </div>
     </div>
   );

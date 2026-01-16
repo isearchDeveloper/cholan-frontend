@@ -25,7 +25,8 @@ export async function generateMetadata({ params }: any) {
 const Page = async ({ params }: any) => {
   const { slug } = await params;
 
-  return <PackagelistByCountry slug={slug} />;
+  return <PackagelistByCountry slug={slug} 
+   country={slug}  />;
 };
 
 export default Page;

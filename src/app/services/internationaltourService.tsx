@@ -30,6 +30,8 @@ export async function fetchInternationalPackageData(slug: any) {
       next: { revalidate: 60 }
     });
 
+    console.log(res);
+
     if (!res.ok) {
       return null;
     }
@@ -140,3 +142,27 @@ export async function specialInternationalPackageData() {
   return res.json();
 }
  
+// ✅ FOR PACKAGE LISTING (slider, pagination, etc.)
+export async function fetchInternationalPackageListingByCity({
+  citySlug,
+  page = 1,
+}: {
+  citySlug: string;
+  page?: number;
+}) {
+  const listingSlug = `${citySlug}-tour-packages`;
+
+  const url = `${process.env.NEXT_PUBLIC_UAT_URL}/api/v1/packages/${listingSlug}?page=${page}`;
+
+  const res = await fetch(url, {
+    method: "GET",
+    headers: {
+      "X-Public-Token": XPublicToken,
+    },
+    cache: "no-store",
+  });
+
+  if (!res.ok) return null;
+
+  return await res.json();
+}

@@ -1,4 +1,3 @@
-
 import Breadcrumb from "@/app/components/common/Breadcrumb";
 import Tourpackages from "@/app/components/internationalTourPackages/tourpackages";
 import TravelPackages from "@/app/components/common/travelpackages";
@@ -8,7 +7,10 @@ import TabWithImages from "@/app/components/internationalTourPackages/tabwithima
 import { fetchInternationalPageData } from "@/app/services/internationaltourService";
 import { unstable_cache } from "next/cache";
 import IntFaq from "@/app/components/internationalTourPackages/intFaq";
-import { fetchCountryPageData,fetchSpecialData } from "@/app/services/countryService";
+import {
+  fetchCountryPageData,
+  fetchSpecialData,
+} from "@/app/services/countryService";
 import CountryExpandableText from "../country/countryExpandableText";
 import ImageComponentCountry from "../country/tabWithImagesForCountry";
 import CityStateListStatic from "../country/CityStateListStatic";
@@ -19,11 +21,12 @@ import { notFound } from "next/navigation";
 import ReviewsWidget from "../ReviewsWidget";
 import AboutSection from "../home/AboutSection";
 import LogoSlider from "../home/LogoSlider";
-export const XPublicToken = "zaxsc+/-=0dfvgbnhmjklo*/-piutyerwq*%$25631478907539541lokythbfet&*(@kjhkhgfhk546456456)"
+export const XPublicToken =
+  "zaxsc+/-=0dfvgbnhmjklo*/-piutyerwq*%$25631478907539541lokythbfet&*(@kjhkhgfhk546456456)";
 
 async function fetchStaticCategorySSR(countrySlug: string) {
-
-  const url = `${process.env.NEXT_PUBLIC_UAT_URL}/api/v1/packages/categories/country?slug=honeymoon&country=${countrySlug}&limit=50`; try {
+  const url = `${process.env.NEXT_PUBLIC_UAT_URL}/api/v1/packages/categories/country?slug=honeymoon&country=${countrySlug}&limit=50`;
+  try {
     const res = await fetch(url, {
       headers: { "X-Public-Token": XPublicToken },
       cache: "no-store", // You can use "force-cache" or "no-store"
@@ -35,15 +38,16 @@ async function fetchStaticCategorySSR(countrySlug: string) {
     return { packages: [] };
   }
 }
-export default async function PackagelistByCountry({ slug }: any) {
-
-
+export default async function PackagelistByCountry({
+  slug,
+  country,
+}: {
+  slug: string;
+  country: string;
+}) {
   // ✅ 1. First fetch country data
-  const [countryData] = await Promise.all([
-    fetchCountryPageData(slug),
-  ]);
+  const [countryData] = await Promise.all([fetchCountryPageData(slug)]);
   const exclusiveIndiaPackage = await fetchSpecialData();
-
 
   // ✅ 2. Validate country data
   if (!countryData || slug === "srilanka") {
@@ -63,14 +67,15 @@ export default async function PackagelistByCountry({ slug }: any) {
     { label: "Home", href: "/" },
     { label: `${countryData?.data?.details?.title}`, isCurrent: true },
   ];
-
+console.log("PackagelistByCountry rendered for:", slug);
+console.log("slug:", slug);
+console.log("country prop:", country);
   return (
     <div className="details-wrapper ">
       <IntBanner data={countryData?.data?.details} />
       <div className="details-wrapper-inner india">
         <div className="pt-4 pb-5">
           <div className="container">
-
             <Breadcrumb items={breadcrumbItems} />
             <CountryExpandableText
               data={countryData?.data.details}
@@ -79,24 +84,35 @@ export default async function PackagelistByCountry({ slug }: any) {
           </div>
 
           {exclusiveIndiaPackage?.data?.length < 1 ? null : (
-          <div data-aos="fade-up" data-aos-delay="200">
-            <TourPackagesByCountry
-              exclusiveIndiaPackage={exclusiveIndiaPackage?.data}
-            />
-          </div>
-        )}
+            <div data-aos="fade-up" data-aos-delay="200">
+              <TourPackagesByCountry
+                exclusiveIndiaPackage={exclusiveIndiaPackage?.data}
+              />
+            </div>
+          )}
 
           <ImageComponentCountry slug={slug} initialData={countryData.data} />
-          <CityStateListStatic />
+          
+          {(slug === "india" || slug === "international-holidays") && (
+            <CityStateListStatic
+              country={slug as "india" | "international-holidays"}
+            />
+          )}
           <TravelPackages internationalData={countryData?.data.deal_packages} />
-           <TourpackagesCountry countryData={countryData?.data} ssrPackages={{ honeymoon: ssrHoneymoonData }} />
-          {countryData?.data?.details?.faqs.length < 1 ? null :
+          <TourpackagesCountry
+            countryData={countryData?.data}
+            ssrPackages={{ honeymoon: ssrHoneymoonData }}
+          />
+          {countryData?.data?.details?.faqs.length < 1 ? null : (
             <div className="faqs pt-5">
               <div className="container">
-                <IntFaq faqs={countryData?.data?.details?.faqs} faqtitle={countryData?.data?.details?.faq_title} />
+                <IntFaq
+                  faqs={countryData?.data?.details?.faqs}
+                  faqtitle={countryData?.data?.details?.faq_title}
+                />
               </div>
-            </div>}
-
+            </div>
+          )}
 
           <div className="py-5">
             <ReviewsWidget />
@@ -107,14 +123,8 @@ export default async function PackagelistByCountry({ slug }: any) {
           </div> */}
 
           <LogoSlider />
-
         </div>
       </div>
-
-
-
-
-
     </div>
   );
 }

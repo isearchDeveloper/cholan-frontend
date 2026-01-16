@@ -32,7 +32,9 @@ export default function ThingsToDo({ cityName, data }: ThingsToDoProps) {
                     className="things-img"
                   />
                 </div>
+                <div className="things-title-border">
                 <h5 className="things-title">{item.title}</h5>
+                </div>
               </div>
             </div>
           ))}
