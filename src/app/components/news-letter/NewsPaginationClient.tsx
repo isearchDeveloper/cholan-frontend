@@ -10,7 +10,7 @@ const CDN_URL = "https://cdn.cholantours.com/";
 export default function NewsPaginationClient() {
   const [news, setNews] = useState<any[]>([]);
   const [page, setPage] = useState(1);
-  const limit = 5;
+  const limit = 10;
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
  
