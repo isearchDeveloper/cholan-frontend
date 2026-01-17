@@ -14,6 +14,7 @@ import {
 import CountryExpandableText from "../country/countryExpandableText";
 import ImageComponentCountry from "../country/tabWithImagesForCountry";
 import CityStateListStatic from "../country/CityStateListStatic";
+import { fetchCityIntroData, fetchCityList } from "@/app/services/cityService";
 import TourpackagesCountry from "../country/tourPackagesByInterest";
 import TourPackagesByCountry from "@/app/components/common/TourPackagesByCountry";
 // import { fetchHomeExclusiveData } from "@/app/services/homeService";
@@ -67,9 +68,13 @@ export default async function PackagelistByCountry({
     { label: "Home", href: "/" },
     { label: `${countryData?.data?.details?.title}`, isCurrent: true },
   ];
-console.log("PackagelistByCountry rendered for:", slug);
-console.log("slug:", slug);
-console.log("country prop:", country);
+// console.log("PackagelistByCountry rendered for:", slug);
+// console.log("slug:", slug);
+// console.log("country prop:", country);
+
+const res = await fetchCityList(1);
+  const cities = res?.data?.cities || [];
+console.log(cities)
   return (
     <div className="details-wrapper ">
       <IntBanner data={countryData?.data?.details} />
@@ -93,9 +98,9 @@ console.log("country prop:", country);
 
           <ImageComponentCountry slug={slug} initialData={countryData.data} />
           
-          {(slug === "india" || slug === "international-holidays") && (
+          {(slug === "india") && (
             <CityStateListStatic
-              country={slug as "india" | "international-holidays"}
+              country={slug as "india"} cities={cities}
             />
           )}
           <TravelPackages internationalData={countryData?.data.deal_packages} />

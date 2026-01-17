@@ -22,6 +22,7 @@ import LogoSlider from "@/app/components/home/LogoSlider";
 import { trendingInternationalHomePackageData } from "@/app/services/homeService";
 
 import CityStateListStatic from "@/app/components/country/CityStateListStatic";
+import { fetchCityList } from "@/app/services/cityService";
 
 export async function generateMetadata() {
   const data = await fetchInternationalPageData();
@@ -70,6 +71,9 @@ export default async function Page() {
     { label: "International Tour Packages", isCurrent: true },
   ];
 
+  const res = await fetchCityList(2);
+  const cities = res?.data?.cities || [];
+console.log(cities)
   return (
     <div className="details-wrapper ">
       <IntBanner data={internationalData?.data?.details} />
@@ -96,7 +100,7 @@ export default async function Page() {
             noJsCountries={noJsCountries}
           />
           {/* ✅ International City / Country Intro Section */}
-          <CityStateListStatic country="international-holidays" />
+          <CityStateListStatic country="international-holidays"  cities={cities}/>
 
           <TravelPackages
             internationalData={internationalData.data.deal_packages}

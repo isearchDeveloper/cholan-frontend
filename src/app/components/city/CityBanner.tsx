@@ -16,7 +16,7 @@ export default function CityBanner({
   return (
     <section className="city-hero-banner">
       <Image
-        src={imageUrl}
+        src={encodeURI(imageUrl)}
         alt={title}
         fill
         priority

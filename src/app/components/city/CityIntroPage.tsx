@@ -1,5 +1,6 @@
 "use client";
 import Banner from "@/app/components/common/banner";
+import { notFound } from "next/navigation";
 import Breadcrumb from "@/app/components/common/Breadcrumb";
 import ExpandableText from "@/app/components/common/ExpandableText";
 import NewsForm from "@/app/components/news-letter/NewsForm";
@@ -11,21 +12,31 @@ import ThingsToDo from "@/app/components/city/ThingsToDo";
 import AboutSection from "@/app/components/home/AboutSection";
 import PopularPackages from "@/app/components/city/PopularPackages";
 import CityBanner from "@/app/components/city/CityBanner";
+import CityExpandableBanner from "@/app/components/city/CityExpandableBanner";
 
 export default function CityIntroPage({
   slug,
   country,
+  cityData,
 }: {
   slug: string;
   country: "india" | "international-holidays";
+  cityData: any | null;
 }) {
   // STATIC TEMP DATA (you can replace later when backend is ready)
   //   const cityName = slug.replace(/-/g, " ").toUpperCase();
+  console.log(cityData);
+  const cityName =
+    cityData?.title ||
+    slug
+      .split("-")
+      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(" ");
 
-  const cityName = slug
-    .split("-")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
+  const overview =
+    cityData?.city?.overview ||
+    `${cityName} is a beautiful destination with rich culture and attractions.`;
+
   // const breadcrumbItems = [
   //   { label: "Home", href: "/" },
   //   { label: "India", href: "/india" },
@@ -41,9 +52,11 @@ export default function CityIntroPage({
   ];
 
   const bannerData = {
-    title: `${cityName} Tourism`,
-    subtitle: `Explore ${cityName} - Culture, Attractions & More`,
-    imageUrl: "/images/banner.webp",
+    title: cityData?.city?.title,
+    subtitle: cityData?.city?.sub_title,
+    imageUrl: cityData?.city?.banner_img
+      ? `https://cdn.cholantours.com/${cityData.city.banner_img.replace(/^\/+/, "")}`
+      : "/images/banner.webp",
   };
 
   const aboutData = `
@@ -119,11 +132,15 @@ export default function CityIntroPage({
         <div className="row">
           <div className="col-lg-8">
             <div>
-              <ExpandableText
+              {/* <ExpandableText
                 title={`${cityName} Overview`}
-                subtitle=""
-                text={aboutData}
-                collapsedLines={3}
+                text={overview}
+                // collapsedLines={10}
+              /> */}
+              <CityExpandableBanner
+                title={` About ${cityName}`}
+                text={overview}
+                wordLimit={200}
               />
             </div>
           </div>

@@ -77,6 +77,7 @@ import { notFound } from "next/navigation";
 import CityIntroPage from "@/app/components/city/CityIntroPage";
 import { getCanonical } from "@/app/lib/getCanonical";
 import { fetchIndiaPackageData } from "@/app/services/indiaPackageListService";
+import { fetchCityIntroData } from "@/app/services/cityService";
  
 // const API_BASE = "https://crm.cholantours.com/api/v1/packages/city";
 const API_BASE = `${process.env.NEXT_PUBLIC_UAT_URL}/api/v1/packages/city`;
@@ -133,7 +134,7 @@ async function resolveCityAndCategory(slug: string, page: number) {
    METADATA
    ========================= */
 export async function generateMetadata({ params }: any) {
-  const { slug } = params;
+  const { slug } = await params;
 
   //  Use URL slug ONLY to fetch location data
   const res = await fetchIndiaPackageData(slug);
@@ -156,10 +157,14 @@ export async function generateMetadata({ params }: any) {
    PAGE
 ================================ */
 export default async function TourListingPage({ params, searchParams }: any) {
-  const { slug } = params;
- 
+  const { slug } = await params;
+  const cityName = slug;
+  
+
+  const cityIntroRes = await fetchCityIntroData(cityName);
+//  console.log(cityIntroRes)
   if (!slug.endsWith("-tour-packages")) {
-      return <CityIntroPage slug={slug} country={"india"} />;
+      return <CityIntroPage slug={slug} country={"india"}  cityData={cityIntroRes?.data || null}/>;
     }
  
   const page = Number(searchParams?.page) || 1;

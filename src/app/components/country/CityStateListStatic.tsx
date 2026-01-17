@@ -145,59 +145,125 @@
 // }
 
 
+// "use client";
+
+// import React, { useState } from "react";
+// import Image from "next/image";
+// import Link from "next/link";
+
+// type CountryType = "india" | "international-holidays";
+
+// interface CityItem {
+//   name: string;
+//   slug: string;
+//   image?: string;
+// }
+
+// const INDIA_CITIES: CityItem[] = [
+//   { name: "Kerala", slug: "kerala" },
+//   { name: "Goa", slug: "goa" },
+//   { name: "Gujarat", slug: "gujarat" },
+//   { name: "Delhi", slug: "delhi" },
+//   { name: "Munnar", slug: "munnar" },
+//   { name: "Karnataka", slug: "karnataka" },
+//   { name: "Rajasthan", slug: "rajasthan" },
+//   { name: "Tamil Nadu", slug: "tamil-nadu" },
+// ];
+
+// const INTERNATIONAL_CITIES: CityItem[] = [
+//   { name: "Dubai", slug: "dubai" },
+//   { name: "Singapore", slug: "singapore" },
+//   { name: "Thailand", slug: "thailand" },
+//   { name: "Bali", slug: "bali" },
+//   { name: "Malaysia", slug: "malaysia" },
+//   { name: "Vietnam", slug: "vietnam" },
+//   { name: "Maldives", slug: "maldives" },
+//   { name: "Europe", slug: "europe" },
+// ];
+
+// export default function CityStateList({
+//   country,
+// }: {
+//    country: "india" | "international-holidays";
+// }) {
+//   const items =
+//     country === "india" ? INDIA_CITIES : INTERNATIONAL_CITIES;
+
+//   const [visibleCount, setVisibleCount] = useState(8);
+//   const visibleItems = items.slice(0, visibleCount);
+
+//   const handleLoadMore = () => setVisibleCount((prev) => prev + 8);
+//   const shouldShowLoadMore = items.length > visibleCount;
+// console.log("CityStateListStatic mounted with country:", country);
+
+//   return (
+//     <div className="rent-car-list-route py-5 px-2 px-lg-0">
+//       <div className="container">
+//         <h2 className="text-center mb-4">
+//           {country === "india"
+//             ? "India By City & States"
+//             : "International Destinations"}
+//         </h2>
+
+//         <div className="row row-cols-1 row-cols-md-4 g-4">
+//           {visibleItems.map((item) => (
+//             <div key={item.slug} className="col-lg-3">
+//               <div className="w-100 route-card text-center">
+//                 <Link href={`/${country}/${item.slug}`}>
+//                   <p className="mt-2 text-capitalize">{item.name}</p>
+//                 </Link>
+//               </div>
+//             </div>
+//           ))}
+//         </div>
+
+//         {shouldShowLoadMore && (
+//           <div className="text-center mt-5">
+//             <button
+//               onClick={handleLoadMore}
+//               className="btn orange-btn inline-flex items-center gap-2"
+//             >
+//               Load More
+//               <Image
+//                 width={23}
+//                 height={23}
+//                 src="/images/button-arrow.png"
+//                 alt="arrow"
+//               />
+//             </button>
+//           </div>
+//         )}
+//       </div>
+//     </div>
+//   );
+// }
+
+
 "use client";
 
-import React, { useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 
-type CountryType = "india" | "international-holidays";
-
 interface CityItem {
-  name: string;
+  title: string;
   slug: string;
-  image?: string;
+  location: {
+    slug: string;
+    name: string;
+  };
 }
 
-const INDIA_CITIES: CityItem[] = [
-  { name: "Kerala", slug: "kerala" },
-  { name: "Goa", slug: "goa" },
-  { name: "Gujarat", slug: "gujarat" },
-  { name: "Delhi", slug: "delhi" },
-  { name: "Munnar", slug: "munnar" },
-  { name: "Karnataka", slug: "karnataka" },
-  { name: "Rajasthan", slug: "rajasthan" },
-  { name: "Tamil Nadu", slug: "tamil-nadu" },
-];
-
-const INTERNATIONAL_CITIES: CityItem[] = [
-  { name: "Dubai", slug: "dubai" },
-  { name: "Singapore", slug: "singapore" },
-  { name: "Thailand", slug: "thailand" },
-  { name: "Bali", slug: "bali" },
-  { name: "Malaysia", slug: "malaysia" },
-  { name: "Vietnam", slug: "vietnam" },
-  { name: "Maldives", slug: "maldives" },
-  { name: "Europe", slug: "europe" },
-];
-
-export default function CityStateList({
+export default function CityStateListStatic({
   country,
+  cities,
 }: {
-   country: "india" | "international-holidays";
+  country: "india" | "international-holidays";
+  cities: CityItem[];
 }) {
-  const items =
-    country === "india" ? INDIA_CITIES : INTERNATIONAL_CITIES;
+  if (!cities || cities.length === 0) return null;
 
-  const [visibleCount, setVisibleCount] = useState(8);
-  const visibleItems = items.slice(0, visibleCount);
-
-  const handleLoadMore = () => setVisibleCount((prev) => prev + 8);
-  const shouldShowLoadMore = items.length > visibleCount;
-console.log("CityStateListStatic mounted with country:", country);
 
   return (
-    <div className="rent-car-list-route py-5 px-2 px-lg-0">
+    <section className="rent-car-list-route py-5">
       <div className="container">
         <h2 className="text-center mb-4">
           {country === "india"
@@ -205,35 +271,27 @@ console.log("CityStateListStatic mounted with country:", country);
             : "International Destinations"}
         </h2>
 
-        <div className="row row-cols-1 row-cols-md-4 g-4">
-          {visibleItems.map((item) => (
-            <div key={item.slug} className="col-lg-3">
-              <div className="w-100 route-card text-center">
-                <Link href={`/${country}/${item.slug}`}>
-                  <p className="mt-2 text-capitalize">{item.name}</p>
+        <div className="row row-cols-2 row-cols-md-4 g-4">
+          {cities.map((city, index) => {
+            const citySlug =city.slug;
+
+            const href =
+              country === "india"
+                ? `/india/${citySlug}`
+                : `/international-holidays/${citySlug}`;
+
+            return (
+              <div key={index} className="col">
+                <Link href={href} className="route-card text-center">
+                  <p className="mt-2 text-capitalize">
+                    {city.location.name}
+                  </p>
                 </Link>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
-
-        {shouldShowLoadMore && (
-          <div className="text-center mt-5">
-            <button
-              onClick={handleLoadMore}
-              className="btn orange-btn inline-flex items-center gap-2"
-            >
-              Load More
-              <Image
-                width={23}
-                height={23}
-                src="/images/button-arrow.png"
-                alt="arrow"
-              />
-            </button>
-          </div>
-        )}
       </div>
-    </div>
+    </section>
   );
 }
