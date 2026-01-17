@@ -134,14 +134,41 @@ async function resolveCityAndCategory(slug: string, page: number) {
    METADATA
    ========================= */
 export async function generateMetadata({ params }: any) {
-  const { slug } = await params;
+  const { slug } = params;
 
-  //  Use URL slug ONLY to fetch location data
+  /* =====================
+     CITY INTRO META
+  ====================== */
+  if (!slug.endsWith("-tour-packages")) {
+    const cityRes = await fetchCityIntroData(slug);
+
+    if (!cityRes?.data?.city) return {};
+
+    const city = cityRes.data.city;
+
+    const title =
+      city.meta_title ||
+      ` About ${city.title}  | Cholan Tours`;
+
+    const description =
+      city.meta_description ||
+      `Explore the best tour packages, places to visit, and things to do in ${city.title}.`;
+
+    const canonical = await getCanonical(`/india/${slug}`);
+
+    return {
+      title,
+      description,
+      alternates: { canonical },
+    };
+  }
+
+  /* =====================
+     PACKAGE LISTING META
+  ====================== */
   const res = await fetchIndiaPackageData(slug);
 
-  if (!res?.data?.location) {
-    return {};
-  }
+  if (!res?.data?.location) return {};
 
   const meta = res.data.location.meta || {};
   const canonical = await getCanonical(`/india/${slug}`);
@@ -153,6 +180,7 @@ export async function generateMetadata({ params }: any) {
     alternates: { canonical },
   };
 }
+
 /* ===============================
    PAGE
 ================================ */
@@ -162,11 +190,24 @@ export default async function TourListingPage({ params, searchParams }: any) {
   
 
   const cityIntroRes = await fetchCityIntroData(cityName);
+  
 //  console.log(cityIntroRes)
-  if (!slug.endsWith("-tour-packages")) {
-      return <CityIntroPage slug={slug} country={"india"}  cityData={cityIntroRes?.data || null}/>;
-    }
- 
+ if (!slug.endsWith("-tour-packages")) {
+  const cityIntroRes = await fetchCityIntroData(slug);
+
+  // 🔐 INDIA TYPE = 1
+  if (parseInt(cityIntroRes?.data?.city?.type) !== 1) {
+    notFound();
+  }
+
+  return (
+    <CityIntroPage
+      slug={slug}
+      country="india"
+      cityData={cityIntroRes?.data || null}
+    />
+  );
+}
   const page = Number(searchParams?.page) || 1;
  
   const resolved = await resolveCityAndCategory(slug, page);

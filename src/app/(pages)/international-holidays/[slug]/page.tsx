@@ -269,24 +269,64 @@ export async function generateMetadata({ params }: any) {
   };
 }
 
-export default async function IntenationalListing({ params, searchParams }: any) {
- const { slug } = await params;
- const cityName = slug
-const cityIntroRes = await fetchCityIntroData(cityName);
-//  console.log(cityIntroRes);
-//   console.log(typeof(parseInt(cityIntroRes?.data?.city?.type)));
-    // ✅ CITY INTRO PAGE
-     if (
-    parseInt(cityIntroRes?.data?.city?.type) !== 2
-  ) {
-    notFound();
-  }
-  if (!slug.endsWith("-tour-packages")) {
-    return <CityIntroPage slug={slug} country="international-holidays" cityData={cityIntroRes?.data || null}/>;
-  }
-  const page = Number(searchParams?.page) || 1;
-  const resolved = await resolveInternationalLocationAndCategory(slug, page);
+// export default async function IntenationalListing({ params, searchParams }: any) {
+//  const { slug } = await params;
+//  const cityName = slug
+// const cityIntroRes = await fetchCityIntroData(cityName);
+// //  console.log(cityIntroRes);
+// //   console.log(typeof(parseInt(cityIntroRes?.data?.city?.type)));
+//     // ✅ CITY INTRO PAGE
+//   //    if (
+//   //   parseInt(cityIntroRes?.data?.city?.type) !== 2
+//   // ) {
+//   //   notFound();
+//   // }
+//   if (!slug.endsWith("-tour-packages")) {
+//     return <CityIntroPage slug={slug} country="international-holidays" cityData={cityIntroRes?.data || null}/>;
+//   }
+//   const page = Number(searchParams?.page) || 1;
+//   const resolved = await resolveInternationalLocationAndCategory(slug, page);
  
+//   return (
+//     <InternationalPackageListing
+//       packageList1={resolved.data.data}
+//       initialPage={page}
+//       slug1={resolved.location}
+//       categorySlug={resolved.category}
+//       ssrFixedData={resolved.data.data}
+//     />
+//   );
+// }
+export default async function IntenationalListing({ params, searchParams }: any) {
+  const { slug } = params;
+
+  /* ============================
+     1️⃣ CITY INTRO PAGE
+  ============================= */
+  if (!slug.endsWith("-tour-packages")) {
+    const cityIntroRes = await fetchCityIntroData(slug);
+
+    // 🔒 TYPE VALIDATION (international = 2)
+    if (parseInt(cityIntroRes?.data?.city?.type) !== 2) {
+      notFound();
+    }
+
+    return (
+      <CityIntroPage
+        slug={slug}
+        country="international-holidays"
+        cityData={cityIntroRes?.data || null}
+      />
+    );
+  }
+
+  /* ============================
+     2️⃣ PACKAGE LISTING PAGE
+  ============================= */
+  const page = Number(searchParams?.page) || 1;
+
+  const resolved = await resolveInternationalLocationAndCategory(slug, page);
+
   return (
     <InternationalPackageListing
       packageList1={resolved.data.data}
@@ -297,4 +337,5 @@ const cityIntroRes = await fetchCityIntroData(cityName);
     />
   );
 }
+
  
