@@ -1,7 +1,7 @@
 
 "use client";
 
-import { Tabs, TabPanel } from "react-tabs";
+import { Tabs, TabPanel ,Tab} from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import Image from "next/image";
 import Link from "next/link";

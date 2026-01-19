@@ -24,9 +24,12 @@ const CommonModal: React.FC<CommonModalProps> = ({
         </button>
 
         <h4>{title}</h4>
-        {description.split("\n\n").map((para: string, index: number) => (
-          <p key={index}>{para}</p>
-        ))}
+        {(description ?? "")
+          .split("\n\n")
+          .filter(Boolean)
+          .map((para: string, index: number) => (
+            <p key={index}>{para}</p>
+          ))}
       </div>
     </div>
   );

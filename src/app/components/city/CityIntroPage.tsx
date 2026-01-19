@@ -99,17 +99,16 @@ export default function CityIntroPage({
     },
   ];
   // Place To visit data Dynamic
-  const placesToVisit = 
-   cityData?.city?.visit?.length > 0 ?cityData.city.visit.map((item: any) => ({
-        title: item.title,
-        subtitle: item.details,
-        image: item.banner_image
-          ? `https://cdn.cholantours.com/${item.banner_image}`
-          : "/images/tour/default.webp",
-      }))
-    : staticPlacesToVisit;
-  
-
+  const placesToVisit =
+    cityData?.city?.visit?.length > 0
+      ? cityData.city.visit.map((item: any) => ({
+          title: item.title,
+          subtitle: item.details,
+          image: item.banner_image
+            ? `https://cdn.cholantours.com/${item.banner_image}`
+            : "/images/tour/default.webp",
+        }))
+      : staticPlacesToVisit;
 
   const StaticThingsToDoData = [
     { title: "Ayurvedic Massage", image: "/images/tour/backwaters.png" },
@@ -121,26 +120,30 @@ export default function CityIntroPage({
     { title: "Spice Plantation", image: "/images/tour/spa.png" },
     { title: "Canoeing", image: "/images/tour/tea.png" },
   ];
-// Things to do Dynamic
-  const thingsToDoData = cityData?.city?.things?.length > 0 ?
-  cityData?.city?.things.map((items:any) => ({
-              title:items.title,
-              subtitle:items.details,
-              image: items.banner_image
-          ? `https://cdn.cholantours.com/${items.banner_image}`
-          : "/images/tour/default.webp",
-  })):StaticThingsToDoData;
+  // Things to do Dynamic
+  const thingsToDoData =
+    cityData?.city?.things?.length > 0
+      ? cityData?.city?.things.map((items: any) => ({
+          title: items.title,
+          subtitle: items.details,
+          image: items.banner_image
+            ? `https://cdn.cholantours.com/${items.banner_image}`
+            : "/images/tour/default.webp",
+        }))
+      : StaticThingsToDoData;
 
-// Tourist Attraction Place
+  // Tourist Attraction Place
 
-const TouristAttractionPlace = cityData?.city?.attractions?.length > 0 ?
-       cityData?.city?.attractions.map((items:any)=>({
-        title: items.title,
-        subtitle: items.details,
-        image: items.banner_image
-          ? `https://cdn.cholantours.com/${items.banner_image}`
-          : "/images/tour/default.webp",
-       })):StaticThingsToDoData;
+  const TouristAttractionPlace =
+    cityData?.city?.attractions?.length > 0
+      ? cityData?.city?.attractions.map((items: any) => ({
+          title: items.title,
+          subtitle: items.details,
+          image: items.banner_image
+            ? `https://cdn.cholantours.com/${items.banner_image}`
+            : "/images/tour/default.webp",
+        }))
+      : staticPlacesToVisit;
 
   return (
     <div className="city-intro-page">
@@ -173,7 +176,9 @@ const TouristAttractionPlace = cityData?.city?.attractions?.length > 0 ?
             </div>
           </div>
           <div className="col-lg-4 mt-4 mt-lg-0">
-            <NewsForm />
+            <div className="city-sticky-form">
+              <NewsForm />
+            </div>
           </div>
         </div>
       </div>

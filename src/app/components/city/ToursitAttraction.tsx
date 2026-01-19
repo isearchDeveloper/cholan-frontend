@@ -35,7 +35,6 @@ const truncateByChars = (text: string, charLimit: number) => {
   return text.slice(0, charLimit).trim();
 };
 
-
 export default function ToursitAttraction({
   cityName,
   data,
@@ -76,34 +75,36 @@ export default function ToursitAttraction({
             <SwiperSlide key={index}>
               <div className="places-card-outer">
                 <div className="places-card-inner">
-                                  <Image
-                                    src={item.image}
-                                    alt={item.title}
-                                    width={500}
-                                    height={300}
-                                    className="places-card-image"
-                                  />
-                
-                                  <div className="places-card-overlay">
-                                    <h5
-                                      className="place-title"
-                                      onClick={() => handleOpen(item)}
-                                    >
-                                      {item.title}
-                                    </h5>
-                                    {/* /* <p className="places-card-subtitle">{item.subtitle}</p> */}                   <p className="places-card-subtitle">
-                                      {truncateByChars(item.subtitle, 60)}
-                                      {item.subtitle.split(" ").length > 18 && (
-                                        <span
-                                          className="read-more-text"
-                                          onClick={() => handleOpen(item)}
-                                        >
-                                          ... Read more
-                                        </span>
-                                      )}
-                                    </p>
-                
-                                    {/* <button
+                  <Image
+                    src={item.image}
+                    alt={item.title}
+                    width={500}
+                    height={300}
+                    className="places-card-image"
+                  />
+
+                  <div className="places-card-overlay">
+                    <h5
+                      className="place-title"
+                      onClick={() => handleOpen(item)}
+                    >
+                      {item.title}
+                    </h5>
+                    {/* /* <p className="places-card-subtitle">{item.subtitle}</p> */}
+                    <p className="places-card-subtitle">
+                      {truncateByChars(item.subtitle || "", 60)}
+
+                      {(item.subtitle?.split(" ").length ?? 0) > 18 && (
+                        <span
+                          className="read-more-text"
+                          onClick={() => handleOpen(item)}
+                        >
+                          ... Read more
+                        </span>
+                      )}
+                    </p>
+
+                    {/* <button
                                     className="btn orange-btn inline-flex items-center gap-1 px-3 py-1 text-sm"
                                       onClick={() => handleOpen(item)}
                                     >
@@ -118,8 +119,8 @@ export default function ToursitAttraction({
                                         />
                                       </span>
                                     </button> */}
-                                  </div>
-                                </div>
+                  </div>
+                </div>
               </div>
             </SwiperSlide>
           ))}
