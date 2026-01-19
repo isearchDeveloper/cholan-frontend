@@ -18,14 +18,17 @@ import { fetchWorldPackageListingData } from "@/app/services/internationaltourSe
 const InternationalPackageListing = ({
   packageList1,
   initialPage,
-  slug1, ssrFixedData,
+  slug1,
+  ssrFixedData,
+  categorySlug: serverCategorySlug,
+  originalSlug
 }: any) => {
   const [packageList, setPackageList] = useState<any>(packageList1 || null);
   const [currentPage, setCurrentPage] = useState(initialPage);
   const [totalPages, setTotalPages] = useState(1);
   const [showLoader, setShowLoader] = useState(true);
-  const [categorySlug, setCategorySlug] = useState<any>("");
-  const [fixedData, setfixedData] = useState<any>("");
+  const [categorySlug, setCategorySlug] = useState<any>(serverCategorySlug || "");
+  const [fixedData, setfixedData] = useState<any>(ssrFixedData || null);
   const [scope, setScope] = useState<"country" | "location">("country");
   const [jsEnabled, setJsEnabled] = useState(false);
 
@@ -51,11 +54,15 @@ const InternationalPackageListing = ({
   useEffect(() => {
     if (categorySlug) {
       setCurrentPage(1);
-      // handlePageChange(1); // reset page when category changes
     }
   }, [categorySlug]);
 
-  // Fetch data when slug or currentPage changes
+  useEffect(() => {
+    if (!fixedData && ssrFixedData) {
+      setfixedData(ssrFixedData);
+    }
+  }, [ssrFixedData]);
+
   useEffect(() => {
     if (!slug1) return;
 
@@ -63,7 +70,6 @@ const InternationalPackageListing = ({
       setShowLoader(true);
 
       try {
-        // ✅ determine scope from existing loaded data
         const detectedScope =
           fixedData?.country?.slug ? "country" : "location";
 
@@ -71,13 +77,11 @@ const InternationalPackageListing = ({
           slug1,
           currentPage,
           categorySlug,
-          scopeFromData: detectedScope, // ✅ always correct
+          scopeFromData: detectedScope,
         });
 
         if (response?.data) {
           setPackageList(response.data);
-
-          // ✅ only update fixedData on FIRST load, not category filter
           if (!categorySlug) {
             setfixedData(response.data);
           }
@@ -107,7 +111,6 @@ const InternationalPackageListing = ({
     setShowLoader(true);
 
     try {
-      // ✅ determine scope EXACTLY like main fetch
       const detectedScope =
         fixedData?.country?.slug ? "country" : "location";
 
@@ -115,7 +118,7 @@ const InternationalPackageListing = ({
         slug1,
         currentPage: page,
         categorySlug,
-        scopeFromData: detectedScope,  // ✅ IMPORTANT FIX
+        scopeFromData: detectedScope,
       });
 
       if (response?.data) {
@@ -140,15 +143,12 @@ const InternationalPackageListing = ({
   };
 
 
-
-  // Generate page numbers for pagination
   const generatePageNumbers = () => {
     const pages = [];
     const maxVisiblePages = 5;
     let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
     let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
 
-    // Adjust if we're at the beginning
     if (endPage - startPage + 1 < maxVisiblePages) {
       startPage = Math.max(1, endPage - maxVisiblePages + 1);
     }
@@ -160,17 +160,44 @@ const InternationalPackageListing = ({
     return pages;
   };
 
+  const locationName =
+    fixedData?.country?.name ||
+    fixedData?.location?.name ||
+    ssrFixedData?.country?.name ||
+    ssrFixedData?.location?.name ||
+    "";
+
+
+  const isCategoryPage =
+    originalSlug &&
+    slug1 &&
+    originalSlug !== slug1 &&
+    originalSlug.endsWith("-tour-packages");
+
   const breadcrumbItems: any = [
     { label: "Home", href: "/" },
-    { label: `International Tour Packages`, href: "/international-holidays" },
-    {
-      label: `${fixedData?.country?.name
-        ? fixedData?.country?.name
-        : fixedData?.location?.name
-        } Tour Packages`,
-      isCurrent: true,
-    },
+    { label: "International Tour Packages", href: "/international-holidays" },
   ];
+
+  if (isCategoryPage && serverCategorySlug && locationName) {
+    breadcrumbItems.push({
+      label: locationName,
+      href: `/international-holidays/${slug1}`,
+    });
+    breadcrumbItems.push({
+      label: `${locationName} ${serverCategorySlug
+        .replace(/-/g, " ")
+        .replace(/\b\w/g, (l: string) => l.toUpperCase())} Tour Packages`,
+      isCurrent: true,
+    });
+  } else {
+    breadcrumbItems.push({
+      label: locationName,
+      isCurrent: true,
+    });
+  }
+
+
   return (
     <div className="tour-listing p-0">
       {packageList?.country?.details?.title ||
@@ -203,21 +230,6 @@ const InternationalPackageListing = ({
           <Breadcrumb items={breadcrumbItems} />
           <div className="row">
             <div className="col-12 col-lg-3">
-
-              {/* <Sidebar
-                data={fixedData}
-                cities={
-                  fixedData?.country?.name
-                    ? fixedData?.country?.name
-                    : fixedData?.location?.name
-                }
-                categorySlug={categorySlug}
-                setCategorySlug={(slug: any) => {
-                  setCurrentPage(1);  
-                  setCategorySlug(slug);
-                }}
-              /> */}
-
               {/* ✅ JS Disabled Sidebar */}
               {!jsEnabled ? (
                 <Sidebar
@@ -235,9 +247,11 @@ const InternationalPackageListing = ({
                 <Sidebar
                   data={fixedData}
                   cities={
-                    fixedData?.country?.name
-                      ? fixedData?.country?.name
-                      : fixedData?.location?.name
+                    fixedData?.country?.name ||
+                    fixedData?.location?.name ||
+                    ssrFixedData?.country?.name ||
+                    ssrFixedData?.location?.name ||
+                    ""
                   }
                   categorySlug={categorySlug}
                   setCategorySlug={(slug: any) => {
@@ -276,23 +290,6 @@ const InternationalPackageListing = ({
                   collapsedLines={2}
                 />
               ) : null}
-
-              {/* {packageList?.packages?.length < 1 ? null : (
-                <div className="showing-count my-3 text-sm">
-                  <div className="flex gap-2 fs-6 align-items-lg-center">
-                    {`Showing 1-${packageList?.packages?.length} packages from`}{" "}
-
-                    <h2 className="fs-6 m-0">
-                      {fixedData?.location?.details?.title ||
-                        fixedData?.location?.name ||
-                        fixedData?.country?.details?.title ||
-                        fixedData?.country?.name ||
-                        ""}
-                    </h2>
-
-                  </div>
-                </div>
-              )} */}
 
               {packageList?.packages?.length < 1 ? null : (
                 <div className="showing-count my-3 text-sm">

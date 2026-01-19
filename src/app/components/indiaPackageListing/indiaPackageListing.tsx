@@ -16,15 +16,15 @@ import Breadcrumb from "@/app/components/common/Breadcrumb";
 import { fetchIndiaPackageListingData } from "@/app/services/indiaPackageListService";
 
 
-const IndiaPackageListing = ({ packageList1, initialPage, slug1 }: any) => {
+const IndiaPackageListing = ({ packageList1, initialPage, slug1, categorySlug: serverCategorySlug, originalSlug, }: any) => {
 
   const [packageList, setPackageList] = useState<any>(packageList1 || null);
   const [currentPage, setCurrentPage] = useState(initialPage);
   const [totalPages, setTotalPages] = useState(1);
   const [showLoader, setShowLoader] = useState(false);
-  const [categorySlug, setCategorySlug] = useState<any>("");
+  const [categorySlug, setCategorySlug] = useState<any>(serverCategorySlug || "");
 
-  // Initialize AOS
+
   useEffect(() => {
     AOS.init({
       duration: 800,
@@ -33,7 +33,6 @@ const IndiaPackageListing = ({ packageList1, initialPage, slug1 }: any) => {
     });
   }, []);
 
-  // Set totalPages on first load
   useEffect(() => {
     if (packageList1?.pagination) {
       const totalItems = packageList1.pagination.total || 0;
@@ -42,13 +41,9 @@ const IndiaPackageListing = ({ packageList1, initialPage, slug1 }: any) => {
     }
   }, [packageList1]);
 
-
-
-
-  // Refetch packages when categorySlug changes
   useEffect(() => {
     if (categorySlug) {
-      handlePageChange(1); // reset to page 1 when category changes
+      handlePageChange(1);
     }
   }, [categorySlug]);
 
@@ -101,12 +96,35 @@ const IndiaPackageListing = ({ packageList1, initialPage, slug1 }: any) => {
     }
     return pages;
   };
+  const isCategoryPage =
+    originalSlug &&
+    slug1 &&
+    originalSlug !== slug1 &&
+    originalSlug.endsWith("-tour-packages");
 
   const breadcrumbItems: any = [
     { label: "Home", href: "/" },
     { label: `${packageList?.location?.country?.name}`, href: "/india" },
-    { label: `${packageList?.location?.name} Tour Packages`, isCurrent: true },
   ];
+
+  if (isCategoryPage && serverCategorySlug) {
+    breadcrumbItems.push({
+      label: `${packageList?.location?.name}`,
+      href: `/india/${slug1}`,
+    });
+
+    breadcrumbItems.push({
+      label: `${packageList?.location?.name} ${serverCategorySlug
+        .replace(/-/g, " ")
+        .replace(/\b\w/g, (l: string) => l.toUpperCase())} Tour Packages`,
+      isCurrent: true,
+    });
+  } else {
+    breadcrumbItems.push({
+      label: `${packageList?.location?.name} Tour Packages`,
+      isCurrent: true,
+    });
+  }
 
   return (
     <div className="tour-listing p-0">
@@ -174,8 +192,6 @@ const IndiaPackageListing = ({ packageList1, initialPage, slug1 }: any) => {
                 </div>
               )}
 
-              {/* {totalPages > 1 && ( */}
-
               {packageList?.packages?.length < 1 ? null :
                 <div className="pagination-container mt-4">
                   <nav aria-label="Page navigation">
@@ -223,7 +239,6 @@ const IndiaPackageListing = ({ packageList1, initialPage, slug1 }: any) => {
                     </ul>
                   </nav>
                 </div>}
-              {/* )} */}
 
               {packageList?.location?.faqs?.length < 1 ? null : (
                 <div className="mt-5">
