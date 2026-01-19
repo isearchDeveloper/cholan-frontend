@@ -9815,12 +9815,12 @@ body {
 }
 
 .india-popular-packages .ts-holiday-title{
-  min-height: 21px;
+  min-height: 49px;
   color: #141618eb !important;
 }
 
 .india-popular-packages .ts-holiday-content{
-  height: 168px;
+  height: auto;
 }
 .india-popular-packages .slider-card{
   border: unset !important;
