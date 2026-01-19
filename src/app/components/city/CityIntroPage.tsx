@@ -37,11 +37,6 @@ export default function CityIntroPage({
     cityData?.city?.overview ||
     `${cityName} is a beautiful destination with rich culture and attractions.`;
 
-  // const breadcrumbItems = [
-  //   { label: "Home", href: "/" },
-  //   { label: "India", href: "/india" },
-  //   { label: cityName, isCurrent: true },
-  // ];
   const breadcrumbItems = [
     { label: "Home", href: "/" },
     {
@@ -59,18 +54,18 @@ export default function CityIntroPage({
       : "/images/banner.webp",
   };
 
-  const aboutData = `
-    ${cityName} is a beautiful destination with rich culture, historical places,
-    natural beauty, and amazing food. This is static content for now.
-    Replace it later with backend API data.
-  `;
+  // const aboutData = `
+  //   ${cityName} is a beautiful destination with rich culture, historical places,
+  //   natural beauty, and amazing food. This is static content for now.
+  //   Replace it later with backend API data.
+  // `;
 
   const faqData = [
     { question: `Why visit ${cityName}?`, answer: "Because it's beautiful!" },
     { question: `Best time to visit ${cityName}?`, answer: "October to March" },
   ];
 
-  const placesToVisit = [
+  const staticPlacesToVisit = [
     {
       title: "Chinese Fishing Nets in Kochi",
       subtitle: "The huge cantilevered Chinese fishing nets that droop",
@@ -103,7 +98,20 @@ export default function CityIntroPage({
       image: "/images/tour/dubai.jpg",
     },
   ];
-  const thingsToDoData = [
+  // Place To visit data Dynamic
+  const placesToVisit = 
+   cityData?.city?.visit?.length > 0 ?cityData.city.visit.map((item: any) => ({
+        title: item.title,
+        subtitle: item.details,
+        image: item.banner_image
+          ? `https://cdn.cholantours.com/${item.banner_image}`
+          : "/images/tour/default.webp",
+      }))
+    : staticPlacesToVisit;
+  
+
+
+  const StaticThingsToDoData = [
     { title: "Ayurvedic Massage", image: "/images/tour/backwaters.png" },
     { title: "Kathakali Dance", image: "/images/tour/elephant.png" },
     { title: "Spice Plantation", image: "/images/tour/spa.png" },
@@ -113,6 +121,26 @@ export default function CityIntroPage({
     { title: "Spice Plantation", image: "/images/tour/spa.png" },
     { title: "Canoeing", image: "/images/tour/tea.png" },
   ];
+// Things to do Dynamic
+  const thingsToDoData = cityData?.city?.things?.length > 0 ?
+  cityData?.city?.things.map((items:any) => ({
+              title:items.title,
+              subtitle:items.details,
+              image: items.banner_image
+          ? `https://cdn.cholantours.com/${items.banner_image}`
+          : "/images/tour/default.webp",
+  })):StaticThingsToDoData;
+
+// Tourist Attraction Place
+
+const TouristAttractionPlace = cityData?.city?.attractions?.length > 0 ?
+       cityData?.city?.attractions.map((items:any)=>({
+        title: items.title,
+        subtitle: items.details,
+        image: items.banner_image
+          ? `https://cdn.cholantours.com/${items.banner_image}`
+          : "/images/tour/default.webp",
+       })):StaticThingsToDoData;
 
   return (
     <div className="city-intro-page">
@@ -161,7 +189,7 @@ export default function CityIntroPage({
       </div>
 
       <div className="py-5">
-        <ToursitAttraction cityName={cityName} data={placesToVisit} />
+        <ToursitAttraction cityName={cityName} data={TouristAttractionPlace} />
       </div>
 
       <div className="py-5">

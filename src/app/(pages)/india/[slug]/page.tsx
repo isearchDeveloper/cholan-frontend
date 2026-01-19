@@ -134,7 +134,7 @@ async function resolveCityAndCategory(slug: string, page: number) {
    METADATA
    ========================= */
 export async function generateMetadata({ params }: any) {
-  const { slug } = params;
+  const { slug } = await params;
 
   /* =====================
      CITY INTRO META

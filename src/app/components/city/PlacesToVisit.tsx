@@ -2,12 +2,14 @@
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
+import CommonModal from "@/app/components/common/CommonModal";
 
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 import Image from "next/image";
+import { useState } from "react";
 
 interface PlacesToVisitProps {
   cityName: string;
@@ -18,7 +20,31 @@ interface PlacesToVisitProps {
   }[];
 }
 
+// const truncateByWords = (text: string, wordLimit: number) => {
+//   if (!text) return "";
+
+//   const words = text.split(" ");
+//   if (words.length <= wordLimit) return text;
+
+//   return words.slice(0, wordLimit).join(" ");
+// };
+
+const truncateByChars = (text: string, charLimit: number) => {
+  if (!text) return "";
+
+  if (text.length <= charLimit) return text;
+
+  return text.slice(0, charLimit).trim();
+};
+
 export default function PlacesToVisit({ cityName, data }: PlacesToVisitProps) {
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState<any>(null);
+
+  const handleOpen = (item: any) => {
+    setSelected(item);
+    setOpen(true);
+  };
   return (
     <div
       className="places-to-visit-section py-5"
@@ -56,8 +82,39 @@ export default function PlacesToVisit({ cityName, data }: PlacesToVisitProps) {
                   />
 
                   <div className="places-card-overlay">
-                    <h5 className="places-card-title">{item.title}</h5>
-                    <p className="places-card-subtitle">{item.subtitle}</p>
+                    <h5
+                      className="place-title"
+                      onClick={() => handleOpen(item)}
+                    >
+                      {item.title}
+                    </h5>
+                    {/* /* <p className="places-card-subtitle">{item.subtitle}</p> */}                   <p className="places-card-subtitle">
+                      {truncateByChars(item.subtitle, 57)}
+                      {item.subtitle.split(" ").length > 18 && (
+                        <span
+                          className="read-more-text"
+                          onClick={() => handleOpen(item)}
+                        >
+                          ... Read more
+                        </span>
+                      )}
+                    </p>
+
+                    {/* <button
+                    className="btn orange-btn inline-flex items-center gap-1 px-3 py-1 text-sm"
+                      onClick={() => handleOpen(item)}
+                    >
+                      Read Details
+                      <span>
+                        <Image
+                          width={23}
+                          height={23}
+                          sizes="100vw"
+                          src="/images/button-arrow.png"
+                          alt="arrow"
+                        />
+                      </span>
+                    </button> */}
                   </div>
                 </div>
               </div>
@@ -65,6 +122,83 @@ export default function PlacesToVisit({ cityName, data }: PlacesToVisitProps) {
           ))}
         </Swiper>
       </div>
+
+      <CommonModal
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        title={selected?.title}
+        description={selected?.subtitle}
+      />
     </div>
   );
 }
+
+
+
+
+// image part of rad more 
+//  <div className="places-card-inner">
+//                   <Image
+//                     src={item.image}
+//                     alt={item.title}
+//                     width={500}
+//                     height={300}
+//                     className="places-card-image"
+//                   />
+
+                  // <div className="places-card-overlay">
+                    {/* <h5
+                      className="place-title"
+                      onClick={() => handleOpen(item)}
+                    >
+                      {item.title}
+                    </h5> */}
+                    {/* /* <p className="places-card-subtitle">{item.subtitle}</p> */}
+                    {/* <p className="places-card-subtitle">
+                      {truncateByWords(item.subtitle, 10)}
+                      {item.subtitle.split(" ").length > 18 && (
+                        <span
+                          className="read-more-text"
+                         ... Read more
+                        </span>
+                      )}
+                    </p> */}
+
+                    {/* <button
+                    className="btn orange-btn inline-flex items-center gap-1 px-3 py-1 text-sm"
+                      onClick={() => handleOpen(item)}
+                    >
+                      Read Details
+                      <span>
+                        <Image
+                          width={23}
+                          height={23}
+                          sizes="100vw"
+                          src="/images/button-arrow.png"
+                          alt="arrow"
+                        />
+                      </span>
+                    </button> */}
+                //   </div>
+                // </div>                    onClick={() => handleOpen(item)}
+                        // >
+      // hover backup
+
+
+      // <div className="places-card-inner">
+      //             <Image
+      //               src={item.image}
+      //               alt={item.title}
+      //               width={500}
+      //               height={300}
+      //               className="places-card-image"
+      //             />
+      //             <div className="places-card-title">
+      //               <h5>{item.title}</h5>
+      //             </div>
+      //             {/* Hover Overlay */}
+      //             <div className="places-card-hover">
+      //               <h5 className="hover-title">{item.title}</h5>
+      //               <p className="hover-desc">{item.subtitle}</p>
+      //             </div>
+      //           </div>

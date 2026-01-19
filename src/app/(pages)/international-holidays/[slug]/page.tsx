@@ -298,7 +298,7 @@ export async function generateMetadata({ params }: any) {
 //   );
 // }
 export default async function IntenationalListing({ params, searchParams }: any) {
-  const { slug } = params;
+  const { slug } = await params;
 
   /* ============================
      1️⃣ CITY INTRO PAGE

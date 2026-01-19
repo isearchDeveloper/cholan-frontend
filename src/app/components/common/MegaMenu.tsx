@@ -259,7 +259,7 @@ export default function Navigation({
                                       {hasCities ? (
                                         // When cities exist, show as regular heading
                                         stateSlug ? (
-                                          <h4 className="clickable-state underLine">
+                                          <div className="clickable-state underLine">
                                             {" "}
                                             <Link
                                               href={`/india/${stateSlug}`}
@@ -267,16 +267,16 @@ export default function Navigation({
                                             >
                                               {stateName}
                                             </Link>
-                                          </h4>
+                                          </div>
                                         ) : (
-                                          <h4 className="clickable-state underLine noLink">
+                                          <div className="clickable-state underLine noLink">
                                             {" "}
                                             <span>{stateName} </span>{" "}
-                                          </h4>
+                                          </div>
                                         )
                                       ) : stateSlug ? (
                                         // When no cities but has slug, show as clickable link
-                                        <h4 className="clickable-state">
+                                        <div className="clickable-state">
                                           <Link
                                             href={`/india/${stateSlug}`}
                                             onClick={() => {
@@ -285,10 +285,10 @@ export default function Navigation({
                                           >
                                             {stateName}
                                           </Link>
-                                        </h4>
+                                        </div>
                                       ) : (
                                         // Fallback - just show as heading
-                                        <h4>{stateName}</h4>
+                                        <div>{stateName}</div>
                                       )}
                                       {/* City List - Only show when cities exist */}
                                       {hasCities && (
@@ -453,14 +453,14 @@ export default function Navigation({
       ?.countries.map((country: any, i: number) => (
         <div key={i} className="menu-column">
           {/* COUNTRY */}
-          <h4 className="clickable-state underLine">
+          <div className="clickable-state underLine">
             <Link
               href={`/international-holidays/${country.slug}`}
               onClick={closeMobileMenu}
             >
               {country.name}
             </Link>
-          </h4>
+          </div>
 
           {/* LOCATIONS */}
           {country.locations && country.locations.length > 0 && (

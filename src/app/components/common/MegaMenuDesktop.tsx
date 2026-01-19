@@ -231,7 +231,7 @@ export default function Navigation({ headerData }: any) {
                                       return (
                                         <div key={i} className="menu-column">
                                           {hasCities ? (
-                                            <h4 className="clickable-state underLine">
+                                            <div className="clickable-state underLine">
                                               {stateSlug ? (
                                                 <Link
                                                   href={`/india/${stateSlug}`}
@@ -242,9 +242,9 @@ export default function Navigation({ headerData }: any) {
                                               ) : (
                                                 <span>{stateName}</span>
                                               )}
-                                            </h4>
+                                            </div>
                                           ) : (
-                                            <h4 className="clickable-state">
+                                            <div className="clickable-state">
                                               {stateSlug ? (
                                                 <Link
                                                   href={`/india/${stateSlug}`}
@@ -255,7 +255,7 @@ export default function Navigation({ headerData }: any) {
                                               ) : (
                                                 <span>{stateName}</span>
                                               )}
-                                            </h4>
+                                            </div>
                                           )}
 
                                           {hasCities && (
@@ -430,14 +430,14 @@ export default function Navigation({ headerData }: any) {
                                   ?.filter((c: any) => c.locations?.length > 0)
                                   .map((country: any, j: number) => (
                                     <div key={j} className="menu-column international-mega-menu">
-                                      <h4 className="clickable-state underLine">
+                                      <div className="clickable-state underLine">
                                         <Link
                                           href={`/international-holidays/${country.slug}`}
                                           onClick={closeMobileMenu}
                                         >
                                           {country.name}
                                         </Link>
-                                      </h4>
+                                      </div>
 
                                       <ul>
                                         {country.locations.map((loc: any, k: number) => (
