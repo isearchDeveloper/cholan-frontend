@@ -1,17 +1,21 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 interface CityExpandableTextProps {
   title?: string;
-  text: string; // HTML from backend
-  wordLimit?: number;
+  text: string;        // HTML from backend
+  wordLimit?: number;  // step size
 }
 
-function truncateHtmlByWords(html: string, wordLimit: number): {
-  html: string;
-  isTruncated: boolean;
-} {
+/* ===============================
+   🔹 HTML truncator (WORD BASED)
+   =============================== */
+function truncateHtmlByWords(html: string, limit: number) {
+  if (typeof window === "undefined") {
+    return { html, isTruncated: false };
+  }
+
   const parser = new DOMParser();
   const doc = parser.parseFromString(html, "text/html");
 
@@ -22,27 +26,22 @@ function truncateHtmlByWords(html: string, wordLimit: number): {
     if (node.nodeType === Node.TEXT_NODE) {
       const words = node.textContent?.trim().split(/\s+/) || [];
 
-      if (wordCount + words.length > wordLimit) {
-        const allowedWords = words.slice(0, wordLimit - wordCount);
-        node.textContent = allowedWords.join(" ") + "...";
+      if (wordCount + words.length > limit) {
+        const allowed = words.slice(0, limit - wordCount);
+        node.textContent = allowed.join(" ") + "…";
         isTruncated = true;
-        return false; // stop traversal
+        return false;
       }
 
       wordCount += words.length;
-      return true;
     }
 
     if (node.nodeType === Node.ELEMENT_NODE) {
       const children = Array.from(node.childNodes);
       for (const child of children) {
         if (!walk(child)) {
-          // remove remaining siblings
-          let next = child.nextSibling;
-          while (next) {
-            const toRemove = next;
-            next = next.nextSibling;
-            toRemove.remove();
+          while (child.nextSibling) {
+            child.nextSibling.remove();
           }
           return false;
         }
@@ -63,51 +62,42 @@ function truncateHtmlByWords(html: string, wordLimit: number): {
 export default function CityExpandableText({
   title,
   text,
-  wordLimit = 120,
+  wordLimit = 350,
 }: CityExpandableTextProps) {
-  const [expanded, setExpanded] = useState(false);
+  const [visibleWords, setVisibleWords] = useState(wordLimit);
+  const [htmlState, setHtmlState] = useState(text);
+  const [isFullyVisible, setIsFullyVisible] = useState(false);
 
-  if (!text) return null;
+  useEffect(() => {
+    const { html, isTruncated } = truncateHtmlByWords(text, visibleWords);
+    setHtmlState(html);
+    setIsFullyVisible(!isTruncated);
+  }, [text, visibleWords]);
 
-  const { html: truncatedHtml, isTruncated } =
-    truncateHtmlByWords(text, wordLimit);
+  const handleMore = () => {
+    setVisibleWords((prev) => prev + wordLimit);
+  };
+
+  const handleLess = () => {
+    setVisibleWords(wordLimit);
+  };
 
   return (
     <div className="expandable-text">
       {title && <h2 className="expandable-title">{title}</h2>}
 
-      <div className="expandable-content">
-        <div
-          dangerouslySetInnerHTML={{
-            __html: expanded ? text : truncatedHtml,
-          }}
-        />
-      </div>
+      <div
+        className="expandable-content"
+        dangerouslySetInnerHTML={{ __html: htmlState }}
+      />
 
-      {isTruncated && (
-        <button
-          type="button"
-          onClick={() => setExpanded((prev) => !prev)}
-          className="exp-row btn btn-link mt-2 p-0 color-blue text-decoration-none d-flex align-items-center"
-        >
-          <span>{expanded ? "Less" : "More"}</span>
-          <svg
-            className={`ms-2 arrow-icon ${expanded ? "rotate" : ""}`}
-            width="16"
-            height="16"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M19 9l-7 7-7-7"
-            />
-          </svg>
-        </button>
-      )}
+      <button
+        type="button"
+        onClick={isFullyVisible ? handleLess : handleMore}
+        className="exp-row btn btn-link mt-2 p-0 color-blue text-decoration-none d-flex align-items-center"
+      >
+        <span>{isFullyVisible ? "Less" : "More"}</span>
+      </button>
     </div>
   );
 }
