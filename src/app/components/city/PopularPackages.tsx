@@ -43,39 +43,6 @@ export default function PopularPackages({
     .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
     .join(" ");
 
-  //   useEffect(() => {
-  //   async function loadPackages() {
-  //     setLoading(true);
-
-  //     let response;
-
-  //     if (country === "india") {
-  //       response = await fetchIndiaPackageListingData({
-  //         slug1: backendSlug,
-  //         currentPage: 1,
-  //       });
-  //     } else {
-  //        response = await fetchWorldPackageListingData({
-  //         slug1: citySlug,
-  //         currentPage: 1,
-  //         scopeFromData: "location", // 👈 VERY IMPORTANT
-  //       });
-  //     }
-  //     console.log(response);
-  //     if (response?.data?.packages) {
-  //       setPackages(response.data.packages);
-  //     } else {
-  //       setPackages([]);
-  //     }
-
-  //     setLoading(false);
-  //   }
-
-  //   loadPackages();
-  // }, [citySlug, country]);
-
-  // console.log(packages);
-
   useEffect(() => {
     async function loadPackages() {
       setLoading(true);
@@ -167,12 +134,6 @@ export default function PopularPackages({
                           {pkg.details?.duration_days} Days
                         </div>
 
-                        {/* <Link
-                          href={`/packages/${pkg.slug}`}
-                          className="ts-holiday-btn"
-                        >
-                          Explore More
-                        </Link> */}
                         <button
                           className="ts-holiday-btn"
                           onClick={(e) => {

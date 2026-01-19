@@ -131,7 +131,7 @@ const TourPackagesByCountry = ({ exclusiveIndiaPackage = [] as PackageItem[] }: 
                       <div className="ts-holiday-card">
                         <img src={exclusive.primary_image || "/images/no-img.webp"} />
                         <div className="ts-holiday-content">
-                          <h3 className="ts-holiday-title">{truncateTitle(exclusive.title, 4)}</h3>
+                          <h3 className="ts-holiday-title">{truncateTitle(exclusive.title, 10)}</h3>
                           <div className="ts-holiday-duration">
                             <span>
                               <img

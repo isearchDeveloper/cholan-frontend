@@ -68,13 +68,9 @@ export default async function PackagelistByCountry({
     { label: "Home", href: "/" },
     { label: `${countryData?.data?.details?.title}`, isCurrent: true },
   ];
-// console.log("PackagelistByCountry rendered for:", slug);
-// console.log("slug:", slug);
-// console.log("country prop:", country);
 
 const res = await fetchCityList(1);
   const cities = res?.data?.cities || [];
-// console.log(cities)
   return (
     <div className="details-wrapper ">
       <IntBanner data={countryData?.data?.details} />

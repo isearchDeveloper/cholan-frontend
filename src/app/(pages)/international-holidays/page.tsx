@@ -73,7 +73,6 @@ export default async function Page() {
 
   const res = await fetchCityList(2);
   const cities = res?.data?.cities || [];
-console.log(cities)
   return (
     <div className="details-wrapper ">
       <IntBanner data={internationalData?.data?.details} />

@@ -24,9 +24,6 @@ export default function CityIntroPage({
   country: "india" | "international-holidays";
   cityData: any | null;
 }) {
-  // STATIC TEMP DATA (you can replace later when backend is ready)
-  //   const cityName = slug.replace(/-/g, " ").toUpperCase();
-  // console.log(cityData);
   const cityName =
     cityData?.title ||
     slug

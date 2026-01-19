@@ -30,8 +30,6 @@ export async function fetchInternationalPackageData(slug: any) {
       next: { revalidate: 60 }
     });
 
-    console.log(res);
-
     if (!res.ok) {
       return null;
     }
