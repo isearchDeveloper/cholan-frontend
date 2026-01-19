@@ -22,12 +22,12 @@ export default function CityStateListStatic({
 
 
   return (
-    <section className="rent-car-list-route py-5">
+    <section className="rent-car-list-route py-5 mb-5">
       <div className="container">
         <h2 className="text-center mb-4">
           {country === "india"
-            ? "India By City & States"
-            : "International Destinations"}
+            ? "Explore The States and Cities of India"
+            : "Explore International Destinations"}
         </h2>
 
         <div className="row row-cols-2 row-cols-md-4 g-4">

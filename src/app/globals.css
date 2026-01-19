@@ -10362,7 +10362,7 @@ body {
 .city-hero-banner {
   position: relative;
   width: 100%;
-  height: 480px; /* 👈 adjust if you want more */
+  height: 60vh !important; /* adjust if you want more */
   overflow: hidden;
   display: flex;
   align-items: center;
