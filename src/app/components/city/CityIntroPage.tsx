@@ -13,6 +13,7 @@ import AboutSection from "@/app/components/home/AboutSection";
 import PopularPackages from "@/app/components/city/PopularPackages";
 import CityBanner from "@/app/components/city/CityBanner";
 import CityExpandableBanner from "@/app/components/city/CityExpandableBanner";
+import FAQAccordionForCity from "@/app/components/city/FAQAccordionForCity";
 
 export default function CityIntroPage({
   slug,
@@ -60,10 +61,18 @@ export default function CityIntroPage({
   //   Replace it later with backend API data.
   // `;
 
-  const faqData = [
-    { question: `Why visit ${cityName}?`, answer: "Because it's beautiful!" },
-    { question: `Best time to visit ${cityName}?`, answer: "October to March" },
-  ];
+  const faqData =
+    cityData?.city?.faqs?.length > 0
+      ? cityData.city.faqs.map((item: any) => ({
+          question: item.question,
+          answer: item.answer,
+        }))
+      : [];
+
+  const faqTitle =
+    cityData?.city?.faq_title && cityData.city.faq_title.trim() !== ""
+      ? cityData.city.faq_title
+      : `FAQs About ${cityName}`;
 
   const staticPlacesToVisit = [
     {
@@ -196,7 +205,11 @@ export default function CityIntroPage({
       <div className="py-5">
         <ToursitAttraction cityName={cityName} data={TouristAttractionPlace} />
       </div>
-
+      {faqData.length > 0 && (
+        <div className="py-5">
+          <FAQAccordionForCity title={faqTitle} faqs={faqData} />
+        </div>
+      )}
       <div className="py-5">
         <ReviewsWidget />
       </div>
