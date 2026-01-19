@@ -26,7 +26,7 @@ export default function CityIntroPage({
 }) {
   // STATIC TEMP DATA (you can replace later when backend is ready)
   //   const cityName = slug.replace(/-/g, " ").toUpperCase();
-  console.log(cityData);
+  // console.log(cityData);
   const cityName =
     cityData?.title ||
     slug
@@ -74,39 +74,6 @@ export default function CityIntroPage({
       ? cityData.city.faq_title
       : `FAQs About ${cityName}`;
 
-  const staticPlacesToVisit = [
-    {
-      title: "Chinese Fishing Nets in Kochi",
-      subtitle: "The huge cantilevered Chinese fishing nets that droop",
-      image: "/images/tour/dubai.jpg",
-    },
-    {
-      title: "Houseboat Cruise in Alleppey",
-      subtitle: "Experience tour backwaters in a traditional houseboat",
-      image: "/images/tour/city.webp",
-    },
-    {
-      title: "Rolling Plantations in Munnar",
-      subtitle: "Endless green tea plantations covering the hills",
-      image: "/images/tour/dubai.jpg",
-    },
-    {
-      title: "Thekkady’s Periyar National Park",
-      subtitle: "Jungle safari and wildlife spotting in Thekkady",
-      image: "/images/tour/tour-1.jpg",
-    },
-
-    {
-      title: "Rolling Plantations in Munnar",
-      subtitle: "Endless green tea plantations covering the hills",
-      image: "/images/tour/tour-2.jpg",
-    },
-    {
-      title: "Thekkady’s Periyar National Park",
-      subtitle: "Jungle safari and wildlife spotting in Thekkady",
-      image: "/images/tour/dubai.jpg",
-    },
-  ];
   // Place To visit data Dynamic
   const placesToVisit =
     cityData?.city?.visit?.length > 0
@@ -119,16 +86,6 @@ export default function CityIntroPage({
         }))
       : [];
 
-  const StaticThingsToDoData = [
-    { title: "Ayurvedic Massage", image: "/images/tour/backwaters.png" },
-    { title: "Kathakali Dance", image: "/images/tour/elephant.png" },
-    { title: "Spice Plantation", image: "/images/tour/spa.png" },
-    { title: "Canoeing", image: "/images/tour/tea.png" },
-    { title: "Ayurvedic Massage", image: "/images/tour/backwaters.png" },
-    { title: "Kathakali Dance", image: "/images/tour/elephant.png" },
-    { title: "Spice Plantation", image: "/images/tour/spa.png" },
-    { title: "Canoeing", image: "/images/tour/tea.png" },
-  ];
   // Things to do Dynamic
   const thingsToDoData =
     cityData?.city?.things?.length > 0
@@ -201,21 +158,26 @@ export default function CityIntroPage({
         citySlug={slug}
         country={country === "india" ? "india" : "international"}
       />
-       {thingsToDoData.length > 0 && (
-      <div className="py-5">
-        <ThingsToDo cityName={cityName} data={thingsToDoData} />
-      </div>
-        )}
+      {thingsToDoData.length > 0 && (
+        <div className="py-5">
+          <ThingsToDo cityName={cityName} data={thingsToDoData} />
+        </div>
+      )}
 
       {TouristAttractionPlace.length > 0 && (
-      <div className="py-5">
-        <ToursitAttraction cityName={cityName} data={TouristAttractionPlace} />
-      </div>
-       )}
-          
+        <div className="py-5">
+          <ToursitAttraction
+            cityName={cityName}
+            data={TouristAttractionPlace}
+          />
+        </div>
+      )}
+
       {faqData.length > 0 && (
         <div className="py-5">
-          <FAQAccordionForCity title={faqTitle} faqs={faqData} />
+          <div className="container">
+            <FAQAccordionForCity title={faqTitle} faqs={faqData} />
+          </div>
         </div>
       )}
       <div className="py-5">

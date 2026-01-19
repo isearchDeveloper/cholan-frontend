@@ -89,8 +89,8 @@ export default function PlacesToVisit({ cityName, data }: PlacesToVisitProps) {
                       {item.title}
                     </h5>
                     {/* /* <p className="places-card-subtitle">{item.subtitle}</p> */}                   <p className="places-card-subtitle">
-                      {truncateByChars(item.subtitle, 57)}
-                      {item.subtitle.split(" ").length > 18 && (
+                      {truncateByChars(item.subtitle, 60)}
+                      {item.subtitle.length  > 18 && (
                         <span
                           className="read-more-text"
                           onClick={() => handleOpen(item)}

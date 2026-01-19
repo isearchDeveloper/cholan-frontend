@@ -11,8 +11,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { fetchIndiaPackageListingData } from "@/app/services/indiaPackageListService";
-import { fetchInternationalPackageListingByCity  } from "@/app/services/internationaltourService";
-
+import { fetchInternationalPackageListingByCity } from "@/app/services/internationaltourService";
 
 interface PackageItem {
   slug: string;
@@ -31,16 +30,12 @@ export default function PopularPackages({
   citySlug: string;
   country: "india" | "international";
 }) {
-
   const [packages, setPackages] = useState<PackageItem[]>([]);
   const [loading, setLoading] = useState(true);
 
   // Create backend correct slug
- const backendSlug =
-  country === "india"
-    ? `${citySlug}-tour-packages`
-    : citySlug;
-
+  const backendSlug =
+    country === "india" ? `${citySlug}-tour-packages` : citySlug;
 
   // Convert for title display
   const cityName = citySlug
@@ -48,68 +43,67 @@ export default function PopularPackages({
     .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
     .join(" ");
 
-//   useEffect(() => {
-//   async function loadPackages() {
-//     setLoading(true);
+  //   useEffect(() => {
+  //   async function loadPackages() {
+  //     setLoading(true);
 
-//     let response;
+  //     let response;
 
-//     if (country === "india") {
-//       response = await fetchIndiaPackageListingData({
-//         slug1: backendSlug,
-//         currentPage: 1,
-//       });
-//     } else {
-//        response = await fetchWorldPackageListingData({
-//         slug1: citySlug,
-//         currentPage: 1,
-//         scopeFromData: "location", // 👈 VERY IMPORTANT
-//       });
-//     }
-//     console.log(response);
-//     if (response?.data?.packages) {
-//       setPackages(response.data.packages);
-//     } else {
-//       setPackages([]);
-//     }
+  //     if (country === "india") {
+  //       response = await fetchIndiaPackageListingData({
+  //         slug1: backendSlug,
+  //         currentPage: 1,
+  //       });
+  //     } else {
+  //        response = await fetchWorldPackageListingData({
+  //         slug1: citySlug,
+  //         currentPage: 1,
+  //         scopeFromData: "location", // 👈 VERY IMPORTANT
+  //       });
+  //     }
+  //     console.log(response);
+  //     if (response?.data?.packages) {
+  //       setPackages(response.data.packages);
+  //     } else {
+  //       setPackages([]);
+  //     }
 
-//     setLoading(false);
-//   }
+  //     setLoading(false);
+  //   }
 
-//   loadPackages();
-// }, [citySlug, country]);
-
+  //   loadPackages();
+  // }, [citySlug, country]);
 
   // console.log(packages);
- 
- useEffect(() => {
-  async function loadPackages() {
-    setLoading(true);
 
-    let packagesData: any = null;
+  useEffect(() => {
+    async function loadPackages() {
+      setLoading(true);
 
-    if (country === "india") {
-      const response = await fetchIndiaPackageListingData({
-        slug1: `${citySlug}-tour-packages`,
-        currentPage: 1,
-      });
+      let packagesData: any = null;
 
-      packagesData = response?.data?.packages || [];
-    } else {
-      const response = await fetchInternationalPackageListingByCity({
-        citySlug,
-        page: 1,
-      });
+      if (country === "india") {
+        const response = await fetchIndiaPackageListingData({
+          slug1: `${citySlug}-tour-packages`,
+          currentPage: 1,
+        });
 
-      packagesData = response?.data?.packages || [];
+        packagesData = response?.data?.packages || [];
+      } else {
+        const response = await fetchInternationalPackageListingByCity({
+          citySlug,
+          page: 1,
+        });
+
+        packagesData = response?.data?.packages || [];
+      }
+
+      setPackages(packagesData);
+      setLoading(false);
     }
 
-    setPackages(packagesData);
-    setLoading(false);
-  }
-
-  loadPackages();
-}, [citySlug, country]);
+    loadPackages();
+  }, [citySlug, country]);
 
   return (
     <section className="popular-packages container py-5">
@@ -173,12 +167,20 @@ export default function PopularPackages({
                           {pkg.details?.duration_days} Days
                         </div>
 
-                        <Link
+                        {/* <Link
                           href={`/packages/${pkg.slug}`}
                           className="ts-holiday-btn"
                         >
                           Explore More
-                        </Link>
+                        </Link> */}
+                        <button
+                          className="ts-holiday-btn"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                          }}
+                        >
+                          Explore More
+                        </button>
                       </div>
                     </div>
                   </Link>

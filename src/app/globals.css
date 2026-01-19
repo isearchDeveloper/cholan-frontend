@@ -10140,9 +10140,39 @@ body {
 .things-title {
   font-size: 18px;
   font-weight: 700;
-  padding: 15px 10px;
   color: #002b5c;
   margin: 0;
+  text-align: center;
+
+  /* 🔒 text control */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  /* -webkit-line-clamp: 2;      max 2 lines */
+  overflow: hidden;
+
+  line-height: 1.3;
+  min-height: 46px;           /* SAME height for all titles */
+}
+
+@media (max-width: 576px) {
+  .things-img-wrap {
+    height: 150px;          /* smaller image */
+  }
+
+  .things-title {
+    font-size: 12px;
+    /* -webkit-line-clamp: 2; */
+   
+  }
+
+  .things-title-border {
+    min-height: 56px;
+    padding: 0 8px;
+  }
+}
+.things-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(0, 43, 92, 0.15);
 }
 
 /* .things-title-border {
@@ -10420,7 +10450,7 @@ body {
 
 .modal-close {
   position: absolute;
-  right: 16px;
+  right: 10px;
   top: 16px;
   background: none;
   border: none;
