@@ -117,7 +117,7 @@ export default function CityIntroPage({
             ? `https://cdn.cholantours.com/${item.banner_image}`
             : "/images/tour/default.webp",
         }))
-      : staticPlacesToVisit;
+      : [];
 
   const StaticThingsToDoData = [
     { title: "Ayurvedic Massage", image: "/images/tour/backwaters.png" },
@@ -139,7 +139,7 @@ export default function CityIntroPage({
             ? `https://cdn.cholantours.com/${items.banner_image}`
             : "/images/tour/default.webp",
         }))
-      : StaticThingsToDoData;
+      : [];
 
   // Tourist Attraction Place
 
@@ -152,7 +152,7 @@ export default function CityIntroPage({
             ? `https://cdn.cholantours.com/${items.banner_image}`
             : "/images/tour/default.webp",
         }))
-      : staticPlacesToVisit;
+      : [];
 
   return (
     <div className="city-intro-page">
@@ -191,20 +191,28 @@ export default function CityIntroPage({
           </div>
         </div>
       </div>
-      <div className="py-5">
-        <PlacesToVisit cityName={cityName} data={placesToVisit} />
-      </div>
+      {placesToVisit.length > 0 && (
+        <div className="py-5">
+          <PlacesToVisit cityName={cityName} data={placesToVisit} />
+        </div>
+      )}
+
       <PopularPackages
         citySlug={slug}
         country={country === "india" ? "india" : "international"}
       />
+       {thingsToDoData.length > 0 && (
       <div className="py-5">
         <ThingsToDo cityName={cityName} data={thingsToDoData} />
       </div>
+        )}
 
+      {TouristAttractionPlace.length > 0 && (
       <div className="py-5">
         <ToursitAttraction cityName={cityName} data={TouristAttractionPlace} />
       </div>
+       )}
+          
       {faqData.length > 0 && (
         <div className="py-5">
           <FAQAccordionForCity title={faqTitle} faqs={faqData} />
