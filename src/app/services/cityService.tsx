@@ -8,7 +8,7 @@ export async function fetchCityList(type: 1 | 2) {
       `${baseUrl}/api/v1/pages/city/list?type=${type}`,
       {
         headers: { "X-Public-Token": XPublicToken },
-        cache: "no-store",
+        next: { revalidate: 60 },
       }
     );
 
@@ -27,7 +27,7 @@ export async function fetchCityIntroData(cityName: string) {
       headers: {
         "X-Public-Token": XPublicToken,
       },
-      cache: "no-store",
+      next: { revalidate: 60 },
     }
   );
 

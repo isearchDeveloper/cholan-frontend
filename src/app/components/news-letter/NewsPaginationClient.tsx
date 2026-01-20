@@ -21,7 +21,7 @@ export default function NewsPaginationClient() {
       `${process.env.NEXT_PUBLIC_UAT_URL}/api/v1/news/page/list?page=${pageNo}&limit=${limit}`,
       {
         headers: { "X-Public-Token": XPublicToken },
-        cache: "no-store",
+        next: { revalidate: 60 },
       }
     );
  

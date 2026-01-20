@@ -30,7 +30,7 @@ async function fetchStaticCategorySSR(countrySlug: string) {
   try {
     const res = await fetch(url, {
       headers: { "X-Public-Token": XPublicToken },
-      cache: "no-store", // You can use "force-cache" or "no-store"
+      next: { revalidate: 60 }, // You can use "force-cache" or "no-store"
     });
 
     const json = await res.json();

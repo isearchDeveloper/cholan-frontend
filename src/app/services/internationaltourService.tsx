@@ -157,7 +157,7 @@ export async function fetchInternationalPackageListingByCity({
     headers: {
       "X-Public-Token": XPublicToken,
     },
-    cache: "no-store",
+    next: { revalidate: 60 },
   });
 
   if (!res.ok) return null;

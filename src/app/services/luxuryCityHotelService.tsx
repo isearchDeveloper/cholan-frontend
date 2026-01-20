@@ -9,7 +9,7 @@ const XPublicToken =
         "X-Public-Token": XPublicToken,
       },
     //    next: { revalidate: 60 }
-    cache: "no-store",
+    next: { revalidate: 60 },
     });
   
     if (!res.ok) {

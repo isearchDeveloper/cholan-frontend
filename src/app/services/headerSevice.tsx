@@ -7,7 +7,7 @@ export async function fetchHeaderData() {
     headers: {
       'X-Public-Token': XPublicToken,
     },
-    //  cache: "no-store",
+    //  next: { revalidate: 60 },
     next: { revalidate: 60 }
   });
 

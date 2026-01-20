@@ -24,7 +24,7 @@ async function getNewsDetails(slug: string) {
           "Content-Type": "application/json",
           "X-Public-Token": XPublicToken,
         },
-        cache: "no-store",
+        next: { revalidate: 60 },
       }
     );
 

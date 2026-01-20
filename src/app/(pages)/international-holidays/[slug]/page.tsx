@@ -15,7 +15,7 @@ const API_BASE = `${process.env.NEXT_PUBLIC_UAT_URL}/api/v1/packages`;
 async function resolveInternationalLocationAndCategory(slug: string, page: number) {
   const directRes = await fetch(
     `${API_BASE}/${slug}?page=${page}&package_country=international`,
-    { headers: { "X-Public-Token": XPublicToken }, cache: "no-store" }
+    { headers: { "X-Public-Token": XPublicToken }, next: { revalidate: 60 }, }
   );
 
   if (directRes.ok) {
@@ -39,7 +39,7 @@ async function resolveInternationalLocationAndCategory(slug: string, page: numbe
 
     const res = await fetch(
       `${API_BASE}/${possibleLocation}?page=${page}&package_country=international&category_slug=${possibleCategory}`,
-      { headers: { "X-Public-Token": XPublicToken }, cache: "no-store" }
+      { headers: { "X-Public-Token": XPublicToken }, next: { revalidate: 60 }, }
     );
 
     if (res.ok) {
@@ -87,13 +87,7 @@ export async function generateMetadata({ params }: any) {
   };
 }
 
-export default async function IntenationalListing({
-  params,
-  searchParams,
-}: {
-  params: { slug: string };
-  searchParams: { page?: string };
-}) {
+export default async function IntenationalListing({ params, searchParams }: any) {
   const { slug } = await params;
   if (!slug.endsWith("-tour-packages")) {
     const cityIntroRes = await fetchCityIntroData(slug);
@@ -109,7 +103,7 @@ export default async function IntenationalListing({
       />
     );
   }
- const page = Number((await searchParams)?.page ?? 1);
+  const page = Number(searchParams?.page) || 1;
 
   const resolved = await resolveInternationalLocationAndCategory(slug, page);
 
