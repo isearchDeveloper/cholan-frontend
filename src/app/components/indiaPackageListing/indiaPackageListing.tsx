@@ -126,36 +126,6 @@ const IndiaPackageListing = ({ packageList1, initialPage, slug1, categorySlug: s
     });
   }
 
-const normalizeTourTitle = (title: string) => {
-  if (!title) return "";
-
-  // remove duplicate spaces
-  const clean = title.replace(/\s+/g, " ").trim();
-
-  // if title already ends with tour / tour package(s), return as-is
-  if (/(tour|tour package|tour packages)$/i.test(clean)) {
-    return clean;
-  }
-
-  // otherwise append "Tour Packages"
-  return `${clean} Tour Packages`;
-};
-
-
-const formattedCategory = categorySlug
-  ? categorySlug
-      .replace(/-/g, " ")
-      .replace(/\b\w/g, (l: string) => l.toUpperCase())
-  : "";
-
-const baseTitle = categorySlug
-  ? `${packageList?.location?.name} ${formattedCategory}`
-  : packageList?.location?.name;
-
-
-const listingTitle = normalizeTourTitle(baseTitle);
-
-
   return (
     <div className="tour-listing p-0">
       {packageList?.location?.details?.title ||
@@ -189,7 +159,7 @@ const listingTitle = normalizeTourTitle(baseTitle);
                 packageList?.location?.details?.sub_title ||
                 packageList?.location?.details.about ? (
                 <ExpandableText
-                 title={listingTitle} 
+                  title={packageList?.location?.name}
                   subtitle={packageList?.location?.details?.sub_title}
                   text={packageList?.location?.details?.about}
                   collapsedLines={2}
@@ -200,7 +170,8 @@ const listingTitle = normalizeTourTitle(baseTitle);
               {packageList?.packages?.length < 1 ? null :
                 <div className="showing-count my-3 text-sm">
                   <div className="flex gap-2 fs-6 align-items-lg-center">
-                    {`Showing 1-${packageList?.packages?.length} packages from`} <h2 className="fs-6 m-0">{`${listingTitle}`}</h2>
+                    {`Showing 1-${packageList?.packages?.length} packages from`} <h2 className="fs-6 m-0">{`${packageList?.location?.name} Tour
+                  Packages`}</h2>
                   </div>
                 </div>}
 

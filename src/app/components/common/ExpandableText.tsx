@@ -48,9 +48,7 @@ const ExpandableText: React.FC<ExpandableTextProps> = ({
 
   return (
     <div>
-      {/* <h1 className="mb-2 fs-2">{`${title} ${title == "About Cholan Tours" ? "" : "Tour Packages"}`}</h1> */}
-      <h1 className="mb-2 fs-2">{title}</h1>
-
+      <h1 className="mb-2 fs-2">{`${title} ${title == "About Cholan Tours" ? "" : "Tour Packages"}`}</h1>
       {subtitle && <h6 className="mb-2 text-md font-semibold fs-6">{subtitle}</h6>}
 
       <div

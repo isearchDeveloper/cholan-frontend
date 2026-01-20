@@ -87,13 +87,7 @@ export async function generateMetadata({ params }: any) {
   };
 }
 
-export default async function IntenationalListing({
-  params,
-  searchParams,
-}: {
-  params: { slug: string };
-  searchParams: { page?: string };
-}) {
+export default async function IntenationalListing({ params, searchParams }: any) {
   const { slug } = await params;
   if (!slug.endsWith("-tour-packages")) {
     const cityIntroRes = await fetchCityIntroData(slug);
@@ -109,7 +103,7 @@ export default async function IntenationalListing({
       />
     );
   }
- const page = Number((await searchParams)?.page ?? 1);
+  const page = Number(searchParams?.page) || 1;
 
   const resolved = await resolveInternationalLocationAndCategory(slug, page);
 

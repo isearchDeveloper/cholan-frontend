@@ -25,42 +25,16 @@ const Sidebar: any = ({ data, cities, citySlug, categorySlug, setCategorySlug }:
   const isIndia = pathname.startsWith("/india");
   const isInternational = pathname.startsWith("/international-holidays");
 
-
-  const normalizeCategorySlug = (slug: string) => {
-  return slug
-    .replace(/-tour-packages$/i, "")
-    .replace(/-tour-package$/i, "");
-};
-
-  // const handleCategoryClick = (catSlug: string) => {
-  //   setCategorySlug(catSlug);
-  //   const cityBase = citySlug ? citySlug.replace("-tour-packages", "") : cities .toLowerCase() .trim() .replace(/\s+/g, "-");
-  //   const finalSlug = `${cityBase}-${catSlug}-tour-packages`;
-  //   if (isIndia) {
-  //     router.push(`/india/${finalSlug}`);
-  //   } else if (isInternational) {
-  //     router.push(`/international-holidays/${finalSlug}`);
-  //   }
-  // };
-
-
   const handleCategoryClick = (catSlug: string) => {
-  const baseCity = citySlug
-    ? citySlug.replace("-tour-packages", "")
-    : cities.toLowerCase().trim().replace(/\s+/g, "-");
-
-  const cleanCategory = normalizeCategorySlug(catSlug);
-
-  const finalSlug = `${baseCity}-${cleanCategory}-tour-packages`;
-
-  if (isIndia) {
-    router.push(`/india/${finalSlug}`, { scroll: false });
-  } else if (isInternational) {
-    router.push(`/international-holidays/${finalSlug}`, { scroll: false });
-  }
-};
-
-  
+    setCategorySlug(catSlug);
+    const cityBase = citySlug ? citySlug.replace("-tour-packages", "") : cities .toLowerCase() .trim() .replace(/\s+/g, "-");
+    const finalSlug = `${cityBase}-${catSlug}-tour-packages`;
+    if (isIndia) {
+      router.push(`/india/${finalSlug}`);
+    } else if (isInternational) {
+      router.push(`/international-holidays/${finalSlug}`);
+    }
+  };
 
   return (
     <div
