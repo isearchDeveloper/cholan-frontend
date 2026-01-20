@@ -1,3 +1,5 @@
+export const revalidate = 0;
+
 import React from "react";
 import { XPublicToken } from "@/app/urls/apiUrls";
 import "aos/dist/aos.css";
