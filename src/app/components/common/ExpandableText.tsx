@@ -1,4 +1,3 @@
-
 "use client";
 import React, { useState, useRef, useEffect } from "react";
 
@@ -16,46 +15,70 @@ const ExpandableText: React.FC<ExpandableTextProps> = ({
   collapsedLines = 2,
 }) => {
   const [expanded, setExpanded] = useState(false);
-  const [maxHeight, setMaxHeight] = useState<string>("0px");
+  const [maxHeight, setMaxHeight] = useState<string>("none");
   const [showButton, setShowButton] = useState(false);
+  const [mounted, setMounted] = useState(false); // ✅ added
   const textRef = useRef<HTMLDivElement>(null);
 
   const WORD_LIMIT = 70;
 
+  // ✅ Mount guard
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
+  useEffect(() => {
+    if (!mounted) return; // ❗ critical
 
-    useEffect(() => {
-    const wordCount = text?.trim().split(/\s+/).length;
+    const wordCount = text?.trim().split(/\s+/).length || 0;
 
-  
     const shouldShowButton = wordCount > WORD_LIMIT;
     setShowButton(shouldShowButton);
-  
+
     if (textRef.current) {
       const lineHeight = parseInt(
         window.getComputedStyle(textRef.current).lineHeight || "50"
       );
       const collapsedHeight = lineHeight * collapsedLines;
       const scrollHeight = textRef.current.scrollHeight;
-  
+
       if (shouldShowButton) {
         setMaxHeight(expanded ? `${scrollHeight}px` : `${collapsedHeight}px`);
       } else {
         setMaxHeight("none"); // show full text if short
       }
     }
-  }, [expanded, collapsedLines, text]);
+  }, [expanded, collapsedLines, text, mounted]);
+
+  // ✅ Prevent hydration mismatch
+  if (!mounted) {
+    return (
+      <div>
+        <h1 className="mb-2 fs-2">{title}</h1>
+        {subtitle && (
+          <h6 className="mb-2 text-md font-semibold fs-6">{subtitle}</h6>
+        )}
+        <div
+          className="mb-0 text-sm"
+          dangerouslySetInnerHTML={{ __html: text }}
+        />
+      </div>
+    );
+  }
 
   return (
     <div>
-      {/* <h1 className="mb-2 fs-2">{`${title} ${title == "About Cholan Tours" ? "" : "Tour Packages"}`}</h1> */}
       <h1 className="mb-2 fs-2">{title}</h1>
 
-      {subtitle && <h6 className="mb-2 text-md font-semibold fs-6">{subtitle}</h6>}
+      {subtitle && (
+        <h6 className="mb-2 text-md font-semibold fs-6">{subtitle}</h6>
+      )}
 
       <div
         ref={textRef}
-        className={`overflow-hidden transition-all duration-500 ease-in-out ${!expanded ? "line-clamp" : null} `}
+        className={`overflow-hidden transition-all duration-500 ease-in-out ${
+          !expanded ? "line-clamp" : ""
+        }`}
         style={{ maxHeight }}
       >
         <div className="mb-0 text-sm">
@@ -70,7 +93,7 @@ const ExpandableText: React.FC<ExpandableTextProps> = ({
         </div>
       </div>
 
-      {showButton && text &&(
+      {showButton && text && (
         <button
           onClick={() => setExpanded((prev) => !prev)}
           className="exp-row btn btn-link mt-2 p-0 color-blue text-decoration-none d-flex align-items-center"
