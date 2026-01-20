@@ -9085,6 +9085,25 @@ body {
   position: relative;
   animation: nm-fadeInDown 0.8s ease;
 }
+.news-page-editor table{
+  display: block !important;
+  width: 100% !important;
+  overflow: auto !important;
+  margin-bottom: 20px !important;
+}
+
+.news-page-editor table::-webkit-scrollbar {
+    width: 5px;   /* vertical */
+    height: 5px;  /* horizontal */
+}
+.news-page-editor::-webkit-scrollbar-track {
+    background: #3c3b3bba;
+    border-radius: 10px;
+}
+
+.news-page-editor table::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+}
  
 .news-magazine-title::after {
   content: '';

@@ -134,7 +134,7 @@ export default async function NewsDetails({ params }: PageProps) {
                     alt={news.primary_img_alt || news.title}
                     className="img-fluid mb-3 w-100"
                   />
-              <div dangerouslySetInnerHTML={{ __html: news.description }} />
+              <div className="news-page-editor" dangerouslySetInnerHTML={{ __html: news.description }} />
             </div>
 
             <div className="col-lg-4">
