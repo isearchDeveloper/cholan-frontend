@@ -134,11 +134,8 @@
 
 // export default Sidebar;
 
-
-
 "use client";
 import React, { useEffect } from "react";
-import { useRouter,usePathname } from "next/navigation";
 import Link from "next/link";
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -149,8 +146,7 @@ interface SidebarProps {
   destinations: string[];
 }
 
-const Sidebar: any = ({ data, cities, citySlug, categorySlug, setCategorySlug }: any) => {
-  const router = useRouter();
+const Sidebar: any = ({ data, cities, categorySlug, setCategorySlug }: any) => {
   useEffect(() => {
     AOS.init({
       duration: 800,
@@ -158,40 +154,6 @@ const Sidebar: any = ({ data, cities, citySlug, categorySlug, setCategorySlug }:
       once: true,
     });
   }, []);
-
-  const pathname = usePathname();
-  const isIndia = pathname.startsWith("/india");
-  const isInternational = pathname.startsWith("/international-holidays");
-
-  // const handleCategoryClick = (catSlug: string) => {
-  //   setCategorySlug(catSlug);
-  //   const cityBase = citySlug ? citySlug.replace("-tour-packages", "") : cities .toLowerCase() .trim() .replace(/\s+/g, "-");
-  //   const finalSlug = `${cityBase}-${catSlug}-tour-packages`;
-  //   if (isIndia) {
-  //     router.push(`/india/${finalSlug}`);
-  //   } else if (isInternational) {
-  //     router.push(`/international-holidays/${finalSlug}`);
-  //   }
-  // };
-
-  const normalizeSlug = (slug: string) =>
-  slug.endsWith("-tour-packages") ? slug : `${slug}-tour-packages`;
-
-const handleCategoryClick = (catSlug: string) => {
-
-
-  const cityBase = citySlug
-    ? citySlug.replace("-tour-packages", "")
-    : cities.toLowerCase().trim().replace(/\s+/g, "-");
-
-  const finalSlug = normalizeSlug(`${cityBase}-${catSlug}`);
-
-  if (isIndia) {
-    router.push(`/india/${finalSlug}`);
-  } else if (isInternational) {
-    router.push(`/international-holidays/${finalSlug}`);
-  }
-};
 
   return (
     <div
@@ -215,10 +177,10 @@ const handleCategoryClick = (catSlug: string) => {
           <ul className="list-unstyled p-4">
             {data?.categories?.map((cat: any) => (
               <li
-                onClick={() => handleCategoryClick(cat.slug)}
+                // onClick={() => setCategorySlug(cat.slug)}
                 key={cat.slug}
                 className={`mb-2 text-decoration-none text-dark hover-link ${categorySlug === cat.slug ? "active-category" : ""}`}
-                style={{ cursor: "pointer" }}
+                // style={{ cursor: "pointer" }}
               >
                 {cities} {cat.name}
               </li>
@@ -227,7 +189,7 @@ const handleCategoryClick = (catSlug: string) => {
         </div>
       )}
 
-      {data?.sourceLocations?.length < 1 ? null : (
+      {/* {data?.sourceLocations?.length < 1 ? null : (
         <div
           className="mb-4 city-section c-sec"
           data-aos="fade-up"
@@ -235,7 +197,7 @@ const handleCategoryClick = (catSlug: string) => {
         >
           <div className="d-flex align-items-center p-3 p-lg-3  text-white">
             <img
-              src="/images/icon-head-2.svg"
+              src="/images/icon-head-1.svg"
               alt="City Icon"
               className="icon"
             />
@@ -250,16 +212,16 @@ const handleCategoryClick = (catSlug: string) => {
                   href={`/india/${city.slug}`}
                   className="text-decoration-none text-dark hover-link"
                 > */}
-                {cities} Packages from {city.name}
+                {/* {cities} Packages from {city.name} */}
                 {/* </Link> */}
-              </li>
-            ))}
-          </ul>
+              {/* </li> */}
+            {/* ))} */}
+          {/* </ul> */}
         </div>
-      )}
+      // )} */}
 
 
-    </div>
+    // </div>
   );
 };
 

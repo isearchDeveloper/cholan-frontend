@@ -177,8 +177,7 @@ const IndiaPackageListing = ({ packageList1, initialPage, slug1, categorySlug: s
                 data={packageList}
                 cities={packageList?.location?.name}
                 citySlug={slug1}
-                categorySlug={categorySlug}
-                setCategorySlug={setCategorySlug}
+              
               />
             </div>
 

@@ -28,11 +28,10 @@ const InternationalPackageListing = ({
   const [currentPage, setCurrentPage] = useState(initialPage);
   const [totalPages, setTotalPages] = useState(1);
   const [showLoader, setShowLoader] = useState(true);
-  const [categorySlug, setCategorySlug] = useState<any>(
-    serverCategorySlug || "",
-  );
+ 
+
   const [fixedData, setfixedData] = useState<any>(ssrFixedData || null);
-  const [scope, setScope] = useState<"country" | "location">("country");
+  
   const [jsEnabled, setJsEnabled] = useState(false);
 
   useEffect(() => {
@@ -54,11 +53,6 @@ const InternationalPackageListing = ({
     }
   }, [packageList1]);
 
-  useEffect(() => {
-    if (categorySlug) {
-      setCurrentPage(1);
-    }
-  }, [categorySlug]);
 
   useEffect(() => {
     if (!fixedData && ssrFixedData) {
@@ -66,81 +60,112 @@ const InternationalPackageListing = ({
     }
   }, [ssrFixedData]);
 
-  useEffect(() => {
-    if (!slug1) return;
+  // useEffect(() => {
+  //   if (!slug1) return;
 
-    const fetchPackages = async () => {
-      setShowLoader(true);
+  //   const fetchPackages = async () => {
+  //     setShowLoader(true);
 
-      try {
-        const detectedScope = fixedData?.country?.slug ? "country" : "location";
+  //     try {
+  //       const detectedScope = fixedData?.country?.slug ? "country" : "location";
 
-        const response = await fetchWorldPackageListingData({
-          slug1,
-          currentPage,
-          categorySlug,
-          scopeFromData: detectedScope,
-        });
+  //       const response = await fetchWorldPackageListingData({
+  //         slug1,
+  //         currentPage,
+  //         categorySlug,
+  //         scopeFromData: detectedScope,
+  //       });
 
-        if (response?.data) {
-          setPackageList(response.data);
-          if (!categorySlug) {
-            setfixedData(response.data);
-          }
+  //       if (response?.data) {
+  //         setPackageList(response.data);
+  //         if (!categorySlug) {
+  //           setfixedData(response.data);
+  //         }
 
-          const totalItems = response.data.pagination?.total || 0;
-          const itemsPerPage = response.data.pagination?.limit || 10;
-          setTotalPages(Math.ceil(totalItems / itemsPerPage));
-        } else {
-          setPackageList(null);
-        }
-      } catch (err) {
-        console.error("Failed to fetch world packages:", err);
-        setPackageList(null);
-      } finally {
-        setShowLoader(false);
-      }
-    };
+  //         const totalItems = response.data.pagination?.total || 0;
+  //         const itemsPerPage = response.data.pagination?.limit || 10;
+  //         setTotalPages(Math.ceil(totalItems / itemsPerPage));
+  //       } else {
+  //         setPackageList(null);
+  //       }
+  //     } catch (err) {
+  //       console.error("Failed to fetch world packages:", err);
+  //       setPackageList(null);
+  //     } finally {
+  //       setShowLoader(false);
+  //     }
+  //   };
 
-    fetchPackages();
-  }, [slug1, currentPage, categorySlug]);
+  //   fetchPackages();
+  // }, [slug1, currentPage, categorySlug]);
+
+  // const handlePageChange = async (page: number) => {
+  //   if (page < 1 || page > totalPages) return;
+  //   if (!slug1) return;
+
+  //   setShowLoader(true);
+
+  //   try {
+  //     const detectedScope = fixedData?.country?.slug ? "country" : "location";
+
+  //     const response = await fetchWorldPackageListingData({
+  //       slug1,
+  //       currentPage: page,
+  //       categorySlug,
+  //       scopeFromData: detectedScope,
+  //     });
+
+  //     if (response?.data) {
+  //       setPackageList(response.data);
+
+  //       const totalItems = response.data.pagination?.total || 0;
+  //       const itemsPerPage = response.data.pagination?.limit || 10;
+  //       setTotalPages(Math.ceil(totalItems / itemsPerPage));
+
+  //       setCurrentPage(page);
+
+  //       window.scrollTo({ top: 0, behavior: "smooth" });
+  //     } else {
+  //       setPackageList(null);
+  //     }
+  //   } catch (err) {
+  //     console.error("Failed to fetch world packages:", err);
+  //     setPackageList(null);
+  //   } finally {
+  //     setShowLoader(false);
+  //   }
+  // };
 
   const handlePageChange = async (page: number) => {
-    if (page < 1 || page > totalPages) return;
-    if (!slug1) return;
+  if (page < 1 || page > totalPages) return;
+  if (!slug1) return;
 
-    setShowLoader(true);
+  setShowLoader(true);
 
-    try {
-      const detectedScope = fixedData?.country?.slug ? "country" : "location";
+  try {
+    const response = await fetchWorldPackageListingData({
+      slug1,
+      currentPage: page,
+      categorySlug: null, // 🔒 locked
+      scopeFromData: "location",
+    });
 
-      const response = await fetchWorldPackageListingData({
-        slug1,
-        currentPage: page,
-        categorySlug,
-        scopeFromData: detectedScope,
-      });
+    if (response?.data) {
+      setPackageList(response.data);
+      setCurrentPage(page);
+      setTotalPages(
+        Math.ceil(
+          (response.data.pagination?.total || 0) /
+          (response.data.pagination?.limit || 10)
+        )
+      );
 
-      if (response?.data) {
-        setPackageList(response.data);
-
-        const totalItems = response.data.pagination?.total || 0;
-        const itemsPerPage = response.data.pagination?.limit || 10;
-        setTotalPages(Math.ceil(totalItems / itemsPerPage));
-
-        setCurrentPage(page);
-
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      } else {
-        setPackageList(null);
-      }
-    } catch (err) {
-      console.error("Failed to fetch world packages:", err);
-      setPackageList(null);
-    } finally {
-      setShowLoader(false);
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
-  };
+  } finally {
+    setShowLoader(false);
+  }
+};
 
   const generatePageNumbers = () => {
     const pages = [];
@@ -166,7 +191,7 @@ const InternationalPackageListing = ({
     ssrFixedData?.location?.name ||
     "";
 
-  const listingTitle = buildListingTitle(locationName, categorySlug);
+  const listingTitle = buildListingTitle(locationName);
 
   const isCategoryPage =
     originalSlug &&
@@ -279,10 +304,9 @@ const InternationalPackageListing = ({
                     ssrFixedData?.location?.name ||
                     ""
                   }
-                  categorySlug={categorySlug}
+                
                   setCategorySlug={(slug: any) => {
                     setCurrentPage(1);
-                    setCategorySlug(slug);
                   }}
                 />
               )}
