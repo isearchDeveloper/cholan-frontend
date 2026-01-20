@@ -163,16 +163,35 @@ const Sidebar: any = ({ data, cities, citySlug, categorySlug, setCategorySlug }:
   const isIndia = pathname.startsWith("/india");
   const isInternational = pathname.startsWith("/international-holidays");
 
-  const handleCategoryClick = (catSlug: string) => {
-    setCategorySlug(catSlug);
-    const cityBase = citySlug ? citySlug.replace("-tour-packages", "") : cities .toLowerCase() .trim() .replace(/\s+/g, "-");
-    const finalSlug = `${cityBase}-${catSlug}-tour-packages`;
-    if (isIndia) {
-      router.push(`/india/${finalSlug}`);
-    } else if (isInternational) {
-      router.push(`/international-holidays/${finalSlug}`);
-    }
-  };
+  // const handleCategoryClick = (catSlug: string) => {
+  //   setCategorySlug(catSlug);
+  //   const cityBase = citySlug ? citySlug.replace("-tour-packages", "") : cities .toLowerCase() .trim() .replace(/\s+/g, "-");
+  //   const finalSlug = `${cityBase}-${catSlug}-tour-packages`;
+  //   if (isIndia) {
+  //     router.push(`/india/${finalSlug}`);
+  //   } else if (isInternational) {
+  //     router.push(`/international-holidays/${finalSlug}`);
+  //   }
+  // };
+
+  const normalizeSlug = (slug: string) =>
+  slug.endsWith("-tour-packages") ? slug : `${slug}-tour-packages`;
+
+const handleCategoryClick = (catSlug: string) => {
+
+
+  const cityBase = citySlug
+    ? citySlug.replace("-tour-packages", "")
+    : cities.toLowerCase().trim().replace(/\s+/g, "-");
+
+  const finalSlug = normalizeSlug(`${cityBase}-${catSlug}`);
+
+  if (isIndia) {
+    router.push(`/india/${finalSlug}`);
+  } else if (isInternational) {
+    router.push(`/international-holidays/${finalSlug}`);
+  }
+};
 
   return (
     <div

@@ -14,6 +14,8 @@ import axios from "axios";
 import FAQAccordionListing from "@/app/components/common/FAQAccordionForListing";
 import Breadcrumb from "@/app/components/common/Breadcrumb";
 import { fetchIndiaPackageListingData } from "@/app/services/indiaPackageListService";
+import { buildListingTitle } from "@/app/utils/titleHelpers";
+
 
 
 const IndiaPackageListing = ({ packageList1, initialPage, slug1, categorySlug: serverCategorySlug, originalSlug, }: any) => {
@@ -126,6 +128,32 @@ const IndiaPackageListing = ({ packageList1, initialPage, slug1, categorySlug: s
     });
   }
 
+  const listingTitle = buildListingTitle(
+  packageList?.location?.name,
+  categorySlug
+);
+
+
+// const resolvedLocationName =
+//   packageList?.location?.name || "";
+
+// const formattedCategory = categorySlug
+//   ? categorySlug
+//       .replace(/-/g, " ")
+//       .replace(/\b\w/g, (c: string) => c.toUpperCase())
+//   : "";
+
+// const pageTitle = resolvedLocationName
+//   ? formattedCategory
+//     ? `${resolvedLocationName} ${formattedCategory} Tour Package`
+//     : `${resolvedLocationName} Tour Packages`
+//   : "";
+// const pageTitle = buildListingTitle(
+//   packageList?.location?.name,
+//   categorySlug
+// );
+
+
   return (
     <div className="tour-listing p-0">
       {packageList?.location?.details?.title ||
@@ -155,23 +183,20 @@ const IndiaPackageListing = ({ packageList1, initialPage, slug1, categorySlug: s
             </div>
 
             <div className="col-12 col-lg-9">
-              {packageList?.location?.name ||
-                packageList?.location?.details?.sub_title ||
-                packageList?.location?.details.about ? (
+              {listingTitle && (
                 <ExpandableText
-                  title={packageList?.location?.name}
+                  title={listingTitle}
                   subtitle={packageList?.location?.details?.sub_title}
                   text={packageList?.location?.details?.about}
                   collapsedLines={2}
                 />
-              ) : null}
+              )}
 
 
               {packageList?.packages?.length < 1 ? null :
                 <div className="showing-count my-3 text-sm">
                   <div className="flex gap-2 fs-6 align-items-lg-center">
-                    {`Showing 1-${packageList?.packages?.length} packages from`} <h2 className="fs-6 m-0">{`${packageList?.location?.name} Tour
-                  Packages`}</h2>
+                    {`Showing 1-${packageList?.packages?.length} packages from`} {listingTitle && <h2 className="fs-6 m-0">{listingTitle}</h2>}
                   </div>
                 </div>}
 
