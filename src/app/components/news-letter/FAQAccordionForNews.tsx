@@ -15,8 +15,9 @@ interface FAQAccordionProps {
 }
 
 const FAQAccordionForNews: React.FC<FAQAccordionProps> = ({ faqs, name }) => {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-
+const [openIndex, setOpenIndex] = useState<number | null>(
+  faqs && faqs.length > 0 ? 0 : null
+);
   useEffect(() => {
     AOS.init({
       duration: 800,
