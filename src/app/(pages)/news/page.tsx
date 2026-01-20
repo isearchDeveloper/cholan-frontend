@@ -14,9 +14,9 @@ export async function generateMetadata() {
   const metaDetails = meta.meta_details || "";
 
   return {
-    title: meta?.meta_title || "Cholan Tours",
-    description: meta?.meta_description || "Cholan Tours",
-    keywords: meta.meta_keywords || "",
+    title: meta?.meta_title || "Cholan Tours News and Press Releases - Cholan Tours",
+    description: meta?.meta_description || "Stay updated with latest Cholan Tours news, travel stories, destination updates, tour announcements, and insights. Read travel tips by experts for your next journey.",
+    keywords: meta.meta_keywords || "cholan tours news, cholan tours press release, travel tips, cholantours company news, destination updates.",
     alternates: { canonical },
 
     openGraph: {

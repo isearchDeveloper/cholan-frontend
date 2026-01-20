@@ -52,8 +52,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
     if (!result || !result.data) {
       return {
-        title: "News Details | Cholan Tours",
-        description: "Read the latest travel news and updates from Cholan Tours.",
+        title: "Cholan Tours News and Press Releases - Cholan Tours",
+        description: "Stay updated with latest Cholan Tours news, travel stories, destination updates, tour announcements, and insights. Read travel tips by experts for your next journey.",
       };
     }
 
