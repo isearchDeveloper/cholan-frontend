@@ -53,15 +53,62 @@ export async function generateMetadata({ params }: any) {
 /* =======================
    PAGE RENDER
 ======================= */
+// export default async function InternationalListing({
+//   params,
+//   searchParams,
+// }: {
+//   params: { slug: string };
+//   searchParams: { page?: string };
+// }) {
+//   const { slug } = params;
+//   const page = Number(searchParams?.page ?? 1);
+
+//   // ✅ CITY INTRO PAGE
+//   if (!slug.endsWith("-tour-packages")) {
+//     const cityIntroRes = await fetchCityIntroData(slug);
+
+//     if (parseInt(cityIntroRes?.data?.city?.type) !== 2) {
+//       notFound();
+//     }
+
+//     return (
+//       <CityIntroPage
+//         slug={slug}
+//         country="international-holidays"
+//         cityData={cityIntroRes?.data || null}
+//       />
+//     );
+//   }
+
+//   // ✅ INTERNATIONAL PACKAGE LISTING PAGE
+//   const res = await fetchInternationalPackageData(slug);
+
+//   if (!res?.data) {
+//     notFound();
+//   }
+
+//   return (
+//     <InternationalPackageListing
+//       packageList1={res.data}
+//       initialPage={page}
+//       slug1={slug}
+//       categorySlug={null}   // 🔒 permanently disabled
+//       ssrFixedData={res.data}
+//       originalSlug={slug}
+//     />
+//   );
+// }
+
 export default async function InternationalListing({
   params,
   searchParams,
 }: {
-  params: { slug: string };
-  searchParams: { page?: string };
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<{ page?: string }>;
 }) {
-  const { slug } = params;
-  const page = Number(searchParams?.page ?? 1);
+  const { slug } = await params;           // ✅ awaited
+  const sp = await searchParams;           // ✅ awaited
+  const page = Number(sp?.page ?? 1);
 
   // ✅ CITY INTRO PAGE
   if (!slug.endsWith("-tour-packages")) {
@@ -80,7 +127,7 @@ export default async function InternationalListing({
     );
   }
 
-  // ✅ INTERNATIONAL PACKAGE LISTING PAGE
+  // ✅ PACKAGE LISTING PAGE
   const res = await fetchInternationalPackageData(slug);
 
   if (!res?.data) {
@@ -92,7 +139,7 @@ export default async function InternationalListing({
       packageList1={res.data}
       initialPage={page}
       slug1={slug}
-      categorySlug={null}   // 🔒 permanently disabled
+      categorySlug={null}   // 🔒 sidebar disabled
       ssrFixedData={res.data}
       originalSlug={slug}
     />
