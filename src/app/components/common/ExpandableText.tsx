@@ -46,26 +46,11 @@ const ExpandableText: React.FC<ExpandableTextProps> = ({
     }
   }, [expanded, collapsedLines, text]);
 
-  const getFinalTitle = (rawTitle: string) => {
-  if (!rawTitle) return "";
-
-  // Do not append for About page
-  if (/^about\s+cholan\s+tours$/i.test(rawTitle)) {
-    return rawTitle;
-  }
-
-  // If already ends with "Tour Packages", do nothing
-  if (/tour\s+packages$/i.test(rawTitle)) {
-    return rawTitle;
-  }
-
-  return `${rawTitle} Tour Packages`;
-};
-
-
   return (
     <div>
-     <h1 className="mb-2 fs-2">{getFinalTitle(title)}</h1>
+      {/* <h1 className="mb-2 fs-2">{`${title} ${title == "About Cholan Tours" ? "" : "Tour Packages"}`}</h1> */}
+      <h1 className="mb-2 fs-2">{title}</h1>
+
       {subtitle && <h6 className="mb-2 text-md font-semibold fs-6">{subtitle}</h6>}
 
       <div

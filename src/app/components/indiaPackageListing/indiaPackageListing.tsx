@@ -15,20 +15,15 @@ import FAQAccordionListing from "@/app/components/common/FAQAccordionForListing"
 import Breadcrumb from "@/app/components/common/Breadcrumb";
 import { fetchIndiaPackageListingData } from "@/app/services/indiaPackageListService";
 
-const IndiaPackageListing = ({
-  packageList1,
-  initialPage,
-  slug1,
-  categorySlug: serverCategorySlug,
-  originalSlug,
-}: any) => {
+
+const IndiaPackageListing = ({ packageList1, initialPage, slug1, categorySlug: serverCategorySlug, originalSlug, }: any) => {
+
   const [packageList, setPackageList] = useState<any>(packageList1 || null);
   const [currentPage, setCurrentPage] = useState(initialPage);
   const [totalPages, setTotalPages] = useState(1);
   const [showLoader, setShowLoader] = useState(false);
-  const [categorySlug, setCategorySlug] = useState<any>(
-    serverCategorySlug || "",
-  );
+  const [categorySlug, setCategorySlug] = useState<any>(serverCategorySlug || "");
+
 
   useEffect(() => {
     AOS.init({
@@ -73,7 +68,7 @@ const IndiaPackageListing = ({
         setTotalPages(Math.ceil(totalItems / itemsPerPage));
 
         setCurrentPage(page);
-        // window.scrollTo({ top: 0, behavior: "smooth" });
+        window.scrollTo({ top: 0, behavior: "smooth" });
       } else {
         setPackageList(null);
       }
@@ -84,6 +79,7 @@ const IndiaPackageListing = ({
       setShowLoader(false);
     }
   };
+
 
   const generatePageNumbers = () => {
     const pages = [];
@@ -130,13 +126,23 @@ const IndiaPackageListing = ({
     });
   }
 
-  const ensureTourPackages = (title: string) => {
-  return /tour\s+packages$/i.test(title)
-    ? title
-    : `${title} Tour Packages`;
+const normalizeTourTitle = (title: string) => {
+  if (!title) return "";
+
+  // remove duplicate spaces
+  const clean = title.replace(/\s+/g, " ").trim();
+
+  // if title already ends with tour / tour package(s), return as-is
+  if (/(tour|tour package|tour packages)$/i.test(clean)) {
+    return clean;
+  }
+
+  // otherwise append "Tour Packages"
+  return `${clean} Tour Packages`;
 };
 
-  const formattedCategory = categorySlug
+
+const formattedCategory = categorySlug
   ? categorySlug
       .replace(/-/g, " ")
       .replace(/\b\w/g, (l: string) => l.toUpperCase())
@@ -144,16 +150,17 @@ const IndiaPackageListing = ({
 
 const baseTitle = categorySlug
   ? `${packageList?.location?.name} ${formattedCategory}`
-  : `${packageList?.location?.name}`;
+  : packageList?.location?.name;
 
-const listingTitle = ensureTourPackages(baseTitle);
+
+const listingTitle = normalizeTourTitle(baseTitle);
 
 
   return (
     <div className="tour-listing p-0">
       {packageList?.location?.details?.title ||
-      packageList?.location?.details?.sub_title ||
-      packageList?.location?.details?.banner_image ? (
+        packageList?.location?.details?.sub_title ||
+        packageList?.location?.details?.banner_image ? (
         <Banner
           title={packageList?.location?.details?.title}
           subtitle={packageList?.location?.details?.sub_title}
@@ -179,28 +186,25 @@ const listingTitle = ensureTourPackages(baseTitle);
 
             <div className="col-12 col-lg-9">
               {packageList?.location?.name ||
-              packageList?.location?.details?.sub_title ||
-              packageList?.location?.details.about ? (
+                packageList?.location?.details?.sub_title ||
+                packageList?.location?.details.about ? (
                 <ExpandableText
-                  title={listingTitle}
+                 title={listingTitle} 
                   subtitle={packageList?.location?.details?.sub_title}
                   text={packageList?.location?.details?.about}
                   collapsedLines={2}
                 />
               ) : null}
 
-              {packageList?.packages?.length < 1 ? null : (
+
+              {packageList?.packages?.length < 1 ? null :
                 <div className="showing-count my-3 text-sm">
                   <div className="flex gap-2 fs-6 align-items-lg-center">
-                    {`Showing 1-${packageList?.packages?.length} packages from`}{" "}
-                 <h2 className="fs-6 m-0">{listingTitle}</h2>
+                    {`Showing 1-${packageList?.packages?.length} packages from`} <h2 className="fs-6 m-0">{`${listingTitle}`}</h2>
                   </div>
-                </div>
-              )}
+                </div>}
 
-              {packageList?.packages?.length < 1 ? (
-                <h6 className="mt-5 text-danger">No Packages Found</h6>
-              ) : (
+              {packageList?.packages?.length < 1 ? <h6 className="mt-5 text-danger">No Packages Found</h6> : (
                 <div className="grid grid-cols-1 gap-6">
                   {packageList?.packages?.map((tour: any) => (
                     <TourCard
@@ -217,14 +221,13 @@ const listingTitle = ensureTourPackages(baseTitle);
                 </div>
               )}
 
-              {packageList?.packages?.length < 1 ? null : (
+              {packageList?.packages?.length < 1 ? null :
                 <div className="pagination-container mt-4">
                   <nav aria-label="Page navigation">
                     <ul className="pagination justify-content-center">
                       <li
-                        className={`page-item ${
-                          currentPage === 1 ? "disabled" : ""
-                        }`}
+                        className={`page-item ${currentPage === 1 ? "disabled" : ""
+                          }`}
                       >
                         <button
                           className="page-link"
@@ -238,9 +241,8 @@ const listingTitle = ensureTourPackages(baseTitle);
                       {generatePageNumbers().map((page) => (
                         <li
                           key={page}
-                          className={`page-item ${
-                            currentPage === page ? "active" : ""
-                          }`}
+                          className={`page-item ${currentPage === page ? "active" : ""
+                            }`}
                         >
                           <button
                             className="page-link"
@@ -252,9 +254,8 @@ const listingTitle = ensureTourPackages(baseTitle);
                       ))}
 
                       <li
-                        className={`page-item ${
-                          currentPage === totalPages ? "disabled" : ""
-                        }`}
+                        className={`page-item ${currentPage === totalPages ? "disabled" : ""
+                          }`}
                       >
                         <button
                           className="page-link"
@@ -266,18 +267,15 @@ const listingTitle = ensureTourPackages(baseTitle);
                       </li>
                     </ul>
                   </nav>
-                </div>
-              )}
+                </div>}
 
               {packageList?.location?.faqs?.length < 1 ? null : (
                 <div className="mt-5">
-                  <FAQAccordionListing
-                    faqs={packageList?.location?.faqs}
-                    location={
-                      packageList?.location?.country?.faq_title?.trim()
-                        ? packageList.location.country.faq_title
-                        : packageList?.location?.faq_title
-                    }
+                  <FAQAccordionListing faqs={packageList?.location?.faqs} location={
+                    packageList?.location?.country?.faq_title?.trim()
+                      ? packageList.location.country.faq_title
+                      : packageList?.location?.faq_title
+                  }
                   />
                 </div>
               )}

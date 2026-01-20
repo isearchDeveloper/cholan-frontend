@@ -21,15 +21,13 @@ const InternationalPackageListing = ({
   slug1,
   ssrFixedData,
   categorySlug: serverCategorySlug,
-  originalSlug,
+  originalSlug
 }: any) => {
   const [packageList, setPackageList] = useState<any>(packageList1 || null);
   const [currentPage, setCurrentPage] = useState(initialPage);
   const [totalPages, setTotalPages] = useState(1);
   const [showLoader, setShowLoader] = useState(true);
-  const [categorySlug, setCategorySlug] = useState<any>(
-    serverCategorySlug || "",
-  );
+  const [categorySlug, setCategorySlug] = useState<any>(serverCategorySlug || "");
   const [fixedData, setfixedData] = useState<any>(ssrFixedData || null);
   const [scope, setScope] = useState<"country" | "location">("country");
   const [jsEnabled, setJsEnabled] = useState(false);
@@ -72,7 +70,8 @@ const InternationalPackageListing = ({
       setShowLoader(true);
 
       try {
-        const detectedScope = fixedData?.country?.slug ? "country" : "location";
+        const detectedScope =
+          fixedData?.country?.slug ? "country" : "location";
 
         const response = await fetchWorldPackageListingData({
           slug1,
@@ -104,6 +103,7 @@ const InternationalPackageListing = ({
     fetchPackages();
   }, [slug1, currentPage, categorySlug]);
 
+
   const handlePageChange = async (page: number) => {
     if (page < 1 || page > totalPages) return;
     if (!slug1) return;
@@ -111,7 +111,8 @@ const InternationalPackageListing = ({
     setShowLoader(true);
 
     try {
-      const detectedScope = fixedData?.country?.slug ? "country" : "location";
+      const detectedScope =
+        fixedData?.country?.slug ? "country" : "location";
 
       const response = await fetchWorldPackageListingData({
         slug1,
@@ -129,7 +130,7 @@ const InternationalPackageListing = ({
 
         setCurrentPage(page);
 
-        // window.scrollTo({ top: 0, behavior: "smooth" });
+        window.scrollTo({ top: 0, behavior: "smooth" });
       } else {
         setPackageList(null);
       }
@@ -140,6 +141,7 @@ const InternationalPackageListing = ({
       setShowLoader(false);
     }
   };
+
 
   const generatePageNumbers = () => {
     const pages = [];
@@ -165,26 +167,6 @@ const InternationalPackageListing = ({
     ssrFixedData?.location?.name ||
     "";
 
-  // 1. Ensure "Tour Packages" is not duplicated
-  const ensureTourPackages = (title: string) => {
-    if (!title) return "";
-    return /tour\s+packages$/i.test(title) ? title : `${title} Tour Packages`;
-  };
-
-  // 2. Format category
-  const formattedCategory = categorySlug
-    ? categorySlug
-        .replace(/-/g, " ")
-        .replace(/\b\w/g, (l: string) => l.toUpperCase())
-    : "";
-
-  // 3. Base title (country OR location)
-  const baseTitle = categorySlug
-    ? `${locationName} ${formattedCategory}`
-    : locationName;
-
-  // 4. Final reusable title
-  const listingTitle = ensureTourPackages(baseTitle);
 
   const isCategoryPage =
     originalSlug &&
@@ -215,14 +197,40 @@ const InternationalPackageListing = ({
     });
   }
 
+const normalizeTourTitle = (title: string) => {
+  if (!title) return "";
+
+  const clean = title.replace(/\s+/g, " ").trim();
+
+  if (/(tour|tour package|tour packages)$/i.test(clean)) {
+    return clean;
+  }
+
+  return `${clean} Tour Packages`;
+};
+
+const formattedCategory = categorySlug
+  ? categorySlug
+      .replace(/-/g, " ")
+      .replace(/\b\w/g, (l: string) => l.toUpperCase())
+  : "";
+
+  const baseTitle = categorySlug
+  ? `${locationName} ${formattedCategory}`
+  : locationName;
+
+const listingTitle = normalizeTourTitle(baseTitle);
+
+  
+
   return (
     <div className="tour-listing p-0">
       {packageList?.country?.details?.title ||
-      packageList?.location?.details?.title ||
-      packageList?.country?.details?.sub_title ||
-      packageList?.location?.details?.sub_title ||
-      packageList?.country?.details?.banner_image ||
-      packageList?.location?.details?.banner_image ? (
+        packageList?.location?.details?.title ||
+        packageList?.country?.details?.sub_title ||
+        packageList?.location?.details?.sub_title ||
+        packageList?.country?.details?.banner_image ||
+        packageList?.location?.details?.banner_image ? (
         <Banner
           title={
             packageList?.country?.details?.title
@@ -257,7 +265,7 @@ const InternationalPackageListing = ({
                       : ssrFixedData?.location?.name
                   }
                   categorySlug={null}
-                  setCategorySlug={() => {}}
+                  setCategorySlug={() => { }}
                 />
               ) : (
                 /* ✅ JS Enabled Sidebar */
@@ -277,17 +285,19 @@ const InternationalPackageListing = ({
                   }}
                 />
               )}
+
+
             </div>
 
             <div className="col-12 col-lg-9">
               {packageList?.country?.name ||
-              packageList?.location?.name ||
-              packageList?.country?.details?.sub_title ||
-              packageList?.location?.details?.sub_title ||
-              packageList?.country?.details?.about ||
-              packageList?.location?.details?.about ? (
+                packageList?.location?.name ||
+                packageList?.country?.details?.sub_title ||
+                packageList?.location?.details?.sub_title ||
+                packageList?.country?.details?.about ||
+                packageList?.location?.details?.about ? (
                 <ExpandableText
-                  title={listingTitle}
+                 title={listingTitle}
                   subtitle={
                     packageList?.country?.details?.sub_title
                       ? packageList?.country?.details?.sub_title
@@ -306,10 +316,13 @@ const InternationalPackageListing = ({
                 <div className="showing-count my-3 text-sm">
                   <div className="flex gap-2 fs-6 align-items-lg-center">
                     {`Showing 1-${packageList?.packages?.length} packages from`}{" "}
-                    <h2 className="fs-6 m-0">{listingTitle}</h2>
+
+                   <h2 className="fs-6 m-0">{listingTitle}</h2>
+
                   </div>
                 </div>
               )}
+
 
               {packageList?.packages?.length < 1 ? null : (
                 <div className="grid grid-cols-1 gap-6">
@@ -338,9 +351,8 @@ const InternationalPackageListing = ({
                     <ul className="pagination justify-content-center">
                       {/* Previous Button */}
                       <li
-                        className={`page-item ${
-                          currentPage === 1 ? "disabled" : ""
-                        }`}
+                        className={`page-item ${currentPage === 1 ? "disabled" : ""
+                          }`}
                       >
                         <button
                           className="page-link"
@@ -355,9 +367,8 @@ const InternationalPackageListing = ({
                       {generatePageNumbers().map((page) => (
                         <li
                           key={page}
-                          className={`page-item ${
-                            currentPage === page ? "active" : ""
-                          }`}
+                          className={`page-item ${currentPage === page ? "active" : ""
+                            }`}
                         >
                           <button
                             className="page-link"
@@ -370,9 +381,8 @@ const InternationalPackageListing = ({
 
                       {/* Next Button */}
                       <li
-                        className={`page-item ${
-                          currentPage === totalPages ? "disabled" : ""
-                        }`}
+                        className={`page-item ${currentPage === totalPages ? "disabled" : ""
+                          }`}
                       >
                         <button
                           className="page-link"
@@ -394,11 +404,7 @@ const InternationalPackageListing = ({
               {fixedData?.country?.faqs?.length < 1 ? null : (
                 <div className="mt-5">
                   <FAQAccordionListing
-                    faqs={packageList?.country?.faqs}
-                    location={
-                      packageList?.country?.faq_title ||
-                      packageList?.country?.name
-                    }
+                    faqs={packageList?.country?.faqs} location={packageList?.country?.faq_title || packageList?.country?.name}
                   />
                 </div>
               )}
