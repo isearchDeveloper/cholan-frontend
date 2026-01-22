@@ -109,7 +109,7 @@ export default function CityIntroPage({
             : "/images/tour/default.webp",
         }))
       : [];
-  // console.log(cityData?.themes);
+ 
   // const themesForCity = CITY_THEMES[slug] || [];
 
   const themesForCity = Array.isArray(cityData?.themes)
@@ -117,7 +117,7 @@ export default function CityIntroPage({
     : cityData?.themes
       ? [cityData.themes]
       : [];
-
+  console.log("ki re baua ho jatai" +themesForCity)
   return (
     <div className="city-intro-page">
       {/* <Banner

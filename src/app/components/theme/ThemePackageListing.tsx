@@ -44,7 +44,6 @@
 // //   );
 // // }
 
-
 // "use client";
 
 // import React, { useEffect, useState } from "react";
@@ -150,7 +149,6 @@
 //   </div>
 // )}
 
-
 //               {/* FAQ */}
 //               {packageList?.location?.faqs?.length > 0 && (
 //                 <div className="mt-5">
@@ -168,7 +166,6 @@
 //   );
 // }
 
-
 "use client";
 
 import TourCard from "@/app/components/common/TourCard";
@@ -176,52 +173,112 @@ import Banner from "@/app/components/common/banner";
 import ExpandableText from "@/app/components/common/ExpandableText";
 import FAQAccordionListing from "@/app/components/common/FAQAccordionForListing";
 import Sidebar from "@/app/components/common/sidebar";
-export default function ThemePackageListing({ data }: { data: any }) {
-  const { city, theme, listing, sidebar } = data;
+import Breadcrumb from "@/app/components/common/Breadcrumb";
+import ThemeSidebar from "./ThemeSidebar";
 
-  const pageTitle = `${city.replace(/-/g, " ")} ${theme.title} Tour Packages`;
+interface ThemePackageListingProps {
+  data: any;
+  citySlug: String;
+}
+
+export default function ThemePackageListing({ data, sidebarThemes }: any) {
+  if (!data) return null;
+console.log(data);
+  const details = data?.location?.details || {};
+  const packages = Array.isArray(data?.packages) ? data.packages : [];
+
+  const pageTitle = details?.title || "Theme Tour Packages";
+
+  const cityName = data?.location?.name || "";
+  const citySlug = cityName.toLowerCase().replace(/\s+/g, "-");
+
+  const breadcrumbItems = [
+    { label: "Home", href: "/" },
+    { label: "India", href: "/india" },
+
+    // ✅ City Intro Page
+    {
+      label: cityName,
+      href: `/india/${citySlug}`,
+    },
+
+    // ✅ Current Theme Listing
+    {
+      label: details?.title,
+      isCurrent: true,
+    },
+  ];
 
   return (
     <div className="tour-listing p-0">
+      {/* Banner */}
       <Banner
         title={pageTitle}
-        imageUrl={listing.location.details.banner_image}
+        subtitle={details?.sub_title}
+        imageUrl={details?.banner_image}
       />
 
       <div className="listing-inner-wrapper">
         <div className="container mx-auto pt-4 pb-5">
           <div className="row">
-            {/* SIDEBAR */}
-            <div className="col-12 col-lg-3">
-              {/* <Sidebar
-                data={sidebar}
-                cities={city}
-                citySlug={city}
-              /> */}
+            {/* Breadcrumb */}
+            <div className="col-lg-12">
+              <Breadcrumb items={breadcrumbItems} />
             </div>
 
-            {/* MAIN LISTING */}
+            {/* ✅ SIDEBAR (same as India page) */}
+            <div className="col-12 col-lg-3">
+              <ThemeSidebar
+                citySlug={citySlug}
+                cityName={cityName}
+                themes={sidebarThemes}
+              />
+            </div>
+
+            {/* ✅ MAIN LISTING */}
             <div className="col-12 col-lg-9">
               <ExpandableText
                 title={pageTitle}
-                text={listing.location.details.about}
+                text={details?.about}
                 collapsedLines={2}
               />
 
-              {listing.packages.length === 0 ? (
+              {packages.length === 0 ? (
                 <h6 className="mt-5 text-danger">No Packages Found</h6>
               ) : (
-                <div className="grid grid-cols-1 gap-6">
-                  {listing.packages.map((tour: any) => (
+                <div className="grid grid-cols-1 gap-6 mt-4">
+                  {packages.map((tour: any) => (
                     <TourCard
                       key={tour.slug}
                       slug={tour.slug}
                       title={tour.title}
-                      duration={`${tour.details.duration_nights} Nights / ${tour.details.duration_days} Days`}
-                      tourTime={`${tour.details.start_date} - ${tour.details.end_date}`}
-                      highlights={tour.details.tour_highlights}
-                      imageUrl={tour.primary_image} rating={0}                    />
+                      rating={5}
+                      duration={`${tour.details?.duration_nights} ${
+                        tour.details?.duration_nights < 2 ? "Night" : "Nights"
+                      } ${tour.details?.duration_days} ${
+                        tour.details?.duration_days < 2 ? "Day" : "Days"
+                      }`}
+                      tourTime={`${tour.details?.start_date ?? ""} - ${
+                        tour.details?.end_date ?? ""
+                      }`}
+                      highlights={tour.details?.tour_highlights}
+                      imageUrl={
+                        tour.primary_image
+                          ? `https://cdn.cholantours.com/${tour.primary_image}`
+                          : "/images/tour/default.webp"
+                      }
+                    />
                   ))}
+                </div>
+              )}
+
+              {/* FAQ */}
+              {data?.location?.faqs?.length > 0 && (
+                <div className="mt-5">
+                  <FAQAccordionListing
+                    faqs={data.location.faqs}
+                    location={pageTitle}
+                  />
                 </div>
               )}
             </div>
