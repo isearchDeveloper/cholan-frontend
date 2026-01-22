@@ -12,8 +12,8 @@ interface CityCard {
   slug: string;
 }
 
-const INITIAL_VISIBLE = 4;
-const STEP = 4;
+const INITIAL_VISIBLE = 20;
+// const STEP = 4;
 
 export default function CarCitySection({
   cities = [],
@@ -67,11 +67,7 @@ export default function CarCitySection({
         <div className="ts-button-wrap">
           {showLoadMore && (
             <button
-              onClick={() =>
-                setVisibleCount((v) =>
-                  Math.min(v + STEP, filteredCities.length)
-                )
-              }
+              onClick={() => setVisibleCount(filteredCities.length)}
               className="btn orange-btn inline-flex items-center gap-2 ts-btn-main"
             >
               Load More
@@ -91,13 +87,13 @@ export default function CarCitySection({
               className="btn orange-btn inline-flex items-center gap-2 ts-btn-main"
             >
               View Less
-              <Image
+              {/* <Image
                 width={23}
                 height={23}
                 sizes="100vw"
                 src="/images/button-arrow.png"
                 alt="arrow"
-              />
+              /> */}
             </button>
           )}
         </div>
