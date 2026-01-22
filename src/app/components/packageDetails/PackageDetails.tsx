@@ -26,7 +26,7 @@ export default function PackageDetails({ initialData }: { initialData: any }) {
   const [packageDetails, setPackageDetails] = useState<any>(initialData);
   const [openFeedback, setOpenFeedback] = useState(false);
   const [showLoader, setShowLoader] = useState(true);
-
+console.log(packageDetails);
   const breadcrumbItems: any = [
     { label: "Home", href: "/" },
     {
@@ -41,11 +41,11 @@ export default function PackageDetails({ initialData }: { initialData: any }) {
     },
     {
       label: `${packageDetails?.package.location.country.name == "India"
-        ? `${packageDetails?.package.location.name}`
+        ? `${packageDetails?.package.parent_category ? packageDetails?.package.parent_category:packageDetails?.package.location.name}`
         : `${packageDetails?.package.location.country.name}`
         } Tour Packages`,
       href: `${packageDetails?.package.location.country.name == "India"
-        ? `/india/${packageDetails?.package.location.slug}`
+        ? `/india/${packageDetails?.package.parent_category_slug}`
         : `/international-holidays/${packageDetails?.package.location.country.slug}`
         }`,
     },

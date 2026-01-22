@@ -178,10 +178,19 @@ import ThemeSidebar from "./ThemeSidebar";
 
 interface ThemePackageListingProps {
   data: any;
-  citySlug: String;
+  cityName: string;
+  citySlug: string;
+  sidebarThemes: any[];
 }
 
-export default function ThemePackageListing({ data, sidebarThemes }: any) {
+
+export default function ThemePackageListing({
+  data,
+  cityName,
+  citySlug,
+  sidebarThemes,
+}: ThemePackageListingProps) {
+
   if (!data) return null;
 console.log(data);
   const details = data?.location?.details || {};
@@ -189,25 +198,21 @@ console.log(data);
 
   const pageTitle = details?.title || "Theme Tour Packages";
 
-  const cityName = data?.location?.name || "";
-  const citySlug = cityName.toLowerCase().replace(/\s+/g, "-");
+  // const cityName = data?.location?.name || "";
+  // const citySlug = cityName.toLowerCase().replace(/\s+/g, "-");
 
   const breadcrumbItems = [
-    { label: "Home", href: "/" },
-    { label: "India", href: "/india" },
-
-    // ✅ City Intro Page
-    {
-      label: cityName,
-      href: `/india/${citySlug}`,
-    },
-
-    // ✅ Current Theme Listing
-    {
-      label: details?.title,
-      isCurrent: true,
-    },
-  ];
+  { label: "Home", href: "/" },
+  { label: "India", href: "/india" },
+  {
+    label: cityName,
+    href: `/india/${citySlug}`,
+  },
+  {
+    label: data?.location?.details?.title,
+    isCurrent: true,
+  },
+];
 
   return (
     <div className="tour-listing p-0">

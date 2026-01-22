@@ -27,7 +27,7 @@ export default function CityThemes({
     .replace(/-/g, " ")
     .replace(/\b\w/g, (char) => char.toUpperCase());
 }
-
+ 
   return (
     <section className="py-5 city-themes">
       <div className="container">
