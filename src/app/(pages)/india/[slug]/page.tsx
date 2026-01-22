@@ -6,7 +6,8 @@ import { getCanonical } from "@/app/lib/getCanonical";
 import { fetchIndiaPackageData } from "@/app/services/indiaPackageListService";
 import { fetchCityIntroData } from "@/app/services/cityService";
 import ThemePackageListing from "@/app/components/theme/ThemePackageListing";
-import { fetchThemesData } from "@/app/services/themeService";
+
+import { fetchThemePackages } from "@/app/services/themeService";
 
 /* =======================
    SEO METADATA
@@ -57,6 +58,8 @@ export default async function TourListingPage({ params, searchParams }: any) {
   if (!slug.endsWith("-tour-packages")) {
     const cityIntroRes = await fetchCityIntroData(slug);
 
+    console.log(cityIntroRes)
+
     if (parseInt(cityIntroRes?.data?.city?.type) !== 1) {
       notFound();
     }
@@ -71,77 +74,90 @@ export default async function TourListingPage({ params, searchParams }: any) {
   }
 
   // helpers (keep in same file for now)
-  function extractCityAndTheme(slug: string) {
-    const base = slug.replace("-tour-packages", "");
-    const lastDash = base.lastIndexOf("-");
-    return {
-      city: base.slice(0, lastDash),
-      themeSlug: base.slice(lastDash + 1),
-    };
-  }
+function extractCityAndTheme(slug: string) {
+ 
+  const base = slug.replace("-tour-packages", "");
+  const parts = base.split("-");
+//  console.log('parts'+parts);
+  const city = parts[0]; // always first word
+  const themeSlug = parts.slice(1).join("-"); // everything after city
+  // console.log('ddddd'+themeSlug);
 
-  const isThemePage =
-    slug.endsWith("-tour-packages") &&
-    slug.replace("-tour-packages", "").includes("-");
+  return { city, themeSlug };
+}
 
-  //  THEME PACKAGE LISTING (DUMMY, ISOLATED)
-  //  THEME PACKAGE LISTING (STATIC FOR NOW)
-  if (isThemePage) {
-    const { city, themeSlug } = extractCityAndTheme(slug);
+const isThemePage =
+  slug.endsWith("-tour-packages") &&
+  slug.replace("-tour-packages", "").includes("-");
+//  console.log(slug);
+if (isThemePage) {
+  const { city, themeSlug } = extractCityAndTheme(slug);
 
-    const cityRes = await fetchThemesData(city);
-    const rawThemes = cityRes?.data?.themes;
+  // 1️⃣ Get city for location_id
+  const cityRes = await fetchCityIntroData(city);
+  if (!cityRes?.data?.city) notFound();
 
-    const themesArray = Array.isArray(rawThemes)
-      ? rawThemes
-      : rawThemes
-        ? [rawThemes]
-        : [];
+  const locationId = cityRes.data.city.location_id;
 
-    const currentTheme = themesArray.find((t: any) => t.slug === themeSlug);
+  // 2️⃣ Directly call THEME API (no matching, no themesArray)
+  const themeData = await fetchThemePackages(themeSlug);
+    // console.log(themeData);
+  if (!themeData) notFound();
 
-    if (!currentTheme) {
-      notFound();
-    }
-//   const themeSidebarData = {
-//   location: {
-//     name: city,
-//   },
-//   categories: themesArray.map((t: any) => ({
-//     title: t.title,
-//     slug: t.slug,
-//   })),
-// };
+  // // 3️⃣ Shape data for component
+  // const themeListingData = {
+  //   location: {
+  //     details: {
+  //       title: `${city} ${themeData.title} Tour Packages`,
+  //       sub_title: themeData.title,
+  //       about: themeData.overview,
+  //       banner_image: `https://cdn.cholantours.com/${themeData.primary_img}`,
+  //     },
+  //     faqs: [],
+  //   },
+  //   packages: themeData.packages,
+  // };
 
-    // 🔒 BUILD ONE CLEAN OBJECT
-const themePageData = {
-  city,
-  theme: {
-    title: currentTheme.title,
-    slug: currentTheme.slug,
-    overview: currentTheme.overview,
-    banner_image: currentTheme.primary_img
-      ? `https://cdn.cholantours.com/${currentTheme.primary_img}`
-      : "/images/banner.webp",
-  },
-  listing: {
-    location: {
-      details: {
-        title: `${city} ${currentTheme.title} Tour Packages`,
-        about: currentTheme.overview,
-        banner_image: currentTheme.primary_img
-          ? `https://cdn.cholantours.com/${currentTheme.primary_img}`
-          : "/images/banner.webp",
-      },
-      faqs: [],
+  // get all themes of city for sidebar
+const cityThemes = cityRes?.data?.themes || [];
+const themes = cityRes?.data?.themes || [];;
+
+const themeSidebarData = Array.isArray(themes) ? themes : [themes];
+
+const themeListingData = {
+  location: {
+    name: cityRes.data.city.title,   // for sidebar title
+    details: {
+      title: `${city} ${themeData.title} Tour Packages`,
+      sub_title: themeData.title,
+      about: themeData.overview,
+      banner_image: `https://cdn.cholantours.com/${themeData.primary_img}`,
     },
-    packages: [],
+    faqs: [],
   },
-  // sidebar: themeSidebarData, 
+
+  // ⭐ THIS FEEDS SIDEBAR
+  categories: cityThemes.map((t: any) => ({
+    name: t.title,
+    slug: t.slug,
+  })),
+
+  // ⭐ THIS FEEDS CARDS
+  packages: themeData.packages,
 };
 
-    return <ThemePackageListing data={themePageData} />;
-  }
+
+ return (
+  <ThemePackageListing
+    data={themeListingData}
+    sidebarThemes={themeSidebarData}
+    citySlug={city}
+    cityName={cityRes.data.city.title}
+  />
+);
+
+}
+
 
   // ✅ CITY PACKAGE LISTING PAGE
   const page = Number(searchParams?.page ?? 1);
@@ -156,7 +172,7 @@ const themePageData = {
       packageList1={res.data}
       initialPage={page}
       slug1={slug}
-      categorySlug={null} // 🔒 disabled forever
+      categorySlug={null} //  disabled forever
       originalSlug={slug}
     />
   );

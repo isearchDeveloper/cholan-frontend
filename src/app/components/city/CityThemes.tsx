@@ -42,7 +42,7 @@ export default function CityThemes({
             return (
               <div key={theme.slug} className="col">
                 <Link
-                  href={`/india/${citySlug}-${theme.slug}-tour-packages`}
+                  href={`/india/${theme.slug}`}
                   className="theme-card"
                 >
                   <div
