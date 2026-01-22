@@ -10594,3 +10594,45 @@ body {
     position: static;
   }
 }
+
+
+/* city theme css  */
+
+/* City Themes */
+.city-themes .theme-card {
+  text-decoration: none;
+  display: block;
+}
+
+.theme-card-bg {
+  height: 220px;
+  border-radius: 14px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.theme-card-bg:hover {
+  transform: translateY(-6px);
+}
+
+.theme-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.65),
+    rgba(0, 0, 0, 0.15)
+  );
+  display: flex;
+  align-items: flex-end;
+  padding: 16px;
+}
+
+.theme-overlay h3 {
+  color: #fff;
+  font-size: 1.1rem;
+  margin: 0;
+}

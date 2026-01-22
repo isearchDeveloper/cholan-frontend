@@ -71,6 +71,7 @@ export default async function PackagelistByCountry({
 
 const res = await fetchCityList(1);
   const cities = res?.data?.cities || [];
+
   return (
     <div className="details-wrapper ">
       <IntBanner data={countryData?.data?.details} />

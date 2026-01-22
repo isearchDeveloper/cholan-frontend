@@ -14,6 +14,8 @@ import PopularPackages from "@/app/components/city/PopularPackages";
 import CityBanner from "@/app/components/city/CityBanner";
 import CityExpandableBanner from "@/app/components/city/CityExpandableBanner";
 import FAQAccordionForCity from "@/app/components/city/FAQAccordionForCity";
+import CityThemes from "@/app/components/city/CityThemes";
+import { CITY_THEMES } from "@/app/data/cityThemes";
 
 export default function CityIntroPage({
   slug,
@@ -107,6 +109,14 @@ export default function CityIntroPage({
             : "/images/tour/default.webp",
         }))
       : [];
+  // console.log(cityData?.themes);
+  // const themesForCity = CITY_THEMES[slug] || [];
+
+  const themesForCity = Array.isArray(cityData?.themes)
+    ? cityData.themes
+    : cityData?.themes
+      ? [cityData.themes]
+      : [];
 
   return (
     <div className="city-intro-page">
@@ -149,6 +159,14 @@ export default function CityIntroPage({
         <div className="py-5">
           <PlacesToVisit cityName={cityName} data={placesToVisit} />
         </div>
+      )}
+
+      {themesForCity.length > 0 && (
+        <CityThemes
+          citySlug={slug}
+          cityName={cityName}
+          themes={themesForCity}
+        />
       )}
 
       <PopularPackages
