@@ -10636,3 +10636,32 @@ body {
   font-size: 1.1rem;
   margin: 0;
 }
+
+/* car rental routes css  */
+
+.routes-inline {
+  font-size: 16px;
+  line-height: 34px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.route-text {
+  color:blue;
+  font-weight: 500;
+}
+
+.route-link {
+  /* color: #1e5bff; */
+  text-decoration: none;
+}
+
+.route-link:hover {
+  text-decoration: underline;
+}
+
+.route-separator {
+  margin: 0 8px;
+  color: #999;
+}
+

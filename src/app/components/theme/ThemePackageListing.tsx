@@ -193,11 +193,30 @@ export default function ThemePackageListing({
 
   // console.log(data);
 
-  
   const details = data?.location?.details || {};
   const packages = Array.isArray(data?.packages) ? data.packages : [];
 
-  const pageTitle = `${cityName} ` + details?.title || "Theme Tour Packages";
+  // const clean = (val: any) => (typeof val === "string" ? val.trim() : "");
+
+  // const city = clean(cityName);
+  // const title = clean(details?.title);
+  const formatTitle = (text: any) => {
+    if (!text) return "";
+
+    return text
+      .toString()
+      .replace(/[-_]+/g, " ") // slug → words
+      .toLowerCase()
+      .replace(/\b\w/g, (c: string) => c.toUpperCase()) // Capitalize words
+      .trim();
+  };
+
+  const city = formatTitle(cityName);
+  const theme = formatTitle(details?.title);
+
+  const pageTitle =
+    [city, theme].filter(Boolean).join(" ") || "Theme Tour Packages";
+
   const faqs = Array.isArray(data?.faqs) ? data.faqs : [];
 
   const faqTitle = data?.faq_title?.trim()
