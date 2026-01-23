@@ -26,7 +26,7 @@ export default function PackageDetails({ initialData }: { initialData: any }) {
   const [packageDetails, setPackageDetails] = useState<any>(initialData);
   const [openFeedback, setOpenFeedback] = useState(false);
   const [showLoader, setShowLoader] = useState(true);
-console.log(packageDetails);
+// console.log(packageDetails);
   const breadcrumbItems: any = [
     { label: "Home", href: "/" },
     {

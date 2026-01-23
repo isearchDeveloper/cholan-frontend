@@ -287,7 +287,7 @@ const NewsForm: React.FC = () => {
         theme="light"
       />
       <div className="tourCard mb-lg-5 shadow-sm p-4 p-lg-4 mt-4 mt-lg-0">
-        <h4 className="mb-1 fw-bold">Contact US</h4>
+        <h4 className="mb-1 fw-bold">Contact Us</h4>
         {/* <p>Design a one-of-a-kind travel experience </p> */}
         <form onSubmit={handleSubmit} className="mt-4" noValidate>
           {/* Name */}

@@ -150,6 +150,13 @@ export default function CityIntroPage({
         </div>
       )}
 
+      
+
+      <PopularPackages
+        citySlug={slug}
+        country={country === "india" ? "india" : "international"}
+      />
+
       {themesForCity.length > 0 && (
         <CityThemes
           citySlug={slug}
@@ -157,11 +164,6 @@ export default function CityIntroPage({
           themes={themesForCity}
         />
       )}
-
-      <PopularPackages
-        citySlug={slug}
-        country={country === "india" ? "india" : "international"}
-      />
       {thingsToDoData.length > 0 && (
         <div className="py-5">
           <ThingsToDo cityName={cityName} data={thingsToDoData} />
@@ -187,12 +189,12 @@ export default function CityIntroPage({
       <div className="py-5">
         <ReviewsWidget />
       </div>
-      <div className="home-about">
+      {/* <div className="home-about">
         <AboutSection />
       </div>
       <div className="py-5">
         <LogoSlider />
-      </div>
+      </div> */}
     </div>
   );
 }

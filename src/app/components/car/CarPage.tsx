@@ -169,14 +169,14 @@ export default function CarRental({ data }: any) {
             </div>
           )}
 
-          {/* <div>
+          <div>
             <CarRentalRoutes
               routes={data?.data?.routes}
               cityName={
                 data?.data?.route?.from_location || data?.data?.city?.location
               }
             />
-          </div> */}
+          </div>
           {/* <div className="pb-5" >
                         <LogoSlider />
                     </div> */}

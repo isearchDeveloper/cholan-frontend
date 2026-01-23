@@ -5513,12 +5513,13 @@ form small.text-muted {
 }
 
 .line-clamp-hotel_three {
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp:3;
   text-overflow: ellipsis;
   -webkit-box-orient: vertical;
   display: -webkit-box;
   overflow: hidden;
 }
+
 
 @media (min-width: 1280px) and (max-width: 1380px) {
   .side-sticky-form {
@@ -10157,8 +10158,8 @@ body {
 }
 
 .things-title {
-  font-size: 18px;
-  font-weight: 700;
+  font-size: 16px;
+  /* font-weight: 700; */
   color: #002b5c;
   margin: 0;
   text-align: center;
@@ -10259,7 +10260,7 @@ body {
 
 .places-card-subtitle {
   font-size: 13px;
-  font-weight: 400;
+  /* font-weight: 400; */
   color: #ffffff;
   margin: 0;
 }
@@ -10639,29 +10640,61 @@ body {
 
 /* car rental routes css  */
 
-.routes-inline {
-  font-size: 16px;
-  line-height: 34px;
+
+
+
+
+
+.places-card-inner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.75) 0%,
+    rgba(0, 0, 0, 0.55) 30%,
+    rgba(0, 0, 0, 0.25) 50%,
+    rgba(0, 0, 0, 0) 60%
+  );
+  z-index: 1;
+}
+
+.places-card-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 16px;
+  z-index: 2;
+  color: #fff;
+}
+
+
+/* car city inner section css */
+.ts-city-box {
+  /* background: whitesmoke; */
+  border-radius: 8px;
   max-width: 1000px;
   margin: 0 auto;
+  padding: 14px 18px;   /* very small padding */
+  line-height: 34px;
+  text-align: center;
+  word-spacing: 2px;
 }
 
-.route-text {
-  color:blue;
-  font-weight: 500;
-}
-
-.route-link {
-  /* color: #1e5bff; */
+.ts-city-link {
+  color: black!important;
+  /* font-weight: 400;   normal text */
   text-decoration: none;
 }
 
-.route-link:hover {
+.ts-city-link:hover {
   text-decoration: underline;
+  color: blue!important;
 }
 
-.route-separator {
-  margin: 0 8px;
-  color: #999;
+.ts-separator {
+  color: #888;
+  margin: 0 6px;
 }
-
+ 

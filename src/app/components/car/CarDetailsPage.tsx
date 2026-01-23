@@ -30,6 +30,7 @@ import CarTabWithImagesDetails from "./CarTabWithImagesForDetails";
 import CarDetailsTabWithImages from "./CarDetailsTabWithImages";
 // import CarCitySection from "@/app/components/car/CarCitySection";
 import CarCitySection from "@/app/components/car/CarCitySection";
+import CarCitySectionInner from "@/app/components/car/CarCitySectionInner";
 import ReviewsWrapper from "@/app/components/ReviewsWrapper";
 
 export default function CarDetails({ data, slug, carCities }: any) {
@@ -167,11 +168,7 @@ const staticBreadcrumbItems = [
             </div>
           </div>
 
-          {Array.isArray(carCities) && carCities.length > 0 && (
-            <div className="mt-5">
-              <CarCitySection cities={carCities} />
-            </div>
-          )}
+          
 
           {data?.data?.categories?.length < 1 ? null : (
             <div className="mt-15">
@@ -222,7 +219,12 @@ const staticBreadcrumbItems = [
               }
             />
           </div>
-
+         
+          {Array.isArray(carCities) && carCities.length > 0 && (
+            <div className="mt-4">
+              <CarCitySectionInner cities={carCities} />
+            </div>
+          )}
           {fleets.length < 1 ? null : (
             <div className="py-5 car-fleet px-2 px-lg-0">
               <div className="container">

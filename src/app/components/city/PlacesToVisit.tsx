@@ -52,7 +52,7 @@ export default function PlacesToVisit({ cityName, data }: PlacesToVisitProps) {
     >
       <div className="container">
         <h2 className="text-center mb-4 fs-2 fw-bold">
-          Places To Visit In {cityName}
+          Places to visit in {cityName}
         </h2>
 
         <Swiper

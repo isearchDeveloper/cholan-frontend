@@ -54,7 +54,7 @@ export default function ToursitAttraction({
     >
       <div className="container">
         <h2 className="text-center mb-4 fs-2 fw-bold">
-          Tourist Attractions In {cityName}
+          Tourist Attractions in {cityName}
         </h2>
 
         <Swiper

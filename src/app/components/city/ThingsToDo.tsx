@@ -25,7 +25,7 @@ export default function ThingsToDo({ cityName, data }: ThingsToDoProps) {
     <section className="things-to-do-section">
       <div className="container">
         <h2 className="text-center mb-4 fw-bold fs-2">
-          Things To Do In {cityName}
+          Things to do in {cityName}
         </h2>
 
         <div className="row g-4">
@@ -42,9 +42,9 @@ export default function ThingsToDo({ cityName, data }: ThingsToDoProps) {
                   />
                 </div>
                 <div className="things-title-border">
-                  <h5 className="things-title"  style={{ cursor: "pointer" }} onClick={() => handleOpen(item)}>
+                  <h6 className="things-title"  style={{ cursor: "pointer" }} onClick={() => handleOpen(item)}>
                     {item.title}
-                  </h5>
+                  </h6>
                   {/* <p className="places-card-subtitle">{item.subtitle}</p> */}
                   {/* <button
                     className="btn orange-btn d-flex align-items-center gap-1 px-3 py-1 text-sm mt-2"
