@@ -54,12 +54,6 @@ export default function CityIntroPage({
       : "/images/banner.webp",
   };
 
-  // const aboutData = `
-  //   ${cityName} is a beautiful destination with rich culture, historical places,
-  //   natural beauty, and amazing food. This is static content for now.
-  //   Replace it later with backend API data.
-  // `;
-
   const faqData =
     cityData?.city?.faqs?.length > 0
       ? cityData.city.faqs.map((item: any) => ({
@@ -109,7 +103,7 @@ export default function CityIntroPage({
             : "/images/tour/default.webp",
         }))
       : [];
-  console.log(cityData?.themes);
+  // console.log(cityData?.themes);
   // const themesForCity = CITY_THEMES[slug] || [];
 
   const themesForCity = Array.isArray(cityData?.themes)
@@ -120,11 +114,6 @@ export default function CityIntroPage({
 
   return (
     <div className="city-intro-page">
-      {/* <Banner
-        title={bannerData.title}
-        subtitle={bannerData.subtitle}
-        imageUrl={bannerData.imageUrl}
-      /> */}
       <CityBanner
         title={bannerData.title}
         subtitle={bannerData.subtitle}

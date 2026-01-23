@@ -3,20 +3,21 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import AOS from "aos";
 import "aos/dist/aos.css";
- 
+
 interface FAQItem {
   question: string;
   answer: string;
 }
- 
+
 interface FAQAccordionProps {
   faqs: FAQItem[];
-  title: string; // City FAQ heading like: "FAQs About Moving to London"
+  title: string;
 }
- 
+
 const FAQAccordionForCity: React.FC<FAQAccordionProps> = ({ faqs, title }) => {
-const [openIndex, setOpenIndex] = useState<number | null>(0);
- 
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const [showAll, setShowAll] = useState(false);
+
   useEffect(() => {
     AOS.init({
       duration: 800,
@@ -24,12 +25,15 @@ const [openIndex, setOpenIndex] = useState<number | null>(0);
       once: true,
     });
   }, []);
- 
+
   const handleToggle = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
   };
- 
-  /* ================= FAQ SCHEMA ================= */
+
+  // ✅ Only control what is VISIBLE (not schema)
+  const visibleFaqs = showAll ? faqs : faqs.slice(0, 5);
+
+  /* ================= FAQ SCHEMA (ALL FAQS FOR SEO) ================= */
   const faqSchema =
     faqs && faqs.length > 0
       ? {
@@ -45,7 +49,7 @@ const [openIndex, setOpenIndex] = useState<number | null>(0);
           })),
         }
       : null;
- 
+
   return (
     <>
       {/* ================= SEO SCHEMA ================= */}
@@ -57,14 +61,14 @@ const [openIndex, setOpenIndex] = useState<number | null>(0);
           }}
         />
       )}
- 
+
       <div className="row justify-content-center">
         <div className="col-lg-10">
           <div className="faq-container">
             <h2 className="mb-4 fs-3 text-center color-blue">{title}</h2>
- 
+
             <div className="faq-accordion">
-              {faqs.map((faq, index) => (
+              {visibleFaqs.map((faq, index) => (
                 <div className="faq-item" key={index}>
                   <div
                     className={`faq-question ${
@@ -81,31 +85,48 @@ const [openIndex, setOpenIndex] = useState<number | null>(0);
                           alt="FAQ"
                         />
                       </span>
- 
+
                       <h3 className="fs-6 mb-0">{faq.question}</h3>
                       <span className="faq-arrow"></span>
                     </div>
                   </div>
- 
+
                   <div
                     className={`faq-answer d-flex align-items-start ps-5 ${
                       openIndex === index ? "open" : ""
                     }`}
                   >
-                    <div
-                      dangerouslySetInnerHTML={{ __html: faq.answer }}
-                    />
+                    <div dangerouslySetInnerHTML={{ __html: faq.answer }} />
                   </div>
                 </div>
               ))}
             </div>
+
+            {/* ✅ View All / Show Less Button */}
+            {faqs.length > 5 && (
+              <div className="text-center mt-4">
+                <button
+                  onClick={() => setShowAll(!showAll)}
+                  className="btn orange-btn inline-flex items-center gap-2 ts-btn-main"
+                >
+                  {showAll ? "View Less" : "Load More"}
+                  {!showAll && (
+                    <Image
+                      width={23}
+                      height={23}
+                      sizes="100vw"
+                      src="/images/button-arrow.png"
+                      alt="arrow"
+                    />
+                  )}
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
     </>
   );
 };
- 
+
 export default FAQAccordionForCity;
- 
- 

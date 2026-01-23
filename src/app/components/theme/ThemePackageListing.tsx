@@ -183,36 +183,42 @@ interface ThemePackageListingProps {
   sidebarThemes: any[];
 }
 
-
 export default function ThemePackageListing({
   data,
   cityName,
   citySlug,
   sidebarThemes,
 }: ThemePackageListingProps) {
-
   if (!data) return null;
-console.log(data);
+
+  // console.log(data);
+
+  
   const details = data?.location?.details || {};
   const packages = Array.isArray(data?.packages) ? data.packages : [];
 
-  const pageTitle = details?.title || "Theme Tour Packages";
+  const pageTitle = `${cityName} ` + details?.title || "Theme Tour Packages";
+  const faqs = Array.isArray(data?.faqs) ? data.faqs : [];
+
+  const faqTitle = data?.faq_title?.trim()
+    ? data.faq_title
+    : `FAQs About ${data?.title} in ${cityName}`;
 
   // const cityName = data?.location?.name || "";
   // const citySlug = cityName.toLowerCase().replace(/\s+/g, "-");
 
   const breadcrumbItems = [
-  { label: "Home", href: "/" },
-  { label: "India", href: "/india" },
-  {
-    label: cityName,
-    href: `/india/${citySlug}`,
-  },
-  {
-    label: data?.location?.details?.title,
-    isCurrent: true,
-  },
-];
+    { label: "Home", href: "/" },
+    { label: "India", href: "/india" },
+    {
+      label: cityName,
+      href: `/india/${citySlug}`,
+    },
+    {
+      label: data?.location?.details?.title,
+      isCurrent: true,
+    },
+  ];
 
   return (
     <div className="tour-listing p-0">
@@ -231,7 +237,7 @@ console.log(data);
               <Breadcrumb items={breadcrumbItems} />
             </div>
 
-            {/* ✅ SIDEBAR (same as India page) */}
+            {/* SIDEBAR (same as India page) */}
             <div className="col-12 col-lg-3">
               <ThemeSidebar
                 citySlug={citySlug}
@@ -240,7 +246,7 @@ console.log(data);
               />
             </div>
 
-            {/* ✅ MAIN LISTING */}
+            {/*  MAIN LISTING */}
             <div className="col-12 col-lg-9">
               <ExpandableText
                 title={pageTitle}
@@ -263,8 +269,8 @@ console.log(data);
                       } ${tour.details?.duration_days} ${
                         tour.details?.duration_days < 2 ? "Day" : "Days"
                       }`}
-                      tourTime={`${tour.details?.start_date ?? ""} - ${
-                        tour.details?.end_date ?? ""
+                      tourTime={`${tour.details?.start_date} - ${
+                        tour.details?.end_date
                       }`}
                       highlights={tour.details?.tour_highlights}
                       imageUrl={
@@ -278,12 +284,9 @@ console.log(data);
               )}
 
               {/* FAQ */}
-              {data?.location?.faqs?.length > 0 && (
+              {faqs.length > 0 && (
                 <div className="mt-5">
-                  <FAQAccordionListing
-                    faqs={data.location.faqs}
-                    location={pageTitle}
-                  />
+                  <FAQAccordionListing faqs={faqs} location={faqTitle} />
                 </div>
               )}
             </div>
