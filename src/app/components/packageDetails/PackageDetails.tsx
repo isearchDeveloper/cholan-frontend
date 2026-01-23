@@ -26,7 +26,15 @@ export default function PackageDetails({ initialData }: { initialData: any }) {
   const [packageDetails, setPackageDetails] = useState<any>(initialData);
   const [openFeedback, setOpenFeedback] = useState(false);
   const [showLoader, setShowLoader] = useState(true);
-// console.log(packageDetails);
+console.log(packageDetails);
+
+const pkg = packageDetails?.package;
+
+const indiaCategorySlug =
+  pkg?.parent_category_slug ||
+  pkg?.location?.slug ||
+  "";
+
   const breadcrumbItems: any = [
     { label: "Home", href: "/" },
     {
@@ -40,15 +48,19 @@ export default function PackageDetails({ initialData }: { initialData: any }) {
         }`,
     },
     {
-      label: `${packageDetails?.package.location.country.name == "India"
-        ? `${packageDetails?.package.parent_category ? packageDetails?.package.parent_category:packageDetails?.package.location.name}`
-        : `${packageDetails?.package.location.country.name}`
-        } Tour Packages`,
-      href: `${packageDetails?.package.location.country.name == "India"
-        ? `/india/${packageDetails?.package.parent_category_slug}`
-        : `/international-holidays/${packageDetails?.package.location.country.slug}`
-        }`,
-    },
+  label: `${
+    pkg?.location?.country?.name === "India"
+      ? `${pkg?.parent_category || pkg?.location?.name || ""} Tour Packages`
+      : `${pkg?.location?.country?.name || ""} Tour Packages`
+  }`,
+
+  href: `${
+    pkg?.location?.country?.name === "India"
+      ? `/india/${indiaCategorySlug}`
+      : `/international-holidays/${pkg?.location?.country?.slug || ""}`
+  }`,
+},
+
     // {
     //   label: `${packageDetails?.package.location.name} ${
     //     packageDetails?.package.details.duration_days

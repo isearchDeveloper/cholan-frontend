@@ -8703,12 +8703,29 @@ body {
 .cr-header {
   margin-bottom: 6px;
 }
- 
+/*  
 .cr-name {
   font-size: 15px;
   font-weight: 600;
   color: #111;
+} */
+
+.cr-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #111;
+
+  /* 🔥 prevent long names from breaking the card */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;      /* max 2 lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+
+  overflow-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
 }
+
  
 /* Rating */
 .cr-rating {
