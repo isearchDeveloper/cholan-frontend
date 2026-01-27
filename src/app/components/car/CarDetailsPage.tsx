@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -48,34 +47,30 @@ export default function CarDetails({ data, slug, carCities }: any) {
   //   },
   // ];
 
-const staticBreadcrumbItems = [
-  { label: "Home", href: "/" },
-  { label: "Car Rental", href: "/car-rental" },
+  const staticBreadcrumbItems = [
+    { label: "Home", href: "/" },
+    { label: "Car Rental", href: "/car-rental" },
 
-  // city breadcrumb
-  {
-    label:
-      data?.data?.city?.location || data?.data?.route?.from_location || "",
-    href: `/car-rental/${
-      data?.data?.city?.slug ||
-      (data?.data?.route?.from_location
-        ?.toLowerCase()
-        .replace(/\s+/g, "-"))
-    }`,
-  },
+    // city breadcrumb
+    {
+      label:
+        data?.data?.city?.location || data?.data?.route?.from_location || "",
+      href: `/car-rental/${
+        data?.data?.city?.slug ||
+        data?.data?.route?.from_location?.toLowerCase().replace(/\s+/g, "-")
+      }`,
+    },
 
-  // route breadcrumb only if route present
-  ...(data?.data?.route?.details?.title
-    ? [
-        {
-          label: data?.data?.route?.details?.title,
-          isCurrent: true,
-        },
-      ]
-    : []),
-];
-
-
+    // route breadcrumb only if route present
+    ...(data?.data?.route?.details?.title
+      ? [
+          {
+            label: data?.data?.route?.details?.title,
+            isCurrent: true,
+          },
+        ]
+      : []),
+  ];
 
   useEffect(() => {
     const checkMobile = () => {
@@ -137,6 +132,18 @@ const staticBreadcrumbItems = [
       : []),
   ];
 
+  const routes = data?.data?.routes;
+  const cityName =
+    data?.data?.route?.from_location || data?.data?.city?.location;
+
+  const hasRoutes = Array.isArray(routes) && routes.length > 0 && !!cityName;
+
+  const faqs = data?.data?.route?.faqs || data?.data?.city?.faqs;
+  const hasFaqs = Array.isArray(faqs) && faqs.length > 0;
+
+  const categories = data?.data?.categories;
+  const hasCategories = Array.isArray(categories) && categories.length > 0;
+
   return (
     <>
       <div className="car-details-wrapper">
@@ -168,34 +175,27 @@ const staticBreadcrumbItems = [
             </div>
           </div>
 
-          
-
-          {data?.data?.categories?.length < 1 ? null : (
+          {hasCategories && (
             <div className="mt-15">
               <CarDetailsTabWithImages slug={slug} />
             </div>
           )}
-          {/* 
-                <div className="pt-5" >
-                    <CholanCarRental />
-                </div> */}
+
+          <div className="pt-5">
+            <CholanCarRental />
+          </div>
 
           {/* <div className="pt-5" >
                     <CarCustomerRate />
                 </div> */}
 
-          {data?.data?.route?.faqs?.length < 1 ||
-          data?.data?.city?.faqs?.length < 1 ? null : (
-            <div
-              className={`py-5 center-faqs ${
-                data?.data?.categories?.length < 1 ? "mt-5" : ""
-              }`}
-            >
+          {hasFaqs && (
+            <div className={`py-5 center-faqs ${!hasCategories ? "mt-5" : ""}`}>
               <div className="container">
                 <div className="row justify-content-center">
                   <div className="col-lg-10">
                     <FAQAccordionCar
-                      faqs={data?.data?.route?.faqs || data?.data?.city?.faqs}
+                      faqs={faqs}
                       title={
                         data?.data?.route?.faq_title ||
                         data?.data?.city?.faq_title
@@ -207,25 +207,19 @@ const staticBreadcrumbItems = [
             </div>
           )}
 
-          <div
-            className={`pt-0 ${
-              data?.data?.categories?.length < 1 ? "mt-5" : ""
-            }`}
-          >
-            <CarRentalRoutes
-              routes={data?.data?.routes}
-              cityName={
-                data?.data?.route?.from_location || data?.data?.city?.location
-              }
-            />
-          </div>
-         
+          {hasRoutes && (
+            <div className={`pt-0 ${!hasCategories ? "mt-5" : ""}`}>
+              <CarRentalRoutes routes={routes} cityName={cityName} />
+            </div>
+          )}
+
           {Array.isArray(carCities) && carCities.length > 0 && (
             <div className="mt-4">
               <CarCitySectionInner cities={carCities} />
             </div>
           )}
-          {fleets.length < 1 ? null : (
+      {fleets.length > 0 && (
+
             <div className="py-5 car-fleet px-2 px-lg-0">
               <div className="container">
                 <h2 className="mb-4 text-center fs-3">Browse our Fleet</h2>
@@ -268,10 +262,8 @@ const staticBreadcrumbItems = [
         <ReviewsWrapper isCarPage={true} />
       </div>
       <div className="pb-5">
-            <LogoSlider />
-          </div>
-
-
+        <LogoSlider />
+      </div>
 
       {openModal && <CarEnquiryModal onClose={() => setOpenModal(false)} />}
     </>

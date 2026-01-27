@@ -10691,11 +10691,11 @@ body {
 .ts-city-box {
   /* background: whitesmoke; */
   border-radius: 8px;
-  max-width: 1000px;
+  /* max-width: 1000px; */
   margin: 0 auto;
   padding: 14px 18px;   /* very small padding */
   line-height: 34px;
-  text-align: center;
+  text-align: left;
   word-spacing: 2px;
 }
 

@@ -16,6 +16,10 @@ import CityExpandableBanner from "@/app/components/city/CityExpandableBanner";
 import FAQAccordionForCity from "@/app/components/city/FAQAccordionForCity";
 import CityThemes from "@/app/components/city/CityThemes";
 import { CITY_THEMES } from "@/app/data/cityThemes";
+import CityEnquiryForm from "@/app/components/common/CityEnquiryForm";
+
+
+
 
 export default function CityIntroPage({
   slug,
@@ -139,7 +143,7 @@ export default function CityIntroPage({
           </div>
           <div className="col-lg-4 mt-4 mt-lg-0">
             <div className="city-sticky-form">
-              <NewsForm />
+            <CityEnquiryForm />
             </div>
           </div>
         </div>

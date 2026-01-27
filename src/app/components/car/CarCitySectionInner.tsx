@@ -25,7 +25,7 @@ export default function CarCitySectionInner({
 
   return (
     <section className="tour-services">
-      <div className="ts-container">
+      <div className="container">
         <h2 className="ts-heading">Our Car Rental Services in India</h2>
 
    <div className="ts-city-box">
