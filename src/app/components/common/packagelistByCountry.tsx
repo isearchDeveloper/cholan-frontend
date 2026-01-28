@@ -17,6 +17,8 @@ import CityStateListStatic from "../country/CityStateListStatic";
 import { fetchCityIntroData, fetchCityList } from "@/app/services/cityService";
 import TourpackagesCountry from "../country/tourPackagesByInterest";
 import TourPackagesByCountry from "@/app/components/common/TourPackagesByCountry";
+import IndiaThemesSection from "@/app/components/country/IndiaThemesSection";
+
 // import { fetchHomeExclusiveData } from "@/app/services/homeService";
 import { notFound } from "next/navigation";
 import ReviewsWidget from "../ReviewsWidget";
@@ -100,6 +102,9 @@ const res = await fetchCityList(1);
               country={slug as "india"} cities={cities}
             />
           )}
+
+          {slug === "india" && <IndiaThemesSection />}
+
           <TravelPackages internationalData={countryData?.data.deal_packages} />
           <TourpackagesCountry
             countryData={countryData?.data}

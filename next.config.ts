@@ -29,6 +29,12 @@ const nextConfig: NextConfig = {
 
   images: {
     domains: ["cdn.cholantours.com"],
+     remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
+    ],
   },
 
   eslint: {

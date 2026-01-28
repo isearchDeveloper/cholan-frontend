@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import React from "react";
 import IndiaPackageListing from "@/app/components/indiaPackageListing/indiaPackageListing";
 import { notFound } from "next/navigation";
@@ -7,6 +9,7 @@ import { fetchIndiaPackageData } from "@/app/services/indiaPackageListService";
 import { fetchCityIntroData } from "@/app/services/cityService";
 import ThemePackageListing from "@/app/components/theme/ThemePackageListing";
 import { fetchThemePackages } from "@/app/services/themeService";
+import ThemeCitySection from "@/app/components/country/ThemeCitySection";
 
 /* =======================
    SEO METADATA
@@ -67,6 +70,22 @@ export async function generateMetadata({ params }: any) {
 export default async function TourListingPage({ params, searchParams }: any) {
   const { slug } = await params;
   //  SAFE THEME PAGE CHECK (DO NOT TOUCH OTHER LOGIC)
+
+
+    // ✅ THEME LANDING PAGE (india/honeymoon)
+const staticThemes = [
+  "honeymoon",
+  "family",
+  "adventure",
+  "hill-station",
+  "wildlife",
+  "pilgrimage",
+];
+
+if (staticThemes.includes(slug)) {
+  return <ThemeCitySection theme={slug} />;
+}
+
 
   // CITY INTRO PAGE
   if (!slug.endsWith("-tour-packages")) {
@@ -129,12 +148,14 @@ export default async function TourListingPage({ params, searchParams }: any) {
     // ❗If NOT theme → it is city listing
   }
 
+
+
   const page = Number(searchParams?.page ?? 1);
   const res = await fetchIndiaPackageData(slug);
 
-  if (!res?.data?.location) {
-    notFound();
-  }
+  if (!res?.data?.location && !res?.data?.region) {
+  notFound();
+}
 
   return (
     <IndiaPackageListing
