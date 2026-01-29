@@ -4,12 +4,12 @@ import React, { useEffect, useState } from "react";
 
 interface CityExpandableTextProps {
   title?: string;
-  text: string;        // HTML from backend
-  wordLimit?: number;  // step size
+  text: string; // HTML from backend
+  wordLimit?: number; // step size
 }
 
 /* ===============================
-   🔹 HTML truncator (WORD BASED)
+   HTML truncator (WORD BASED)
    =============================== */
 function truncateHtmlByWords(html: string, limit: number) {
   if (typeof window === "undefined") {
@@ -64,22 +64,22 @@ export default function CityExpandableText({
   text,
   wordLimit = 350,
 }: CityExpandableTextProps) {
-  const [visibleWords, setVisibleWords] = useState(wordLimit);
+  const [expanded, setExpanded] = useState(false);
   const [htmlState, setHtmlState] = useState(text);
-  const [isFullyVisible, setIsFullyVisible] = useState(false);
+
+  // const [isFullyVisible, setIsFullyVisible] = useState(false);
 
   useEffect(() => {
-    const { html, isTruncated } = truncateHtmlByWords(text, visibleWords);
-    setHtmlState(html);
-    setIsFullyVisible(!isTruncated);
-  }, [text, visibleWords]);
+    if (expanded) {
+      setHtmlState(text); // show full HTML
+    } else {
+      const { html } = truncateHtmlByWords(text, wordLimit);
+      setHtmlState(html); // show 350 words
+    }
+  }, [text, expanded, wordLimit]);
 
-  const handleMore = () => {
-    setVisibleWords((prev) => prev + wordLimit);
-  };
-
-  const handleLess = () => {
-    setVisibleWords(wordLimit);
+  const toggleExpand = () => {
+    setExpanded((prev) => !prev);
   };
 
   return (
@@ -93,10 +93,10 @@ export default function CityExpandableText({
 
       <button
         type="button"
-        onClick={isFullyVisible ? handleLess : handleMore}
+        onClick={toggleExpand}
         className="exp-row btn btn-link mt-2 p-0 color-blue text-decoration-none d-flex align-items-center"
       >
-        <span>{isFullyVisible ? "Less" : "More"}</span>
+        <span>{expanded ? "Less" : "More"}</span>
       </button>
     </div>
   );

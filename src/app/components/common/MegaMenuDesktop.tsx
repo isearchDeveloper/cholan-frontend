@@ -194,14 +194,14 @@ export default function Navigation({ headerData }: any) {
                             //     )
                             //   : [];
                             
-
+                             
                             return (
                               <div
                                 key={`india-panel-${index}`}
                                 className={`panel panel-${index}`}
                               >
-                                {/* ✅ ALL OF REGION LINK (ONLY ONCE) */}
-                                <div className="clickable-state  all-of-region">
+                                {/*  ALL OF REGION LINK (ONLY ONCE) */}
+                                <div className="clickable-state all-of-region underLine">
                                   <Link
                                     href={`/india/${tab
                                       .toLowerCase()
@@ -211,7 +211,7 @@ export default function Navigation({ headerData }: any) {
                                       .replace(/-+/g, "-")}-tour-packages`}
                                     onClick={closeMobileMenu}
                                   >
-                                    All of {tab}&gt;
+                                    All of {tab}
                                   </Link>
                                 </div>
 

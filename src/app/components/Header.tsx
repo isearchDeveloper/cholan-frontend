@@ -132,7 +132,7 @@ const HeaderSec = ({ headerData }: any) => {
                     height={60}
                     sizes="100vw"
                     src="/images/logo.webp"
-                    alt="Logo"
+                    alt="Cholan Tours - India Tour Operator and Travel Company"
                   />
                 </div>
               ) : (
@@ -142,7 +142,7 @@ const HeaderSec = ({ headerData }: any) => {
                     height={60}
                     sizes="100vw"
                     src="/images/logo.webp"
-                    alt="Logo"
+                     alt="Cholan Tours - India Tour Operator and Travel Company"
                   />
                 </Link>
               )}

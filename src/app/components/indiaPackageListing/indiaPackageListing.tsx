@@ -16,16 +16,20 @@ import Breadcrumb from "@/app/components/common/Breadcrumb";
 import { fetchIndiaPackageListingData } from "@/app/services/indiaPackageListService";
 import { buildListingTitle } from "@/app/utils/titleHelpers";
 
-
-
-const IndiaPackageListing = ({ packageList1, initialPage, slug1, categorySlug: serverCategorySlug, originalSlug, }: any) => {
-
+const IndiaPackageListing = ({
+  packageList1,
+  initialPage,
+  slug1,
+  categorySlug: serverCategorySlug,
+  originalSlug,
+}: any) => {
   const [packageList, setPackageList] = useState<any>(packageList1 || null);
   const [currentPage, setCurrentPage] = useState(initialPage);
   const [totalPages, setTotalPages] = useState(1);
   const [showLoader, setShowLoader] = useState(false);
-  const [categorySlug, setCategorySlug] = useState<any>(serverCategorySlug || "");
-
+  const [categorySlug, setCategorySlug] = useState<any>(
+    serverCategorySlug || "",
+  );
 
   useEffect(() => {
     AOS.init({
@@ -82,7 +86,6 @@ const IndiaPackageListing = ({ packageList1, initialPage, slug1, categorySlug: s
     }
   };
 
-
   const generatePageNumbers = () => {
     const pages = [];
     const maxVisiblePages = 5;
@@ -104,61 +107,115 @@ const IndiaPackageListing = ({ packageList1, initialPage, slug1, categorySlug: s
     originalSlug !== slug1 &&
     originalSlug.endsWith("-tour-packages");
 
+  // const breadcrumbItems: any = [
+  //   { label: "Home", href: "/" },
+  //   { label: `${packageList?.location?.country?.name}`, href: "/india" },
+  // ];
+
+  // if (isCategoryPage && serverCategorySlug) {
+  //   breadcrumbItems.push({
+  //     label: `${packageList?.location?.name}`,
+  //     href: `/india/${slug1}`,
+  //   });
+
+  //   breadcrumbItems.push({
+  //     label: `${packageList?.location?.name} ${serverCategorySlug
+  //       .replace(/-/g, " ")
+  //       .replace(/\b\w/g, (l: string) => l.toUpperCase())} Tour Packages`,
+  //     isCurrent: true,
+  //   });
+  // } else {
+  //   breadcrumbItems.push({
+  //     label: `${packageList?.location?.name} Tour Packages`,
+  //     isCurrent: true,
+  //   });
+  // }
+
+  // temp
+  // ✅ Fallback titles for virtual region pages (North India, South India etc.)
+  const virtualRegionTitleMap: any = {
+    "north-india-tour-packages": "North India Tour Packages",
+    "south-india-tour-packages": "South India Tour Packages",
+    "west-central-india-tour-packages": "West & Central India Tour Packages",
+    "east-north-east-india-tour-packages":
+      "East & North East India Tour Packages",
+  };
+
+  const fallbackTitle = virtualRegionTitleMap[slug1] || "";
+
+  // Try to get real location name, else derive from fallback
+  const locationName =
+    packageList?.location?.name || fallbackTitle.replace(" Tour Packages", "");
+
   const breadcrumbItems: any = [
     { label: "Home", href: "/" },
-    { label: `${packageList?.location?.country?.name}`, href: "/india" },
+    { label: "India", href: "/india" },
   ];
 
-  if (isCategoryPage && serverCategorySlug) {
+  if (isCategoryPage && serverCategorySlug && packageList?.location?.name) {
     breadcrumbItems.push({
-      label: `${packageList?.location?.name}`,
+      label: `${packageList.location.name}`,
       href: `/india/${slug1}`,
     });
 
     breadcrumbItems.push({
-      label: `${packageList?.location?.name} ${serverCategorySlug
+      label: `${packageList.location.name} ${serverCategorySlug
         .replace(/-/g, " ")
         .replace(/\b\w/g, (l: string) => l.toUpperCase())} Tour Packages`,
       isCurrent: true,
     });
   } else {
     breadcrumbItems.push({
-      label: `${packageList?.location?.name} Tour Packages`,
+      label: locationName ? `${locationName} Tour Packages` : fallbackTitle,
       isCurrent: true,
     });
   }
 
   const listingTitle = buildListingTitle(
-  packageList?.location?.name,
-  categorySlug
-);
+    packageList?.location?.name,
+    categorySlug,
+  );
 
+  // const resolvedLocationName =
+  //   packageList?.location?.name || "";
 
-// const resolvedLocationName =
-//   packageList?.location?.name || "";
+  // const formattedCategory = categorySlug
+  //   ? categorySlug
+  //       .replace(/-/g, " ")
+  //       .replace(/\b\w/g, (c: string) => c.toUpperCase())
+  //   : "";
 
-// const formattedCategory = categorySlug
-//   ? categorySlug
-//       .replace(/-/g, " ")
-//       .replace(/\b\w/g, (c: string) => c.toUpperCase())
-//   : "";
+  // const pageTitle = resolvedLocationName
+  //   ? formattedCategory
+  //     ? `${resolvedLocationName} ${formattedCategory} Tour Package`
+  //     : `${resolvedLocationName} Tour Packages`
+  //   : "";
+  // const pageTitle = buildListingTitle(
+  //   packageList?.location?.name,
+  //   categorySlug
+  // );
 
-// const pageTitle = resolvedLocationName
-//   ? formattedCategory
-//     ? `${resolvedLocationName} ${formattedCategory} Tour Package`
-//     : `${resolvedLocationName} Tour Packages`
-//   : "";
-// const pageTitle = buildListingTitle(
-//   packageList?.location?.name,
-//   categorySlug
-// );
+  // ✅ Fallback for region pages (no location in API)
+  const sidebarLocationName =
+    packageList?.location?.name ||
+    virtualRegionTitleMap[slug1]?.replace(" Tour Packages", "") ||
+    "";
 
+  const sidebarData = packageList?.location
+    ? packageList
+    : {
+        ...packageList,
+        location: {
+          name: sidebarLocationName,
+          themes: [], // prevent crash
+        },
+      };
 
   return (
     <div className="tour-listing p-0">
       {packageList?.location?.details?.title ||
-        packageList?.location?.details?.sub_title ||
-        packageList?.location?.details?.banner_image ? (
+      packageList?.location?.details?.sub_title ||
+      packageList?.location?.details?.banner_image ? (
         <Banner
           title={packageList?.location?.details?.title}
           subtitle={packageList?.location?.details?.sub_title}
@@ -173,11 +230,17 @@ const IndiaPackageListing = ({ packageList1, initialPage, slug1, categorySlug: s
               <Breadcrumb items={breadcrumbItems} />
             </div>
             <div className="col-12 col-lg-3">
-              <Sidebar
+              {/* <Sidebar
                 data={packageList}
                 cities={packageList?.location?.name}
                 citySlug={slug1}
               
+              /> */}
+
+              <Sidebar
+                data={sidebarData}
+                cities={sidebarLocationName}
+                citySlug={slug1}
               />
             </div>
 
@@ -191,15 +254,20 @@ const IndiaPackageListing = ({ packageList1, initialPage, slug1, categorySlug: s
                 />
               )}
 
-
-              {packageList?.packages?.length < 1 ? null :
+              {packageList?.packages?.length < 1 ? null : (
                 <div className="showing-count my-3 text-sm">
                   <div className="flex gap-2 fs-6 align-items-lg-center">
-                    {`Showing 1-${packageList?.packages?.length} packages from`} {listingTitle && <h2 className="fs-6 m-0">{listingTitle}</h2>}
+                    {`Showing 1-${packageList?.packages?.length} packages from`}{" "}
+                    {listingTitle && (
+                      <h2 className="fs-6 m-0">{listingTitle}</h2>
+                    )}
                   </div>
-                </div>}
+                </div>
+              )}
 
-              {packageList?.packages?.length < 1 ? <h6 className="mt-5 text-danger">No Packages Found</h6> : (
+              {packageList?.packages?.length < 1 ? (
+                <h6 className="mt-5 text-danger">No Packages Found</h6>
+              ) : (
                 <div className="grid grid-cols-1 gap-6">
                   {packageList?.packages?.map((tour: any) => (
                     <TourCard
@@ -216,13 +284,14 @@ const IndiaPackageListing = ({ packageList1, initialPage, slug1, categorySlug: s
                 </div>
               )}
 
-              {packageList?.packages?.length < 1 ? null :
+              {packageList?.packages?.length < 1 ? null : (
                 <div className="pagination-container mt-4">
                   <nav aria-label="Page navigation">
                     <ul className="pagination justify-content-center">
                       <li
-                        className={`page-item ${currentPage === 1 ? "disabled" : ""
-                          }`}
+                        className={`page-item ${
+                          currentPage === 1 ? "disabled" : ""
+                        }`}
                       >
                         <button
                           className="page-link"
@@ -236,8 +305,9 @@ const IndiaPackageListing = ({ packageList1, initialPage, slug1, categorySlug: s
                       {generatePageNumbers().map((page) => (
                         <li
                           key={page}
-                          className={`page-item ${currentPage === page ? "active" : ""
-                            }`}
+                          className={`page-item ${
+                            currentPage === page ? "active" : ""
+                          }`}
                         >
                           <button
                             className="page-link"
@@ -249,8 +319,9 @@ const IndiaPackageListing = ({ packageList1, initialPage, slug1, categorySlug: s
                       ))}
 
                       <li
-                        className={`page-item ${currentPage === totalPages ? "disabled" : ""
-                          }`}
+                        className={`page-item ${
+                          currentPage === totalPages ? "disabled" : ""
+                        }`}
                       >
                         <button
                           className="page-link"
@@ -262,15 +333,18 @@ const IndiaPackageListing = ({ packageList1, initialPage, slug1, categorySlug: s
                       </li>
                     </ul>
                   </nav>
-                </div>}
+                </div>
+              )}
 
               {packageList?.location?.faqs?.length < 1 ? null : (
                 <div className="mt-5">
-                  <FAQAccordionListing faqs={packageList?.location?.faqs} location={
-                    packageList?.location?.country?.faq_title?.trim()
-                      ? packageList.location.country.faq_title
-                      : packageList?.location?.faq_title
-                  }
+                  <FAQAccordionListing
+                    faqs={packageList?.location?.faqs}
+                    location={
+                      packageList?.location?.country?.faq_title?.trim()
+                        ? packageList.location.country.faq_title
+                        : packageList?.location?.faq_title
+                    }
                   />
                 </div>
               )}

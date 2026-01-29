@@ -9,7 +9,9 @@ import { fetchIndiaPackageData } from "@/app/services/indiaPackageListService";
 import { fetchCityIntroData } from "@/app/services/cityService";
 import ThemePackageListing from "@/app/components/theme/ThemePackageListing";
 import { fetchThemePackages } from "@/app/services/themeService";
-import ThemeCitySection from "@/app/components/country/ThemeCitySection";
+import ThemeCitySection from "@/app/components/country/indiaThemeCitySection";
+
+
 
 /* =======================
    SEO METADATA
@@ -19,6 +21,55 @@ import ThemeCitySection from "@/app/components/country/ThemeCitySection";
 export async function generateMetadata({ params }: any) {
   const { slug } = await params; // no await
   const canonical = await getCanonical(`/india/${slug}`);
+
+
+   const themeSlugs = [
+    "honeymoon",
+    "family",
+    "adventure",
+    "hill-station",
+    "wildlife",
+    "pilgrimage",
+  ];
+
+  const isThemeLanding =
+    slug.endsWith("-tour-packages") &&
+    themeSlugs.includes(slug.replace("-tour-packages", ""));
+
+  // ✅ THEME LANDING META (MOST IMPORTANT)
+  if (isThemeLanding) {
+    const theme = slug.replace("-tour-packages", "");
+
+    const titleMap: any = {
+      honeymoon: "Honeymoon Tour Packages in India",
+      family: "Family Tour Packages in India",
+      adventure: "Adventure Tour Packages in India",
+      "hill-station": "Hill Station Tour Packages in India",
+      wildlife: "Wildlife Tour Packages in India",
+      pilgrimage: "Pilgrimage Tour Packages in India",
+    };
+
+    const descMap: any = {
+      honeymoon:
+        "Explore the most romantic honeymoon destinations in India with curated honeymoon tour packages, resorts, and experiences.",
+      family:
+        "Discover the best family-friendly destinations in India with comfortable, safe and fun family tour packages.",
+      adventure:
+        "Book thrilling adventure tour packages across India including trekking, rafting, wildlife safaris and more.",
+      "hill-station":
+        "Escape to the best hill stations in India with refreshing hill station tour packages and scenic stays.",
+      wildlife:
+        "Experience India's rich wildlife with jungle safaris and wildlife tour packages across national parks.",
+      pilgrimage:
+        "Plan your spiritual journey with the best pilgrimage tour packages across sacred destinations in India.",
+    };
+
+    return {
+      title: `${titleMap[theme]} | Cholan Tours`,
+      description: descMap[theme],
+      alternates: { canonical },
+    };
+  }
 
   //  CITY INTRO
   if (!slug.endsWith("-tour-packages")) {
@@ -70,10 +121,10 @@ export async function generateMetadata({ params }: any) {
 export default async function TourListingPage({ params, searchParams }: any) {
   const { slug } = await params;
   //  SAFE THEME PAGE CHECK (DO NOT TOUCH OTHER LOGIC)
-
+ 
 
     // ✅ THEME LANDING PAGE (india/honeymoon)
-const staticThemes = [
+const themeSlugs = [
   "honeymoon",
   "family",
   "adventure",
@@ -82,9 +133,15 @@ const staticThemes = [
   "pilgrimage",
 ];
 
-if (staticThemes.includes(slug)) {
-  return <ThemeCitySection theme={slug} />;
+const isThemeLanding =
+  slug.endsWith("-tour-packages") &&
+  themeSlugs.includes(slug.replace("-tour-packages", ""));
+
+if (isThemeLanding) {
+  const theme = slug.replace("-tour-packages", "");
+  return <ThemeCitySection theme={theme} />;
 }
+
 
 
   // CITY INTRO PAGE
@@ -145,7 +202,7 @@ if (staticThemes.includes(slug)) {
       );
     }
 
-    // ❗If NOT theme → it is city listing
+    // If NOT theme → it is city listing
   }
 
 
@@ -157,12 +214,27 @@ if (staticThemes.includes(slug)) {
   notFound();
 }
 
+// 🔥 NORMALIZE REGION AS LOCATION
+if (res?.data?.region && !res?.data?.location) {
+  res.data.location = {
+    details: {
+      title: res.data.region.title,
+      sub_title: res.data.region.sub_title,
+      banner_image: res.data.region.banner_image,
+      about: res.data.region.about,
+      meta: res.data.region.meta,
+    },
+  };
+}
+
+
+
   return (
     <IndiaPackageListing
       packageList1={res.data}
       initialPage={page}
       slug1={slug}
-      categorySlug={null} // 🔒 disabled forever
+      categorySlug={null} //  disabled forever
       originalSlug={slug}
     />
   );

@@ -4960,7 +4960,19 @@ h4.clickable-state a::after {
   height: 1px;
   background-color: #000;
 }
-
+.clickable-state.all-of-region.underLine a{
+  padding: 15px 10px 5px;
+   
+}
+.clickable-state.all-of-region.underLine a:before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 10px;
+  width: 25%;
+  height: 1px;
+  background-color: #000;
+}
 .menu-column .clickable-state.underLine span {
   position: relative;
   padding-bottom: 8px !important;
@@ -10639,11 +10651,11 @@ body {
 .theme-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
+  /* background: linear-gradient(
     to top,
     rgba(0, 0, 0, 0.65),
     rgba(0, 0, 0, 0.15)
-  );
+  ); */
   display: flex;
   align-items: flex-end;
   padding: 16px;
@@ -10715,39 +10727,51 @@ body {
   margin: 0 6px;
 }
 
-/* All Of Region same styling like state heading */
-.all-of-region {
-  padding-bottom: 0px !important;
-  margin-bottom: 12px !important;
-}
-
-.all-of-region a {
-  color: #000 !important;
-  font-size: 18px !important;   /* 👈 size bada */
-  font-weight: 600 !important;
+/* Common link style for state + all-of-region */
+.clickable-state a {
   position: relative;
-  /* padding-bottom: 8px !important; */
-  display: inline-block;
+  display: inline-block;      /* shrink to text width */
+  color: #000;
+  font-weight: 600;
+  padding-bottom: 3px;       /* small space for underline */
+  text-decoration: none;
 }
 
-/* underline same as state */
-.all-of-region a::before {
+/* Perfect underline */
+.clickable-state a::after {
+  content: "";
+  position: absolute;
+  left: 20px;
+  bottom: 0;
+  height: 2px;
+  width: 100%;               /* exactly text width */
+  background-color: #f36f21; /* orange */
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+
+/* Show underline on hover */
+.clickable-state a:hover::after {
+  transform: scaleX(1);
+}
+
+.clickable-state.all-of-region.underLine a{
+  padding: 15px 10px 5px;
+   
+}
+.clickable-state.all-of-region.underLine a:before {
   content: "";
   position: absolute;
   bottom: 0;
-  left: 0;
+  left: 10px;
   width: 25%;
   height: 1px;
   background-color: #000;
 }
 
-
-
-
-/* theme india page listing css  */
-
 /* ===== Themes Section ===== */
-
+/* theme india page listing css  */
 .themes-section .section-title {
   font-weight: 700;
   font-size: 28px;
@@ -10783,11 +10807,6 @@ body {
   left: 0;
   width: 100%;
   padding: 12px;
-  background: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0.7),
-    rgba(0, 0, 0, 0)
-  );
   color: #fff;
   font-weight: 600;
   font-size: 18px;
@@ -10817,14 +10836,14 @@ body {
   object-fit: cover;
 }
 
-.theme-banner-overlay {
+ .theme-banner-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.45);
-  display: flex;
+  background: rgba(0, 0, 0, 0.45); 
+   display: flex;
   align-items: center;
   justify-content: center;
-}
+}  
 
 .theme-banner-overlay h1 {
   color: #fff;
@@ -10838,3 +10857,6 @@ body {
   line-height: 1.8;
   color: #444;
 }
+
+
+

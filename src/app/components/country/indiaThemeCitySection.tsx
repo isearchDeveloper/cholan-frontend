@@ -126,7 +126,7 @@ const THEME_CITIES: Record<string, { city: string; img: string }[]> = {
   ],
 };
 
-export default function ThemeCitySection({ theme }: { theme: string }) {
+export default function indiaThemeCitySection({ theme }: { theme: string }) {
   const fallbackData = {
     title: `${theme.replace("-", " ")} Destinations in India`,
     about: `Explore the best ${theme.replace("-", " ")} destinations across India with curated travel experiences.`,
@@ -198,7 +198,7 @@ export default function ThemeCitySection({ theme }: { theme: string }) {
                     className="theme-img"
                   />
                   <div className="theme-overlay">
-                    <span className="text-capitalize">{item.city}</span>
+                    <span className="text-capitalize">{`${item.city} ${theme} Packages`}</span>
                   </div>
                 </div>
               </Link>

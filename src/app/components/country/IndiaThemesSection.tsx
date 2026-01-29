@@ -72,7 +72,7 @@ export default function IndiaThemesSection() {
         <div className="row g-4">
           {visibleThemes.map((theme) => (
             <div key={theme.slug} className="col-6 col-md-4 col-lg-3">
-              <Link href={`/india/${theme.slug}`} className="theme-card">
+              <Link  href={`/india/${theme.slug}-tour-packages`} className="theme-card">
                 <div className="theme-img-wrapper">
                   <Image
                     src={theme.img}

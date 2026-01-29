@@ -103,7 +103,7 @@ const res = await fetchCityList(1);
             />
           )}
 
-          {slug === "india" && <IndiaThemesSection />}
+          {/* {slug === "india" && <IndiaThemesSection />} */}
 
           <TravelPackages internationalData={countryData?.data.deal_packages} />
           <TourpackagesCountry
