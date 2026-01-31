@@ -11,6 +11,7 @@ type PageProps = {
 };
 
 
+
 const CDN_URL = "https://cdn.cholantours.com/";
 
 async function getDetails(slug: string) {
@@ -65,7 +66,7 @@ export async function generateMetadata({ params }: PageProps) {
 export default async function NewsLetterDetails({ params }: PageProps) {
   const { slug } = params;
 
-  console.log(slug)
+  // console.log(slug)
   const result = await getDetails(slug);
 
   if (!result?.data) {
