@@ -115,7 +115,7 @@ export default function CityIntroPage({
     : cityData?.themes
       ? [cityData.themes]
       : [];
-
+      
   return (
     <div className="city-intro-page">
       <CityBanner

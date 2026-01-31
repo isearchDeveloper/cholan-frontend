@@ -60,10 +60,10 @@ export async function generateMetadata(): Promise<Metadata> {
 export default function Page() {
   return (
     <>
-      <NewsHero slug="news" />
-      <div className="container py-5">
-        <NewsList type="news" />
-      </div>
+      <NewsHero slug="newsletter" />
+       <div className="container py-5">
+        <NewsList type="newsletter" />
+      </div> 
     </>
   );
 }

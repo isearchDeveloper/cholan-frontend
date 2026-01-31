@@ -163,7 +163,6 @@ export default async function FooterDesktopSec() {
   const quickLinks = [
     { label: "India Tour Packages", href: "/india" },
     { label: "International Holiday Packages", href: "/international-holidays" },
-    
     { label: "Customized Holidays", href: "/customized-holidays" },
     { label: "Car Rental", href: "/car-rental" },
     { label: "Privacy Policy", href: "/privacy-policy" },
@@ -171,6 +170,7 @@ export default async function FooterDesktopSec() {
     { label: "Careers", href: "/careers" },
     { label: "Blog", href: "/blog" },
     { label: "News", href: "/news" },
+     { label: "Newsletter", href: "/newsletter" }
   ];
 
   const socialMedia = [

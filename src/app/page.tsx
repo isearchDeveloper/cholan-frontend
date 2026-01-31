@@ -26,6 +26,7 @@ import { fetchPackageReviewData } from "./services/reveiwService";
 import { getCanonical } from "./lib/getCanonical";
 import ReviewsWidget from "./components/ReviewsWidget";
 
+
 // export async function generateMetadata({ params }: any) {
 //   const bannerData = await fetchHomeData();
 //   const meta = bannerData?.data?.meta || {};
@@ -87,10 +88,6 @@ export async function generateMetadata({ params }: any) {
   };
 }
 
-
-
-
-
 export default async function Home() {
   const [
     bannerData,
@@ -107,6 +104,7 @@ export default async function Home() {
     discoverIndiaPackageHomeData(),
     fetchPackageReviewData(),
   ]);
+
 
   return (
     <>

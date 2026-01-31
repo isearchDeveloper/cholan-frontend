@@ -54,7 +54,7 @@ export default function PopularPackages({
           slug1: `${citySlug}-tour-packages`,
           currentPage: 1,
         });
-
+  console.log(response);
         packagesData = response?.data?.packages || [];
       } else {
         const response = await fetchInternationalPackageListingByCity({
@@ -71,6 +71,7 @@ export default function PopularPackages({
 
     loadPackages();
   }, [citySlug, country]);
+
 
   return (
     <section className="popular-packages container py-5">

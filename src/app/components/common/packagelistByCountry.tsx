@@ -18,6 +18,7 @@ import { fetchCityIntroData, fetchCityList } from "@/app/services/cityService";
 import TourpackagesCountry from "../country/tourPackagesByInterest";
 import TourPackagesByCountry from "@/app/components/common/TourPackagesByCountry";
 import IndiaThemesSection from "@/app/components/country/IndiaThemesSection";
+import { fetchThemeList} from "@/app/services/themeService";
 
 // import { fetchHomeExclusiveData } from "@/app/services/homeService";
 import { notFound } from "next/navigation";
@@ -48,19 +49,18 @@ export default async function PackagelistByCountry({
   slug: string;
   country: string;
 }) {
-  // ✅ 1. First fetch country data
+  // 1. First fetch country data
   const [countryData] = await Promise.all([fetchCountryPageData(slug)]);
   const exclusiveIndiaPackage = await fetchSpecialData();
 
-  // ✅ 2. Validate country data
+  // 2. Validate country data
   if (!countryData || slug === "srilanka") {
     return notFound();
   }
-
-  // ✅ 3. Extract the dynamic country slug for second API call
+  // 3. Extract the dynamic country slug for second API call
   const countrySlug = countryData?.data?.details?.slug;
 
-  // ✅ 4. Double-check safety
+  // 4. Double-check safety
   let ssrHoneymoonData = { packages: [] };
 
   if (slug === "india" && countrySlug) {
@@ -74,6 +74,8 @@ export default async function PackagelistByCountry({
 const res = await fetchCityList(1);
   const cities = res?.data?.cities || [];
 
+  const result= await fetchThemeList();
+ console.log(result);
   return (
     <div className="details-wrapper ">
       <IntBanner data={countryData?.data?.details} />
@@ -103,7 +105,7 @@ const res = await fetchCityList(1);
             />
           )}
 
-          {/* {slug === "india" && <IndiaThemesSection />} */}
+          {slug === "india" && <IndiaThemesSection result = {result} />}
 
           <TravelPackages internationalData={countryData?.data.deal_packages} />
           <TourpackagesCountry

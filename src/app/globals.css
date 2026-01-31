@@ -8752,7 +8752,6 @@ body {
   color: #444;
   line-height: 1.6;
   margin-bottom: 12px;
- 
   display: -webkit-box;
   -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
@@ -9105,6 +9104,9 @@ body {
   background-position: center !important;
 }
 
+.news-hero-banner h1 {
+  color:white !important;
+}
  
 .news-magazine-title {
   font-size: 2.5rem;
@@ -9150,6 +9152,10 @@ body {
   display: flex;
   flex-direction: column;
   gap: 50px;
+}
+
+.news-magazine-item .news-img{
+  height: 260px;
 }
 
 .news-magazine-item:nth-child(even) {
