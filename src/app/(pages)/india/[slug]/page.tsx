@@ -145,27 +145,7 @@ function extractCityAndTheme(slug: string, themeSlugs: string[]) {
   return null;
 }
 
-// async function fetchCityThemePackages(citySlug: string, themeSlug: string) {
-//   const url = `${process.env.NEXT_PUBLIC_UAT_URL}/api/v1/pages/city/theme/location/${citySlug}-tour-packages/${themeSlug}-tour-packages`;
 
-//   console.log("API URL:", url);
-
-//   const res = await fetch(url, {
-//     headers: { "X-Public-Token": XPublicToken },
-//     cache: "no-store",
-//   });
-
-//   console.log("STATUS:", res.status);
-
-//   const text = await res.text();
-//   console.log("RAW RESPONSE:", text);
-
-//   try {
-//     return JSON.parse(text);
-//   } catch {
-//     return null;
-//   }
-// }
 
 
 export default async function TourListingPage({ params, searchParams }: any) {
@@ -180,9 +160,9 @@ const themeSlugs = themeList.map((t: any) =>
 
 const extracted = extractCityAndTheme(slug, themeSlugs);
 
-console.log("SLUG:", slug);
-console.log("THEME SLUGS:", themeSlugs);
-console.log("EXTRACTED:", extracted);
+// console.log("SLUG:", slug);
+// console.log("THEME SLUGS:", themeSlugs);
+// console.log("EXTRACTED:", extracted);
 
 
 if (extracted) {
@@ -277,133 +257,3 @@ const sidebarThemes = cityIntro?.data?.themes || [];
     />
   );
 }
-
-
-
-
-
-
-/* =======================
-   PAGE RENDER
-======================= */
-// export default async function TourListingPage({ params, searchParams }: any) {
-//   const { slug } = await params;
-
-// //   STEP 1 — get real theme slugs from backend
-
-// //   const themeListRes = await fetchThemeList();
-// //   const themeSlugs =
-// //   themeListRes?.map((t: any) => t.slug) || [];
-// // //  console.log(themeSlugs)
-
-// //   //  STEP 2 — if slug is a theme slug → open Theme landing
-// //   if (themeSlugs.includes(slug)) {
-// //     return <ThemeCitySection theme={slug} />;
-// //   }
-
-
-
-//   // CITY INTRO PAGE
-//   if (!slug.endsWith("-tour-packages")) {
-//     const cityIntroRes = await fetchCityIntroData(slug);
-
-//     if (parseInt(cityIntroRes?.data?.city?.type) !== 1) {
-//       notFound();
-//     }
-
-//     return (
-//       <CityIntroPage
-//         slug={slug}
-//         country="india"
-//         cityData={cityIntroRes?.data || null}
-//       />
-//     );
-//   }
-//   //  CITY PACKAGE LISTING PAGE
-
-//   // AFTER city intro check
-
-//   // if (slug.endsWith("-tour-packages")) {
-//   //   //  First ask backend if this is theme
-//   //   const themeData = await fetchThemePackages(slug);
-//   //   // console.log(themeData);
-//   //   if (themeData) {
-//   //     const themeListingData = {
-//   //       ...themeData, //  keep everything
-//   //       location: {
-//   //         details: {
-//   //           title: `${themeData.title} Tour Packages`,
-//   //           sub_title: themeData.title,
-//   //           about: themeData.overview,
-//   //           banner_image: `https://cdn.cholantours.com/${themeData.primary_img}`,
-//   //         },
-//   //       },
-//   //     };
-
-//   //     const fullSlug = slug;
-//   //     const citySlug = fullSlug.split("-")[0];
-
-//   //     const cityRes = await fetchCityIntroData(citySlug);
-
-//   //     const sidebarThemes = Array.isArray(cityRes?.data?.themes)
-//   //       ? cityRes.data.themes
-//   //       : cityRes?.data?.themes
-//   //         ? [cityRes.data.themes]
-//   //         : [];
-
-//   //     return (
-//   //       <ThemePackageListing
-//   //         data={themeListingData}
-//   //         cityName={cityRes.data.city.title}
-//   //         citySlug={citySlug}
-//   //         sidebarThemes={sidebarThemes}
-//   //       />
-//   //     );
-//   //   }
-
-//   //   // If NOT theme → it is city listing
-//   // }
-
-
-
-//   const page = Number(searchParams?.page ?? 1);
-
-// // IMPORTANT GUARD (was removed)
-// if (slug.endsWith("-tour-packages")) {
-//   const themeData = await fetchThemePackages(slug);
-
-//   if (themeData) {
-//     return <ThemeCitySection theme={slug} />;
-//   }
-// }
-
-// // NORMAL CITY PACKAGE FLOW
-// const res = await fetchIndiaPackageData(slug);
-
-// if (!res?.data?.location && !res?.data?.region) {
-//   notFound();
-// }
-
-// if (res?.data?.region && !res?.data?.location) {
-//   res.data.location = {
-//     details: {
-//       title: res.data.region.title,
-//       sub_title: res.data.region.sub_title,
-//       banner_image: res.data.region.banner_image,
-//       about: res.data.region.about,
-//       meta: res.data.region.meta,
-//     },
-//   };
-// }
-
-// return (
-//   <IndiaPackageListing
-//     packageList1={res.data}
-//     initialPage={page}
-//     slug1={slug}
-//     categorySlug={null}
-//     originalSlug={slug}
-//   />
-// );
-
-// }
