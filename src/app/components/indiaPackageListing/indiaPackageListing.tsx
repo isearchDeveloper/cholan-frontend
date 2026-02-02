@@ -53,7 +53,6 @@ const IndiaPackageListing = ({
       handlePageChange(1);
     }
   }, [categorySlug]);
-  console.log(packageList1);
   const handlePageChange = async (page: number) => {
     if (page < 1 || page > totalPages) return;
     if (!slug1) return;
@@ -154,6 +153,12 @@ const IndiaPackageListing = ({
   const name =
     activeSource?.name ||
     virtualRegionTitleMap[slug1]?.replace(" Tour Packages", "") ||
+    "";
+
+  const faqTitle =
+    activeSource?.faq_title ||
+    activeSource?.country?.faq_title ||
+    activeSource?.faq_title ||
     "";
 
 
@@ -358,18 +363,15 @@ const IndiaPackageListing = ({
                 </div>
               )}
 
-              {packageList?.location?.faqs?.length < 1 ? null : (
+              {faqs.length > 0 && (
                 <div className="mt-5">
                   <FAQAccordionListing
-                    faqs={packageList?.location?.faqs}
-                    location={
-                      packageList?.location?.country?.faq_title?.trim()
-                        ? packageList.location.country.faq_title
-                        : packageList?.location?.faq_title
-                    }
+                    faqs={faqs}
+                    location={faqTitle}
                   />
                 </div>
               )}
+
             </div>
           </div>
         </div>
