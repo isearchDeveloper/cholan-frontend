@@ -29,7 +29,7 @@ export default async function ReviewsPage() {
   return (
     <div className="container py-5">
       <h1 className="mb-4"> All Customer Reviews</h1>
-      <h5 className="mb-3">Total Reviews: {listLength}</h5>
+      {/* <h5 className="mb-3">Total Reviews: {listLength}</h5> */}
 
       <CarReviewList reviews={reviews} />
     </div>

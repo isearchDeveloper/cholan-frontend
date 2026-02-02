@@ -21,7 +21,7 @@ const ReviewCard = React.memo(({ review }: any) => {
 
             {/* Overall Rating */}
             <div>
-              <small>Overall</small><br />
+              {/* <small>Overall</small><br /> */}
               <Stars count={review.overallRating} />
             </div>
           </div>

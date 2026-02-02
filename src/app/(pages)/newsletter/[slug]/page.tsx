@@ -4,6 +4,12 @@ import NewsForm from "@/app/components/news-letter/NewsForm";
 import FAQAccordionForNews from "@/app/components/news-letter/FAQAccordionForNews";
 import { XPublicToken } from "@/app/urls/apiUrls";
 
+type PageProps = {
+  params: Promise<{
+    slug: string;
+  }>;
+};
+
 const CDN_URL = "https://cdn.cholantours.com/";
 
 async function getDetails(slug: string) {
@@ -15,7 +21,7 @@ async function getDetails(slug: string) {
         "X-Public-Token": XPublicToken,
       },
       next: { revalidate: 60 },
-    }
+    },
   );
 
   if (!res.ok) return null;
@@ -57,26 +63,40 @@ export default async function NewsLetterDetails({ params }: any) {
 
   return (
     <div className="news-details-wrapper">
-      <div className="container py-5">
-        <Breadcrumb items={breadcrumbItems} />
+      <div className="pt-4 pb-5">
+        <div className="container">
+          <Breadcrumb items={breadcrumbItems} />
 
-        <h1>{item.title}</h1>
+          <div className="row">
+            <div className="col-lg-8">
+              <h1 className="mb-2">{item.title}</h1>
 
-        <img
-          src={`${CDN_URL}${item.primary_img}`}
-          className="img-fluid mb-3 w-100"
-        />
+              <img
+                src={`${CDN_URL}${item.primary_img}`}
+                className="img-fluid mb-3 w-100"
+              />
 
-        <div dangerouslySetInnerHTML={{ __html: item.description }} />
+              <div
+                className="news-page-editor"
+                dangerouslySetInnerHTML={{ __html: item.description }}
+              />
+            </div>
 
-        <NewsForm />
+            <div className="col-lg-4">
+              <div className="side-sticky-form">
+                <NewsForm />
+              </div>
+            </div>
+          </div>
 
-        {item?.faqs?.length > 0 && (
-          <FAQAccordionForNews
-            faqs={item.faqs}
-            name={item.faq_title}
-          />
-        )}
+          {item?.faqs?.length > 0 && (
+            <div className="row mt-5">
+              <div className="col-12">
+                <FAQAccordionForNews faqs={item.faqs} name={item.faq_title} />
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
