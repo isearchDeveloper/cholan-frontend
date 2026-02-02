@@ -34,13 +34,10 @@ export async function generateMetadata(): Promise<Metadata> {
     title:
       metaData?.meta_title ||
       "Cholan Tours News and Press Releases - Cholan Tours",
-
     description:
       metaData?.meta_description ||
       "Stay updated with latest Cholan Tours news and travel updates.",
-
     alternates: { canonical },
-
     openGraph: {
       title: metaData?.meta_title || "Cholan Tours News",
       description: metaData?.meta_description || "",
@@ -49,7 +46,6 @@ export async function generateMetadata(): Promise<Metadata> {
         ? [{ url: metaData.banner_image }]
         : [],
     },
-
     twitter: {
       title: metaData?.meta_title || "Cholan Tours News",
       description: metaData?.meta_description || "",
@@ -61,9 +57,9 @@ export default function Page() {
   return (
     <>
       <NewsHero slug="newsletter" />
-       <div className="container py-5">
+      <div className="container py-5">
         <NewsList type="newsletter" />
-      </div> 
+      </div>
     </>
   );
 }
