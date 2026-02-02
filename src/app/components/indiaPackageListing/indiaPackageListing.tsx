@@ -16,6 +16,7 @@ import Breadcrumb from "@/app/components/common/Breadcrumb";
 import { fetchIndiaPackageListingData } from "@/app/services/indiaPackageListService";
 import { buildListingTitle } from "@/app/utils/titleHelpers";
 
+
 const IndiaPackageListing = ({
   packageList1,
   initialPage,
@@ -52,7 +53,7 @@ const IndiaPackageListing = ({
       handlePageChange(1);
     }
   }, [categorySlug]);
-
+  console.log(packageList1);
   const handlePageChange = async (page: number) => {
     if (page < 1 || page > totalPages) return;
     if (!slug1) return;
@@ -137,11 +138,25 @@ const IndiaPackageListing = ({
     "north-india-tour-packages": "North India Tour Packages",
     "south-india-tour-packages": "South India Tour Packages",
     "west-central-india-tour-packages": "West & Central India Tour Packages",
-    "east-north-east-india-tour-packages":
+    "north-east-india-tour-packages":
       "East & North East India Tour Packages",
   };
 
   const fallbackTitle = virtualRegionTitleMap[slug1] || "";
+
+  const isRegionPage = Boolean(virtualRegionTitleMap[slug1]);
+  const activeSource = isRegionPage
+    ? packageList?.region
+    : packageList?.location;
+
+  const details = activeSource?.details ?? {};
+  const faqs = activeSource?.faqs ?? [];
+  const name =
+    activeSource?.name ||
+    virtualRegionTitleMap[slug1]?.replace(" Tour Packages", "") ||
+    "";
+
+
 
   // Try to get real location name, else derive from fallback
   const locationName =
@@ -172,9 +187,10 @@ const IndiaPackageListing = ({
   }
 
   const listingTitle = buildListingTitle(
-    packageList?.location?.name,
+    activeSource?.name,
     categorySlug,
   );
+
 
   // const resolvedLocationName =
   //   packageList?.location?.name || "";
@@ -204,24 +220,32 @@ const IndiaPackageListing = ({
   const sidebarData = packageList?.location
     ? packageList
     : {
-        ...packageList,
-        location: {
-          name: sidebarLocationName,
-          themes: [], // prevent crash
-        },
-      };
-
+      ...packageList,
+      location: {
+        name: sidebarLocationName,
+        themes: [], // prevent crash
+      },
+    };
   return (
     <div className="tour-listing p-0">
-      {packageList?.location?.details?.title ||
-      packageList?.location?.details?.sub_title ||
-      packageList?.location?.details?.banner_image ? (
+      {/* {packageList?.location?.details?.title ||
+        packageList?.location?.details?.sub_title ||
+        packageList?.location?.details?.banner_image ? (
         <Banner
           title={packageList?.location?.details?.title}
           subtitle={packageList?.location?.details?.sub_title}
           imageUrl={packageList?.location?.details?.banner_image}
         />
+      ) : null} */}
+      {details?.title || details?.sub_title || details?.banner_image ? (
+        <Banner
+          title={details?.title || name}
+          subtitle={details?.sub_title || ""}
+          imageUrl={details?.banner_image || ""}
+        />
       ) : null}
+
+
 
       <div className="listing-inner-wrapper">
         <div className="container mx-auto pt-4 pb-5">
@@ -245,14 +269,15 @@ const IndiaPackageListing = ({
             </div>
 
             <div className="col-12 col-lg-9">
-              {listingTitle && (
-                <ExpandableText
-                  title={listingTitle}
-                  subtitle={packageList?.location?.details?.sub_title}
-                  text={packageList?.location?.details?.about}
-                  collapsedLines={2}
-                />
-              )}
+              {(activeSource?.details?.about ||
+                activeSource?.details?.sub_title) && (
+                  <ExpandableText
+                    title={listingTitle}
+                    subtitle={activeSource?.details?.sub_title || ""}
+                    text={activeSource?.details?.about || ""}
+                    collapsedLines={2}
+                  />
+                )}
 
               {packageList?.packages?.length < 1 ? null : (
                 <div className="showing-count my-3 text-sm">
@@ -289,9 +314,8 @@ const IndiaPackageListing = ({
                   <nav aria-label="Page navigation">
                     <ul className="pagination justify-content-center">
                       <li
-                        className={`page-item ${
-                          currentPage === 1 ? "disabled" : ""
-                        }`}
+                        className={`page-item ${currentPage === 1 ? "disabled" : ""
+                          }`}
                       >
                         <button
                           className="page-link"
@@ -305,9 +329,8 @@ const IndiaPackageListing = ({
                       {generatePageNumbers().map((page) => (
                         <li
                           key={page}
-                          className={`page-item ${
-                            currentPage === page ? "active" : ""
-                          }`}
+                          className={`page-item ${currentPage === page ? "active" : ""
+                            }`}
                         >
                           <button
                             className="page-link"
@@ -319,9 +342,8 @@ const IndiaPackageListing = ({
                       ))}
 
                       <li
-                        className={`page-item ${
-                          currentPage === totalPages ? "disabled" : ""
-                        }`}
+                        className={`page-item ${currentPage === totalPages ? "disabled" : ""
+                          }`}
                       >
                         <button
                           className="page-link"
