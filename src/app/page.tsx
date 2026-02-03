@@ -26,30 +26,6 @@ import { fetchPackageReviewData } from "./services/reveiwService";
 import { getCanonical } from "./lib/getCanonical";
 import ReviewsWidget from "./components/ReviewsWidget";
 
-
-// export async function generateMetadata({ params }: any) {
-//   const bannerData = await fetchHomeData();
-//   const meta = bannerData?.data?.meta || {};
-//   const canonical = await getCanonical(params?.slug ? `/${params.slug}` : "");
-
-//   // Extract the meta_details from API
-//   const metaDetails = meta.meta_details || "";
-
-//   return {
-//     title: meta?.meta_title || "Cholan Tours",
-//     description: meta?.meta_description || "Cholan Tours",
-//     keywords: meta.meta_keywords || "",
-//     alternates: { canonical },
-
-
-//     other: {
-
-//       'meta-details': metaDetails
-//     },
-//   };
-// }
-
-
 export async function generateMetadata({ params }: any) {
   const bannerData = await fetchHomeData();
   const meta = bannerData?.data?.meta || {};

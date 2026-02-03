@@ -170,9 +170,9 @@ const Sidebar: any = ({ data, cities, categorySlug, setCategorySlug }: any) => {
               alt="Theme Icon"
               className="icon"
             />
-            <h6 className="ms-2 mb-0 text-white font-semibold">
+            <div className="ms-2 mb-0 text-white font-semibold">
               {`${cities} Tour By Theme`}
-            </h6>
+            </div>
           </div>
           <ul className="list-unstyled p-4">
             {data?.categories?.map((cat: any) => (

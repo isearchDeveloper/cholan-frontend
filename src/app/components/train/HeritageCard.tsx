@@ -14,14 +14,6 @@ const HeritageCard = ({ data }: any) => {
     AOS.init({ duration: 800, once: true });
     setJsEnabled(true);
 
-    // Optional tooltip init
-    // if (tooltipRef.current) {
-    //   const tooltip = new bootstrap.Tooltip(tooltipRef.current, {
-    //     trigger: "hover",
-    //     placement: "top",
-    //   });
-    //   return () => tooltip.dispose();
-    // }
   }, []);
 
   // ✅ Helper for safe image fallback

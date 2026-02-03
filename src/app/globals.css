@@ -4966,6 +4966,7 @@ h4.clickable-state a::after {
 }
 .clickable-state.all-of-region.underLine a{
   padding: 15px 10px 5px;
+  font-size: 15px !important;
    
 }
 .clickable-state.all-of-region.underLine a:before {

@@ -7,7 +7,7 @@ import Link from "next/link";
 const AboutDetailSection = () => {
   return (
     <section className="india-exp-sec">
-      <h2 className="india-exp-title">Experience India, Crafted with Care</h2>
+      <div className="india-exp-title">Experience India, Crafted with Care</div>
  
       <div className="india-exp-desc">
         <h1>Cholan Tours Pvt. Ltd. is a leading India Tour Operator</h1> specializing in

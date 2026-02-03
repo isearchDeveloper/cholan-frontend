@@ -96,17 +96,6 @@ export default async function TermsCondition() {
           alt={pageData.banner_image_alt || "Terms & Condition Banner"}
           className="d-none"
         />
-        {/* <div className="container py-5 text-center">
-          <h1 className="display-4 fw-bold mb-3 text-white">
-            {pageData.title || "Terms & Condition"}
-          </h1>
-          {/* <div
-            className="lead text-white mb-0"
-            dangerouslySetInnerHTML={{
-              __html: pageData.short_description || "",
-            }}
-          />
-        </div> */}
       </section>
       <section className="pb-5 pt-4">
         <div className="container">

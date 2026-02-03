@@ -89,104 +89,10 @@ export default async function CustomizedHoliday() {
             <TopService tourServices={tourServiceData.data.tour_services} />
           </div>
         )}
-        {/* {packageReviewData?.data && (
-          <div className="custo-holiday">
-            <CustomerRate reviews={packageReviewData.data} />
-          </div>
-        )}  */}
-
-
-        
-
-
-        {/* <div >
-          <section className="why-choose-sec common-padd bg-primary">
-            <div className="container">
-              <div className="common-header-center">
-                <h2 className="fw-semibold mb-5 text-white fs-3">
-                  Why Choose Cholan Tours?
-                </h2>
-              </div>
-              <div className="why-choos-wraper ">
-                <div className="row ">
-                  <div className="col-lg-3 col-6">
-                    <div className="sngl-box">
-                      <div className="icon">
-                        <Image
-                          width={40}
-                          height={40}
-                          sizes="100vw"
-                          src="/images/why-choos-1.png"
-                          alt="/images/no-img.webp"
-                         
-                        />
-                      </div>
-                      <h5>5000+</h5>
-                      <p>Happy & Satisfied Clients</p>
-                    </div>
-                  </div>
-                  <div className="col-lg-3 col-6">
-                    <div className="sngl-box">
-                      <div className="icon">
-                        <Image
-                          width={40}
-                          height={40}
-                          sizes="100vw"
-                          src="/images/why-choos-2.png"
-                          alt="/images/no-img.webp"
-                         
-                        />
-                      </div>
-                      <h5>20+</h5>
-                      <p>Years of Experience</p>
-                    </div>
-                  </div>
-                  <div className="col-lg-3 col-6">
-                    <div className="sngl-box">
-                      <div className="icon">
-                        <Image
-                          width={40}
-                          height={40}
-                          sizes="100vw"
-                          src="/images/why-choos-3.png"
-                          alt="/images/no-img.webp"
-                         
-                        />
-                      </div>
-                      <h5>12000+</h5>
-                      <p>Tours Completed</p>
-                    </div>
-                  </div>
-                  <div className="col-lg-3 col-6">
-                    <div className="sngl-box">
-                      <div className="icon">
-                        <Image
-                          width={40}
-                          height={40}
-                          sizes="100vw"
-                          src="/images/why-choos-4.png"
-                          alt="/images/no-img.webp"
-                         
-                        />
-                      </div>
-                      <h5>500+</h5>
-                      <p>Tour Destinations</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-        </div> */}
-
-
+       
         <div className="pb-5">
           <ReviewsWidget/>
         </div>
-
-        {/* <div className="customize-holiday">
-          <AboutSection />
-        </div> */}
 
         <LogoSlider />
       </div>

@@ -32,19 +32,6 @@ const HeaderSec = ({ headerData }: any) => {
     router.push("/"); // Navigate to home
   };
 
-  // ✅ Handle Logo Click (Mobile + Desktop)
-  // const handleLogoClick = () => {
-  //   if (window.innerWidth <= 1180) {
-  //     // ✅ Close mobile menu
-  //     const body = document.querySelector("body");
-  //     body?.classList.remove("menu-open");
-  //     setMenuOpen(false);
-  //   }
-
-  //   // ✅ Redirect home
-  //   router.push("/");
-  // };
-
   useEffect(() => {
     // Initialize Google Translate
     (window as any).googleTranslateElementInit = () => {
@@ -66,18 +53,7 @@ const HeaderSec = ({ headerData }: any) => {
       document.body.removeChild(addScript);
     };
   }, []);
-  // // const handleLogoClick = () => {
-  // //   if (window.innerWidth <= 1180) {
-  // //     setNavOpen(false);
-  // //     setMegaMenuOpen(null);
-  // //     setToursDropdownOpen(false);
-  // //      router.push("/");
-  // //   }
-  // // };
-
-  //   router.push("/");
-  // };
-
+  
   // List of 10 languages + flagsss
   const languageOptions = [
     { code: "en", label: "English", img: "/images/flags/uk.svg" },

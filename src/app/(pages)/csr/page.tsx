@@ -10,7 +10,6 @@ export async function generateMetadata() {
   const canonical = await getCanonical("/csr");
   const currentUrl = canonical;
 
-  // Extract the meta_details from API
   const metaDetails = meta.meta_details || "";
 
   return {
@@ -31,11 +30,6 @@ export async function generateMetadata() {
       description: meta?.meta_description || "Cholan Tours",
     },
 
-    // Dynamically inject the meta_details content into head
-    // other: {
-    //   // This will render the raw HTML from meta_details in the head section
-    //   "meta-details": metaDetails,
-    // },
   };
 }
 

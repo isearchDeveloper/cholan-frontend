@@ -32,11 +32,6 @@ export async function generateMetadata() {
       description: meta?.meta_description || "Cholan Tours",
     },
 
-    // Dynamically inject the meta_details content into head
-    // other: {
-    //   // This will render the raw HTML from meta_details in the head section
-    //   "meta-details": metaDetails,
-    // },
   };
 }
 

@@ -62,10 +62,6 @@ const THEME_OVERVIEW_DATA: Record<string, string> = {
 
 
 export default function ThemeOverview({ theme }: ThemeOverviewProps) {
-  // const overviewHtml =
-  //   THEME_OVERVIEW_DATA[theme] ||
-  //   `<p>Explore the best ${theme} destinations across India with curated travel experiences.</p>`;
-
   return (
     <div className="theme-overview-section">
       <h2 className="mb-3">About This Theme</h2>

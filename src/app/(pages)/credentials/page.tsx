@@ -32,7 +32,6 @@ export async function generateMetadata() {
       description: meta?.meta_description || 'cholan tours',
     },
 
-    // You can later inject metaDetails into the head using metadata API if needed
   };
 }
 
