@@ -56,7 +56,7 @@ export default async function RootLayout({
         <meta name="twitter:site" content="@cholantour" />
         <meta name="twitter:creator" content="@cholantour" />
 
-        {/* ✅ No-JS CSS fallback (for slider, menus, pagination) */}
+        {/*  No-JS CSS fallback (for slider, menus, pagination) */}
         <noscript>
           <style>{`
             body.no-js .js-only {

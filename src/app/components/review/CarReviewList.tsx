@@ -1,39 +1,3 @@
-// "use client";
-
-// import { useState } from "react";
-// import ReviewCard from "./ReviewCard";
-
-// export default function CarReviewList({ reviews }: any) {
-//   const [showAll, setShowAll] = useState(false);
-
-//   const visibleReviews = showAll ? reviews : reviews.slice(0, 20);
-
-//   return (
-//     <>
-//       {/* {visibleReviews.map((review: any) => (
-//         <ReviewCard key={review.id} review={review} />
-//       ))} */}
-
-//         <div className="car-review-wrapper">
-//         {visibleReviews.map((review: any) => (
-//           <ReviewCard key={review.id} review={review} />
-//         ))}
-//       </div>
-
-//       {!showAll && reviews.length > 20 && (
-//         <div className="text-center mt-4">
-//           <button
-//             className="btn btn-primary"
-//             onClick={() => setShowAll(true)}
-//           >
-//             Show All Reviews ({reviews.length})
-//           </button>
-//         </div>
-//       )}
-//     </>
-//   );
-// }
-
 "use client";
 import Image from "next/image";
 import { useState } from "react";

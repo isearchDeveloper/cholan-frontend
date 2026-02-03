@@ -166,7 +166,7 @@ export default function CarReviews() {
       </div>
 
       <div className="text-center mt-4">
-        <Link href="/review">
+        <Link href="/guest-reviews">
           <button className="btn orange-btn ts-btn-main inline-flex items-center gap-2">
             View All Reviews
             <span style={{ fontSize: "18px" }}>→</span>
