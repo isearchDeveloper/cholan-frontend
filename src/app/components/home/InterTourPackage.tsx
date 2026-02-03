@@ -93,41 +93,20 @@ const InterTourPackage = ({ trendingInternationalData }: any) => {
                     >
                       {/* badges block kept commented as in your code */}
                       <div className="slider-box">
-                        <div
-                          onMouseEnter={() => swiperRef.current?.autoplay?.stop()}
-                          onMouseLeave={() => swiperRef.current?.autoplay?.start()}
-                          style={{ position: "relative" }}
-                        >
-                          <Swiper loop={true} spaceBetween={30} slidesPerView={1}>
-                            {/* {data.images?.map((img: any, idx: number) => ( */}
-                            {[
-                              {
-                                image_path: data.primary_image || "/images/no-img.webp",
-                                image_alt: data.primary_image_alt || "Primary Image",
-                                id: "primary",
-                              },
-                              ...(data.images?.filter(
-                                (img: any) => img.image_path !== data.primary_image
-                              ) || []),
-                            ].map((img: any, idx: number) => (
-                              <SwiperSlide key={img.id ?? idx}>
-                                <div className="slider-content">
-                                  <div className="slider-content-wraper">
-                                    <Image
-                                      width={800}
-                                      height={600}
-                                      sizes="100vw"
-                                      className="custom-hover"
-                                      src={img.image_path || "/images/no-img.webp"}
-                                      alt={img.image_alt || "/images/no-img.webp"}
-                                    />
-                                  </div>
-                                </div>
-                              </SwiperSlide>
-                            ))}
-                          </Swiper>
+                        <div className="slider-content">
+                          <div className="slider-content-wraper">
+                            <Image
+                              width={800}
+                              height={600}
+                              sizes="100vw"
+                              className="custom-hover"
+                              src={data.primary_image || "/images/no-img.webp"}
+                              alt={data.primary_image_alt || data.title || "Image"}
+                            />
+                          </div>
                         </div>
                       </div>
+
                     </div>
 
                     <div className="content-box">

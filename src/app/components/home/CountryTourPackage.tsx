@@ -99,39 +99,20 @@ const CountryTourPackage = ({ countryPackageHomeData }: any) => {
                       onClick={() => setUrl(data.slug)}
                     >
                       <div className="slider-box">
-                        <Swiper loop={true} spaceBetween={30} slidesPerView={1}>
-                          <SwiperSlide key="primary">
-                            <div className="slider-content">
-                              <div className="slider-content-wraper">
-                                <Image
-                                  width={800}
-                                  height={600}
-                                  sizes="100vw"
-                                  className="custom-hover"
-                                  src={data.primary_image || "/images/no-img.webp"}
-                                  alt={data.primary_image_alt || "Primary Image"}
-                                />
-                              </div>
-                            </div>
-                          </SwiperSlide>
-                          {data.images?.map((img: any, idx: number) => (
-                            <SwiperSlide key={img.id ?? idx}>
-                              <div className="slider-content">
-                                <div className="slider-content-wraper">
-                                  <Image
-                                    width={800}
-                                    height={600}
-                                    sizes="100vw"
-                                    className="custom-hover"
-                                    src={img.image_path || "/images/no-img.webp"}
-                                    alt={img.image_alt || "image"}
-                                  />
-                                </div>
-                              </div>
-                            </SwiperSlide>
-                          ))}
-                        </Swiper>
+                        <div className="slider-content">
+                          <div className="slider-content-wraper">
+                            <Image
+                              width={800}
+                              height={600}
+                              sizes="100vw"
+                              className="custom-hover"
+                              src={data.primary_image || "/images/no-img.webp"}
+                              alt={data.primary_image_alt || "Primary Image"}
+                            />
+                          </div>
+                        </div>
                       </div>
+
                     </div>
 
                     <div className="content-box">

@@ -368,7 +368,7 @@ export default function Navigation({ headerData }: any) {
                               onClick={closeMobileMenu}
                               className="fw-semibold p-0 mb-2"
                             >
-                              <h5>{headerData?.india_promotion?.title}</h5>
+                              <div className="promotion-titles">{headerData?.india_promotion?.title}</div>
                             </Link>
                             <p
                               className="mb-0 text-sm"

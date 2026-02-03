@@ -124,52 +124,20 @@ const IndiaTourPackage = ({ exclusiveIndiaPackage = [] as PackageItem[] }: any) 
                         onClick={() => goToPackage(exclusive.slug)}
                       >
                         <div className="slider-box">
-                          {/* inner slider for package images */}
-                          <div
-                            onMouseEnter={() => swiperRef.current?.autoplay?.stop()}
-                            onMouseLeave={() => swiperRef.current?.autoplay?.start()}
-                            style={{ position: "relative" }}
-                          >
-                            <Swiper
-                              loop={true}
-                              spaceBetween={30}
-                              slidesPerView={1}
-                              onSwiper={(s) => {
-                                innerSwiperRefs.current[key] = s;
-                              }}
-                            >
-
-                              {/* {(exclusive.images?.length ? exclusive.images : [{ image_path: firstImage(exclusive), image_alt: firstAlt(exclusive), id: "0" }]).map(
-                                (img: any, idx: number) => ( */}
-                              {[
-                                {
-                                  image_path: exclusive.primary_image || "/images/no-img.webp",
-                                  image_alt: exclusive.primary_image_alt || "Primary Image",
-                                  id: "primary",
-                                },
-                                ...(exclusive.images?.filter(
-                                  (img: any) => img.image_path !== exclusive.primary_image
-                                ) || []),
-                              ].map((img: any, idx: number) => (
-                                <SwiperSlide key={img.id ?? `${key}-${idx}`}>
-                                  <div className="slider-content">
-                                    <div className="slider-content-wraper">
-                                      <Image
-                                        src={img.image_path || "/images/no-img.webp"}
-                                        alt={img.image_alt || "image"}
-                                        width={800}
-                                        height={600}
-                                        sizes="100vw"
-                                        className="custom-hover"
-                                      />
-                                    </div>
-                                  </div>
-                                </SwiperSlide>
-                              )
-                              )}
-                            </Swiper>
+                          <div className="slider-content">
+                            <div className="slider-content-wraper">
+                              <Image
+                                src={exclusive.primary_image || "/images/no-img.webp"}
+                                alt={exclusive.primary_image_alt || "Primary Image"}
+                                width={800}
+                                height={600}
+                                sizes="100vw"
+                                className="custom-hover"
+                              />
+                            </div>
                           </div>
                         </div>
+
                       </div>
 
                       {/* Content */}

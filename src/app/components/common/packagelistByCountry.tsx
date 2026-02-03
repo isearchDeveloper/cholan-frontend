@@ -75,7 +75,6 @@ const res = await fetchCityList(1);
   const cities = res?.data?.cities || [];
 
   const result= await fetchThemeList();
- console.log(result);
   return (
     <div className="details-wrapper ">
       <IntBanner data={countryData?.data?.details} />

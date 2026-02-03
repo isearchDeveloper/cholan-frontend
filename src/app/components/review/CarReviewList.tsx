@@ -41,7 +41,7 @@ export default function CarReviewList({ reviews }: any) {
             onClick={() => setShowAll(true)}
             className="btn orange-btn ts-btn-main inline-flex items-center gap-2"
           >
-            Show All Reviews ({reviews.length})
+            Show All Reviews
             <Image
               src="/images/button-arrow.png"
               alt="arrow"

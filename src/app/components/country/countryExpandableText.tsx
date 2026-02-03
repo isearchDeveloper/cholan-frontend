@@ -130,8 +130,8 @@ const CountryExpandableText: React.FC<CountryExpandableTextProps> = ({
     <>
       {/* ✅ JS Disabled — show full description (no expand/collapse) */}
       {!jsEnabled && (
-        <div>
-          <h2 className="mb-3">{data.title}</h2>
+        <div className="country-exp">
+          <h1 className="mb-3">{data.title}</h1>
           <div
             className="mb-0 text-sm"
             dangerouslySetInnerHTML={{ __html: data.description }}
@@ -141,8 +141,8 @@ const CountryExpandableText: React.FC<CountryExpandableTextProps> = ({
 
       {/* ✅ JS Enabled — show expandable version */}
       {jsEnabled && (
-        <div>
-          <h2 className="mb-3">{data.title}</h2>
+        <div className="country-exp">
+          <h1 className="mb-3">{data.title}</h1>
 
           <div
             ref={textRef}

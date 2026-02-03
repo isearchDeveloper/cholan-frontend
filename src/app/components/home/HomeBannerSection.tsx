@@ -55,7 +55,7 @@ const HomeBanner = ({ bannerData }: any) => {
 
               {/* CENTER CONTENT */}
               <div className="hero-content">
-                <h1 className="hero-title">{item.title || "CHOLAN TOURS"}</h1>
+                <div className="hero-title">{item.title || "CHOLAN TOURS"}</div>
                 <div className="hero-actions">
                   {/* Explore Button (same as old) */}
                   {item.package?.slug && (

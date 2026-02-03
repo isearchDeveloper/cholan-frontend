@@ -176,7 +176,7 @@ export default async function FooterDesktopSec() {
   const socialMedia = [
     { src: "/images/media1.webp", href: "https://www.facebook.com/CholanToursPrivateLimited/", alt: "Facebook" },
     { src: "/images/media2.webp", href: "https://x.com/cholantour", alt: "Twitter" },
-    { src: "/images/media3.png", href: "https://in.linkedin.com/company/cholan-tours", alt: "LinkedIn" },
+    { src: "/images/media3.png", href: "https://www.linkedin.com/company/cholantours/", alt: "LinkedIn" },
     { src: "/images/media5.png", href: "https://www.instagram.com/cholan_tours/", alt: "Instagram" },
   ];
 

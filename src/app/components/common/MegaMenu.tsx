@@ -5,21 +5,26 @@ import Link from "next/link";
 import axios from "axios";
 import { XPublicToken } from "@/app/urls/apiUrls";
 import { useRouter } from "next/navigation";
-// Tabs
-const indiaTabs = [
-  "North India",
-  "South India",
-  "East & North India",
-  "West & Central India",
-];
-const worldTabs = ["Trending", "Countries", "Regions", "Cities", "Continents"];
-// World Promo Data
-const worldPromo = {
-  img: "/images/banne2.jpg",
-  title: "Explore the World",
-  desc: "Discover global destinations and unique adventures.",
-  buttonText: "Explore Now",
+
+const REGION_DISPLAY_LABELS: Record<string, string> = {
+  "North India": "North India",
+  "South India": "South India",
+  "East & North East India": "North East",
+  "East & North India": "North East", // mobile naming safety
+  "West & Central India": "West Central",
 };
+
+const getRegionDisplayText = (regionName: string) => {
+  return REGION_DISPLAY_LABELS[regionName] ?? regionName;
+};
+
+const getRegionSlugMap = (regions: any[] = []) => {
+  return regions.reduce((acc: any, r: any) => {
+    acc[r.name] = r.slug;
+    return acc;
+  }, {});
+};
+
 
 interface MegaMenuProps {
   headerData: any;
@@ -132,6 +137,9 @@ export default function Navigation({
       setToursDropdownOpen(false);
     }
   };
+
+  const regionSlugMap = getRegionSlugMap(headerData?.regions);
+  const regionSlug = regionSlugMap[activeIndiaTab];
   
   return (
     <nav className="custom-navbar">
@@ -222,6 +230,24 @@ export default function Navigation({
                         className={`${headerData?.india_promotion ? "col-lg-6" : "col-lg-9"
                           } menu-columns`}
                       >
+                        {/* ALL OF REGION LINK (MOBILE ALSO) */}
+                          <div className="clickable-state all-of-region underLine mobile-region-tab">
+                            <Link
+                              href={
+                                regionSlug
+                                  ? `/india/${regionSlug}`
+                                  : `/india/${activeIndiaTab
+                                      .toLowerCase()
+                                      .replace(/&/g, "")
+                                      .replace(/,/g, "")
+                                      .replace(/\s+/g, "-")
+                                      .replace(/-+/g, "-")}-tour-packages`
+                              }
+                              onClick={closeMobileMenu}
+                            >
+                              All of {getRegionDisplayText(activeIndiaTab)}
+                            </Link>
+                          </div>
                         <div className="menu-row">
                           {headerData?.india_mega_menu &&
                             headerData?.india_mega_menu[activeIndiaTab] &&

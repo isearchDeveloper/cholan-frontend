@@ -203,7 +203,7 @@ const FooterSec = () => {
     },
     {
       src: "/images/media3.png",
-      href: "https://in.linkedin.com/company/cholan-tours",
+      href: "https://www.linkedin.com/company/cholantours/",
       alt: "LinkedIn",
     },
     {
