@@ -40,6 +40,11 @@ const InterTourPackage = ({ trendingInternationalData }: any) => {
     { name: "wifi", img: "/wifi.svg", label: "Wi-Fi" },
   ];
 
+const slide = trendingInternationalData || [];
+const slidesPerView = 3;
+const slidesPerGroup = 3;
+const canLoop = slide.length >= slidesPerView + slidesPerGroup ;
+
   return (
     <section className="srilanka-tourpackege-sec py-5 using-for-dubbl-slider pt-0">
       <div className="container">
@@ -73,9 +78,10 @@ const InterTourPackage = ({ trendingInternationalData }: any) => {
             onSwiper={(swiper) => (swiperRef.current = swiper)}
             pagination={{ clickable: true }}
             autoplay={{ delay: 3000 }}
-            loop={true}
+            loop={canLoop}
             spaceBetween={30}
-            slidesPerView={3}
+            slidesPerView={slidesPerView}
+            slidesPerGroup={slidesPerGroup}
             breakpoints={{
               0: { slidesPerView: 1 },
               640: { slidesPerView: 2 },

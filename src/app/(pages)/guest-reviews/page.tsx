@@ -4,8 +4,10 @@ import type { Metadata } from "next";
 import CarReviewList from "@/app/components/review/CarReviewList";
 import { fetchCarReviewData } from "@/app/services/reveiwService";
 import "./review.css";
+import Breadcrumb from "@/app/components/common/Breadcrumb";
+
  
-export const dynamic = "force-dynamic"; // 🔥 stop build-time prerender
+export const dynamic = "force-dynamic"; //  stop build-time prerender
  
 export const metadata: Metadata = {
   title: "Cholan Tours Customer Reviews | Genuine Guest Feedback",
@@ -32,17 +34,25 @@ export default async function ReviewsPage() {
   let raw: any = null;
  
   try {
-    raw = await fetchCarReviewData();  // ✅ safe now
+    raw = await fetchCarReviewData();  //  safe now
   } catch {
-    raw = { data: [] };               // ✅ prevent crash
+    raw = { data: [] };               //  prevent crash
   }
  
   const list = Array.isArray(raw?.data) ? raw.data : [];
   const reviews = list.map(mapReview);
+
+  const breadcrumbItems = [
+  { label: "Home", href: "/" },
+  { label: "Guest Reviews", isCurrent: true },
+];
+
  
   return (
     <div className="container py-5">
-      <h1 className="mb-4">All Customer Reviews</h1>
+  <Breadcrumb items={breadcrumbItems} />
+  <h1 className="mb-4 mt-3">All Customer Reviews</h1>
+
       <CarReviewList reviews={reviews} />
     </div>
   );

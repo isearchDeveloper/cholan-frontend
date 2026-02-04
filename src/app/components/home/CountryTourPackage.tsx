@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useEffect, useState, useRef } from "react";
@@ -41,6 +40,11 @@ const CountryTourPackage = ({ countryPackageHomeData }: any) => {
     router.push(`/packages/${slug}`);
   };
 
+  const slides = countryPackageHomeData || [];
+  const slidesPerView = 3;
+  const slidesPerGroup = 3; // default swiper behaviour
+  const canLoop = slides.length >= slidesPerView + slidesPerGroup;
+
   return (
     <section className="srilanka-tourpackege-sec py-5 using-for-dubbl-slider">
       <div className="container">
@@ -80,13 +84,14 @@ const CountryTourPackage = ({ countryPackageHomeData }: any) => {
             onSwiper={(swiper) => (swiperRef.current = swiper)}
             pagination={{ clickable: true }}
             autoplay={{ delay: 3000 }}
-            loop={true}
+            loop={canLoop}
             spaceBetween={30}
-            slidesPerView={3}
+            slidesPerView={slidesPerView}
+            slidesPerGroup={slidesPerGroup}
             breakpoints={{
               0: { slidesPerView: 1 },
               640: { slidesPerView: 2 },
-              1024: { slidesPerView: 3 },
+              1024: { slidesPerView: slidesPerView },
             }}
           >
             {countryPackageHomeData?.map((data: any) => (
@@ -112,7 +117,6 @@ const CountryTourPackage = ({ countryPackageHomeData }: any) => {
                           </div>
                         </div>
                       </div>
-
                     </div>
 
                     <div className="content-box">
@@ -143,57 +147,67 @@ const CountryTourPackage = ({ countryPackageHomeData }: any) => {
                           <div className="right-area d-flex align-items-center gap-1">
                             {data.rating && data.rating > 0
                               ? [...Array(5)].map((_, i) => {
-                                const ratingVal = data.rating;
-                                const full = i + 1 <= Math.floor(ratingVal);
-                                const half = !full && i < ratingVal;
+                                  const ratingVal = data.rating;
+                                  const full = i + 1 <= Math.floor(ratingVal);
+                                  const half = !full && i < ratingVal;
 
-                                if (full) {
-                                  return (
-                                    <svg
-                                      key={`full-${i}`}
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      width="16"
-                                      height="16"
-                                      fill="orange"
-                                      className="mb-1"
-                                      viewBox="0 0 16 16"
-                                    >
-                                      <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 
+                                  if (full) {
+                                    return (
+                                      <svg
+                                        key={`full-${i}`}
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="16"
+                                        height="16"
+                                        fill="orange"
+                                        className="mb-1"
+                                        viewBox="0 0 16 16"
+                                      >
+                                        <path
+                                          d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 
                                           6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 
                                           0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 
                                           3.356.83 4.73c.078.443-.36.79-.746.592L8 
-                                          13.187l-4.389 2.256z" />
-                                    </svg>
-                                  );
-                                } else if (half) {
-                                  return (
-                                    <svg
-                                      key={`half-${i}`}
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 16 16"
-                                      className="mb-1"
-                                    >
-                                      <defs>
-                                        <linearGradient id={`halfGradBlue${i}`}>
-                                          <stop offset="50%" stopColor="blue" />
-                                          <stop offset="50%" stopColor="transparent" />
-                                        </linearGradient>
-                                      </defs>
-                                      <path
-                                        fill={`url(#halfGradBlue${i})`}
-                                        d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 
+                                          13.187l-4.389 2.256z"
+                                        />
+                                      </svg>
+                                    );
+                                  } else if (half) {
+                                    return (
+                                      <svg
+                                        key={`half-${i}`}
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 16 16"
+                                        className="mb-1"
+                                      >
+                                        <defs>
+                                          <linearGradient
+                                            id={`halfGradBlue${i}`}
+                                          >
+                                            <stop
+                                              offset="50%"
+                                              stopColor="blue"
+                                            />
+                                            <stop
+                                              offset="50%"
+                                              stopColor="transparent"
+                                            />
+                                          </linearGradient>
+                                        </defs>
+                                        <path
+                                          fill={`url(#halfGradBlue${i})`}
+                                          d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 
                                             6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 
                                             0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 
                                             3.356.83 4.73c.078.443-.36.79-.746.592L8 
                                             13.187l-4.389 2.256z"
-                                      />
-                                    </svg>
-                                  );
-                                }
-                                return null;
-                              })
+                                        />
+                                      </svg>
+                                    );
+                                  }
+                                  return null;
+                                })
                               : null}
                           </div>
                         </li>
@@ -202,7 +216,10 @@ const CountryTourPackage = ({ countryPackageHomeData }: any) => {
                       <div className="tour-short-details">
                         {mounted && data.short_description && (
                           <div
-                            title={data?.short_description.replace(/<[^>]*>/g, "")}
+                            title={data?.short_description.replace(
+                              /<[^>]*>/g,
+                              "",
+                            )}
                             dangerouslySetInnerHTML={{
                               __html: (() => {
                                 const html = data.short_description || "";
@@ -222,7 +239,7 @@ const CountryTourPackage = ({ countryPackageHomeData }: any) => {
                           ?.slice(0, 4)
                           .map((facility: string) => {
                             const matchedAmenity = amenitiesData.find(
-                              (item) => item.name === facility
+                              (item) => item.name === facility,
                             );
                             if (!matchedAmenity) return null;
                             return (
@@ -232,7 +249,10 @@ const CountryTourPackage = ({ countryPackageHomeData }: any) => {
                                     width={16}
                                     height={16}
                                     sizes="100vw"
-                                    src={matchedAmenity.img || "/images/no-img.webp"}
+                                    src={
+                                      matchedAmenity.img ||
+                                      "/images/no-img.webp"
+                                    }
                                     alt={matchedAmenity.label}
                                     className="svg-iconcard"
                                   />
@@ -252,14 +272,19 @@ const CountryTourPackage = ({ countryPackageHomeData }: any) => {
                             />
                           </span>
                           {data.details?.duration_nights}{" "}
-                          {data.details?.duration_nights < 2 ? "Night" : "Nights"}{" "}
+                          {data.details?.duration_nights < 2
+                            ? "Night"
+                            : "Nights"}{" "}
                           / {data.details?.duration_days}{" "}
                           {data.details?.duration_days < 2 ? "Day" : "Days"}
                         </li>
                       </ul>
 
                       <div className="btm-btn">
-                        <Link href={`/packages/${data.slug}`} className="btn blue-btn">
+                        <Link
+                          href={`/packages/${data.slug}`}
+                          className="btn blue-btn"
+                        >
                           Explore More
                           <span>
                             <Image
@@ -304,9 +329,14 @@ const CountryTourPackage = ({ countryPackageHomeData }: any) => {
                           <img
                             src={data.primary_image}
                             alt={data.primary_image_alt || "image"}
-                            style={{ width: "100%", height: "200px", objectFit: "cover" }}
+                            style={{
+                              width: "100%",
+                              height: "200px",
+                              objectFit: "cover",
+                            }}
                           />
-                        </div></a>
+                        </div>
+                      </a>
 
                       {/* content */}
                       <div className="content-box">
@@ -319,58 +349,73 @@ const CountryTourPackage = ({ countryPackageHomeData }: any) => {
                           <li>
                             <div className="left-area">
                               <span>
-                                <img src="/images/location.png" width="12" height="12" alt="" />
+                                <img
+                                  src="/images/location.png"
+                                  width="12"
+                                  height="12"
+                                  alt=""
+                                />
                               </span>
                               {data?.location?.country?.name}
                             </div>
 
                             <div className="right-area d-flex align-items-center gap-1">
-                              {typeof data?.rating === "number" && data.rating > 0
+                              {typeof data?.rating === "number" &&
+                              data.rating > 0
                                 ? Array.from({ length: 5 }).map((_, i) => {
-                                  const full = i + 1 <= Math.floor(data.rating);
-                                  const half = !full && i < data.rating;
-                                  return full ? (
-                                    <svg
-                                      key={`ns-full-${i}`}
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      width="16"
-                                      height="16"
-                                      fill="orange"
-                                      className="mb-1"
-                                      viewBox="0 0 16 16"
-                                    >
-                                      <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 
+                                    const full =
+                                      i + 1 <= Math.floor(data.rating);
+                                    const half = !full && i < data.rating;
+                                    return full ? (
+                                      <svg
+                                        key={`ns-full-${i}`}
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="16"
+                                        height="16"
+                                        fill="orange"
+                                        className="mb-1"
+                                        viewBox="0 0 16 16"
+                                      >
+                                        <path
+                                          d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 
                                           6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 
                                           0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 
                                           3.356.83 4.73c.078.443-.36.79-.746.592L8 
-                                          13.187l-4.389 2.256z" />
-                                    </svg>
-                                  ) : half ? (
-                                    <svg
-                                      key={`ns-half-${i}`}
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 16 16"
-                                      className="mb-1"
-                                    >
-                                      <defs>
-                                        <linearGradient id={`nsHalf${i}`}>
-                                          <stop offset="50%" stopColor="orange" />
-                                          <stop offset="50%" stopColor="transparent" />
-                                        </linearGradient>
-                                      </defs>
-                                      <path
-                                        fill={`url(#nsHalf${i})`}
-                                        d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 
+                                          13.187l-4.389 2.256z"
+                                        />
+                                      </svg>
+                                    ) : half ? (
+                                      <svg
+                                        key={`ns-half-${i}`}
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 16 16"
+                                        className="mb-1"
+                                      >
+                                        <defs>
+                                          <linearGradient id={`nsHalf${i}`}>
+                                            <stop
+                                              offset="50%"
+                                              stopColor="orange"
+                                            />
+                                            <stop
+                                              offset="50%"
+                                              stopColor="transparent"
+                                            />
+                                          </linearGradient>
+                                        </defs>
+                                        <path
+                                          fill={`url(#nsHalf${i})`}
+                                          d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 
                                             6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 
                                             0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 
                                             3.356.83 4.73c.078.443-.36.79-.746.592L8 
                                             13.187l-4.389 2.256z"
-                                      />
-                                    </svg>
-                                  ) : null;
-                                })
+                                        />
+                                      </svg>
+                                    ) : null;
+                                  })
                                 : null}
                             </div>
                           </li>
@@ -386,15 +431,33 @@ const CountryTourPackage = ({ countryPackageHomeData }: any) => {
                           {(data?.details?.facilities || [])
                             .slice(0, 4)
                             .map((f: string) => {
-                              const map: Record<string, { img: string; label: string }> = {
-                                flight: { img: "/images/flight.png", label: "Flights" },
-                                transport: { img: "/images/bus.png", label: "Transfers" },
-                                breakfast: { img: "/images/food.png", label: "Breakfast" },
+                              const map: Record<
+                                string,
+                                { img: string; label: string }
+                              > = {
+                                flight: {
+                                  img: "/images/flight.png",
+                                  label: "Flights",
+                                },
+                                transport: {
+                                  img: "/images/bus.png",
+                                  label: "Transfers",
+                                },
+                                breakfast: {
+                                  img: "/images/food.png",
+                                  label: "Breakfast",
+                                },
                                 hotel: { img: "/hotel.svg", label: "Hotel" },
                                 train: { img: "/train.png", label: "Train" },
-                                sightseeing: { img: "/landscape.svg", label: "Sightseeing" },
+                                sightseeing: {
+                                  img: "/landscape.svg",
+                                  label: "Sightseeing",
+                                },
                                 meal: { img: "/meal.svg", label: "Meal" },
-                                restaurant: { img: "/restaurant.svg", label: "Restaurant" },
+                                restaurant: {
+                                  img: "/restaurant.svg",
+                                  label: "Restaurant",
+                                },
                                 bar: { img: "/pub.svg", label: "Bar" },
                                 wifi: { img: "/wifi.svg", label: "Wi-Fi" },
                               };
@@ -403,7 +466,12 @@ const CountryTourPackage = ({ countryPackageHomeData }: any) => {
                               return (
                                 <li key={f}>
                                   <span>
-                                    <img src={a.img} width="16" height="16" alt={a.label} />
+                                    <img
+                                      src={a.img}
+                                      width="16"
+                                      height="16"
+                                      alt={a.label}
+                                    />
                                   </span>
                                   {a.label}
                                 </li>
@@ -412,20 +480,35 @@ const CountryTourPackage = ({ countryPackageHomeData }: any) => {
 
                           <li>
                             <span>
-                              <img src="/images/moon.png" width="16" height="16" alt="" />
+                              <img
+                                src="/images/moon.png"
+                                width="16"
+                                height="16"
+                                alt=""
+                              />
                             </span>
                             {data?.details?.duration_nights}{" "}
-                            {data?.details?.duration_nights < 2 ? "Night" : "Nights"} /{" "}
-                            {data?.details?.duration_days}{" "}
+                            {data?.details?.duration_nights < 2
+                              ? "Night"
+                              : "Nights"}{" "}
+                            / {data?.details?.duration_days}{" "}
                             {data?.details?.duration_days < 2 ? "Day" : "Days"}
                           </li>
                         </ul>
 
                         {/* CTA */}
-                        <a href={`/packages/${data.slug}`} className="btn blue-btn">
+                        <a
+                          href={`/packages/${data.slug}`}
+                          className="btn blue-btn"
+                        >
                           Explore More
                           <span>
-                            <img src="/images/button-arrow.png" width="23" height="23" alt="" />
+                            <img
+                              src="/images/button-arrow.png"
+                              width="23"
+                              height="23"
+                              alt=""
+                            />
                           </span>
                         </a>
                       </div>
@@ -442,5 +525,3 @@ const CountryTourPackage = ({ countryPackageHomeData }: any) => {
 };
 
 export default CountryTourPackage;
-
-

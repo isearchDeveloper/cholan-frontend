@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
@@ -19,7 +18,11 @@ type PackageItem = {
   title: string;
   primary_image?: string;
   primary_image_alt?: string | null;
-  images?: Array<{ id?: string | number; image_path: string; image_alt?: string | null }>;
+  images?: Array<{
+    id?: string | number;
+    image_path: string;
+    image_alt?: string | null;
+  }>;
   rating?: number | null;
   short_description?: string;
   details?: {
@@ -50,12 +53,17 @@ const amenitiesData = [
 
 function sanitizeAndTrimHtml(html?: string, words = 15) {
   if (!html) return "";
-  const text = html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+  const text = html
+    .replace(/<[^>]+>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
   const parts = text.split(" ");
   return parts.length > words ? parts.slice(0, words).join(" ") + "..." : text;
 }
 
-const IndiaTourPackage = ({ exclusiveIndiaPackage = [] as PackageItem[] }: any) => {
+const IndiaTourPackage = ({
+  exclusiveIndiaPackage = [] as PackageItem[],
+}: any) => {
   const swiperRef = useRef<SwiperType | null>(null);
   const innerSwiperRefs = useRef<Record<string, SwiperType | null>>({});
   const router = useRouter();
@@ -83,6 +91,12 @@ const IndiaTourPackage = ({ exclusiveIndiaPackage = [] as PackageItem[] }: any) 
   if (!exclusiveIndiaPackage || exclusiveIndiaPackage.length === 0) {
     return null;
   }
+
+  const slides = exclusiveIndiaPackage || [];
+  const slidesPerView = 3;
+  const slidesPerGroup = 3; // default behaviour
+  const canLoop = slides.length >= slidesPerView + slidesPerGroup;
+
   return (
     <section className="tourpackege-sec py-5 using-for-dubbl-slider">
       <div className="container">
@@ -101,13 +115,14 @@ const IndiaTourPackage = ({ exclusiveIndiaPackage = [] as PackageItem[] }: any) 
             onSwiper={(swiper) => (swiperRef.current = swiper)}
             pagination={{ clickable: true }}
             autoplay={{ delay: 3000 }}
-            loop={true}
+            loop={canLoop}
             spaceBetween={30}
-            slidesPerView={3}
+            slidesPerView={slidesPerView}
+            slidesPerGroup={slidesPerGroup}
             breakpoints={{
               0: { slidesPerView: 1 },
               640: { slidesPerView: 2 },
-              1024: { slidesPerView: 3 },
+              1024: { slidesPerView: slidesPerView },
             }}
           >
             {exclusiveIndiaPackage.map((exclusive: PackageItem) => {
@@ -127,8 +142,13 @@ const IndiaTourPackage = ({ exclusiveIndiaPackage = [] as PackageItem[] }: any) 
                           <div className="slider-content">
                             <div className="slider-content-wraper">
                               <Image
-                                src={exclusive.primary_image || "/images/no-img.webp"}
-                                alt={exclusive.primary_image_alt || "Primary Image"}
+                                src={
+                                  exclusive.primary_image ||
+                                  "/images/no-img.webp"
+                                }
+                                alt={
+                                  exclusive.primary_image_alt || "Primary Image"
+                                }
                                 width={800}
                                 height={600}
                                 sizes="100vw"
@@ -137,7 +157,6 @@ const IndiaTourPackage = ({ exclusiveIndiaPackage = [] as PackageItem[] }: any) 
                             </div>
                           </div>
                         </div>
-
                       </div>
 
                       {/* Content */}
@@ -170,73 +189,86 @@ const IndiaTourPackage = ({ exclusiveIndiaPackage = [] as PackageItem[] }: any) 
                             <div className="right-area d-flex align-items-center gap-1">
                               {exclusive.rating && exclusive.rating > 0
                                 ? [...Array(5)].map((_, i) => {
-                                  const ratingVal = exclusive.rating as number;
-                                  const full = i + 1 <= Math.floor(ratingVal);
-                                  const half = !full && i < ratingVal;
+                                    const ratingVal =
+                                      exclusive.rating as number;
+                                    const full = i + 1 <= Math.floor(ratingVal);
+                                    const half = !full && i < ratingVal;
 
-                                  if (full) {
-                                    return (
-                                      <svg
-                                        key={i}
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="16"
-                                        height="16"
-                                        fill="orange"
-                                        className="mb-1"
-                                        viewBox="0 0 16 16"
-                                      >
-                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 
+                                    if (full) {
+                                      return (
+                                        <svg
+                                          key={i}
+                                          xmlns="http://www.w3.org/2000/svg"
+                                          width="16"
+                                          height="16"
+                                          fill="orange"
+                                          className="mb-1"
+                                          viewBox="0 0 16 16"
+                                        >
+                                          <path
+                                            d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 
                                             6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 
                                             0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 
                                             3.356.83 4.73c.078.443-.36.79-.746.592L8 
-                                            13.187l-4.389 2.256z" />
-                                      </svg>
-                                    );
-                                  } else if (half) {
-                                    return (
-                                      <svg
-                                        key={i}
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="16"
-                                        height="16"
-                                        viewBox="0 0 16 16"
-                                        className="mb-1"
-                                      >
-                                        <defs>
-                                          <linearGradient id={`halfGrad${key}-${i}`}>
-                                            <stop offset="50%" stopColor="orange" />
-                                            <stop offset="50%" stopColor="transparent" />
-                                          </linearGradient>
-                                        </defs>
-                                        <path
-                                          fill={`url(#halfGrad${key}-${i})`}
-                                          d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 
+                                            13.187l-4.389 2.256z"
+                                          />
+                                        </svg>
+                                      );
+                                    } else if (half) {
+                                      return (
+                                        <svg
+                                          key={i}
+                                          xmlns="http://www.w3.org/2000/svg"
+                                          width="16"
+                                          height="16"
+                                          viewBox="0 0 16 16"
+                                          className="mb-1"
+                                        >
+                                          <defs>
+                                            <linearGradient
+                                              id={`halfGrad${key}-${i}`}
+                                            >
+                                              <stop
+                                                offset="50%"
+                                                stopColor="orange"
+                                              />
+                                              <stop
+                                                offset="50%"
+                                                stopColor="transparent"
+                                              />
+                                            </linearGradient>
+                                          </defs>
+                                          <path
+                                            fill={`url(#halfGrad${key}-${i})`}
+                                            d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 
                                               6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 
                                               0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 
                                               3.356.83 4.73c.078.443-.36.79-.746.592L8 
                                               13.187l-4.389 2.256z"
-                                        />
-                                      </svg>
-                                    );
-                                  }
-                                  return (
-                                    <svg
-                                      key={i}
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      width="16"
-                                      height="16"
-                                      fill="lightgray"
-                                      className="mb-1"
-                                      viewBox="0 0 16 16"
-                                    >
-                                      <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 
+                                          />
+                                        </svg>
+                                      );
+                                    }
+                                    return (
+                                      <svg
+                                        key={i}
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="16"
+                                        height="16"
+                                        fill="lightgray"
+                                        className="mb-1"
+                                        viewBox="0 0 16 16"
+                                      >
+                                        <path
+                                          d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 
                                           6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 
                                           0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 
                                           3.356.83 4.73c.078.443-.36.79-.746.592L8 
-                                          13.187l-4.389 2.256z" />
-                                    </svg>
-                                  );
-                                })
+                                          13.187l-4.389 2.256z"
+                                        />
+                                      </svg>
+                                    );
+                                  })
                                 : null}
                             </div>
                           </li>
@@ -246,10 +278,16 @@ const IndiaTourPackage = ({ exclusiveIndiaPackage = [] as PackageItem[] }: any) 
                         <div className="tour-short-details">
                           {mounted && exclusive.short_description ? (
                             <div
-                              title={sanitizeAndTrimHtml(exclusive.short_description, 60)}
+                              title={sanitizeAndTrimHtml(
+                                exclusive.short_description,
+                                60,
+                              )}
                               className="line-clamp"
                               dangerouslySetInnerHTML={{
-                                __html: sanitizeAndTrimHtml(exclusive.short_description, 15),
+                                __html: sanitizeAndTrimHtml(
+                                  exclusive.short_description,
+                                  15,
+                                ),
                               }}
                             />
                           ) : null}
@@ -257,25 +295,29 @@ const IndiaTourPackage = ({ exclusiveIndiaPackage = [] as PackageItem[] }: any) 
 
                         {/* facilities + duration */}
                         <ul className="fecility-box">
-                          {exclusive.details?.facilities?.slice(0, 4).map((facility) => {
-                            const amenity = amenitiesData.find((a) => a.name === facility);
-                            if (!amenity) return null;
-                            return (
-                              <li key={facility}>
-                                <span>
-                                  <Image
-                                    width={16}
-                                    height={16}
-                                    sizes="100vw"
-                                    src={amenity.img}
-                                    alt={amenity.label}
-                                    className="svg-iconcard"
-                                  />
-                                </span>
-                                {amenity.label}
-                              </li>
-                            );
-                          })}
+                          {exclusive.details?.facilities
+                            ?.slice(0, 4)
+                            .map((facility) => {
+                              const amenity = amenitiesData.find(
+                                (a) => a.name === facility,
+                              );
+                              if (!amenity) return null;
+                              return (
+                                <li key={facility}>
+                                  <span>
+                                    <Image
+                                      width={16}
+                                      height={16}
+                                      sizes="100vw"
+                                      src={amenity.img}
+                                      alt={amenity.label}
+                                      className="svg-iconcard"
+                                    />
+                                  </span>
+                                  {amenity.label}
+                                </li>
+                              );
+                            })}
 
                           <li>
                             <span>
@@ -288,17 +330,30 @@ const IndiaTourPackage = ({ exclusiveIndiaPackage = [] as PackageItem[] }: any) 
                               />
                             </span>
                             {exclusive.details?.duration_nights ?? 0}{" "}
-                            {(exclusive.details?.duration_nights ?? 0) < 2 ? "Night" : "Nights"}{" "}
+                            {(exclusive.details?.duration_nights ?? 0) < 2
+                              ? "Night"
+                              : "Nights"}{" "}
                             / {exclusive.details?.duration_days ?? 0}{" "}
-                            {(exclusive.details?.duration_days ?? 0) < 2 ? "Day" : "Days"}
+                            {(exclusive.details?.duration_days ?? 0) < 2
+                              ? "Day"
+                              : "Days"}
                           </li>
                         </ul>
 
                         <div className="btm-btn">
-                          <Link href={`/packages/${exclusive.slug}`} className="btn blue-btn">
+                          <Link
+                            href={`/packages/${exclusive.slug}`}
+                            className="btn blue-btn"
+                          >
                             Explore More
                             <span>
-                              <Image width={23} height={23} sizes="100vw" src="/images/button-arrow.png" alt="" />
+                              <Image
+                                width={23}
+                                height={23}
+                                sizes="100vw"
+                                src="/images/button-arrow.png"
+                                alt=""
+                              />
                             </span>
                           </Link>
                         </div>
@@ -323,14 +378,24 @@ const IndiaTourPackage = ({ exclusiveIndiaPackage = [] as PackageItem[] }: any) 
                         <img
                           src={firstImage(exclusive)}
                           alt={firstAlt(exclusive)}
-                          style={{ width: "100%", height: "200px", objectFit: "cover" }}
+                          style={{
+                            width: "100%",
+                            height: "200px",
+                            objectFit: "cover",
+                          }}
                         />
-                      </div></a>
+                      </div>
+                    </a>
 
-                    <div className="content-box"><a href={`/packages/${exclusive.slug}`}>
-                      <h3 title={exclusive.title} className="truncate line-clamp-hotel_one">
-                        {exclusive.title}
-                      </h3></a>
+                    <div className="content-box">
+                      <a href={`/packages/${exclusive.slug}`}>
+                        <h3
+                          title={exclusive.title}
+                          className="truncate line-clamp-hotel_one"
+                        >
+                          {exclusive.title}
+                        </h3>
+                      </a>
 
                       <ul className="location-box mb-2">
                         <li>
@@ -356,34 +421,60 @@ const IndiaTourPackage = ({ exclusiveIndiaPackage = [] as PackageItem[] }: any) 
                       </div>
 
                       <ul className="fecility-box">
-                        {(exclusive.details?.facilities || []).slice(0, 4).map((facility) => {
-                          const amenity = amenitiesData.find((a) => a.name === facility);
-                          if (!amenity) return null;
-                          return (
-                            <li key={facility}>
-                              <span>
-                                <img width={16} height={16} src={amenity.img} alt={amenity.label} />
-                              </span>
-                              {amenity.label}
-                            </li>
-                          );
-                        })}
+                        {(exclusive.details?.facilities || [])
+                          .slice(0, 4)
+                          .map((facility) => {
+                            const amenity = amenitiesData.find(
+                              (a) => a.name === facility,
+                            );
+                            if (!amenity) return null;
+                            return (
+                              <li key={facility}>
+                                <span>
+                                  <img
+                                    width={16}
+                                    height={16}
+                                    src={amenity.img}
+                                    alt={amenity.label}
+                                  />
+                                </span>
+                                {amenity.label}
+                              </li>
+                            );
+                          })}
                         <li>
                           <span>
-                            <img width={16} height={16} src="/images/moon.png" alt="" />
+                            <img
+                              width={16}
+                              height={16}
+                              src="/images/moon.png"
+                              alt=""
+                            />
                           </span>
-                          {(exclusive.details?.duration_nights ?? 0)}{" "}
-                          {(exclusive.details?.duration_nights ?? 0) < 2 ? "Night" : "Nights"} /{" "}
-                          {(exclusive.details?.duration_days ?? 0)}{" "}
-                          {(exclusive.details?.duration_days ?? 0) < 2 ? "Day" : "Days"}
+                          {exclusive.details?.duration_nights ?? 0}{" "}
+                          {(exclusive.details?.duration_nights ?? 0) < 2
+                            ? "Night"
+                            : "Nights"}{" "}
+                          / {exclusive.details?.duration_days ?? 0}{" "}
+                          {(exclusive.details?.duration_days ?? 0) < 2
+                            ? "Day"
+                            : "Days"}
                         </li>
                       </ul>
 
                       <div className="btm-btn">
-                        <a href={`/packages/${exclusive.slug}`} className="btn blue-btn">
+                        <a
+                          href={`/packages/${exclusive.slug}`}
+                          className="btn blue-btn"
+                        >
                           Explore More
                           <span>
-                            <img width={23} height={23} src="/images/button-arrow.png" alt="" />
+                            <img
+                              width={23}
+                              height={23}
+                              src="/images/button-arrow.png"
+                              alt=""
+                            />
                           </span>
                         </a>
                       </div>
@@ -419,4 +510,3 @@ const IndiaTourPackage = ({ exclusiveIndiaPackage = [] as PackageItem[] }: any) 
 };
 
 export default IndiaTourPackage;
-
