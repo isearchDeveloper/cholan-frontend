@@ -24,7 +24,7 @@ const IntExpandableText: React.FC<any> = ({ data }) => {
 
   return (
     <>
-      {/* 🚫 JS Disabled → show full text */}
+      {/*  JS Disabled → show full text */}
       {!jsEnabled && (
         <div>
           <h1 className="mb-2 fs-2">International Tour Packages</h1>

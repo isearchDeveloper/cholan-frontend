@@ -51,7 +51,7 @@ const ExpandableText: React.FC<ExpandableTextProps> = ({
 
   return (
     <div>
-      <h1 className="mb-2 fs-2">{title} Tour Packages</h1>
+      <h1 className="mb-2 fs-2">{title}</h1>
       {subtitle && <div className="overview-subtitle mb-2 text-md font-semibold fs-6">{subtitle}</div>}
 
       <div
