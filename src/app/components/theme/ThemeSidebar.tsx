@@ -32,7 +32,7 @@ export default function ThemeSidebar({
           {themes.map((theme) => (
             <li key={theme.slug} className="mb-2">
               <Link
-                href={`/india/${theme.slug}`}
+                href={`/india/${citySlug}-${theme.slug}`}
                 className="text-decoration-none text-dark hover-link"
               >
                 {theme.title}

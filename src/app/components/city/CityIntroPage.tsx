@@ -30,12 +30,18 @@ export default function CityIntroPage({
   country: "india" | "international-holidays";
   cityData: any | null;
 }) {
+  console.log("Slug" + slug)
+console.log(cityData?.city?.slug)
   const cityName =
     cityData?.title ||
     slug
       .split("-")
       .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
       .join(" ");
+
+
+
+
 
   const overview =
     cityData?.city?.overview ||
