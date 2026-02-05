@@ -98,7 +98,6 @@ const indiaCategorySlug =
   //   );
   // }
 
-console.log("BREADCRUMB INDIA SLUG:", indiaCategorySlug);
   return (<>
     <div className="details-wrapper">
       <div

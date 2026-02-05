@@ -10,8 +10,12 @@ import { fetchCityIntroData } from "@/app/services/cityService";
 
 const cachedResolveIndiaSlug = cache(resolveIndiaSlug);
 
-export async function generateMetadata({ params }: any) {
-  const { slug } = params;
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
 
   const resolved = await cachedResolveIndiaSlug(slug);
   if (resolved.type === "NOT_FOUND") return {};
@@ -69,10 +73,18 @@ export async function generateMetadata({ params }: any) {
     }
   }
 }
+export default async function TourListingPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<{ page?: string }>;
+}) {
+  const { slug } = await params;
+  const { page } = await searchParams;
 
-export default async function TourListingPage({ params, searchParams }: any) {
-  const { slug } = params;
-  const page = Number(searchParams?.page ?? 1);
+  const currentPage = Number(page ?? 1);
+
 
   const resolved = await cachedResolveIndiaSlug(slug);
 
@@ -127,7 +139,7 @@ export default async function TourListingPage({ params, searchParams }: any) {
       return (
         <IndiaPackageListing
           packageList1={resolved.data.data}
-          initialPage={page}
+          initialPage={currentPage}
           slug1={slug}
         />
       );
