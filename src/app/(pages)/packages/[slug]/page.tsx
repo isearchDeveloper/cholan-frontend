@@ -5,62 +5,59 @@ import DynamicMetaTags from "@/app/components/DynamicMetaTags";
 import { getCanonical } from "@/app/lib/getCanonical";
 import { notFound } from "next/navigation";
 
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
 
-export async function generateMetadata({ params }: any) {
   try {
-    const data = await fetchPackageDetailsData(params.slug);
+    const data = await fetchPackageDetailsData(slug);
+
     const meta = data?.data?.package?.meta || {};
-    const canonical = await getCanonical(
-      params?.slug ? `/packages/${params.slug}` : ""
-    );
+    const canonical = await getCanonical(`/packages/${slug}`);
+
+    const packageName = data.data.package.title;
+   const days = data?.data?.package?.details?.duration_days ?? "";
+const nights = data?.data?.package?.details?.duration_nights ?? "";
 
 
-    const currentUrl = canonical;
+    const dynamicTitle = `${packageName} ${days} Days ${nights} Nights | Cholan Tours`;
+    const dynamicDescription = `Book ${packageName} for ${days} Days ${nights} Nights. Includes accommodation, sightseeing tours, transfers and a well-planned travel itinerary.`;
+  // console.log("meta running:" +dynamicTitle )
+  //  console.log("meta running:" +dynamicDescription )
+    const finalTitle = meta?.meta_title || dynamicTitle;
+    const finalDescription = meta?.meta_description || dynamicDescription;
 
     return {
-      title: meta?.meta_title || "Cholan Tours",
-      description: meta?.meta_description || "Cholan Tours",
-      keywords: meta.meta_keywords || "",
+      title: finalTitle,
+      description: finalDescription,
       alternates: { canonical },
-
-      openGraph: {
-        title: meta?.meta_title || "Cholan Tours",
-        url: currentUrl,
-        description: meta?.meta_description || "Cholan Tours",
-      },
-
-      twitter: {
-        title: meta?.meta_title || "Cholan Tours",
-        url: currentUrl,
-        description: meta?.meta_description || "Cholan Tours",
-      },
     };
-  } catch (error) {
+  } catch (e) {
     return {
-      title: "Default Title",
-      description: "Default Description",
+      title: "Cholan Tours",
+      description: "Explore premium travel experiences with Cholan Tours.",
     };
   }
 }
 
-export default async function TourDetailsPage({ params }: any) {
+export default async function TourDetailsPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
   let data;
   let metaDetails = "";
 
   try {
-    data = await fetchPackageDetailsData(params.slug);
+    data = await fetchPackageDetailsData(slug);
     metaDetails = data?.data?.package?.meta?.meta_details || "";
   } catch (error) {
     console.error("Error fetching data:", error);
   }
- // ❗ Correct 404 logic: if package missing → show 404 page
+  // ❗ Correct 404 logic: if package missing → show 404 page
   if (!data?.data?.package) {
     notFound();
   }
   return (
     <>
       <DynamicMetaTags metaDetails={metaDetails} />
-      <PackageDetails initialData={data?.data}/>
+      <PackageDetails initialData={data?.data} />
     </>
   );
 }

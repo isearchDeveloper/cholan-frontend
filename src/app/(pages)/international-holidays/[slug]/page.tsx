@@ -157,8 +157,13 @@ import { notFound } from "next/navigation";
 /* =======================
    SEO METADATA
 ======================= */
-export async function generateMetadata({ params }: any) {
-  const { slug } = params;
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+
 
   // npmn Only listing pages allowed
   if (!slug.endsWith("-tour-packages")) {
@@ -188,9 +193,17 @@ export async function generateMetadata({ params }: any) {
 /* =======================
    PAGE RENDER
 ======================= */
-export default async function InternationalListing({ params, searchParams }: any) {
-  const { slug } = params;
-  const page = Number(searchParams?.page ?? 1);
+export default async function InternationalListing({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<{ page?: string }>;
+}) {
+  const { slug } = await params;
+  const { page } = await searchParams;
+
+  const currentPage = Number(page ?? 1);
 
   //  HARD RULE — ONLY package listing allowed
   if (!slug.endsWith("-tour-packages")) {
@@ -206,7 +219,7 @@ export default async function InternationalListing({ params, searchParams }: any
   return (
     <InternationalPackageListing
       packageList1={res.data}
-      initialPage={page}
+      initialPage={currentPage}
       slug1={slug}
       categorySlug={null}
       ssrFixedData={res.data}
