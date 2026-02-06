@@ -71,7 +71,7 @@ export default async function PackagelistByCountry({
     { label: `${countryData?.data?.details?.title}`, isCurrent: true },
   ];
 
-const res = await fetchCityList(1);
+  const res = await fetchCityList(1);
   const cities = res?.data?.cities || [];
   const result= await fetchThemeList();
   return (
@@ -86,7 +86,7 @@ const res = await fetchCityList(1);
               collapsedLines={5}
             />
           </div>
-
+           
           {exclusiveIndiaPackage?.data?.length < 1 ? null : (
             <div data-aos="fade-up" data-aos-delay="200">
               <TourPackagesByCountry
@@ -99,7 +99,7 @@ const res = await fetchCityList(1);
           
           {(slug === "india") && (
             <CityStateListStatic
-              country={slug as "india"} cities={cities}
+              country={slug as "india"} cities={cities}  total={res.data.pagination.total}
             />
           )}
 

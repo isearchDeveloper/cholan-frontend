@@ -2,13 +2,19 @@ const baseUrl = process.env.NEXT_PUBLIC_UAT_URL;
 const XPublicToken =
   "zaxsc+/-=0dfvgbnhmjklo*/-piutyerwq*%$25631478907539541lokythbfet&*(@kjhkhgfhk546456456)";
 
-export async function fetchCityList(type: 1 | 2) {
+
+
+export async function fetchCityList(
+  type: 1 | 2,
+  page: number = 1,
+  limit: number = 12
+) {
   try {
     const res = await fetch(
-      `${baseUrl}/api/v1/pages/city/list?type=${type}`,
+      `${baseUrl}/api/v1/pages/city/list?type=${type}&page=${page}&limit=${limit}`,
       {
         headers: { "X-Public-Token": XPublicToken },
-        next: { revalidate: 60 },
+        cache: "no-store", // important for pagination
       }
     );
 
@@ -18,6 +24,7 @@ export async function fetchCityList(type: 1 | 2) {
     return null;
   }
 }
+
 
 
 export async function fetchCityIntroData(cityName: string) {
