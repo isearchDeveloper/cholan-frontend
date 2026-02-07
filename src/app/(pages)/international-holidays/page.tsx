@@ -99,7 +99,7 @@ export default async function Page() {
             noJsCountries={noJsCountries}
           />
           {/* ✅ International City / Country Intro Section */}
-          <CityStateListStatic country="international-holidays"  cities={cities}/>
+         
 
           <TravelPackages
             internationalData={internationalData.data.deal_packages}

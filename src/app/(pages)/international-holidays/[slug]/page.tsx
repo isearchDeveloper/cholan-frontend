@@ -139,7 +139,7 @@
 //       packageList1={res.data}
 //       initialPage={page}
 //       slug1={slug}
-//       categorySlug={null}   // 🔒 sidebar disabled
+//       categorySlug={null}   //  sidebar disabled
 //       ssrFixedData={res.data}
 //       originalSlug={slug}
 //     />
