@@ -244,12 +244,12 @@ export default async function RootLayout({
           <BackToTopButton />
         </FormProvider>
 
-        {/* ✅ Remove no-js */}
+        {/*  Remove no-js */}
         <Script id="no-js-remove" strategy="afterInteractive">
           {`document.body.classList.remove('no-js');`}
         </Script>
 
-        {/* ✅ Tawk.to */}
+        {/*  Tawk.to */}
         <Script id="tawk" strategy="lazyOnload">
           {`
             var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();

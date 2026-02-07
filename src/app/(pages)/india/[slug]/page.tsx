@@ -7,6 +7,7 @@ import ThemeCitySection from "@/app/components/country/indiaThemeCitySection";
 import ThemePackageListing from "@/app/components/theme/ThemePackageListing";
 import IndiaPackageListing from "@/app/components/indiaPackageListing/indiaPackageListing";
 import { fetchCityIntroData } from "@/app/services/cityService";
+import { getCanonical } from "@/app/lib/getCanonical";
 
 const cachedResolveIndiaSlug = cache(resolveIndiaSlug);
 
@@ -20,7 +21,7 @@ export async function generateMetadata({
   const resolved = await cachedResolveIndiaSlug(slug);
   if (resolved.type === "NOT_FOUND") return {};
 
-  const canonical = `/india/${slug}`;
+  const canonical =await getCanonical(`/india/${slug}`);
 
   switch (resolved.type) {
     case "CITY": {
