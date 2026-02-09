@@ -3,7 +3,7 @@ import React from "react";
 import "aos/dist/aos.css";
 import SriLankaPackageListing from "@/app/components/sriLankaPackageListing/sriLankaPackageListing";
 import { fetchSriLankaPackageData } from "@/app/services/sriLankaPackageListService";
-import DynamicMetaTags from "@/app/components/DynamicMetaTags";
+// import DynamicMetaTags from "@/app/components/DynamicMetaTags";
 import { getCanonical } from "@/app/lib/getCanonical";
 
 // Generate static metadata
@@ -54,7 +54,7 @@ const SriLankaPage = async ({ params }: any) => {
   return (
     <>
       {/* Render dynamic meta tags and scripts */}
-      <DynamicMetaTags metaDetails={metaDetails} />
+      {/* <DynamicMetaTags metaDetails={metaDetails} /> */}
 
       <SriLankaPackageListing data={data} />
     </>

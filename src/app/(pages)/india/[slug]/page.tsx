@@ -8,8 +8,9 @@ import ThemePackageListing from "@/app/components/theme/ThemePackageListing";
 import IndiaPackageListing from "@/app/components/indiaPackageListing/indiaPackageListing";
 import { fetchCityIntroData } from "@/app/services/cityService";
 import { getCanonical } from "@/app/lib/getCanonical";
+import { cachedResolveIndiaSlug } from "@/app/lib/cachedIndiaResolver";
 
-const cachedResolveIndiaSlug = cache(resolveIndiaSlug);
+
 
 export async function generateMetadata({
   params,
@@ -18,10 +19,12 @@ export async function generateMetadata({
 }) {
   const { slug } = await params;
 
-  const resolved = await cachedResolveIndiaSlug(slug);
+const resolved = await cachedResolveIndiaSlug(slug);
+
   if (resolved.type === "NOT_FOUND") return {};
 
   const canonical =await getCanonical(`/india/${slug}`);
+
 
   switch (resolved.type) {
     case "CITY": {
@@ -87,7 +90,8 @@ export default async function TourListingPage({
   const currentPage = Number(page ?? 1);
 
 
-  const resolved = await cachedResolveIndiaSlug(slug);
+const resolved = await cachedResolveIndiaSlug(slug);
+
 
   if (resolved.type === "NOT_FOUND") {
     notFound();

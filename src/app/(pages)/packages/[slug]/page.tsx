@@ -1,7 +1,7 @@
 import "aos/dist/aos.css";
 import PackageDetails from "@/app/components/packageDetails/PackageDetails";
 import { fetchPackageDetailsData } from "@/app/services/packageDetailsService";
-import DynamicMetaTags from "@/app/components/DynamicMetaTags";
+// import DynamicMetaTags from "@/app/components/DynamicMetaTags";
 import { getCanonical } from "@/app/lib/getCanonical";
 import { notFound } from "next/navigation";
 
@@ -56,7 +56,7 @@ export default async function TourDetailsPage({ params }: { params: Promise<{ sl
   }
   return (
     <>
-      <DynamicMetaTags metaDetails={metaDetails} />
+      {/* <DynamicMetaTags metaDetails={metaDetails} /> */}
       <PackageDetails initialData={data?.data} />
     </>
   );
