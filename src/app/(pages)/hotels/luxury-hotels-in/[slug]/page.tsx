@@ -24,7 +24,8 @@ export async function generateMetadata({ params }: PageProps) {
   const api = await fetchCityDetails(slug);
   const cityData = api.data.cityDetails || {};
 
-  const canonical = await getCanonical(`/luxury-hotels-in-${slug}`);
+ const canonical = await getCanonical(`/hotels/luxury-hotels-in-${slug}`);
+
 
   return {
     title: cityData.meta_title || `${cityData.name} Luxury Hotels`,

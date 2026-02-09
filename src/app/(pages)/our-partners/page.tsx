@@ -6,7 +6,7 @@ import React from 'react';
 export async function generateMetadata() {
   const data = await partnerData();
   const meta = data?.data?.details?.meta || {};
-  const canonical = await getCanonical("/partner");
+  const canonical = await getCanonical("/our-partners");
   const currentUrl = canonical;
 
   // Extract the meta_details from API

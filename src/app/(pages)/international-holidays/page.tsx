@@ -28,7 +28,7 @@ export async function generateMetadata() {
   const data = await fetchInternationalPageData();
 
   const meta = data?.data?.details?.meta || {};
-  const canonical = await getCanonical("/international-holiday");
+  const canonical = await getCanonical("/international-holidays");
   const currentUrl = canonical;
 
   // Extract the meta_details from API

@@ -6,10 +6,14 @@ import { notFound } from "next/navigation";
 
 export async function generateMetadata({ params }: any) {
   const data = await trainOverview(params.slug);
+const meta = data?.data?.train?.meta || data?.data?.tour?.meta;
 
-  const meta = data?.data?.train?.meta || data?.data?.tour?.meta;
-  const canonical = await getCanonical(params?.slug ? `/${params.slug}` : "");
-  const currentUrl = canonical;
+const canonical = await getCanonical(
+  params?.slug ? `/luxury-trains/${params.slug}` : "/luxury-trains"
+);
+
+const currentUrl = canonical;
+
 
   // Extract the meta_details from API
   const metaDetails = meta?.meta_details || "";
