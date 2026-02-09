@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from "next/link";
@@ -78,7 +77,7 @@ export default function CityStateListStatic({
         </div>
 
         <div className="text-center mt-4">
-          {cities.length < total ? (
+          {total > LIMIT && cities.length < total && (
             <button
               className="btn orange-btn"
               onClick={loadMore}
@@ -86,7 +85,9 @@ export default function CityStateListStatic({
             >
               {loading ? "Loading..." : "Load More"}
             </button>
-          ) : (
+          )}
+
+          {total > LIMIT && cities.length >= total && (
             <button
               className="btn orange-btn"
               onClick={() => {
