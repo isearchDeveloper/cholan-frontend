@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import "aos/dist/aos.css";
 import PackageDetails from "@/app/components/packageDetails/PackageDetails";
 import { fetchPackageDetailsData } from "@/app/services/packageDetailsService";
@@ -5,7 +7,11 @@ import { fetchPackageDetailsData } from "@/app/services/packageDetailsService";
 import { getCanonical } from "@/app/lib/getCanonical";
 import { notFound } from "next/navigation";
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   const { slug } = await params;
 
   try {
@@ -15,14 +21,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     const canonical = await getCanonical(`/packages/${slug}`);
 
     const packageName = data.data.package.title;
-   const days = data?.data?.package?.details?.duration_days ?? "";
-const nights = data?.data?.package?.details?.duration_nights ?? "";
-
+    const days = data?.data?.package?.details?.duration_days ?? "";
+    const nights = data?.data?.package?.details?.duration_nights ?? "";
 
     const dynamicTitle = `${packageName} ${days} Days ${nights} Nights | Cholan Tours`;
     const dynamicDescription = `Book ${packageName} for ${days} Days ${nights} Nights. Includes accommodation, sightseeing tours, transfers and a well-planned travel itinerary.`;
-  // console.log("meta running:" +dynamicTitle )
-  //  console.log("meta running:" +dynamicDescription )
+
     const finalTitle = meta?.meta_title || dynamicTitle;
     const finalDescription = meta?.meta_description || dynamicDescription;
 
@@ -30,6 +34,11 @@ const nights = data?.data?.package?.details?.duration_nights ?? "";
       title: finalTitle,
       description: finalDescription,
       alternates: { canonical },
+      openGraph: {
+        title: finalTitle,
+        description: finalDescription,
+        url: canonical,
+      },
     };
   } catch (e) {
     return {

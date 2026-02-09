@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { notFound } from "next/navigation";
 import { cache } from "react";
 import { resolveIndiaSlug } from "@/app/lib/resolveIndiaSlug";
@@ -23,7 +25,14 @@ const resolved = await cachedResolveIndiaSlug(slug);
 
   if (resolved.type === "NOT_FOUND") return {};
 
-  const canonical =await getCanonical(`/india/${slug}`);
+  let canonicalPath = `/india/${slug}`;
+
+if (resolved.type === "CITY_THEME") {
+  canonicalPath = `/india/${resolved.citySlug}/${resolved.themeSlug}`;
+}
+
+const canonical = await getCanonical(canonicalPath);
+
 
 
   switch (resolved.type) {
@@ -91,8 +100,6 @@ export default async function TourListingPage({
 
 
 const resolved = await cachedResolveIndiaSlug(slug);
-
-
   if (resolved.type === "NOT_FOUND") {
     notFound();
   }
@@ -107,6 +114,8 @@ const resolved = await cachedResolveIndiaSlug(slug);
       //  bring back sidebar data
       const cityIntro = await fetchCityIntroData(citySlug);
       const sidebarThemes = cityIntro?.data?.themes || [];
+console.log("resolved.type for India slug:", resolved.type);
+console.log("resolved.data:", resolved.data);
 
       return (
         <ThemePackageListing

@@ -206,15 +206,31 @@ export default async function InternationalListing({
   const currentPage = Number(page ?? 1);
 
   //  HARD RULE — ONLY package listing allowed
-  if (!slug.endsWith("-tour-packages")) {
-    notFound();
-  }
+  // if (!slug.endsWith("-tour-packages")) {
+  //   notFound();
+  // }
 
-  const res = await fetchInternationalPackageData(slug);
+// const res = await fetchInternationalPackageData(slug);
 
-  if (!res?.data) {
-    notFound();
-  }
+// if (!res?.data?.country && !res?.data?.location) {
+//   notFound();
+// }
+
+const res = await fetchInternationalPackageData(slug);
+
+const countryName =
+  res?.data?.location?.country?.name ||
+  res?.data?.country?.name ||
+  "";
+
+if (
+  !res?.data ||
+  countryName.toLowerCase().includes("india")
+) {
+  notFound();
+}
+
+
 
   return (
     <InternationalPackageListing

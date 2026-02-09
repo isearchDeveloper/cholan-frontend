@@ -64,9 +64,19 @@ export async function resolveIndiaSlug(
 
   // 4️⃣ LISTING
   const listing = await fetchIndiaPackageData(slug);
-  if (listing?.data?.location || listing?.data?.region) {
-    return { type: "LISTING", data: listing };
-  }
 
-  return { type: "NOT_FOUND" };
+const countryName =
+  listing?.data?.location?.country?.name ||
+  listing?.data?.region?.country?.name ||
+  "";
+
+if (
+  (listing?.data?.location || listing?.data?.region) &&
+  countryName.toLowerCase().includes("india")
+) {
+  return { type: "LISTING", data: listing };
+}
+
+return { type: "NOT_FOUND" };
+
 }
