@@ -10,8 +10,6 @@ import { fetchHomeData } from "./services/homeService";
 import CookieBanner from "./components/common/CookieBanner";
 import FooterDesktopSec from "./components/FooterDesktop";
 import { FormProvider } from "./context/FormContext";
-import Script from "next/script";
-import { extractScripts } from "./lib/parseHeadScripts";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -37,10 +35,7 @@ export default async function RootLayout({
           property="og:image"
           content="https://www.cholantours.com/public/uploads/logo.png"
         />
-        <meta
-          property="og:image:url"
-          content="https://www.cholantours.com/public/uploads/logo.png"
-        />
+        <meta property="og:image:url" content="https://www.cholantours.com/public/uploads/logo.png" />
         <meta property="og:image:width" content="600" />
         <meta property="og:image:height" content="600" />
         <meta name="twitter:card" content="summary" />
@@ -50,24 +45,13 @@ export default async function RootLayout({
         />
         {meta.meta_title && (
           <>
-            <meta
-              property="og:title"
-              content={meta.meta_title || "CholanTours"}
-            />
-            <meta
-              property="og:description"
-              content={meta.meta_description || ""}
-            />
-            <meta
-              name="twitter:title"
-              content={meta.meta_title || "Cholan Tours"}
-            />
-            <meta
-              name="twitter:description"
-              content={meta.meta_description || ""}
-            />
+            <meta property="og:title" content={meta.meta_title || "CholanTours"} />
+            <meta property="og:description" content={meta.meta_description || ""} />
+            <meta name="twitter:title" content={meta.meta_title || "Cholan Tours"} />
+            <meta name="twitter:description" content={meta.meta_description || ""} />
           </>
         )}
+
 
         <meta name="twitter:site" content="@cholantour" />
         <meta name="twitter:creator" content="@cholantour" />
@@ -85,15 +69,14 @@ export default async function RootLayout({
         </noscript>
 
         {/* Google Tag Manager (head) */}
-        {meta.meta_details &&
-          extractScripts(meta.meta_details).map((script, i) => (
-            <Script
-              key={i}
-              id={`gtm-${i}`}
-              strategy="beforeInteractive"
-              dangerouslySetInnerHTML={{ __html: script }}
-            />
-          ))}
+        {meta.meta_details && (
+          <div
+            dangerouslySetInnerHTML={{
+              __html: meta.meta_details,
+            }}
+          />
+        )}
+
         {/* SEO Schema for Organization */}
         <script
           type="application/ld+json"
@@ -128,11 +111,12 @@ export default async function RootLayout({
       <body className={`no-js ${inter.variable}`} cz-shortcut-listen="true">
         {/* Google Tag Manager (body) */}
         {meta.meta_body_details && (
-          <noscript
-            dangerouslySetInnerHTML={{ __html: meta.meta_body_details }}
+          <div
+            dangerouslySetInnerHTML={{
+              __html: meta.meta_body_details,
+            }}
           />
         )}
-
         <FormProvider>
           <HeaderWrapper />
           {children}
@@ -155,12 +139,12 @@ export default async function RootLayout({
           }}
         />
 
-        <div id="twiK">
+      <div id="twiK">
           {/* Tawk.to Script */}
-          <script
-            type="text/javascript"
-            dangerouslySetInnerHTML={{
-              __html: `
+        <script
+          type="text/javascript"
+          dangerouslySetInnerHTML={{
+            __html: `
               var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
               (function(){
                 var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
@@ -171,116 +155,10 @@ export default async function RootLayout({
                 s0.parentNode.insertBefore(s1,s0);
               })();
             `,
-            }}
-          />
-        </div>
+          }}
+        />
+      </div>
       </body>
     </html>
   );
 }
-
-// // new version code
-
-// import { Inter } from "next/font/google";
-// import Script from "next/script";
-// import "./globals.css";
-// import "bootstrap/dist/css/bootstrap.min.css";
-// import HeaderWrapper from "./components/headerWrapper";
-// import FooterDesktopSec from "./components/FooterDesktop";
-// import PlanTripButton from "./components/common/PlanTripButton";
-// import BackToTopButton from "./components/common/BackToTopButton";
-// import { fetchHomeData } from "./services/homeService";
-// import { FormProvider } from "./context/FormContext";
-// // layout.tsx
-// import type { Metadata } from "next";
-
-// const inter = Inter({
-//   variable: "--font-inter",
-//   subsets: ["latin"],
-// });
-
-// export const metadata: Metadata = {
-//   title: "Cholan Tours",
-//   description: "Cholan Tours",
-//   icons: { icon: "/favicon.ico" },
-
-//   verification: {
-//     google: "PASTE_GOOGLE_VERIFICATION_CODE_HERE",
-//   },
-
-//   openGraph: {
-//     type: "website",
-//     siteName: "CholanTours",
-//     images: [
-//       {
-//         url: "https://www.cholantours.com/public/uploads/logo.png",
-//         width: 600,
-//         height: 600,
-//       },
-//     ],
-//   },
-
-//   twitter: {
-//     card: "summary",
-//     site: "@cholantour",
-//     creator: "@cholantour",
-//     images: ["https://www.cholantours.com/public/uploads/logo.png"],
-//   },
-// };
-
-// export default async function RootLayout({
-//   children,
-// }: {
-//   children: React.ReactNode;
-// }) {
-//   const [commonMetaData] = await Promise.all([fetchHomeData()]);
-//   const meta = commonMetaData?.data?.meta || {};
-
-//   return (
-//     <html lang="en">
-//       <body className={`no-js ${inter.variable}`}>
-//         {/* ✅ GTM HEAD */}
-//         {meta.gtm_head && (
-//           <Script
-//             id="gtm-head"
-//             strategy="beforeInteractive"
-//             dangerouslySetInnerHTML={{ __html: meta.gtm_head }}
-//           />
-//         )}
-
-//         {/* ✅ GTM BODY */}
-//         {meta.gtm_body && (
-//           <noscript dangerouslySetInnerHTML={{ __html: meta.gtm_body }} />
-//         )}
-
-//         <FormProvider>
-//           <HeaderWrapper />
-//           {children}
-//           <FooterDesktopSec />
-//           <PlanTripButton />
-//           <BackToTopButton />
-//         </FormProvider>
-
-//         {/*  Remove no-js */}
-//         <Script id="no-js-remove" strategy="afterInteractive">
-//           {`document.body.classList.remove('no-js');`}
-//         </Script>
-
-//         {/*  Tawk.to */}
-//         <Script id="tawk" strategy="lazyOnload">
-//           {`
-//             var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-//             (function(){
-//               var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-//               s1.async=true;
-//               s1.src='https://embed.tawk.to/5c95d5dfc37db86fcfcf6c2b/default';
-//               s1.charset='UTF-8';
-//               s1.setAttribute('crossorigin','*');
-//               s0.parentNode.insertBefore(s1,s0);
-//             })();
-//           `}
-//         </Script>
-//       </body>
-//     </html>
-//   );
-// }
