@@ -22,7 +22,7 @@ export async function fetchInternationalPageData() {
 
 export async function fetchInternationalPackageData(slug: any) {
   try {
-    const res = await fetch(`${baseUrl}/api/v1/packages/${slug}`, {
+    const res = await fetch(`${baseUrl}/api/v1/packages/${slug}?package_country=international`, {
       method: "GET",
       headers: {
         "X-Public-Token": XPublicToken,

@@ -5,7 +5,7 @@ const XPublicToken =
 
 export async function fetchIndiaPackageData(slug: any) {
   try {
-    const res = await fetch(`${baseUrl}/api/v1/packages/city/${slug}`, {
+    const res = await fetch(`${baseUrl}/api/v1/packages/city/${slug}?package_country=india`, {
       method: "GET",
       headers: {
         "X-Public-Token": XPublicToken,

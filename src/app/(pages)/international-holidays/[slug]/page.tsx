@@ -58,9 +58,9 @@ export default async function InternationalListing({
   const currentPage = Number(page ?? 1);
  
   //  HARD RULE — ONLY package listing allowed
-  if (!slug.endsWith("-tour-packages")) {
-    notFound();
-  }
+  // if (!slug.endsWith("-tour-packages")) {
+  //   notFound();
+  // }
  
   const res = await fetchInternationalPackageData(slug);
  
