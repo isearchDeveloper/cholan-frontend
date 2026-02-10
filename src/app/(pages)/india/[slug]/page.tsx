@@ -17,7 +17,7 @@ export async function generateMetadata({
 }) {
   const { slug } = await params;
 
-  const resolved = await cachedResolveIndiaSlug(slug);
+  const resolved = await resolveIndiaSlug(slug);
 
   if (resolved.type === "NOT_FOUND") return {};
 
@@ -28,10 +28,14 @@ export async function generateMetadata({
       const city = resolved.data.data.city;
 
       return {
-        title: city?.meta_title ?? city?.title ?? "Cholan Tours",
+        title: city?.meta?.meta_title ?? city?.title ?? "Cholan Tours",
+
         description:
-          city?.meta_description ??
+          city?.meta?.meta_description ??
           `Explore ${city?.title} tour packages with Cholan Tours.`,
+
+        keywords: city?.meta?.meta_keywords ?? "",
+
         alternates: { canonical },
       };
     }
@@ -44,12 +48,12 @@ export async function generateMetadata({
       };
 
     case "LISTING": {
-      const meta = resolved.data.data.location?.meta;
-
+      const meta = resolved.data;
+  console.log(meta?.data?.region?.meta);
       return {
-        title: meta?.meta_title ?? "Cholan Tours",
+        title: meta?.data?.region?.meta?.meta_title ?? "Cholan Tours",
         description:
-          meta?.meta_description ??
+          meta?.data?.region?.meta?.meta_description ??
           "Explore best tour packages across India with Cholan Tours.",
         alternates: { canonical },
       };
@@ -85,9 +89,6 @@ export default async function TourListingPage({
   const { page } = await searchParams;
 
   const currentPage = Number(page ?? 1);
-
-
-
 
   const resolved = await cachedResolveIndiaSlug(slug);
 
