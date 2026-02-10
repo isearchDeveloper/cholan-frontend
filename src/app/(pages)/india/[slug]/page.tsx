@@ -86,6 +86,9 @@ export default async function TourListingPage({
 
   const currentPage = Number(page ?? 1);
 
+
+
+
   const resolved = await cachedResolveIndiaSlug(slug);
 
   if (resolved.type === "NOT_FOUND") {

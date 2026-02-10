@@ -12,18 +12,18 @@ const nextConfig: NextConfig = {
       },
 
       //  INDIA category URLs
-      {
-        source: "/india/:city/:category",
-        destination:
-          "/india/:city-tour-packages?category_slug=:category&page=1",
-      },
+      // {
+      //   source: "/india/:city/:category",
+      //   destination:
+      //     "/india/:city-tour-packages?category_slug=:category&page=1",
+      // },
 
       //  INTERNATIONAL category URLs
-      {
-        source: "/international-holidays/:city/:category",
-        destination:
-          "/international-holidays/:city-tour-packages?category_slug=:category&page=1",
-      },
+      // {
+      //   source: "/international-holidays/:city/:category",
+      //   destination:
+      //     "/international-holidays/:city-tour-packages?category_slug=:category&page=1",
+      // },
     ];
   },
 
