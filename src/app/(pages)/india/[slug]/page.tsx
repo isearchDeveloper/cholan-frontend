@@ -1,5 +1,3 @@
-
-
 import { notFound } from "next/navigation";
 import { cache } from "react";
 import { resolveIndiaSlug } from "@/app/lib/resolveIndiaSlug";
@@ -27,23 +25,21 @@ export async function generateMetadata({
 
   switch (resolved.type) {
     case "CITY": {
-  const city = resolved.data.data;
+      const raw = resolved.data.data;
+      const city = raw?.city ?? raw;
 
-  return {
-    title:
-      city?.meta?.meta_title ??
-      city?.title ??
-      "Cholan Tours",
+      return {
+        title: city?.meta?.meta_title ?? city?.title ?? "Cholan Tours",
 
-    description:
-      city?.meta?.meta_description ??
-      `Explore ${city?.title} tour packages with Cholan Tours.`,
+        description:
+          city?.meta?.meta_description ??
+          `Explore ${city?.title} tour packages with Cholan Tours.`,
 
-    keywords: city?.meta?.meta_keywords ?? "",
+        keywords: city?.meta?.meta_keywords ?? "",
 
-    alternates: { canonical },
-  };
-}
+        alternates: { canonical },
+      };
+    }
 
     case "THEME":
       return {
@@ -52,23 +48,22 @@ export async function generateMetadata({
         alternates: { canonical },
       };
 
-   case "LISTING": {
-  const data = resolved.data.data;
+    case "LISTING": {
+      const data = resolved.data.data;
 
-  const meta =
-    data?.region?.meta ??     // for north-india
-    data?.location?.meta ??   // for delhi, kerala, andaman
-    null;
+      const meta =
+        data?.region?.meta ?? // for north-india
+        data?.location?.meta ?? // for delhi, kerala, andaman
+        null;
 
-  return {
-    title: meta?.meta_title ?? "Cholan Tours",
-    description:
-      meta?.meta_description ??
-      "Explore best tour packages across India with Cholan Tours.",
-    alternates: { canonical },
-  };
-}
-
+      return {
+        title: meta?.meta_title ?? "Cholan Tours",
+        description:
+          meta?.meta_description ??
+          "Explore best tour packages across India with Cholan Tours.",
+        alternates: { canonical },
+      };
+    }
 
     case "CITY_THEME": {
       const { city } = resolved.data;
