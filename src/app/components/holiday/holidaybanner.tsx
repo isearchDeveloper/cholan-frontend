@@ -49,10 +49,10 @@ const HolidayBanner: any = ({ data }: any) => {
             <div className="container">
               <div className="row">
                 <div className="col-lg-9">
-                  <h2 className="banner-title text-left">{banners[0].title}</h2>
-                  <h6 className="banner-subtitle text-left">
+                  <div className="banner-title text-left">{banners[0].title}</div>
+                  <div className="banner-subtitle text-left">
                     {banners[0].subtitle}
-                  </h6>
+                  </div>
                 </div>
                 {/* <div className="col-lg-3">
                                                 <EnquiryForm />
