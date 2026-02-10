@@ -16,16 +16,22 @@ interface CityItem {
 
 export default function CityStateListStatic({
   country,
-  cities: initialCities, //  from server
+  cities: initialCities, // from server
   total: initialTotal,
 }: {
   country: "india" | "international-holidays";
   cities: CityItem[];
   total: number;
 }) {
+
+  // ✅ HARD GUARD — if no cities, render nothing (no section, no padding)
+  if (!initialCities || initialCities.length === 0) {
+    return null;
+  }
+
   const LIMIT = 12;
 
-  //  start with SSR cities
+  // start with SSR cities
   const [cities, setCities] = useState<CityItem[]>(initialCities);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -48,8 +54,6 @@ export default function CityStateListStatic({
     setLoading(false);
   };
 
-  const showButton = total ? cities.length < total : true;
-
   return (
     <section className="rent-car-list-route py-5 mb-5">
       <div className="container">
@@ -69,7 +73,9 @@ export default function CityStateListStatic({
             return (
               <div key={city.slug} className="col">
                 <Link href={href} className="route-card text-center">
-                  <p className="mt-2 text-capitalize">{city.location.name}</p>
+                  <p className="mt-2 text-capitalize">
+                    {city.location.name}
+                  </p>
                 </Link>
               </div>
             );

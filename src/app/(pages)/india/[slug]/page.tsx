@@ -1,5 +1,3 @@
-export const dynamic = "force-dynamic";
-
 import { notFound } from "next/navigation";
 import { cache } from "react";
 import { resolveIndiaSlug } from "@/app/lib/resolveIndiaSlug";
@@ -12,8 +10,6 @@ import { fetchCityIntroData } from "@/app/services/cityService";
 import { getCanonical } from "@/app/lib/getCanonical";
 import { cachedResolveIndiaSlug } from "@/app/lib/cachedIndiaResolver";
 
-
-
 export async function generateMetadata({
   params,
 }: {
@@ -21,19 +17,11 @@ export async function generateMetadata({
 }) {
   const { slug } = await params;
 
-const resolved = await cachedResolveIndiaSlug(slug);
+  const resolved = await cachedResolveIndiaSlug(slug);
 
   if (resolved.type === "NOT_FOUND") return {};
 
-  let canonicalPath = `/india/${slug}`;
-
-if (resolved.type === "CITY_THEME") {
-  canonicalPath = `/india/${resolved.citySlug}/${resolved.themeSlug}`;
-}
-
-const canonical = await getCanonical(canonicalPath);
-
-
+  const canonical = await getCanonical(`/india/${slug}`);
 
   switch (resolved.type) {
     case "CITY": {
@@ -98,8 +86,8 @@ export default async function TourListingPage({
 
   const currentPage = Number(page ?? 1);
 
+  const resolved = await cachedResolveIndiaSlug(slug);
 
-const resolved = await cachedResolveIndiaSlug(slug);
   if (resolved.type === "NOT_FOUND") {
     notFound();
   }
@@ -114,8 +102,6 @@ const resolved = await cachedResolveIndiaSlug(slug);
       //  bring back sidebar data
       const cityIntro = await fetchCityIntroData(citySlug);
       const sidebarThemes = cityIntro?.data?.themes || [];
-console.log("resolved.type for India slug:", resolved.type);
-console.log("resolved.data:", resolved.data);
 
       return (
         <ThemePackageListing
@@ -149,13 +135,20 @@ console.log("resolved.data:", resolved.data);
     case "THEME":
       return <ThemeCitySection theme={slug} />;
 
-    case "LISTING":
+    case "LISTING": {
+      const data = resolved.data.data;
+
+      if (!data?.packages?.length) {
+        notFound();
+      }
+
       return (
         <IndiaPackageListing
-          packageList1={resolved.data.data}
+          packageList1={data}
           initialPage={currentPage}
           slug1={slug}
         />
       );
+    }
   }
 }

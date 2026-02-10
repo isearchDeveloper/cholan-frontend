@@ -21,40 +21,49 @@ type ResolvedSlug =
 export async function resolveIndiaSlug(
   slug: string,
 ): Promise<ResolvedSlug> {
-  // 1 THEME LANDING (first priority)
-  const themeLanding = await fetchThemePackages(slug);
-  if (themeLanding) {
-    return { type: "THEME", data: themeLanding };
-  }
 
-  // 2️⃣ CITY + THEME
+  const clean = slug.replace("-tour-packages", "");
+
+  // 1️⃣ CITY + THEME (most specific)
   const themeList = await fetchThemeList();
   const themeSlugs = themeList.map((t: any) =>
     t.slug.replace("-tour-packages", "").trim(),
   );
 
-  const clean = slug.replace("-tour-packages", "");
-
   for (const theme of themeSlugs) {
     if (clean.endsWith(theme)) {
       const citySlug = clean.slice(0, clean.length - theme.length - 1);
-
       if (!citySlug) break;
 
       const res = await fetchCityThemePackages(citySlug, theme);
 
-      if (!res?.city) return { type: "NOT_FOUND" };
-
-      return {
-        type: "CITY_THEME",
-        citySlug,
-        themeSlug: theme,
-        data: res,
-      };
+      if (res?.city) {
+        return {
+          type: "CITY_THEME",
+          citySlug,
+          themeSlug: theme,
+          data: res,
+        };
+      }
     }
   }
 
-  // 3️⃣ CITY INTRO
+  // 2️⃣ PURE THEME LANDING (strict check)
+  const themeLanding = await fetchThemePackages(slug);
+  if (themeLanding?.data?.packages?.length > 0) {
+    return { type: "THEME", data: themeLanding };
+  }
+
+  // 3️⃣ LISTING / REGION / STATE
+  if (slug.endsWith("-tour-packages")) {
+    const listing = await fetchIndiaPackageData(slug);
+
+    if (listing?.data?.packages?.length > 0) {
+      return { type: "LISTING", data: listing };
+    }
+  }
+
+  // 4️⃣ CITY INTRO
   if (!slug.endsWith("-tour-packages")) {
     const city = await fetchCityIntroData(slug);
     if (city?.data?.city) {
@@ -62,21 +71,6 @@ export async function resolveIndiaSlug(
     }
   }
 
-  // 4️⃣ LISTING
-  const listing = await fetchIndiaPackageData(slug);
-
-const countryName =
-  listing?.data?.location?.country?.name ||
-  listing?.data?.region?.country?.name ||
-  "";
-
-if (
-  (listing?.data?.location || listing?.data?.region) &&
-  countryName.toLowerCase().includes("india")
-) {
-  return { type: "LISTING", data: listing };
+  return { type: "NOT_FOUND" };
 }
 
-return { type: "NOT_FOUND" };
-
-}
