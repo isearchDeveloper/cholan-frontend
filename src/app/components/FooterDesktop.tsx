@@ -117,7 +117,7 @@ export default async function FooterDesktopSec() {
   ];
 
   const travelBlogInternational = [
-    { label: "Places to Visit in Singapore", href: "/blog/places-to-visit-in-singapore" },
+    { label: "Places to Visit in Singapore", href: "/blog/places-to-visit-in-singapore" }, 
     { label: "Places to Visit in Australia", href: "/blog/places-to-visit-in-australia" },
     { label: "Places to Visit in Japan", href: "/blog/places-to-visit-in-japan" },
     { label: "Places to Visit in Bhutan", href: "/blog/places-to-visit-in-bhutan" },
