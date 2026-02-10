@@ -36,33 +36,31 @@ export default function CarDetails({ data, slug, carCities }: any) {
   const [isMobile, setIsMobile] = useState(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
 
-  // const staticBreadcrumbItems = [
-  //   { label: "Home", href: "/" },
-  //   { label: "Car Rental", href: "/car-rental" },
-  //   {
-  //     label: `${
-  //       data?.data?.route?.details?.title || data?.data?.city?.location
-  //     }`,
-  //     isCurrent: true,
-  //   },
-  // ];
+  const isRoutePage = !!data?.data?.route;
 
   const staticBreadcrumbItems = [
     { label: "Home", href: "/" },
     { label: "Car Rental", href: "/car-rental" },
 
-    // city breadcrumb
     {
       label:
         data?.data?.city?.location || data?.data?.route?.from_location || "",
-      href: `/car-rental/${
-        data?.data?.city?.slug ||
-        data?.data?.route?.from_location?.toLowerCase().replace(/\s+/g, "-")
-      }`,
+
+      ...(isRoutePage
+        ? {
+            href: `/car-rental/${
+              data?.data?.city?.slug ||
+              data?.data?.route?.from_location
+                ?.toLowerCase()
+                .replace(/\s+/g, "-")
+            }`,
+          }
+        : {
+            isCurrent: true,
+          }),
     },
 
-    // route breadcrumb only if route present
-    ...(data?.data?.route?.details?.title
+    ...(isRoutePage
       ? [
           {
             label: data?.data?.route?.details?.title,
@@ -218,8 +216,7 @@ export default function CarDetails({ data, slug, carCities }: any) {
               <CarCitySectionInner cities={carCities} />
             </div>
           )}
-      {fleets.length > 0 && (
-
+          {fleets.length > 0 && (
             <div className="py-5 car-fleet px-2 px-lg-0">
               <div className="container">
                 <h2 className="mb-4 text-center fs-3">Browse our Fleet</h2>

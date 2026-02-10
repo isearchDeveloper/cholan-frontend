@@ -30,8 +30,8 @@ export default function CityIntroPage({
   country: "india" | "international-holidays";
   cityData: any | null;
 }) {
-  console.log("Slug" + slug)
-console.log(cityData?.city?.slug)
+//   console.log("Slug" + slug)
+// console.log(cityData?.city?.slug)
   const cityName =
     cityData?.title ||
     slug
