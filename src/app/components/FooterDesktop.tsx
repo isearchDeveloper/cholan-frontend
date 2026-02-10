@@ -117,47 +117,47 @@ export default async function FooterDesktopSec() {
   ];
 
   const travelBlogInternational = [
-    { label: "Places to Visit in Singapore", href: "/blog/places-to-visit-in-singapore/" },
-    { label: "Places to Visit in Australia", href: "/blog/places-to-visit-in-australia/" },
-    { label: "Places to Visit in Japan", href: "/blog/places-to-visit-in-japan/" },
-    { label: "Places to Visit in Bhutan", href: "/blog/places-to-visit-in-bhutan/" },
-    { label: "Places to Visit in China", href: "/blog/places-to-visit-in-china/" },
-    { label: "Places to Visit in Cambodia", href: "/blog/places-to-visit-in-cambodia/" },
-    { label: "Places to Visit in Georgia", href: "/blog/places-to-visit-in-georgia/" },
-    { label: "Places to Visit in Cyprus", href: "/blog/places-to-visit-in-cyprus/" }
+    { label: "Places to Visit in Singapore", href: "/blog/places-to-visit-in-singapore" },
+    { label: "Places to Visit in Australia", href: "/blog/places-to-visit-in-australia" },
+    { label: "Places to Visit in Japan", href: "/blog/places-to-visit-in-japan" },
+    { label: "Places to Visit in Bhutan", href: "/blog/places-to-visit-in-bhutan" },
+    { label: "Places to Visit in China", href: "/blog/places-to-visit-in-china" },
+    { label: "Places to Visit in Cambodia", href: "/blog/places-to-visit-in-cambodia" },
+    { label: "Places to Visit in Georgia", href: "/blog/places-to-visit-in-georgia" },
+    { label: "Places to Visit in Cyprus", href: "/blog/places-to-visit-in-cyprus" }
   ];
 
   const travelBlogIndia = [
-    { label: "Best Honeymoon Destinations In Kerala", href: "/blog/best-honeymoon-destinations-in-kerala/" },
-    { label: "India's Best Street Food", href: "/blog/street-food-in-india/" },
-    { label: "Mahamaham Festival: The Kumbh Mela of South India", href: "/blog/mahamaham-the-kumbhmela-of-southindia/" },
-    { label: "Top 10 Most Underrated Beaches in India", href: "/blog/top-10-most-underrated-beaches-in-india/" },
-    { label: "Top Beaches In South India", href: "/blog/top-beaches-in-south-india/" },
-    { label: "10 Most Popular Temples of South India", href: "/blog/10-most-popular-temples-of-south-india/" },
-    { label: "Top 10 Heritage Sites in Karnataka", href: "/blog/historic-monuments-in-karnataka/" },
-    { label: "Top 10 Honeymoon Destinations in South India", href: "/blog/top-honeymoon-destination-in-south-india/" }
+    { label: "Best Honeymoon Destinations In Kerala", href: "/blog/best-honeymoon-destinations-in-kerala" },
+    { label: "India's Best Street Food", href: "/blog/street-food-in-india" },
+    { label: "Mahamaham Festival: The Kumbh Mela of South India", href: "/blog/mahamaham-the-kumbhmela-of-southindia" },
+    { label: "Top 10 Most Underrated Beaches in India", href: "/blog/top-10-most-underrated-beaches-in-india" },
+    { label: "Top Beaches In South India", href: "/blog/top-beaches-in-south-india" },
+    { label: "10 Most Popular Temples of South India", href: "/blog/10-most-popular-temples-of-south-india" },
+    { label: "Top 10 Heritage Sites in Karnataka", href: "/blog/historic-monuments-in-karnataka" },
+    { label: "Top 10 Honeymoon Destinations in South India", href: "/blog/top-honeymoon-destination-in-south-india" }
   ];
 
   const travelBlogVisit = [
-    { label: "Best Time to Visit India in December", href: "/blog/best-places-to-visit-in-india-in-december/" },
-    { label: "Best Time to Visit India in January", href: "/blog/best-places-to-visit-in-india-in-january/" },
-    { label: "Best Time to Visit India in February", href: "/blog/best-places-to-visit-in-india-in-february/" },
-    { label: "Best Time to Visit India in March", href: "/blog/best-places-to-visit-in-india-in-march/" },
-    { label: "Best Places To Visit In Kerala In February", href: "/blog/best-places-to-visit-in-kerala-in-february/" },
-    { label: "Places To Visit In Kerala During Christmas", href: "/blog/places-to-visit-in-kerala-during-christmas/" },
-    { label: "Best Places to Visit in South India in February", href: "/blog/top-5-places-south-india-visit-february/" },
-    { label: "Places to Visit in South India During Summer", href: "/blog/six-must-visit-places-during-summer-in-south-india/" },
-    { label: "Best Places To Visit In India During Diwali", href: "/blog/best-places-to-visit-in-india-during-diwali/" }
+    { label: "Best Time to Visit India in December", href: "/blog/best-places-to-visit-in-india-in-december" },
+    { label: "Best Time to Visit India in January", href: "/blog/best-places-to-visit-in-india-in-january" },
+    { label: "Best Time to Visit India in February", href: "/blog/best-places-to-visit-in-india-in-february" },
+    { label: "Best Time to Visit India in March", href: "/blog/best-places-to-visit-in-india-in-march" },
+    { label: "Best Places To Visit In Kerala In February", href: "/blog/best-places-to-visit-in-kerala-in-february" },
+    { label: "Places To Visit In Kerala During Christmas", href: "/blog/places-to-visit-in-kerala-during-christmas" },
+    { label: "Best Places to Visit in South India in February", href: "/blog/top-5-places-south-india-visit-february" },
+    { label: "Places to Visit in South India During Summer", href: "/blog/six-must-visit-places-during-summer-in-south-india" },
+    { label: "Best Places To Visit In India During Diwali", href: "/blog/best-places-to-visit-in-india-during-diwali" }
   ];
 
 
   const blogLinks = [
-    { label: "Adventure", href: "/blog/adventure/" },
-    { label: "Cultural", href: "/blog/cultural/" },
-    { label: "Family Travel", href: "/blog/family-travel/" },
-    { label: "Heritage", href: "/blog/heritage/" },
-    { label: "Wildlife", href: "/blog/wildlife/" },
-    { label: "Inspiration", href: "/blog/inspiration/" },
+    { label: "Adventure", href: "/blog/adventure" },
+    { label: "Cultural", href: "/blog/cultural" },
+    { label: "Family Travel", href: "/blog/family-travel" },
+    { label: "Heritage", href: "/blog/heritage" },
+    { label: "Wildlife", href: "/blog/wildlife" },
+    { label: "Inspiration", href: "/blog/inspiration" },
   ];
 
   const quickLinks = [
@@ -218,6 +218,8 @@ export default async function FooterDesktopSec() {
                       <li><Link href="/Cholan_Tours_Corporate_Brochure_English.pdf" target="_blank">English</Link></li>
                       <li>|</li>
                       <li><Link href="/Brochure_Corporativo_Cholan_Tours_Spanish.pdf" target="_blank">Spanish</Link></li>
+                      <li>|</li>
+                      <li><Link href="/Brochure_Corporativo_Cholan_Tours_Spanish.pdf" target="_blank">French</Link></li>
                       </ul>
                     </div>
                   </div>
