@@ -94,6 +94,10 @@ export default async function TourListingPage({
   const { slug } = await params;
   const { page } = await searchParams;
 
+ 
+
+
+
   const currentPage = Number(page ?? 1);
 
   const resolved = await cachedResolveIndiaSlug(slug);
@@ -101,6 +105,8 @@ export default async function TourListingPage({
   if (resolved.type === "NOT_FOUND") {
     notFound();
   }
+
+
 
   switch (resolved.type) {
     case "CITY_THEME": {
@@ -142,8 +148,9 @@ export default async function TourListingPage({
         />
       );
 
-    case "THEME":
-      return <ThemeCitySection theme={slug} />;
+ case "THEME":
+  return <ThemeCitySection themeData={resolved.data} />;
+
 
     case "LISTING": {
       const data = resolved.data.data;

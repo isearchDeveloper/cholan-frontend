@@ -18,10 +18,7 @@ type ResolvedSlug =
     }
   | { type: "NOT_FOUND" };
 
-export async function resolveIndiaSlug(
-  slug: string,
-): Promise<ResolvedSlug> {
-
+export async function resolveIndiaSlug(slug: string): Promise<ResolvedSlug> {
   const clean = slug.replace("-tour-packages", "");
 
   // 1️⃣ CITY + THEME (most specific)
@@ -49,10 +46,12 @@ export async function resolveIndiaSlug(
   }
 
   // 2️⃣ PURE THEME LANDING (strict check)
-  const themeLanding = await fetchThemePackages(slug);
-  if (themeLanding?.data?.packages?.length > 0) {
-    return { type: "THEME", data: themeLanding };
-  }
+ const themeLanding = await fetchThemePackages(slug);
+
+if (themeLanding && themeLanding.slug === slug) {
+  return { type: "THEME", data: themeLanding };
+}
+
 
   // 3️⃣ LISTING / REGION / STATE
   if (slug.endsWith("-tour-packages")) {
@@ -73,4 +72,3 @@ export async function resolveIndiaSlug(
 
   return { type: "NOT_FOUND" };
 }
-

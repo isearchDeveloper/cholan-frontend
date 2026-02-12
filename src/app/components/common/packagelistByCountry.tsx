@@ -88,7 +88,7 @@ export default async function PackagelistByCountry({
           </div>
            
           {exclusiveIndiaPackage?.data?.length < 1 ? null : (
-            <div data-aos="fade-up" data-aos-delay="200">
+            <div>
               <TourPackagesByCountry
                 exclusiveIndiaPackage={exclusiveIndiaPackage?.data}
               />
