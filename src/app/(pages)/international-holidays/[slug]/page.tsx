@@ -57,16 +57,26 @@ export default async function InternationalListing({
  
   const currentPage = Number(page ?? 1);
  
-  //  HARD RULE — ONLY package listing allowed
+ 
+  // // 1️⃣ Only allow -tour-packages routes
   // if (!slug.endsWith("-tour-packages")) {
   //   notFound();
   // }
- 
+
   const res = await fetchInternationalPackageData(slug);
- 
+
+  // 2️⃣ Data must exist
   if (!res?.data) {
     notFound();
   }
+
+  // 3️⃣ Packages must exist
+  const packages = res?.data?.packages ?? [];
+
+  if (!Array.isArray(packages) || packages.length === 0) {
+    notFound();
+  }
+
  
   const countryName =
     res?.data?.location?.country?.name ||
