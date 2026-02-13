@@ -84,7 +84,7 @@ export default function CityExpandableText({
 
   return (
     <div className="expandable-text">
-      {title && <h2 className="expandable-title">{title}</h2>}
+      {title && <h1 className="expandable-title">{title}</h1>}
 
       <div
         className="expandable-content"

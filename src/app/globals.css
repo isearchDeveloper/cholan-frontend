@@ -10479,7 +10479,24 @@ body {
   color: #fff !important;
 }
 
+.city-hero-content .city-head-title {
+  font-size: 48px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #fff !important;
+}
+.city-intro-page .expandable-text h1{
+  font-size: 2rem;
+}
+
 .city-hero-content p {
+  font-size: 18px;
+  max-width: 520px;
+  line-height: 1.6;
+  color: #fff !important;
+}
+
+.city-hero-content .subtitle {
   font-size: 18px;
   max-width: 520px;
   line-height: 1.6;

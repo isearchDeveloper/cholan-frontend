@@ -219,7 +219,7 @@ export default async function FooterDesktopSec() {
                       <li>|</li>
                       <li><Link href="/Brochure_Corporativo_Cholan_Tours_Spanish.pdf" target="_blank">Spanish</Link></li>
                       <li>|</li>
-                      <li><Link href="/Brochure_Corporativo_Cholan_Tours_Spanish.pdf" target="_blank">French</Link></li>
+                      <li><Link href="/Cholan_Tours_Corporate_Brochure_French.pdf" target="_blank">French</Link></li>
                       </ul>
                     </div>
                   </div>

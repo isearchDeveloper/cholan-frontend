@@ -26,8 +26,8 @@ export default function CityBanner({
       <div className="city-hero-overlay" />
 
       <div className="city-hero-content">
-        <h1>{title}</h1>
-        {subtitle && <p>{subtitle}</p>}
+        <div className="city-head-title">{title}</div>
+        {subtitle && <div className="subtitle">{subtitle}</div>}
       </div>
     </section>
   );
