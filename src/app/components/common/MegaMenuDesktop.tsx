@@ -592,6 +592,175 @@ export default function Navigation({ headerData }: any) {
                   </div>
                 </li>
 
+                {/* holidays */}
+                     <li
+                  className="has-mega-menu"
+                  onMouseEnter={() => {
+                    if (window.innerWidth > 991) {
+                      setMegaMenuOpen("customized");
+                    }
+                  }}
+                  onMouseLeave={() => {
+                    if (window.innerWidth > 991) {
+                      setMegaMenuOpen(null);
+                    }
+                  }}
+                >
+                  <Link href="/customized-holidays" onClick={closeMobileMenu}>
+                    Holidays
+                  </Link>
+
+                  <span
+                    className="arrow"
+                    onClick={(e) =>
+                      handleMegaMenuDesktopToggle("customized", e)
+                    }
+                  >
+                    <ArrowIcon />
+                  </span>
+
+                  {/* SAME MEGA MENU AS INDIA */}
+                  <div
+                    className={`mega-menu ${
+                      megaMenuOpen === "customized"
+                        ? "show slide-up hovered"
+                        : ""
+                    }`}
+                  >
+                    <div className="container">
+                      {/* Hidden radios */}
+                      {tabs.map((tab, index) => (
+                        <input
+                          key={`custom-tab-${index}`}
+                          type="radio"
+                          id={`custom-tab-${index}`}
+                          name="custom-tab"
+                          defaultChecked={index === 0}
+                          className="sr-only"
+                        />
+                      ))}
+
+                      <div className="row">
+                        {/* LEFT TABS */}
+                        <div className="col-lg-3 col-md-12 mega-menu-tabs">
+                          {tabs.map((tab, index) => (
+                            <label
+                              key={`custom-label-${index}`}
+                              htmlFor={`custom-tab-${index}`}
+                              className="tab-button"
+                              onMouseEnter={() => {
+                                if (window.innerWidth > 991) {
+                                  const input = document.getElementById(
+                                    `custom-tab-${index}`,
+                                  ) as HTMLInputElement;
+                                  if (input) input.checked = true;
+                                }
+                              }}
+                            >
+                              {tab}
+                            </label>
+                          ))}
+                        </div>
+
+                        {/* CENTER MENU */}
+                        <div
+                          className={`${
+                            headerData?.india_promotion
+                              ? "col-lg-6"
+                              : "col-lg-9"
+                          } menu-columns`}
+                        >
+                          {tabs.map((tab, index) => {
+                            const thisSections =
+                              headerData?.india_mega_menu?.[tab];
+
+                            const sortedSections = thisSections
+                              ? Object.entries(thisSections).sort(([a], [b]) =>
+                                  a.localeCompare(b),
+                                )
+                              : [];
+
+                            return (
+                              <div
+                                key={`custom-panel-${index}`}
+                                className={`panel panel-${index}`}
+                              >
+                                <div className="clickable-state all-of-region underLine">
+                                  <Link
+                                    href={`/customized-holidays/${tab
+                                      .toLowerCase()
+                                      .replace(/&/g, "")
+                                      .replace(/,/g, "")
+                                      .replace(/\s+/g, "-")
+                                      .replace(/-+/g, "-")}`}
+                                    onClick={closeMobileMenu}
+                                  >
+                                    All of {getRegionDisplayText(tab)}
+                                  </Link>
+                                </div>
+                                <div className="menu-row">
+                                  {sortedSections.map(
+                                    ([sectionTitle, sectionItems]: any, i) => {
+                                      const hasCities =
+                                        sectionItems?.cities?.length > 0;
+
+                                      return (
+                                        <div key={i} className="menu-column">
+                                          <div className="clickable-state underLine">
+                                            <span>{sectionTitle} </span>
+                                          </div>
+
+                                          {hasCities && (
+                                            <ul>
+                                              {sectionItems.cities.map(
+                                                (city: any, j: number) => (
+                                                  <li key={j}>
+                                                    <Link
+                                                      href={`/india/${city.slug}`}
+                                                      onClick={closeMobileMenu}
+                                                    >
+                                                      {city.name} Tour Packages
+                                                    </Link>
+                                                  </li>
+                                                ),
+                                              )}
+                                            </ul>
+                                          )}
+                                        </div>
+                                      );
+                                    },
+                                  )}
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+
+                        {/* RIGHT PROMO */}
+                        {headerData?.india_promotion && (
+                          <div className="col-lg-3 col-md-12 menu-promo">
+                            <Link
+                              href={headerData?.india_promotion?.link || "#"}
+                              onClick={closeMobileMenu}
+                            >
+                              <Image
+                                src={
+                                  headerData?.india_promotion?.banner_image ||
+                                  "/images/no-img.webp"
+                                }
+                                alt=""
+                                width={300}
+                                height={180}
+                                className="h-54 object-cover rounded-1 mb-4 w-100"
+                              />
+                            </Link>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </li>
+
                 {/* ================= OTHERS ================= */}
                 <li
                   className="has-dropdown"
@@ -651,11 +820,9 @@ export default function Navigation({ headerData }: any) {
                   <Link href="/car-rental">Car Rental</Link>
                 </li>
 
-                <li>
-                  <Link href="/customized-holidays" onClick={closeMobileMenu}>
-                    Customized Holidays
-                  </Link>
-                </li>
+               
+           
+
                 <li>
                   <Link href="/indian-dmc" onClick={closeMobileMenu}>
                     Indian DMC
