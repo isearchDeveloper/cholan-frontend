@@ -1,46 +1,48 @@
-'use client';
-import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import flatpickr from 'flatpickr';
-import 'flatpickr/dist/themes/material_orange.css';
-import Image from 'next/image';
-import {  XPublicToken } from '@/app/urls/apiUrls';
+"use client";
+import React, { useState, useEffect, useRef } from "react";
+import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import flatpickr from "flatpickr";
+import "flatpickr/dist/themes/material_orange.css";
+import Image from "next/image";
+import { XPublicToken } from "@/app/urls/apiUrls";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import { isValidPhoneNumber } from "libphonenumber-js";
+// import { isValidPhoneNumber } from "libphonenumber-js";
 import ReCAPTCHA from "react-google-recaptcha";
-import { useRouter } from 'next/navigation';
-import { useForm } from '@/app/context/FormContext';
+import { useRouter } from "next/navigation";
+import { useForm } from "@/app/context/FormContext";
 
 interface HotelEnquiryFormProps {
   title?: string;
   hotel_slug: string;
 }
 
-const HotelEnquiryForm: React.FC<HotelEnquiryFormProps> = ({ title, hotel_slug }) => {
+const HotelEnquiryForm: React.FC<HotelEnquiryFormProps> = ({
+  title,
+  hotel_slug,
+}) => {
   const checkinRef = useRef<HTMLInputElement>(null);
   const checkoutRef = useRef<HTMLInputElement>(null);
   const recaptchaRef = useRef<ReCAPTCHA>(null);
   const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
   const { setHasValidSubmission } = useForm();
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
+    name: "",
+    email: "",
     phone: "",
     countryCode: "in",
-    checkin_date: '',
-    checkout_date: '',
-    adult: '',
-    child: '',
-    room_type: '',
-    message: '',
+    checkin_date: "",
+    checkout_date: "",
+    adult: "",
+    child: "",
+    room_type: "",
+    message: "",
   });
   const [errors, setErrors] = useState<any>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const currentUrl =
-    typeof window !== "undefined" ? window.location.href : "";
+  const currentUrl = typeof window !== "undefined" ? window.location.href : "";
 
   const [ipAddress, setIpAddress] = useState<string>("");
   const [browserName, setBrowserName] = useState<string>("Unknown");
@@ -90,7 +92,6 @@ const HotelEnquiryForm: React.FC<HotelEnquiryFormProps> = ({ title, hotel_slug }
       });
   }, []);
 
-
   const parseDMY = (str: string) => {
     if (!str) return null;
     const m = str.match(/^(\d{1,2})-(\d{1,2})-(\d{4})$/);
@@ -99,23 +100,23 @@ const HotelEnquiryForm: React.FC<HotelEnquiryFormProps> = ({ title, hotel_slug }
     return new Date(Number(yyyy), Number(mm) - 1, Number(dd));
   };
 
-  const normalizeDate = (date: Date) => new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  const normalizeDate = (date: Date) =>
+    new Date(date.getFullYear(), date.getMonth(), date.getDate());
 
   const toIsoDate = (dateValue?: string | Date) => {
-    if (!dateValue) return '';
+    if (!dateValue) return "";
 
     if (dateValue instanceof Date) {
-      return dateValue.toISOString().split('T')[0];
+      return dateValue.toISOString().split("T")[0];
     }
 
     const m = dateValue.match(/^(\d{1,2})-(\d{1,2})-(\d{4})$/);
     if (m) {
       const [, dd, mm, yyyy] = m;
-      return `${yyyy}-${mm.padStart(2, '0')}-${dd.padStart(2, '0')}`;
+      return `${yyyy}-${mm.padStart(2, "0")}-${dd.padStart(2, "0")}`;
     }
     return dateValue;
   };
-
 
   const validateForm = (): boolean => {
     const newErrors: any = {};
@@ -123,39 +124,59 @@ const HotelEnquiryForm: React.FC<HotelEnquiryFormProps> = ({ title, hotel_slug }
     const checkinDate = parseDMY(formData.checkin_date);
     const checkoutDate = parseDMY(formData.checkout_date);
     const checkinNormalized = checkinDate ? normalizeDate(checkinDate) : null;
-    const checkoutNormalized = checkoutDate ? normalizeDate(checkoutDate) : null;
+    const checkoutNormalized = checkoutDate
+      ? normalizeDate(checkoutDate)
+      : null;
 
     const nameValue = formData.name.trim();
-    if (!nameValue) newErrors.name = 'Name is required';
-    else if (nameValue.length < 2) newErrors.name = 'Name must be at least 2 characters long';
-    else if (!/^[A-Za-z\s]+$/.test(nameValue)) newErrors.name = 'Name can only contain letters and spaces';
+    if (!nameValue) newErrors.name = "Name is required";
+    else if (nameValue.length < 2)
+      newErrors.name = "Name must be at least 2 characters long";
+    else if (!/^[A-Za-z\s]+$/.test(nameValue))
+      newErrors.name = "Name can only contain letters and spaces";
 
-    if (!formData.email.trim()) newErrors.email = 'Email is required';
+    if (!formData.email.trim()) newErrors.email = "Email is required";
     else if (
-      !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(formData.email) ||
+      !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(
+        formData.email,
+      ) ||
       /\.[a-zA-Z]{2,}\.[a-zA-Z]{2,}$/.test(formData.email)
-    ) newErrors.email = 'Invalid email';
-
+    )
+      newErrors.email = "Invalid email";
+    //  old phone code
+    // if (!formData.phone || !formData.phone.trim()) {
+    //   newErrors.phone = "Phone number is required";
+    // } else if (!isValidPhoneNumber("+" + formData.phone)) {
+    //   newErrors.phone = "Please enter a valid phone number for the selected country";
+    // }
     if (!formData.phone || !formData.phone.trim()) {
       newErrors.phone = "Phone number is required";
-    } else if (!isValidPhoneNumber("+" + formData.phone)) {
-      newErrors.phone = "Please enter a valid phone number for the selected country";
+    } else if (!/^\d+$/.test(formData.phone)) {
+      newErrors.phone = "Phone number must contain digits only";
+    } else if (formData.phone.length > 20) {
+      newErrors.phone = "Phone number cannot exceed 20 digits";
     }
 
-    if (!formData.checkin_date.trim()) newErrors.checkin_date = 'Check-in date is required';
-    else if (!checkinNormalized) newErrors.checkin_date = 'Invalid check-in date';
-    else if (checkinNormalized < today) newErrors.checkin_date = 'Check-in cannot be in the past';
-    if (!formData.checkout_date.trim()) newErrors.checkout_date = 'Check-out date is required';
-    else if (!checkoutNormalized) newErrors.checkout_date = 'Invalid check-out date';
+    if (!formData.checkin_date.trim())
+      newErrors.checkin_date = "Check-in date is required";
+    else if (!checkinNormalized)
+      newErrors.checkin_date = "Invalid check-in date";
+    else if (checkinNormalized < today)
+      newErrors.checkin_date = "Check-in cannot be in the past";
+    if (!formData.checkout_date.trim())
+      newErrors.checkout_date = "Check-out date is required";
+    else if (!checkoutNormalized)
+      newErrors.checkout_date = "Invalid check-out date";
     else if (checkinNormalized && checkoutNormalized <= checkinNormalized)
-      newErrors.checkout_date = 'Check-out must be after check-in';
+      newErrors.checkout_date = "Check-out must be after check-in";
 
-    if (!formData.adult.trim()) newErrors.adult = 'Number of adults is required';
+    if (!formData.adult.trim())
+      newErrors.adult = "Number of adults is required";
     else {
       const adultNum = Number(formData.adult);
-      if (isNaN(adultNum)) newErrors.adult = 'Adults must be a number';
-      else if (adultNum < 1) newErrors.adult = 'Adults must be at least 1';
-      else if (adultNum > 50) newErrors.adult = 'Adults cannot exceed 50';
+      if (isNaN(adultNum)) newErrors.adult = "Adults must be a number";
+      else if (adultNum < 1) newErrors.adult = "Adults must be at least 1";
+      else if (adultNum > 50) newErrors.adult = "Adults cannot exceed 50";
     }
 
     // if (formData.child === '') newErrors.child = 'Number of children is required';
@@ -166,7 +187,6 @@ const HotelEnquiryForm: React.FC<HotelEnquiryFormProps> = ({ title, hotel_slug }
     //   else if (childNum > 50) newErrors.child = 'Children cannot exceed 50';
     // }
 
-    
     if (formData.child && formData.child.trim() !== "") {
       const childValue = formData.child.trim();
       if (/^\d*\.\d*$/.test(childValue)) {
@@ -185,7 +205,6 @@ const HotelEnquiryForm: React.FC<HotelEnquiryFormProps> = ({ title, hotel_slug }
       else if (/<[^>]+>/.test(formData.message))
         newErrors.message = "HTML tags are not allowed in the message";
       else {
-
         const cleanText = formData.message.replace(/\s+/g, " ").trim();
         const wordCount = cleanText.split(" ").length;
         if (wordCount > 400) {
@@ -202,22 +221,24 @@ const HotelEnquiryForm: React.FC<HotelEnquiryFormProps> = ({ title, hotel_slug }
     return Object.keys(newErrors).length === 0;
   };
 
-
   useEffect(() => {
     const today = new Date();
     const checkinPicker = flatpickr(checkinRef.current!, {
-      dateFormat: 'd-m-Y',
+      dateFormat: "d-m-Y",
       disableMobile: true,
       minDate: today,
       onChange: (selectedDates, dateStr) => {
         setFormData((prev) => ({ ...prev, checkin_date: dateStr }));
         if ((checkoutRef.current as any)?._flatpickr) {
-          (checkoutRef.current as any)._flatpickr.set('minDate', selectedDates[0] || today);
+          (checkoutRef.current as any)._flatpickr.set(
+            "minDate",
+            selectedDates[0] || today,
+          );
         }
       },
     });
     const checkoutPicker = flatpickr(checkoutRef.current!, {
-      dateFormat: 'd-m-Y',
+      dateFormat: "d-m-Y",
       disableMobile: true,
       minDate: today,
       onChange: (selectedDates, dateStr) =>
@@ -229,12 +250,16 @@ const HotelEnquiryForm: React.FC<HotelEnquiryFormProps> = ({ title, hotel_slug }
     };
   }, []);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    if (errors[name]) setErrors((prev: any) => ({ ...prev, [name]: undefined }));
+    if (errors[name])
+      setErrors((prev: any) => ({ ...prev, [name]: undefined }));
   };
-
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -256,29 +281,36 @@ const HotelEnquiryForm: React.FC<HotelEnquiryFormProps> = ({ title, hotel_slug }
         current_url: currentUrl || "",
         ip: combinedData || "",
       };
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_UAT_URL}/api/v1/enquiries/hotel`, payload, {
-        headers: { 'Content-Type': 'application/json', 'X-Public-Token': XPublicToken },
-      });
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_UAT_URL}/api/v1/enquiries/hotel`,
+        payload,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "X-Public-Token": XPublicToken,
+          },
+        },
+      );
       if (response.data.success) {
         // toast.success(response.data.message || 'Enquiry submitted successfully!', { toastId: 'submission-success' });
         setHasValidSubmission(true);
-         route.push("/thank-you");
+        route.push("/thank-you");
         setFormData({
-          name: '',
-          email: '',
+          name: "",
+          email: "",
           phone: "",
           countryCode: "in",
-          checkin_date: '',
-          checkout_date: '',
-          adult: '',
-          child: '',
-          room_type: '',
-          message: '',
+          checkin_date: "",
+          checkout_date: "",
+          adult: "",
+          child: "",
+          room_type: "",
+          message: "",
         });
         setRecaptchaToken(null);
         recaptchaRef.current?.reset();
-      } 
-      // else 
+      }
+      // else
       //   toast.error(response.data.message || 'Submission failed', { toastId: 'api-error' });
     } catch (err: any) {
       // toast.error(err.response?.data?.message || 'Submission failed', { toastId: 'api-error' });
@@ -302,14 +334,16 @@ const HotelEnquiryForm: React.FC<HotelEnquiryFormProps> = ({ title, hotel_slug }
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className={`form-control ${errors.name ? 'is-invalid' : ''}`}
+                className={`form-control ${errors.name ? "is-invalid" : ""}`}
                 placeholder="Full Name *"
                 disabled={isSubmitting}
               />
-              {errors.name && <div className="invalid-feedback">{errors.name}</div>}
+              {errors.name && (
+                <div className="invalid-feedback">{errors.name}</div>
+              )}
             </div>
             <div className="col-6">
-              <PhoneInput
+              {/* <PhoneInput
                 country={formData.countryCode}
                 value={formData.phone}
                 onChange={(value, countryData: any) => {
@@ -323,8 +357,43 @@ const HotelEnquiryForm: React.FC<HotelEnquiryFormProps> = ({ title, hotel_slug }
                 inputStyle={{ width: "100%" }}
                 enableSearch={true}
                 placeholder="Phone Number *"
+              /> */}
+              <PhoneInput
+                country={formData.countryCode}
+                value={formData.phone}
+                onChange={(value, countryData: any) => {
+                  const digitsOnly = value.replace(/\D/g, "");
+                  const trimmed = digitsOnly.slice(0, 20);
+
+                  setFormData((prev) => ({
+                    ...prev,
+                    phone: trimmed,
+                    countryCode: countryData.countryCode,
+                  }));
+
+                  if (errors.phone) {
+                    setErrors((prev: any) => ({
+                      ...prev,
+                      phone: "",
+                    }));
+                  }
+                }}
+                enableSearch
+                autoFormat={false}
+                enableLongNumbers
+                countryCodeEditable={false}
+                inputClass={`form-control ${errors.phone ? "is-invalid" : ""}`}
+                inputStyle={{ width: "100%" }}
+                inputProps={{
+                  maxLength: 20,
+                  inputMode: "numeric",
+                }}
+                placeholder="Phone Number *"
               />
-              {errors.phone && <div className="invalid-feedback d-block">{errors.phone}</div>}
+
+              {errors.phone && (
+                <div className="invalid-feedback d-block">{errors.phone}</div>
+              )}
             </div>
             <div className="col-6">
               <input
@@ -332,11 +401,13 @@ const HotelEnquiryForm: React.FC<HotelEnquiryFormProps> = ({ title, hotel_slug }
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className={`form-control ${errors.email ? 'is-invalid' : ''}`}
+                className={`form-control ${errors.email ? "is-invalid" : ""}`}
                 placeholder="Email *"
                 disabled={isSubmitting}
               />
-              {errors.email && <div className="invalid-feedback">{errors.email}</div>}
+              {errors.email && (
+                <div className="invalid-feedback">{errors.email}</div>
+              )}
             </div>
             <div className="col-6">
               <select
@@ -346,15 +417,11 @@ const HotelEnquiryForm: React.FC<HotelEnquiryFormProps> = ({ title, hotel_slug }
                 onChange={handleChange}
               >
                 <option value="">Room Type Preference (Optional)</option>
-                 <option value="Standard">Standard</option>
-                            <option value="Deluxe">Deluxe</option>
-                            <option value="Suite">Suite</option>
-                            <option value="Premium Deluxe">
-                              Premium Deluxe
-                            </option>
-                            <option value="Executive Suite">
-                              Executive Suite
-                            </option>
+                <option value="Standard">Standard</option>
+                <option value="Deluxe">Deluxe</option>
+                <option value="Suite">Suite</option>
+                <option value="Premium Deluxe">Premium Deluxe</option>
+                <option value="Executive Suite">Executive Suite</option>
               </select>
             </div>
             <div className="col-6 position-relative">
@@ -362,7 +429,7 @@ const HotelEnquiryForm: React.FC<HotelEnquiryFormProps> = ({ title, hotel_slug }
                 ref={checkinRef}
                 type="text"
                 name="checkin_date"
-                className={`form-control ${errors.checkin_date ? 'is-invalid' : ''}`}
+                className={`form-control ${errors.checkin_date ? "is-invalid" : ""}`}
                 placeholder="Check-in Date *"
                 value={formData.checkin_date}
                 onChange={handleChange}
@@ -374,14 +441,16 @@ const HotelEnquiryForm: React.FC<HotelEnquiryFormProps> = ({ title, hotel_slug }
                 height={20}
                 className="position-absolute end-0 top-50 translate-middle-y me-3"
               /> */}
-              {errors.checkin_date && <div className="invalid-feedback">{errors.checkin_date}</div>}
+              {errors.checkin_date && (
+                <div className="invalid-feedback">{errors.checkin_date}</div>
+              )}
             </div>
             <div className="col-6 position-relative">
               <input
                 ref={checkoutRef}
                 type="text"
                 name="checkout_date"
-                className={`form-control ${errors.checkout_date ? 'is-invalid' : ''}`}
+                className={`form-control ${errors.checkout_date ? "is-invalid" : ""}`}
                 placeholder="Check-out Date *"
                 value={formData.checkout_date}
                 onChange={handleChange}
@@ -393,7 +462,9 @@ const HotelEnquiryForm: React.FC<HotelEnquiryFormProps> = ({ title, hotel_slug }
                 height={20}
                 className="position-absolute end-0 top-50 translate-middle-y me-3"
               /> */}
-              {errors.checkout_date && <div className="invalid-feedback">{errors.checkout_date}</div>}
+              {errors.checkout_date && (
+                <div className="invalid-feedback">{errors.checkout_date}</div>
+              )}
             </div>
             <div className="col-6">
               <input
@@ -402,15 +473,17 @@ const HotelEnquiryForm: React.FC<HotelEnquiryFormProps> = ({ title, hotel_slug }
                 min="1"
                 max="50"
                 onKeyDown={(e) => {
-                  if (['-', '+', 'e', '.'].includes(e.key)) e.preventDefault();
+                  if (["-", "+", "e", "."].includes(e.key)) e.preventDefault();
                 }}
                 onWheel={(e) => e.currentTarget.blur()}
-                className={`form-control ${errors.adult ? 'is-invalid' : ''}`}
+                className={`form-control ${errors.adult ? "is-invalid" : ""}`}
                 placeholder="Adults *"
                 value={formData.adult}
                 onChange={handleChange}
               />
-              {errors.adult && <div className="invalid-feedback">{errors.adult}</div>}
+              {errors.adult && (
+                <div className="invalid-feedback">{errors.adult}</div>
+              )}
             </div>
             <div className="col-6">
               <input
@@ -419,43 +492,50 @@ const HotelEnquiryForm: React.FC<HotelEnquiryFormProps> = ({ title, hotel_slug }
                 min="0"
                 max="50"
                 onKeyDown={(e) => {
-                  if (['-', '+', 'e', '.'].includes(e.key)) e.preventDefault();
+                  if (["-", "+", "e", "."].includes(e.key)) e.preventDefault();
                 }}
                 onWheel={(e) => e.currentTarget.blur()}
                 onPaste={(e) => {
-                  const pastedText = e.clipboardData.getData('text');
+                  const pastedText = e.clipboardData.getData("text");
                   if (!/^\d+$/.test(pastedText)) {
-                    e.preventDefault(); 
+                    e.preventDefault();
                   } else {
                     const num = parseInt(pastedText, 10);
                     if (num < 0 || num > 50) e.preventDefault();
                   }
                 }}
-                className={`form-control ${errors.child ? 'is-invalid' : ''}`}
+                className={`form-control ${errors.child ? "is-invalid" : ""}`}
                 placeholder="Children "
                 value={formData.child}
                 onChange={handleChange}
               />
-              {errors.child && <div className="invalid-feedback">{errors.child}</div>}
+              {errors.child && (
+                <div className="invalid-feedback">{errors.child}</div>
+              )}
             </div>
             <div className="col-12">
               <textarea
                 name="message"
                 value={formData.message}
                 onChange={handleChange}
-                className={`form-control ${errors.message ? 'is-invalid' : ''}`}
+                className={`form-control ${errors.message ? "is-invalid" : ""}`}
                 placeholder="Additional Info"
                 rows={4}
               ></textarea>
-              {errors.message && <div className="invalid-feedback">{errors.message}</div>}
+              {errors.message && (
+                <div className="invalid-feedback">{errors.message}</div>
+              )}
             </div>
             <div className="mb-3">
               <ReCAPTCHA
                 ref={recaptchaRef}
-                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ''}
+                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}
                 onChange={(token) => setRecaptchaToken(token || null)}
-              /> {errors.recaptcha && (
-                <div className="invalid-feedback d-block">{errors.recaptcha}</div>
+              />{" "}
+              {errors.recaptcha && (
+                <div className="invalid-feedback d-block">
+                  {errors.recaptcha}
+                </div>
               )}
             </div>
           </div>
@@ -467,12 +547,18 @@ const HotelEnquiryForm: React.FC<HotelEnquiryFormProps> = ({ title, hotel_slug }
             >
               {isSubmitting ? (
                 <>
-                  <span className="spinner-border spinner-border-sm"></span> Submitting...
+                  <span className="spinner-border spinner-border-sm"></span>{" "}
+                  Submitting...
                 </>
               ) : (
                 <>
                   Submit Enquiry
-                  <Image src="/images/button-arrow.png" alt="arrow" width={20} height={20} />
+                  <Image
+                    src="/images/button-arrow.png"
+                    alt="arrow"
+                    width={20}
+                    height={20}
+                  />
                 </>
               )}
             </button>

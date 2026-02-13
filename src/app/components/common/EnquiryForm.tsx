@@ -8,7 +8,7 @@ import { XPublicToken } from "@/app/urls/apiUrls";
 import Image from "next/image";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import { isValidPhoneNumber } from "libphonenumber-js";
+// import { isValidPhoneNumber } from "libphonenumber-js";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useRouter } from "next/navigation";
 import { useForm } from "@/app/context/FormContext";
@@ -295,18 +295,28 @@ const EnquiryForm: React.FC<any> = ({ package_slug }) => {
       newErrors.email = "Email is required";
     } else if (
       !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(
-        formData.email
+        formData.email,
       ) ||
       /\.[a-zA-Z]{2,}\.[a-zA-Z]{2,}$/.test(formData.email)
     ) {
       newErrors.email = "Please enter a valid email address";
     }
 
+    // old phone code
+
+    // if (!formData.phone || !formData.phone.trim()) {
+    //   newErrors.phone = "Phone number is required";
+    // } else if (!isValidPhoneNumber("+" + formData.phone)) {
+    //   newErrors.phone =
+    //     "Please enter a valid phone number for the selected country";
+    // }
+
     if (!formData.phone || !formData.phone.trim()) {
       newErrors.phone = "Phone number is required";
-    } else if (!isValidPhoneNumber("+" + formData.phone)) {
-      newErrors.phone =
-        "Please enter a valid phone number for the selected country";
+    } else if (!/^\d+$/.test(formData.phone)) {
+      newErrors.phone = "Phone number must contain digits only";
+    } else if (formData.phone.length > 20) {
+      newErrors.phone = "Phone number cannot exceed 20 digits";
     }
 
     if (!formData.country.trim()) {
@@ -369,7 +379,7 @@ const EnquiryForm: React.FC<any> = ({ package_slug }) => {
       // Month + optional separator + optional 2/4 digit year
       const regex = new RegExp(
         `^(${monthPattern})([\\s,-\\/]*)(\\d{2}|\\d{4})?$`,
-        "i"
+        "i",
       );
 
       // STEP 1: Basic validation
@@ -378,8 +388,18 @@ const EnquiryForm: React.FC<any> = ({ package_slug }) => {
           "Enter a valid month (e.g. Feb 2025, October, Feb-25)";
       } else {
         const monthNames = [
-          "jan", "feb", "mar", "apr", "may", "jun",
-          "jul", "aug", "sep", "oct", "nov", "dec"
+          "jan",
+          "feb",
+          "mar",
+          "apr",
+          "may",
+          "jun",
+          "jul",
+          "aug",
+          "sep",
+          "oct",
+          "nov",
+          "dec",
         ];
 
         // STEP 2: Extract month safely
@@ -422,8 +442,6 @@ const EnquiryForm: React.FC<any> = ({ package_slug }) => {
         }
       }
     }
-
-
 
     const cityRegex = /^[A-Za-z\s.-]+$/;
 
@@ -474,7 +492,7 @@ const EnquiryForm: React.FC<any> = ({ package_slug }) => {
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    >,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -529,7 +547,7 @@ const EnquiryForm: React.FC<any> = ({ package_slug }) => {
             "Content-Type": "application/json",
             "X-Public-Token": XPublicToken,
           },
-        }
+        },
       );
 
       if (response.data.success) {
@@ -606,7 +624,7 @@ const EnquiryForm: React.FC<any> = ({ package_slug }) => {
               )}
             </div>
             <div className="col-6">
-              <PhoneInput
+              {/* <PhoneInput
                 country={formData.countryCode}
                 value={formData.phone}
                 onChange={(value, countryData: any) => {
@@ -620,7 +638,42 @@ const EnquiryForm: React.FC<any> = ({ package_slug }) => {
                 inputStyle={{ width: "100%" }}
                 enableSearch={true}
                 placeholder="Phone Number *"
+              /> */}
+              <PhoneInput
+                country={formData.countryCode}
+                value={formData.phone}
+                onChange={(value, countryData: any) => {
+                  // Remove everything except digits
+                  const digitsOnly = value.replace(/\D/g, "");
+
+                  // Hard limit to 20 digits
+                  const trimmed = digitsOnly.slice(0, 20);
+
+                  setFormData((prev) => ({
+                    ...prev,
+                    phone: trimmed,
+                    countryCode: countryData.countryCode,
+                  }));
+
+                  if (errors.phone) {
+                    setErrors((prev: any) => ({
+                      ...prev,
+                      phone: undefined,
+                    }));
+                  }
+                }}
+                enableSearch
+                autoFormat={false}
+                enableLongNumbers
+                countryCodeEditable={false}
+                inputClass={`form-control ${errors.phone ? "is-invalid" : ""}`}
+                inputStyle={{ width: "100%" }}
+                inputProps={{
+                  maxLength: 20, // DOM level hard stop
+                  inputMode: "numeric",
+                }}
               />
+
               {errors.phone && (
                 <div className="invalid-feedback  d-block">{errors.phone}</div>
               )}
@@ -630,8 +683,9 @@ const EnquiryForm: React.FC<any> = ({ package_slug }) => {
               <input
                 type="text"
                 name="per_person_budget"
-                className={`form-control ${errors.per_person_budget ? "is-invalid" : ""
-                  }`}
+                className={`form-control ${
+                  errors.per_person_budget ? "is-invalid" : ""
+                }`}
                 placeholder="Budget per Person (e.g. 12,000)"
                 value={formData.per_person_budget}
                 onChange={handleBudgetChange}
@@ -648,8 +702,9 @@ const EnquiryForm: React.FC<any> = ({ package_slug }) => {
                 type="text"
                 name="no_of_travellers"
                 placeholder="No. of Travellers*"
-                className={`form-control ${errors.no_of_travellers ? "is-invalid" : ""
-                  }`}
+                className={`form-control ${
+                  errors.no_of_travellers ? "is-invalid" : ""
+                }`}
                 value={formData.no_of_travellers}
                 onChange={(e) => {
                   const value = e.target.value;
@@ -683,7 +738,6 @@ const EnquiryForm: React.FC<any> = ({ package_slug }) => {
                 <div className="invalid-feedback">{errors.month}</div>
               )}
             </div>
-
           </div>
 
           <div className="row">
@@ -720,8 +774,9 @@ const EnquiryForm: React.FC<any> = ({ package_slug }) => {
               <input
                 type="text"
                 name="arrival_city"
-                className={`form-control ${errors.arrival_city ? "is-invalid" : ""
-                  }`}
+                className={`form-control ${
+                  errors.arrival_city ? "is-invalid" : ""
+                }`}
                 placeholder="Arrival City *"
                 value={formData.arrival_city}
                 onChange={handleChange}
@@ -735,8 +790,9 @@ const EnquiryForm: React.FC<any> = ({ package_slug }) => {
               <input
                 type="text"
                 name="departure_city"
-                className={`form-control ${errors.departure_city ? "is-invalid" : ""
-                  }`}
+                className={`form-control ${
+                  errors.departure_city ? "is-invalid" : ""
+                }`}
                 placeholder="Departure City *"
                 value={formData.departure_city}
                 onChange={handleChange}

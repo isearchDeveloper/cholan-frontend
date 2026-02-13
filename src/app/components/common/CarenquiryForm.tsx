@@ -10,7 +10,7 @@ import Image from "next/image";
 import { useEffect } from "react";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import { isValidPhoneNumber } from "libphonenumber-js";
+// import { isValidPhoneNumber } from "libphonenumber-js";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useRouter } from "next/navigation";
 import { useForm } from "@/app/context/FormContext";
@@ -111,18 +111,28 @@ const CarEnquiryForm: React.FC<any> = () => {
     if (!formData.email.trim()) newErrors.email = "Email is required";
     else if (
       !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(
-        formData.email
+        formData.email,
       ) ||
       /\.[a-zA-Z]{2,}\.[a-zA-Z]{2,}$/.test(formData.email)
     )
       newErrors.email = "Invalid email address";
 
+    // old phone code
+    // if (!formData.phone || !formData.phone.trim()) {
+    //   newErrors.phone = "Phone number is required";
+    // } else if (!isValidPhoneNumber("+" + formData.phone)) {
+    //   newErrors.phone =
+    //     "Please enter a valid phone number for the selected country";
+    // }
+
     if (!formData.phone || !formData.phone.trim()) {
       newErrors.phone = "Phone number is required";
-    } else if (!isValidPhoneNumber("+" + formData.phone)) {
-      newErrors.phone =
-        "Please enter a valid phone number for the selected country";
+    } else if (!/^\d+$/.test(formData.phone)) {
+      newErrors.phone = "Phone number must contain digits only";
+    } else if (formData.phone.length > 20) {
+      newErrors.phone = "Phone number cannot exceed 20 digits";
     }
+
     const vehicleRegex = /^[A-Za-z\s.\-]+$/; // allowed characters only
 
     if (formData.vehicle_type && formData.vehicle_type.trim()) {
@@ -217,7 +227,7 @@ const CarEnquiryForm: React.FC<any> = () => {
     return Object.keys(newErrors).length === 0;
   };
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -237,7 +247,7 @@ const CarEnquiryForm: React.FC<any> = () => {
         if ((returnDateRef.current as any)?._flatpickr) {
           (returnDateRef.current as any)._flatpickr.set(
             "minDate",
-            selectedDates[0] || today
+            selectedDates[0] || today,
           );
         }
       },
@@ -314,7 +324,7 @@ const CarEnquiryForm: React.FC<any> = () => {
             "Content-Type": "application/json",
             "X-Public-Token": XPublicToken,
           },
-        }
+        },
       );
       if (response.data.success) {
         // toast.success(response.data.message || 'Enquiry submitted successfully!', { toastId: 'form-success' });
@@ -354,57 +364,90 @@ const CarEnquiryForm: React.FC<any> = () => {
           Affordable, Reliable, and Convenient Car Rentals for Every Journey
         </p> */}
         <form onSubmit={handleSubmit} className="mt-4" noValidate>
-         <div className="row g-3">
-          <div className="col-6">
-            <input
-              type="text"
-              name="name"
-              className={`form-control ${errors.name ? "is-invalid" : ""}`}
-              placeholder="Full Name *"
-              value={formData.name}
-              onChange={handleChange}
-            />
-            {errors.name && (
-              <div className="invalid-feedback">{errors.name}</div>
-            )}
-           </div>
+          <div className="row g-3">
+            <div className="col-6">
+              <input
+                type="text"
+                name="name"
+                className={`form-control ${errors.name ? "is-invalid" : ""}`}
+                placeholder="Full Name *"
+                value={formData.name}
+                onChange={handleChange}
+              />
+              {errors.name && (
+                <div className="invalid-feedback">{errors.name}</div>
+              )}
+            </div>
 
-           <div className="col-6">
-            <input
-              type="email"
-              name="email"
-              className={`form-control ${errors.email ? "is-invalid" : ""}`}
-              placeholder="Email Address *"
-              value={formData.email}
-              onChange={handleChange}
-            />
-            {errors.email && (
-              <div className="invalid-feedback">{errors.email}</div>
-            )}
-          </div>
+            <div className="col-6">
+              <input
+                type="email"
+                name="email"
+                className={`form-control ${errors.email ? "is-invalid" : ""}`}
+                placeholder="Email Address *"
+                value={formData.email}
+                onChange={handleChange}
+              />
+              {errors.email && (
+                <div className="invalid-feedback">{errors.email}</div>
+              )}
+            </div>
 
-          <div className="col-6">
-            <PhoneInput
-              country={formData.countryCode}
-              value={formData.phone}
-              onChange={(value, countryData: any) => {
-                setFormData((prev) => ({
-                  ...prev,
-                  phone: value,
-                  countryCode: countryData.countryCode,
-                }));
-              }}
-              inputClass={`form-control ${errors.phone ? "is-invalid" : ""}`}
-              inputStyle={{ width: "100%" }}
-              enableSearch={true}
-              placeholder="Phone Number *"
-            />
-            {errors.phone && (
-              <div className="invalid-feedback d-block">{errors.phone}</div>
-            )}
-          </div>
+            <div className="col-6">
+              {/* <PhoneInput
+                country={formData.countryCode}
+                value={formData.phone}
+                onChange={(value, countryData: any) => {
+                  setFormData((prev) => ({
+                    ...prev,
+                    phone: value,
+                    countryCode: countryData.countryCode,
+                  }));
+                }}
+                inputClass={`form-control ${errors.phone ? "is-invalid" : ""}`}
+                inputStyle={{ width: "100%" }}
+                enableSearch={true}
+                placeholder="Phone Number *"
+              /> */}
+              <PhoneInput
+                country={formData.countryCode}
+                value={formData.phone}
+                onChange={(value, countryData: any) => {
+                  const digitsOnly = value.replace(/\D/g, "");
+                  const trimmed = digitsOnly.slice(0, 20);
 
-          <div className="col-6 mb-3">
+                  setFormData((prev) => ({
+                    ...prev,
+                    phone: trimmed,
+                    countryCode: countryData.countryCode,
+                  }));
+
+                  if (errors.phone) {
+                    setErrors((prev: any) => ({
+                      ...prev,
+                      phone: undefined,
+                    }));
+                  }
+                }}
+                enableSearch
+                autoFormat={false}
+                enableLongNumbers
+                countryCodeEditable={false}
+                inputClass={`form-control ${errors.phone ? "is-invalid" : ""}`}
+                inputStyle={{ width: "100%" }}
+                inputProps={{
+                  maxLength: 20,
+                  inputMode: "numeric",
+                }}
+                placeholder="Phone Number *"
+              />
+
+              {errors.phone && (
+                <div className="invalid-feedback d-block">{errors.phone}</div>
+              )}
+            </div>
+
+            <div className="col-6 mb-3">
               <input
                 type="text"
                 name="from_city"
@@ -419,8 +462,7 @@ const CarEnquiryForm: React.FC<any> = () => {
                 <div className="invalid-feedback">{errors.from_city}</div>
               )}
             </div>
-
-          </div> 
+          </div>
           <div className="row">
             <div className="col-12 mb-3">
               <input

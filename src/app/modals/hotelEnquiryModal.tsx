@@ -9,7 +9,7 @@ import "flatpickr/dist/themes/material_orange.css";
 import Image from "next/image";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import { isValidPhoneNumber } from "libphonenumber-js";
+// import { isValidPhoneNumber } from "libphonenumber-js";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useRouter } from "next/navigation";
 import { useForm } from "../context/FormContext";
@@ -131,17 +131,25 @@ const HotelEnquiryModal: React.FC<Props> = ({
     if (!formData.email.trim()) newErrors.email = "Email is required";
     else if (
       !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(
-        formData.email
+        formData.email,
       ) ||
       /\.[a-zA-Z]{2,}\.[a-zA-Z]{2,}$/.test(formData.email)
     )
       newErrors.email = "Invalid email";
+    // old phone code
+    // if (!formData.phone || !formData.phone.trim()) {
+    //   newErrors.phone = "Phone number is required";
+    // } else if (!isValidPhoneNumber("+" + formData.phone)) {
+    //   newErrors.phone =
+    //     "Please enter a valid phone number for the selected country";
+    // }
 
     if (!formData.phone || !formData.phone.trim()) {
       newErrors.phone = "Phone number is required";
-    } else if (!isValidPhoneNumber("+" + formData.phone)) {
-      newErrors.phone =
-        "Please enter a valid phone number for the selected country";
+    } else if (!/^\d+$/.test(formData.phone)) {
+      newErrors.phone = "Phone number must contain digits only";
+    } else if (formData.phone.length > 20) {
+      newErrors.phone = "Phone number cannot exceed 20 digits";
     }
 
     if (!formData.checkin_date.trim())
@@ -220,7 +228,7 @@ const HotelEnquiryModal: React.FC<Props> = ({
         if ((checkoutRef.current as any)?._flatpickr) {
           (checkoutRef.current as any)._flatpickr.set(
             "minDate",
-            selectedDates[0] || today
+            selectedDates[0] || today,
           );
         }
       },
@@ -253,7 +261,7 @@ const HotelEnquiryModal: React.FC<Props> = ({
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    >,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -303,7 +311,7 @@ const HotelEnquiryModal: React.FC<Props> = ({
             "Content-Type": "application/json",
             "X-Public-Token": XPublicToken,
           },
-        }
+        },
       );
       if (response.data.success) {
         // toast.success(response.data.message || 'Enquiry submitted!', {
@@ -408,7 +416,7 @@ const HotelEnquiryModal: React.FC<Props> = ({
                         )}
                       </div>
                       <div className="col-md-6">
-                        <PhoneInput
+                        {/* <PhoneInput
                           country={formData.countryCode}
                           value={formData.phone}
                           onChange={(value, countryData: any) => {
@@ -425,7 +433,41 @@ const HotelEnquiryModal: React.FC<Props> = ({
                           enableSearch={true}
                           placeholder="Phone Number *"
                           disabled={isSubmitting}
+                        /> */}
+                        <PhoneInput
+                          country={formData.countryCode}
+                          value={formData.phone}
+                          onChange={(value, countryData: any) => {
+                            const digitsOnly = value.replace(/\D/g, "");
+                            const trimmed = digitsOnly.slice(0, 20);
+
+                            setFormData((prev) => ({
+                              ...prev,
+                              phone: trimmed,
+                              countryIso: countryData.countryCode,
+                              dialCode: countryData.dialCode,
+                            }));
+
+                            if (errors.phone) {
+                              setErrors((prev: any) => ({
+                                ...prev,
+                                phone: "",
+                              }));
+                            }
+                          }}
+                          enableSearch
+                          autoFormat={false}
+                          enableLongNumbers
+                          countryCodeEditable={false}
+                          inputClass={`form-control ${errors.phone ? "is-invalid" : ""}`}
+                          inputStyle={{ width: "100%" }}
+                          inputProps={{
+                            maxLength: 20,
+                            inputMode: "numeric",
+                          }}
+                          placeholder="Phone Number *"
                         />
+
                         {errors.phone && (
                           <div className="invalid-feedback d-block">
                             {errors.phone}

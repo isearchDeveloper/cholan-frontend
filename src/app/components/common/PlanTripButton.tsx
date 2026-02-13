@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { XPublicToken } from "@/app/urls/apiUrls";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import { isValidPhoneNumber } from "libphonenumber-js";
+// import { isValidPhoneNumber } from "libphonenumber-js";
 import ReCAPTCHA from "react-google-recaptcha";
 import { usePathname, useRouter } from "next/navigation";
 import { useForm } from "@/app/context/FormContext";
@@ -331,12 +331,22 @@ export default function PlanTripButton({
     ) {
       newErrors.email = "Please enter a valid email address";
     }
+
+    // phone validation old code
+    // if (!formData.phone || !formData.phone.trim()) {
+    //   newErrors.phone = "Phone number is required";
+    // } else if (!isValidPhoneNumber("+" + formData.phone)) {
+    //   newErrors.phone =
+    //     "Please enter a valid phone number for the selected country";
+    // }
     if (!formData.phone || !formData.phone.trim()) {
       newErrors.phone = "Phone number is required";
-    } else if (!isValidPhoneNumber("+" + formData.phone)) {
-      newErrors.phone =
-        "Please enter a valid phone number for the selected country";
+    } else if (!/^\d+$/.test(formData.phone)) {
+      newErrors.phone = "Phone number must contain digits only";
+    } else if (formData.phone.length > 20) {
+      newErrors.phone = "Phone number cannot exceed 20 digits";
     }
+
     if (!formData.country.trim()) {
       newErrors.country = "Country is required";
     }
@@ -392,7 +402,7 @@ export default function PlanTripButton({
       // Month + optional separator + optional 2/4 digit year
       const regex = new RegExp(
         `^(${monthPattern})([\\s,-\\/]*)(\\d{2}|\\d{4})?$`,
-        "i"
+        "i",
       );
 
       // STEP 1: Basic validation
@@ -401,8 +411,18 @@ export default function PlanTripButton({
           "Enter a valid month (e.g. Feb 2025, October, Feb-25)";
       } else {
         const monthNames = [
-          "jan", "feb", "mar", "apr", "may", "jun",
-          "jul", "aug", "sep", "oct", "nov", "dec"
+          "jan",
+          "feb",
+          "mar",
+          "apr",
+          "may",
+          "jun",
+          "jul",
+          "aug",
+          "sep",
+          "oct",
+          "nov",
+          "dec",
         ];
 
         // STEP 2: Extract month safely
@@ -445,8 +465,6 @@ export default function PlanTripButton({
         }
       }
     }
-
-
 
     const cityRegex = /^[A-Za-z\s.-]+$/;
     if (!formData.arrival_city.trim()) {
@@ -500,7 +518,7 @@ export default function PlanTripButton({
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    >,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -552,7 +570,7 @@ export default function PlanTripButton({
             "Content-Type": "application/json",
             "X-Public-Token": XPublicToken,
           },
-        }
+        },
       );
 
       if (response.status === 200 && response.data.success) {
@@ -706,14 +724,19 @@ export default function PlanTripButton({
                         rest.
                       </p> */}
                     </div>
-                    <form onSubmit={handleSubmit} className="mt-4 mb-space" noValidate>
+                    <form
+                      onSubmit={handleSubmit}
+                      className="mt-4 mb-space"
+                      noValidate
+                    >
                       <div className="row g-3">
                         <div className="col-6">
                           <input
                             type="text"
                             name="name"
-                            className={`form-control ${errors.name ? "is-invalid" : ""
-                              }`}
+                            className={`form-control ${
+                              errors.name ? "is-invalid" : ""
+                            }`}
                             placeholder="Full Name*"
                             value={formData.name}
                             onChange={handleChange}
@@ -729,8 +752,9 @@ export default function PlanTripButton({
                           <input
                             type="email"
                             name="email"
-                            className={`form-control ${errors.email ? "is-invalid" : ""
-                              }`}
+                            className={`form-control ${
+                              errors.email ? "is-invalid" : ""
+                            }`}
                             placeholder="Email Address*"
                             value={formData.email}
                             onChange={handleChange}
@@ -746,14 +770,15 @@ export default function PlanTripButton({
                           <input
                             type="text"
                             name="country"
-                            className={`form-control ${errors.country ? "is-invalid" : ""
-                              }`}
+                            className={`form-control ${
+                              errors.country ? "is-invalid" : ""
+                            }`}
                             placeholder="Enter Country *"
                             value={formData.country}
                             onChange={handleChange}
                             disabled={isSubmitting}
                           />
-                         
+
                           {errors.country && (
                             <div className="invalid-feedback">
                               {errors.country}
@@ -761,7 +786,7 @@ export default function PlanTripButton({
                           )}
                         </div>
                         <div className="col-6">
-                          <PhoneInput
+                          {/* <PhoneInput
                             country={formData.countryCode}
                             value={formData.phone}
                             onChange={(value, countryData: any) => {
@@ -777,13 +802,37 @@ export default function PlanTripButton({
                                 }));
                               }
                             }}
-                            inputClass={`form-control ${errors.phone ? "is-invalid" : ""
-                              }`}
+                            inputClass={`form-control ${
+                              errors.phone ? "is-invalid" : ""
+                            }`}
                             inputStyle={{ width: "100%" }}
                             enableSearch={true}
                             placeholder="Phone Number *"
                             disabled={isSubmitting}
+                          /> */}
+                          <PhoneInput
+                            country={formData.countryCode}
+                            value={formData.phone}
+                            onChange={(value, countryData: any) => {
+                              const digitsOnly = value.replace(/\D/g, "");
+                              const trimmed = digitsOnly.slice(0, 20);
+
+                              setFormData((prev) => ({
+                                ...prev,
+                                phone: trimmed,
+                                countryCode: countryData.countryCode,
+                              }));
+                            }}
+                            enableSearch
+                            autoFormat={false}
+                            enableLongNumbers
+                            inputClass={`form-control ${errors.phone ? "is-invalid" : ""}`}
+                            inputStyle={{ width: "100%" }}
+                            inputProps={{
+                              maxLength: 20, // 🔥 HARD BLOCK at DOM level
+                            }}
                           />
+
                           {errors.phone && (
                             <div className="invalid-feedback d-block">
                               {errors.phone}
@@ -794,8 +843,9 @@ export default function PlanTripButton({
                           <input
                             type="text"
                             name="city"
-                            className={`form-control ${errors.city ? "is-invalid" : ""
-                              }`}
+                            className={`form-control ${
+                              errors.city ? "is-invalid" : ""
+                            }`}
                             placeholder="City or State*"
                             value={formData.city}
                             onChange={handleChange}
@@ -811,8 +861,9 @@ export default function PlanTripButton({
                           <input
                             type="text"
                             name="per_person_budget"
-                            className={`form-control ${errors.per_person_budget ? "is-invalid" : ""
-                              }`}
+                            className={`form-control ${
+                              errors.per_person_budget ? "is-invalid" : ""
+                            }`}
                             placeholder="Budget per Person (e.g. 12,000)"
                             value={formData.per_person_budget}
                             onChange={handleBudgetChange}
@@ -829,8 +880,9 @@ export default function PlanTripButton({
                             type="text"
                             name="no_of_travellers"
                             placeholder="No. of Travellers*"
-                            className={`form-control ${errors.no_of_travellers ? "is-invalid" : ""
-                              }`}
+                            className={`form-control ${
+                              errors.no_of_travellers ? "is-invalid" : ""
+                            }`}
                             value={formData.no_of_travellers}
                             onChange={(e) => {
                               const value = e.target.value;
@@ -869,7 +921,6 @@ export default function PlanTripButton({
                             disabled={isSubmitting}
                           />
 
-                          
                           {errors.month && (
                             <div className="invalid-feedback">
                               {errors.month}
@@ -881,8 +932,9 @@ export default function PlanTripButton({
                             type="text"
                             name="arrival_city"
                             placeholder="Arrival City*"
-                            className={`form-control ${errors.arrival_city ? "is-invalid" : ""
-                              }`}
+                            className={`form-control ${
+                              errors.arrival_city ? "is-invalid" : ""
+                            }`}
                             value={formData.arrival_city}
                             onChange={handleChange}
                             disabled={isSubmitting}
@@ -898,8 +950,9 @@ export default function PlanTripButton({
                             type="text"
                             name="departure_city"
                             placeholder="Departure City*"
-                            className={`form-control ${errors.departure_city ? "is-invalid" : ""
-                              }`}
+                            className={`form-control ${
+                              errors.departure_city ? "is-invalid" : ""
+                            }`}
                             value={formData.departure_city}
                             onChange={handleChange}
                             disabled={isSubmitting}
@@ -915,8 +968,9 @@ export default function PlanTripButton({
                             name="message"
                             value={formData.message}
                             onChange={handleChange}
-                            className={`form-control ${errors.message ? "is-invalid" : ""
-                              }`}
+                            className={`form-control ${
+                              errors.message ? "is-invalid" : ""
+                            }`}
                             placeholder="Describe your travel requirement*"
                             rows={3}
                             disabled={isSubmitting}

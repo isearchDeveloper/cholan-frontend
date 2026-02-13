@@ -9,7 +9,7 @@ import { XPublicToken } from "@/app/urls/apiUrls";
 import "flatpickr/dist/themes/material_orange.css";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import { isValidPhoneNumber } from "libphonenumber-js";
+// import { isValidPhoneNumber } from "libphonenumber-js";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useRouter } from "next/navigation";
 import { useForm } from "@/app/context/FormContext";
@@ -105,25 +105,34 @@ const GetInTouchForm: React.FC = () => {
       newErrors.email = "Email is required";
     } else if (
       !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(
-        formData.email
+        formData.email,
       ) ||
       /\.[a-zA-Z]{2,}\.[a-zA-Z]{2,}$/.test(formData.email)
     ) {
       newErrors.email = "Please enter a valid email address";
     }
     // Phone validation
+    // if (!formData.phone || !formData.phone.trim()) {
+    //   newErrors.phone = "Phone number is required";
+    // } else if (!isValidPhoneNumber("+" + formData.phone)) {
+    //   newErrors.phone =
+    //     "Please enter a valid phone number for the selected country";
+    // }
+
     if (!formData.phone || !formData.phone.trim()) {
       newErrors.phone = "Phone number is required";
-    } else if (!isValidPhoneNumber("+" + formData.phone)) {
-      newErrors.phone =
-        "Please enter a valid phone number for the selected country";
+    } else if (!/^\d+$/.test(formData.phone)) {
+      newErrors.phone = "Phone number must contain digits only";
+    } else if (formData.phone.length > 20) {
+      newErrors.phone = "Phone number cannot exceed 20 digits";
     }
+
     // Travel date validation
     if (!formData.travelDate) {
       newErrors.travelDate = "Travel date is required";
     } else {
       const selectedDate = new Date(
-        formData.travelDate.split("-").reverse().join("-")
+        formData.travelDate.split("-").reverse().join("-"),
       );
       const today = new Date();
       today.setHours(0, 0, 0, 0);
@@ -163,7 +172,7 @@ const GetInTouchForm: React.FC = () => {
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    >,
   ) => {
     const { name, value } = e.target;
     // Clear error when user starts typing
@@ -215,7 +224,7 @@ const GetInTouchForm: React.FC = () => {
             "Content-Type": "application/json",
             "X-Public-Token": XPublicToken,
           },
-        }
+        },
       );
       if (response.data.success) {
         // toast.success(response.data.message || "Enquiry submitted successfully!");
@@ -291,52 +300,83 @@ const GetInTouchForm: React.FC = () => {
         {/* <p>Design a one-of-a-kind travel experience </p> */}
         <form onSubmit={handleSubmit} className="mt-4" noValidate>
           {/* Name */}
-         <div className="row mb-3"> 
-          <div className="col-6 mb-3">
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              className={`form-control ${errors.name ? "is-invalid" : ""}`}
-              placeholder="Name*"
-              disabled={isSubmitting}
-            />
-            {errors.name && (
-              <div className="invalid-feedback">{errors.name}</div>
-            )}
-          </div>
-          {/* Email */}
-          <div className="col-6 mb-3">
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              className={`form-control ${errors.email ? "is-invalid" : ""}`}
-              placeholder="Email*"
-              disabled={isSubmitting}
-            />
-            {errors.email && (
-              <div className="invalid-feedback">{errors.email}</div>
-            )}
-          </div>
-          {/* Phone */}
-          <div className="col-12">
-            <PhoneInput
-              country={formData.countryCode}
-              value={formData.phone}
-              onChange={handlePhoneChange}
-              inputClass={`form-control ${errors.phone ? "is-invalid" : ""}`}
-              inputStyle={{ width: "100%" }}
-              enableSearch
-              placeholder="Phone Number*"
-              disabled={isSubmitting}
-            />
-            {errors.phone && (
-              <div className="invalid-feedback d-block">{errors.phone}</div>
-            )}
-          </div>
+          <div className="row mb-3">
+            <div className="col-6 mb-3">
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                className={`form-control ${errors.name ? "is-invalid" : ""}`}
+                placeholder="Name*"
+                disabled={isSubmitting}
+              />
+              {errors.name && (
+                <div className="invalid-feedback">{errors.name}</div>
+              )}
+            </div>
+            {/* Email */}
+            <div className="col-6 mb-3">
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className={`form-control ${errors.email ? "is-invalid" : ""}`}
+                placeholder="Email*"
+                disabled={isSubmitting}
+              />
+              {errors.email && (
+                <div className="invalid-feedback">{errors.email}</div>
+              )}
+            </div>
+            {/* Phone */}
+            <div className="col-12">
+              {/* <PhoneInput
+                country={formData.countryCode}
+                value={formData.phone}
+                onChange={handlePhoneChange}
+                inputClass={`form-control ${errors.phone ? "is-invalid" : ""}`}
+                inputStyle={{ width: "100%" }}
+                enableSearch
+                placeholder="Phone Number*"
+                disabled={isSubmitting}
+              /> */}
+              <PhoneInput
+                country={formData.countryCode}
+                value={formData.phone}
+                onChange={(value, countryData: any) => {
+                  const digitsOnly = value.replace(/\D/g, "");
+                  const trimmed = digitsOnly.slice(0, 20);
+
+                  setFormData((prev) => ({
+                    ...prev,
+                    phone: trimmed,
+                    countryCode: countryData.countryCode,
+                  }));
+
+                  if (errors.phone) {
+                    setErrors((prev) => ({ ...prev, phone: undefined }));
+                  }
+                }}
+                enableSearch
+                autoFormat={false}
+                enableLongNumbers
+                countryCodeEditable={false}
+                inputClass={`form-control ${errors.phone ? "is-invalid" : ""}`}
+                inputStyle={{ width: "100%" }}
+                inputProps={{
+                  maxLength: 20,
+                  inputMode: "numeric",
+                }}
+                placeholder="Phone Number*"
+                disabled={isSubmitting}
+              />
+
+              {errors.phone && (
+                <div className="invalid-feedback d-block">{errors.phone}</div>
+              )}
+            </div>
           </div>
           {/* Travel Date and People in one row */}
           <div className="row mb-3">

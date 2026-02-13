@@ -8,13 +8,14 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import Image from "next/image";
 import { XPublicToken } from "@/app/urls/apiUrls";
-import { isValidPhoneNumber } from "libphonenumber-js";
+// import { isValidPhoneNumber } from "libphonenumber-js";
 import { useRouter } from "next/navigation";
 import { useForm } from "@/app/context/FormContext";
 
-export default function TrainEnquiryFormClient({ trainOverviewData, trainSlug }: any) {
-  
-  
+export default function TrainEnquiryFormClient({
+  trainOverviewData,
+  trainSlug,
+}: any) {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -28,8 +29,7 @@ export default function TrainEnquiryFormClient({ trainOverviewData, trainSlug }:
   const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
   const lastErrorMessageRef = useRef<string>("");
   const { setHasValidSubmission } = useForm();
-  const currentUrl =
-    typeof window !== "undefined" ? window.location.href : "";
+  const currentUrl = typeof window !== "undefined" ? window.location.href : "";
   const [ipAddress, setIpAddress] = useState<string>("");
   const [browserName, setBrowserName] = useState<string>("Unknown");
   const [deviceType, setDeviceType] = useState<string>("Unknown");
@@ -76,7 +76,9 @@ export default function TrainEnquiryFormClient({ trainOverviewData, trainSlug }:
       });
   }, []);
 
-  const resetLastError = () => { lastErrorMessageRef.current = ""; };
+  const resetLastError = () => {
+    lastErrorMessageRef.current = "";
+  };
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
@@ -96,17 +98,25 @@ export default function TrainEnquiryFormClient({ trainOverviewData, trainSlug }:
     if (!formData.email.trim()) newErrors.email = "Email is required";
     else if (
       !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(
-        formData.email
+        formData.email,
       ) ||
       /\.[a-zA-Z]{2,}\.[a-zA-Z]{2,}$/.test(formData.email)
     )
       newErrors.email = "Please enter a valid email address";
 
-    if (!formData.phone || !formData.phone.trim())
+    // if (!formData.phone || !formData.phone.trim())
+    //   newErrors.phone = "Phone number is required";
+    // else if (!isValidPhoneNumber("+" + formData.phone))
+    //   newErrors.phone =
+    //     "Please enter a valid phone number for the selected country";
+
+    if (!formData.phone || !formData.phone.trim()) {
       newErrors.phone = "Phone number is required";
-    else if (!isValidPhoneNumber("+" + formData.phone))
-      newErrors.phone =
-        "Please enter a valid phone number for the selected country";
+    } else if (!/^\d+$/.test(formData.phone)) {
+      newErrors.phone = "Phone number must contain digits only";
+    } else if (formData.phone.length > 20) {
+      newErrors.phone = "Phone number cannot exceed 20 digits";
+    }
 
     if (!formData.message.trim()) {
       newErrors.message = "Message is required";
@@ -150,7 +160,7 @@ export default function TrainEnquiryFormClient({ trainOverviewData, trainSlug }:
       name: formData.name,
       email: formData.email,
       phone: formData.phone,
-      train_name: trainOverviewData|| "",
+      train_name: trainOverviewData || "",
       train_slug: trainSlug || "",
       message: formData.message,
       current_url: currentUrl || "",
@@ -166,13 +176,13 @@ export default function TrainEnquiryFormClient({ trainOverviewData, trainSlug }:
             "Content-Type": "application/json",
             "X-Public-Token": XPublicToken,
           },
-        }
+        },
       );
 
       if (res.data.success) {
         // toast.success(res?.data?.message || "Enquiry submitted successfully!");
         setHasValidSubmission(true);
-         route.push("/thank-you");
+        route.push("/thank-you");
         setFormData({
           name: "",
           email: "",
@@ -247,7 +257,7 @@ export default function TrainEnquiryFormClient({ trainOverviewData, trainSlug }:
             )}
           </div>
           <div className="col-lg-6 mb-3">
-            <PhoneInput
+            {/* <PhoneInput
               country={formData.countryCode}
               value={formData.phone}
               onChange={(value, countryData: any) => {
@@ -262,17 +272,49 @@ export default function TrainEnquiryFormClient({ trainOverviewData, trainSlug }:
               enableSearch={true}
               placeholder="Phone Number *"
               disabled={isSubmitting}
+            /> */}
+            <PhoneInput
+              country={formData.countryCode}
+              value={formData.phone}
+              onChange={(value, countryData: any) => {
+                const digitsOnly = value.replace(/\D/g, "");
+                const trimmed = digitsOnly.slice(0, 20); // HARD LIMIT 20
+
+                setFormData((prev) => ({
+                  ...prev,
+                  phone: trimmed,
+                  countryCode: countryData.countryCode,
+                }));
+
+                if (errors.phone) {
+                  setErrors((prev: any) => ({
+                    ...prev,
+                    phone: "",
+                  }));
+                }
+              }}
+              enableSearch
+              autoFormat={false}
+              enableLongNumbers
+              countryCodeEditable={false}
+              inputClass={`form-control ${errors.phone ? "is-invalid" : ""}`}
+              inputStyle={{ width: "100%" }}
+              inputProps={{
+                maxLength: 20,
+                inputMode: "numeric",
+              }}
+              placeholder="Phone Number *"
+              disabled={isSubmitting}
             />
+
             {errors.phone && (
-              <div className="invalid-feedback d-block">
-                {errors.phone}
-              </div>
+              <div className="invalid-feedback d-block">{errors.phone}</div>
             )}
           </div>
           <div className="col-lg-6 mb-3">
             <input
               type="text"
-            value={trainOverviewData}
+              value={trainOverviewData}
               disabled
               className="form-control"
               placeholder="Train Name"
@@ -298,9 +340,7 @@ export default function TrainEnquiryFormClient({ trainOverviewData, trainSlug }:
             onChange={(token) => setRecaptchaToken(token || null)}
           />{" "}
           {errors.recaptcha && (
-            <div className="invalid-feedback d-block">
-              {errors.recaptcha}
-            </div>
+            <div className="invalid-feedback d-block">{errors.recaptcha}</div>
           )}
           <div className="d-flex justify-content-end mt-3">
             <button

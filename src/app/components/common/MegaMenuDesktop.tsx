@@ -81,7 +81,6 @@ export default function Navigation({ headerData }: any) {
     return REGION_DISPLAY_LABELS[regionName] ?? regionName;
   };
 
-
   const ArrowIcon = () => (
     <svg
       width="10"
@@ -101,8 +100,9 @@ export default function Navigation({ headerData }: any) {
     <>
       <nav className="custom-navbar">
         <div
-          className={`menu-overlay ${navOpen || megaMenuOpen || dropdownOpen ? "show" : ""
-            }`}
+          className={`menu-overlay ${
+            navOpen || megaMenuOpen || dropdownOpen ? "show" : ""
+          }`}
           onClick={closeAll}
         ></div>
 
@@ -146,8 +146,9 @@ export default function Navigation({ headerData }: any) {
                   </span>
 
                   <div
-                    className={`mega-menu ${megaMenuOpen === "india" ? "show slide-up hovered" : ""
-                      }`}
+                    className={`mega-menu ${
+                      megaMenuOpen === "india" ? "show slide-up hovered" : ""
+                    }`}
                   >
                     <div className="container">
                       {/* Hidden radio inputs directly under container */}
@@ -166,10 +167,25 @@ export default function Navigation({ headerData }: any) {
                         {/* Tabs */}
                         <div className="col-lg-3 col-md-12 mega-menu-tabs">
                           {tabs.map((tab, index) => (
+                            // <label
+                            //   key={`india-label-${index}`}
+                            //   htmlFor={`india-tab-${index}`}
+                            //   className="tab-button"
+                            // >
+                            //   {tab}
+                            // </label>
                             <label
                               key={`india-label-${index}`}
                               htmlFor={`india-tab-${index}`}
                               className="tab-button"
+                              onMouseEnter={() => {
+                                if (window.innerWidth > 991) {
+                                  const input = document.getElementById(
+                                    `india-tab-${index}`,
+                                  ) as HTMLInputElement;
+                                  if (input) input.checked = true;
+                                }
+                              }}
                             >
                               {tab}
                             </label>
@@ -178,31 +194,31 @@ export default function Navigation({ headerData }: any) {
 
                         {/* Menu Items */}
                         <div
-                          className={`${headerData?.india_promotion
-                            ? "col-lg-6"
-                            : "col-lg-9"
-                            } menu-columns`}
+                          className={`${
+                            headerData?.india_promotion
+                              ? "col-lg-6"
+                              : "col-lg-9"
+                          } menu-columns`}
                         >
                           {tabs.map((tab, index) => {
                             const thisSections =
                               headerData?.india_mega_menu?.[tab];
-                            const regionSlugMap = (headerData?.regions || []).reduce(
-                              (acc: any, r: any) => {
-                                acc[r.name] = r.slug;
-                                return acc;
-                              },
-                              {}
-                            );
+                            const regionSlugMap = (
+                              headerData?.regions || []
+                            ).reduce((acc: any, r: any) => {
+                              acc[r.name] = r.slug;
+                              return acc;
+                            }, {});
 
                             const regionSlug = regionSlugMap[tab];
                             // ✅ Modified: Sort STATES alphabetically
                             const sortedIndiaSections = thisSections
                               ? Object.entries(thisSections).sort(
-                                ([a], [b]) =>
-                                  a.localeCompare(b, "en", {
-                                    sensitivity: "base",
-                                  }), // ✅ modified
-                              )
+                                  ([a], [b]) =>
+                                    a.localeCompare(b, "en", {
+                                      sensitivity: "base",
+                                    }), // ✅ modified
+                                )
                               : [];
                             // const sortedIndiaSections = thisSections
                             //   ? Object.entries(thisSections).sort(
@@ -211,7 +227,6 @@ export default function Navigation({ headerData }: any) {
                             //         (Array.isArray(b?.cities) ? b.cities.length : 0)
                             //     )
                             //   : [];
-
 
                             return (
                               <div
@@ -225,16 +240,15 @@ export default function Navigation({ headerData }: any) {
                                       regionSlug
                                         ? `/india/${regionSlug}`
                                         : `/india/${tab
-                                          .toLowerCase()
-                                          .replace(/&/g, "")
-                                          .replace(/,/g, "")
-                                          .replace(/\s+/g, "-")
-                                          .replace(/-+/g, "-")}-tour-packages`
+                                            .toLowerCase()
+                                            .replace(/&/g, "")
+                                            .replace(/,/g, "")
+                                            .replace(/\s+/g, "-")
+                                            .replace(/-+/g, "-")}-tour-packages`
                                     }
                                     onClick={closeMobileMenu}
                                   >
                                     All of {getRegionDisplayText(tab)}
-
                                   </Link>
                                 </div>
 
@@ -259,15 +273,15 @@ export default function Navigation({ headerData }: any) {
                                       // ✅ Modified: Sort CITIES alphabetically
                                       const sortedCities = hasCities
                                         ? [...sectionItems.cities].sort(
-                                          (a, b) =>
-                                            a.name.localeCompare(
-                                              b.name,
-                                              "en",
-                                              {
-                                                sensitivity: "base",
-                                              },
-                                            ),
-                                        ) // ✅ modified
+                                            (a, b) =>
+                                              a.name.localeCompare(
+                                                b.name,
+                                                "en",
+                                                {
+                                                  sensitivity: "base",
+                                                },
+                                              ),
+                                          ) // ✅ modified
                                         : [];
                                       return (
                                         <div key={i} className="menu-column">
@@ -368,7 +382,9 @@ export default function Navigation({ headerData }: any) {
                               onClick={closeMobileMenu}
                               className="fw-semibold p-0 mb-2"
                             >
-                              <div className="promotion-titles">{headerData?.india_promotion?.title}</div>
+                              <div className="promotion-titles">
+                                {headerData?.india_promotion?.title}
+                              </div>
                             </Link>
                             <p
                               className="mb-0 text-sm"
@@ -430,10 +446,11 @@ export default function Navigation({ headerData }: any) {
                   </span>
 
                   <div
-                    className={`mega-menu ${megaMenuOpen === "international"
-                      ? "show slide-up hovered"
-                      : ""
-                      }`}
+                    className={`mega-menu ${
+                      megaMenuOpen === "international"
+                        ? "show slide-up hovered"
+                        : ""
+                    }`}
                   >
                     <div className="container">
                       {/* RADIO INPUTS (same as India) */}
@@ -453,10 +470,25 @@ export default function Navigation({ headerData }: any) {
                         <div className="col-lg-3 col-md-12 mega-menu-tabs">
                           {internationalTabs.map(
                             (continent: any, i: number) => (
+                              // <label
+                              //   key={i}
+                              //   htmlFor={`int-tab-${i}`}
+                              //   className="tab-button"
+                              // >
+                              //   {continent.name}
+                              // </label>
                               <label
                                 key={i}
                                 htmlFor={`int-tab-${i}`}
                                 className="tab-button"
+                                onMouseEnter={() => {
+                                  if (window.innerWidth > 991) {
+                                    const input = document.getElementById(
+                                      `int-tab-${i}`,
+                                    ) as HTMLInputElement;
+                                    if (input) input.checked = true;
+                                  }
+                                }}
                               >
                                 {continent.name}
                               </label>
@@ -466,10 +498,11 @@ export default function Navigation({ headerData }: any) {
 
                         {/* ================= CENTER COUNTRIES + LOCATIONS ================= */}
                         <div
-                          className={`${headerData?.international_promotion
-                            ? "col-lg-6"
-                            : "col-lg-9"
-                            } menu-columns`}
+                          className={`${
+                            headerData?.international_promotion
+                              ? "col-lg-6"
+                              : "col-lg-9"
+                          } menu-columns`}
                         >
                           {internationalTabs.map(
                             (continent: any, i: number) => (
@@ -583,8 +616,9 @@ export default function Navigation({ headerData }: any) {
                     <ArrowIcon />
                   </span>
                   <ul
-                    className={`dropdown-menu ${dropdownOpen === "luxury" ? "show slide-up" : ""
-                      }`}
+                    className={`dropdown-menu ${
+                      dropdownOpen === "luxury" ? "show slide-up" : ""
+                    }`}
                   >
                     <li>
                       <Link href="/luxury-trains" onClick={closeMobileMenu}>

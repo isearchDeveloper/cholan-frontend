@@ -8,7 +8,7 @@ import { XPublicToken } from "@/app/urls/apiUrls";
 import Image from "next/image";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import { isValidPhoneNumber } from "libphonenumber-js";
+// import { isValidPhoneNumber } from "libphonenumber-js";
 import Link from "next/link";
 import ReCAPTCHA from "react-google-recaptcha";
 import Breadcrumb from "@/app/components/common/Breadcrumb";
@@ -245,7 +245,7 @@ export default function ContactSection({ pageData }: { pageData?: any }) {
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    >,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -323,7 +323,7 @@ export default function ContactSection({ pageData }: { pageData?: any }) {
       isValid = false;
     } else if (
       !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(
-        formData.email
+        formData.email,
       ) ||
       /\.[a-zA-Z]{2,}\.[a-zA-Z]{2,}$/.test(formData.email)
     ) {
@@ -331,14 +331,26 @@ export default function ContactSection({ pageData }: { pageData?: any }) {
       isValid = false;
     }
     // 🔹 Phone validation
+    // if (!formData.phone || !formData.phone.trim()) {
+    //   newErrors.phone = "Phone number is required";
+    //   isValid = false;
+    // } else if (!isValidPhoneNumber("+" + formData.phone)) {
+    //   newErrors.phone =
+    //     "Please enter a valid phone number for the selected country";
+    //   isValid = false;
+    // }
+
     if (!formData.phone || !formData.phone.trim()) {
       newErrors.phone = "Phone number is required";
       isValid = false;
-    } else if (!isValidPhoneNumber("+" + formData.phone)) {
-      newErrors.phone =
-        "Please enter a valid phone number for the selected country";
+    } else if (!/^\d+$/.test(formData.phone)) {
+      newErrors.phone = "Phone number must contain digits only";
+      isValid = false;
+    } else if (formData.phone.length > 20) {
+      newErrors.phone = "Phone number cannot exceed 20 digits";
       isValid = false;
     }
+
     // 🔹 City / State validation
     const cityRegex = /^[A-Za-z\s.\-]+$/;
     if (!formData.city.trim()) {
@@ -378,7 +390,6 @@ export default function ContactSection({ pageData }: { pageData?: any }) {
     if (!formData.month.trim()) {
       newErrors.month = "Travel month is required";
       isValid = false;
-
     } else {
       const value = formData.month.trim();
 
@@ -390,7 +401,7 @@ export default function ContactSection({ pageData }: { pageData?: any }) {
       // Month + optional separator + optional 2/4 digit year
       const regex = new RegExp(
         `^(${monthPattern})([\\s,-\\/]*)(\\d{2}|\\d{4})?$`,
-        "i"
+        "i",
       );
 
       // STEP 1: Basic validation
@@ -398,11 +409,20 @@ export default function ContactSection({ pageData }: { pageData?: any }) {
         newErrors.month =
           "Enter a valid month (e.g. Feb 2025, October, Feb-25)";
         isValid = false;
-
       } else {
         const monthNames = [
-          "jan", "feb", "mar", "apr", "may", "jun",
-          "jul", "aug", "sep", "oct", "nov", "dec"
+          "jan",
+          "feb",
+          "mar",
+          "apr",
+          "may",
+          "jun",
+          "jul",
+          "aug",
+          "sep",
+          "oct",
+          "nov",
+          "dec",
         ];
 
         // STEP 2: Extract month safely
@@ -411,7 +431,6 @@ export default function ContactSection({ pageData }: { pageData?: any }) {
         if (!monthMatch) {
           newErrors.month = "Enter a valid month name";
           isValid = false;
-
         } else {
           const monthText = monthMatch[0].slice(0, 3).toLowerCase();
           const userMonthIndex = monthNames.indexOf(monthText);
@@ -449,8 +468,6 @@ export default function ContactSection({ pageData }: { pageData?: any }) {
         }
       }
     }
-
-
 
     // 🔹 Message validation
     if (formData.message.trim()) {
@@ -511,7 +528,7 @@ export default function ContactSection({ pageData }: { pageData?: any }) {
             "Content-Type": "application/json",
             "X-Public-Token": XPublicToken,
           },
-        }
+        },
       );
       // toast.success(response.data.message || "Enquiry submitted successfully!", { toastId: "form-success" });
       setHasValidSubmission(true);
@@ -545,8 +562,9 @@ export default function ContactSection({ pageData }: { pageData?: any }) {
       <section
         className="banner py-5 bg-dark-contact text-white"
         style={{
-          backgroundImage: `url(${pageData?.banner_image || "/images/banner.webp"
-            })`,
+          backgroundImage: `url(${
+            pageData?.banner_image || "/images/banner.webp"
+          })`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundBlendMode: "overlay",
@@ -599,8 +617,9 @@ export default function ContactSection({ pageData }: { pageData?: any }) {
                           type="text"
                           name="name"
                           placeholder="Enter Your Name *"
-                          className={`form-control ${errors.name ? "is-invalid" : ""
-                            }`}
+                          className={`form-control ${
+                            errors.name ? "is-invalid" : ""
+                          }`}
                           value={formData.name}
                           onChange={handleChange}
                         />
@@ -618,8 +637,9 @@ export default function ContactSection({ pageData }: { pageData?: any }) {
                           type="email"
                           name="email"
                           placeholder="Enter email *"
-                          className={`form-control ${errors.email ? "is-invalid" : ""
-                            }`}
+                          className={`form-control ${
+                            errors.email ? "is-invalid" : ""
+                          }`}
                           value={formData.email}
                           onChange={handleChange}
                         />
@@ -631,7 +651,7 @@ export default function ContactSection({ pageData }: { pageData?: any }) {
                     <div className="col-6">
                       {/* Phone */}
                       <div>
-                        <PhoneInput
+                        {/* <PhoneInput
                           country={formData.countryCode}
                           value={formData.phone}
                           onChange={(value, countryData: any) => {
@@ -642,11 +662,45 @@ export default function ContactSection({ pageData }: { pageData?: any }) {
                             }));
                           }}
                           placeholder="Phone Number *"
-                          inputClass={`form-control ${errors.phone ? "is-invalid" : ""
-                            }`}
+                          inputClass={`form-control ${
+                            errors.phone ? "is-invalid" : ""
+                          }`}
                           inputStyle={{ width: "100%" }}
                           enableSearch={true}
+                        /> */}
+                        <PhoneInput
+                          country={formData.countryCode}
+                          value={formData.phone}
+                          onChange={(value, countryData: any) => {
+                            const digitsOnly = value.replace(/\D/g, "");
+                            const trimmed = digitsOnly.slice(0, 20);
+
+                            setFormData((prev) => ({
+                              ...prev,
+                              phone: trimmed,
+                              countryCode: countryData.countryCode,
+                            }));
+
+                            if (errors.phone) {
+                              setErrors((prev: any) => ({
+                                ...prev,
+                                phone: "",
+                              }));
+                            }
+                          }}
+                          enableSearch
+                          autoFormat={false}
+                          enableLongNumbers
+                          countryCodeEditable={false}
+                          inputClass={`form-control ${errors.phone ? "is-invalid" : ""}`}
+                          inputStyle={{ width: "100%" }}
+                          inputProps={{
+                            maxLength: 20,
+                            inputMode: "numeric",
+                          }}
+                          placeholder="Phone Number *"
                         />
+
                         {errors.phone && (
                           <div className="invalid-feedback d-block">
                             {errors.phone}
@@ -663,8 +717,9 @@ export default function ContactSection({ pageData }: { pageData?: any }) {
                           type="text"
                           name="city"
                           placeholder="State or City *"
-                          className={`form-control ${errors.city ? "is-invalid" : ""
-                            }`}
+                          className={`form-control ${
+                            errors.city ? "is-invalid" : ""
+                          }`}
                           value={formData.city}
                           onChange={handleChange}
                         />
@@ -680,8 +735,9 @@ export default function ContactSection({ pageData }: { pageData?: any }) {
                           type="text"
                           name="travel_type"
                           placeholder="Type of travel "
-                          className={`form-control ${errors.travel_type ? "is-invalid" : ""
-                            }`}
+                          className={`form-control ${
+                            errors.travel_type ? "is-invalid" : ""
+                          }`}
                           value={formData.travel_type}
                           onChange={handleChange}
                         />
@@ -714,7 +770,6 @@ export default function ContactSection({ pageData }: { pageData?: any }) {
                           placeholder="Preferred Travel Month & Year * Example: Feb 2025, February 25"
                           value={formData.month}
                           onChange={handleChange}
-
                         />
                         {errors.month && (
                           <div className="invalid-feedback">{errors.month}</div>
@@ -731,7 +786,6 @@ export default function ContactSection({ pageData }: { pageData?: any }) {
                           placeholder="Enter Country *"
                           value={formData.country}
                           onChange={handleChange}
-
                         />
                         {errors.country && (
                           <div className="invalid-feedback">
@@ -749,8 +803,9 @@ export default function ContactSection({ pageData }: { pageData?: any }) {
                           name="message"
                           placeholder="Your message "
                           rows={4}
-                          className={`form-control ${errors.message ? "is-invalid" : ""
-                            }`}
+                          className={`form-control ${
+                            errors.message ? "is-invalid" : ""
+                          }`}
                           value={formData.message}
                           onChange={handleChange}
                         />
