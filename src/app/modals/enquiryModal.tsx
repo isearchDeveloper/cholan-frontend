@@ -460,7 +460,7 @@ export default function EnquiryModal({
     else {
       const cleanText = formData.message.replace(/\s+/g, " ").trim();
       const wordCount = cleanText.split(" ").length;
-      if (wordCount > 400) {
+      if (wordCount > 1000) {
         newErrors.message = `Message cannot exceed 400 words (currently ${wordCount})`;
       }
     }

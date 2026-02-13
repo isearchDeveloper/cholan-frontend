@@ -105,19 +105,19 @@ const NewsForm: React.FC = () => {
       newErrors.email = "Email is required";
     } else if (
       !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(
-        formData.email
+        formData.email,
       ) ||
       /\.[a-zA-Z]{2,}\.[a-zA-Z]{2,}$/.test(formData.email)
     ) {
       newErrors.email = "Please enter a valid email address";
     }
     // Phone validation
-    if (!formData.phone || !formData.phone.trim()) {
+    if (!formData.phone.trim()) {
       newErrors.phone = "Phone number is required";
-    } else if (!isValidPhoneNumber("+" + formData.phone)) {
-      newErrors.phone =
-        "Please enter a valid phone number for the selected country";
+    } else if (!/^\d{6,20}$/.test(formData.phone)) {
+      newErrors.phone = "Phone must be 6 to 20 digits";
     }
+
     // Travel date validation
     // if (!formData.travelDate) {
     //   newErrors.travelDate = "Travel date is required";
@@ -149,7 +149,7 @@ const NewsForm: React.FC = () => {
       // 🔹 Normalize multiple spaces/newlines before counting
       const cleanText = formData.message.replace(/\s+/g, " ").trim();
       const wordCount = cleanText.split(" ").length;
-      if (wordCount > 400) {
+      if (wordCount > 1000) {
         newErrors.message = `Message cannot exceed 400 words (currently ${wordCount})`;
       }
     }
@@ -163,7 +163,7 @@ const NewsForm: React.FC = () => {
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    >,
   ) => {
     const { name, value } = e.target;
     // Clear error when user starts typing
@@ -215,7 +215,7 @@ const NewsForm: React.FC = () => {
             "Content-Type": "application/json",
             "X-Public-Token": XPublicToken,
           },
-        }
+        },
       );
       if (response.data.success) {
         // toast.success(response.data.message || "Enquiry submitted successfully!");
@@ -291,39 +291,39 @@ const NewsForm: React.FC = () => {
         {/* <p>Design a one-of-a-kind travel experience </p> */}
         <form onSubmit={handleSubmit} className="mt-4" noValidate>
           {/* Name */}
-         <div className="row mb-3"> 
-          <div className="col-6 mb-3">
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              className={`form-control ${errors.name ? "is-invalid" : ""}`}
-              placeholder="Name*"
-              disabled={isSubmitting}
-            />
-            {errors.name && (
-              <div className="invalid-feedback">{errors.name}</div>
-            )}
-          </div>
-          {/* Email */}
-          <div className="col-6 mb-3">
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              className={`form-control ${errors.email ? "is-invalid" : ""}`}
-              placeholder="Email*"
-              disabled={isSubmitting}
-            />
-            {errors.email && (
-              <div className="invalid-feedback">{errors.email}</div>
-            )}
-          </div>
-          {/* Phone */}
-          <div className="col-12">
-            <PhoneInput
+          <div className="row mb-3">
+            <div className="col-6 mb-3">
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                className={`form-control ${errors.name ? "is-invalid" : ""}`}
+                placeholder="Name*"
+                disabled={isSubmitting}
+              />
+              {errors.name && (
+                <div className="invalid-feedback">{errors.name}</div>
+              )}
+            </div>
+            {/* Email */}
+            <div className="col-6 mb-3">
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className={`form-control ${errors.email ? "is-invalid" : ""}`}
+                placeholder="Email*"
+                disabled={isSubmitting}
+              />
+              {errors.email && (
+                <div className="invalid-feedback">{errors.email}</div>
+              )}
+            </div>
+            {/* Phone */}
+            <div className="col-12">
+              {/* <PhoneInput
               country={formData.countryCode}
               value={formData.phone}
               onChange={handlePhoneChange}
@@ -332,11 +332,46 @@ const NewsForm: React.FC = () => {
               enableSearch
               placeholder="Phone Number*"
               disabled={isSubmitting}
-            />
-            {errors.phone && (
-              <div className="invalid-feedback d-block">{errors.phone}</div>
-            )}
-          </div>
+            /> */}
+              <PhoneInput
+                country={formData.countryCode}
+                value={formData.phone}
+                onChange={(value: string, countryData: any) => {
+                  const cleanValue = value.replace(/\D/g, "").slice(0, 20);
+
+                  setFormData((prev) => ({
+                    ...prev,
+                    phone: cleanValue,
+                    countryCode: countryData.countryCode,
+                  }));
+
+                  if (errors.phone) {
+                    setErrors((prev: any) => ({
+                      ...prev,
+                      phone: undefined,
+                    }));
+                  }
+                }}
+                enableSearch={true}
+                enableLongNumbers={true} // ⭐⭐⭐ THIS FIXES YOUR ISSUE
+                autoFormat={false}
+                countryCodeEditable={false}
+                inputProps={{
+                  name: "phone",
+                  inputMode: "numeric",
+                  pattern: "[0-9]*",
+                  maxLength: 20,
+                }}
+                inputClass={`form-control ${errors.phone ? "is-invalid" : ""}`}
+                inputStyle={{ width: "100%" }}
+                placeholder="Phone Number *"
+                disabled={isSubmitting}
+              />
+
+              {errors.phone && (
+                <div className="invalid-feedback d-block">{errors.phone}</div>
+              )}
+            </div>
           </div>
           {/* Travel Date and People in one row */}
           <div className="row mb-3">
