@@ -10908,4 +10908,17 @@ body {
   line-height: 1.1;
   }
 
+.car-sticky {
+  position: sticky;
+  top: 120px;
+  align-self: flex-start;
+}
+
+@media (max-width: 991px) {
+  .car-sticky {
+    position: static;
+  }
+}
+
+
 

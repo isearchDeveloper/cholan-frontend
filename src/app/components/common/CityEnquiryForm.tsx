@@ -5,7 +5,7 @@ import axios from "axios";
 import Image from "next/image";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import { isValidPhoneNumber } from "libphonenumber-js";
+// import { isValidPhoneNumber } from "libphonenumber-js";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useRouter } from "next/navigation";
 import { useForm } from "@/app/context/FormContext";
@@ -52,8 +52,16 @@ const CityEnquiryForm: React.FC<any> = ({ title = "Send Enquiry" }) => {
 
     if (!formData.name.trim()) newErrors.name = "Name required";
     if (!formData.email.trim()) newErrors.email = "Email required";
-    if (!isValidPhoneNumber("+" + formData.phone))
-      newErrors.phone = "Valid phone required";
+    // if (!isValidPhoneNumber("+" + formData.phone))
+    //   newErrors.phone = "Valid phone required";
+
+    if (!formData.phone || !formData.phone.trim()) {
+      newErrors.phone = "Phone number is required";
+    } else if (!/^\d+$/.test(formData.phone)) {
+      newErrors.phone = "Phone number must contain digits only";
+    } else if (formData.phone.length > 20) {
+      newErrors.phone = "Phone number cannot exceed 20 digits";
+    }
     if (!formData.city.trim()) newErrors.city = "City required";
     if (!formData.country.trim()) newErrors.country = "Country required";
     if (!formData.month.trim()) newErrors.month = "Month required";
@@ -141,12 +149,35 @@ const CityEnquiryForm: React.FC<any> = ({ title = "Send Enquiry" }) => {
           </div>
 
           <div className="col-6">
-            <PhoneInput
+            {/* <PhoneInput
               country="in"
               value={formData.phone}
               onChange={(v) => setFormData((p) => ({ ...p, phone: v }))}
               inputStyle={{ width: "100%" }}
-            />
+            /> */}
+
+              <PhoneInput
+                            country={formData.countryCode}
+                            value={formData.phone}
+                            onChange={(value, countryData: any) => {
+                              const digitsOnly = value.replace(/\D/g, "");
+                              const trimmed = digitsOnly.slice(0, 20);
+
+                              setFormData((prev) => ({
+                                ...prev,
+                                phone: trimmed,
+                                countryCode: countryData.countryCode,
+                              }));
+                            }}
+                            enableSearch
+                            autoFormat={false}
+                            enableLongNumbers
+                            inputClass={`form-control ${errors.phone ? "is-invalid" : ""}`}
+                            inputStyle={{ width: "100%" }}
+                            inputProps={{
+                              maxLength: 20, // 🔥 HARD BLOCK at DOM level
+                            }}
+                          />
           </div>
 
           <div className="col-6">

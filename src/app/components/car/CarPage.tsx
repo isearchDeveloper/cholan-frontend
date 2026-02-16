@@ -118,7 +118,7 @@ export default function CarRental({ data }: any) {
                   />
                 </div>
               </div>
-              <div className="col-lg-4 mt-4 mt-lg-0">
+              <div className="col-lg-4 mt-4 mt-lg-0 car-sticky">
                 <CarEnquiryForm />
               </div>
             </div>
