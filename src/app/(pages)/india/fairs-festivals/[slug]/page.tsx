@@ -63,7 +63,7 @@ export default async function FestivalDetailPage({ params }: PageProps) {
   // console.log(festival)
 
   if (!festival) {
-    return notFound;
+    return notFound();
   }
 
   // dynamic breadcrumb
