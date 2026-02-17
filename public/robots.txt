@@ -1,2 +1,8 @@
 User-agent: *
 Allow: /
+
+Sitemap: https://www.cholantours.com/sitemap.xml
+
+# llms.txt reference
+
+Allow: /llms.txt
