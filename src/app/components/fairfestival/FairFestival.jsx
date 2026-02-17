@@ -1,5 +1,4 @@
 "use client";
-
 import FairFestivalBanner from "@/app/components/fairfestival/FairFestivalBanner";
 import Breadcrumb from "@/app/components/common/Breadcrumb";
 import FairFestivalExpandableText from "@/app/components/fairfestival/FairFestivalExpandableText";
@@ -14,13 +13,10 @@ const staticBreadcrumbItems = [
 ];
 
 export default function FairFestival({ data }) {
-
-
-
   const page = data?.page;
   const festivals = data?.festival;
   const faqs = data?.faqs;
-
+console.log(festivals);
   return (
     <div className="fair-festival-wrapper">
 
@@ -48,9 +44,12 @@ export default function FairFestival({ data }) {
             </div>
           </div>
 
-          <div className="py-5">
-            <FairFestivalCitySection festivals={festivals} />
-          </div>
+          {festivals?.length > 0 && (
+            <div className="py-5">
+              <FairFestivalCitySection festivals={festivals} />
+            </div>
+          )}
+
 
           {faqs?.length > 0 && (
             <div className="py-5 center-faqs">

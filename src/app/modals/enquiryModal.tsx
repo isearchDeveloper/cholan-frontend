@@ -322,12 +322,21 @@ export default function EnquiryModal({
     ) {
       newErrors.email = "Please enter a valid email address";
     }
-    if (!formData.phone || !formData.phone.trim()) {
+    // if (!formData.phone || !formData.phone.trim()) {
+    //   newErrors.phone = "Phone number is required";
+    // } else if (!isValidPhoneNumber("+" + formData.phone)) {
+    //   newErrors.phone =
+    //     "Please enter a valid phone number for the selected country";
+    // }
+
+     if (!formData.phone || !formData.phone.trim()) {
       newErrors.phone = "Phone number is required";
-    } else if (!isValidPhoneNumber("+" + formData.phone)) {
-      newErrors.phone =
-        "Please enter a valid phone number for the selected country";
+    } else if (!/^\d+$/.test(formData.phone)) {
+      newErrors.phone = "Phone number must contain digits only";
+    } else if (formData.phone.length > 20) {
+      newErrors.phone = "Phone number cannot exceed 20 digits";
     }
+    
     if (!formData.country.trim()) newErrors.country = "Country is required";
     if (!formData.city.trim()) newErrors.city = "City is required";
 
@@ -615,7 +624,7 @@ export default function EnquiryModal({
                       </div>
                       <div className="col-6 mb-3">
                         <div>
-                          <PhoneInput
+                          {/* <PhoneInput
                             country={formData.countryCode}
                             value={formData.phone}
                             onChange={(value, countryData: any) => {
@@ -631,6 +640,29 @@ export default function EnquiryModal({
                             enableSearch={true}
                             placeholder="Phone Number *"
                             disabled={isSubmitting}
+                          /> */}
+
+                             <PhoneInput
+                            country={formData.countryCode}
+                            value={formData.phone}
+                            onChange={(value, countryData: any) => {
+                              const digitsOnly = value.replace(/\D/g, "");
+                              const trimmed = digitsOnly.slice(0, 20);
+
+                              setFormData((prev) => ({
+                                ...prev,
+                                phone: trimmed,
+                                countryCode: countryData.countryCode,
+                              }));
+                            }}
+                            enableSearch
+                            autoFormat={false}
+                            enableLongNumbers
+                            inputClass={`form-control ${errors.phone ? "is-invalid" : ""}`}
+                            inputStyle={{ width: "100%" }}
+                            inputProps={{
+                              maxLength: 20, //  HARD BLOCK at DOM level
+                            }}
                           />
                           {errors.phone && (
                             <div className="invalid-feedback d-block">

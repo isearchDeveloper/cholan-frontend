@@ -29,8 +29,7 @@ const XPublicToken =
  
     {
     try {
-      const res = await fetch(
-    `https://cholan.isearchsolution.com/crm/api/v1/fair-festival/details/${slug}`, {
+      const res =await fetch(`${baseUrl}/api/v1/fair-festival/details/${slug}`, {
         method: "GET",
         headers: {
           "X-Public-Token": XPublicToken,

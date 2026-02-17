@@ -5,6 +5,7 @@ import FAQAccordionFairFestival from "@/app/components/fairfestival/FAQAccordion
 import { fairFestivalDetail } from "@/app/services/fairfestivalService";
 import Breadcrumb from "@/app/components/common/Breadcrumb";
 import LogoSlider from "@/app/components/home/LogoSlider";
+import { notFound } from "next/navigation";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -59,8 +60,10 @@ export default async function FestivalDetailPage({ params }: PageProps) {
 
   const festival = await getFestival(slug);
 
+  // console.log(festival)
+
   if (!festival) {
-    return <div>Not Found</div>;
+    return notFound;
   }
 
   // dynamic breadcrumb

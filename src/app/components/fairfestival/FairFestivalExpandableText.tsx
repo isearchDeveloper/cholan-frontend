@@ -34,11 +34,11 @@ const FairFestivalExpandableText = ({
     <div>
       <h1 className="mb-2 fs-2">{title}</h1>
 
-      {subtitle && (
+      {/* {subtitle && (
         <h6 className="mb-2 text-md font-semibold fs-6">
           {subtitle}
         </h6>
-      )}
+      )} */}
 
       <div className="mb-0 text-sm">
         <p
