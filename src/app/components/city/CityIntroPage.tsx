@@ -141,7 +141,7 @@ export default function CityIntroPage({
                 // collapsedLines={10}
               /> */}
               <CityExpandableBanner
-                title={` About ${cityName}`}
+                title={`About ${cityName}`}
                 text={overview}
                 wordLimit={200}
               />
