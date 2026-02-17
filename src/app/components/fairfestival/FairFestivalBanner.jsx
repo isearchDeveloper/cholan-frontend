@@ -2,18 +2,18 @@ import React from "react";
 
 export default function FairFestivalBanner({ banner }) {
 
-  // 🔥 handle BOTH API structures
+  //  handle BOTH API structures
   const image =
     banner?.banner_img ||        // listing page
     banner?.primary_image ||     // detail page
     "/images/fair-festival-banner.webp";
 
   const title =
-    banner?.title || "India Fair & Festival Packages";
+    banner?.title || "";
 
   const subtitle =
     banner?.sub_title ||
-    "Experience the vibrant culture, traditions, and celebrations across India.";
+    "";
 
   return (
     <div className="banner-container carbanner">
@@ -30,8 +30,8 @@ export default function FairFestivalBanner({ banner }) {
             <div className="row justify-content-center align-items-center">
               <div className="col-lg-8 text-center text-white">
 
-                <h1 className="mb-3">{title}</h1>
-                <p className="mb-0">{subtitle}</p>
+                <div className="mb-3 banner-title">{title}</div>
+                <div className="mb-0 banner-subtitle">{subtitle}</div>
 
               </div>
             </div>

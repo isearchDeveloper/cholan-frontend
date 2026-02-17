@@ -32,8 +32,7 @@ export default function CarCitySectionInner({
   {filteredCities.map((city, index) => (
     <span key={city.slug}>
       <Link href={`/car-rental/${city.slug}`} className="ts-city-link">
-        Car Rental in {city.location}
-      </Link>
+       {`Car Rental in ${city.location}`}</Link>
       {index !== filteredCities.length - 1 && (
         <span className="ts-separator"> | </span>
       )}
