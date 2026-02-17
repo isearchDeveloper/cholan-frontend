@@ -101,7 +101,7 @@ export default function ThemePackageListing({
             {/*  MAIN LISTING */}
             <div className="col-12 col-lg-9">
               <ExpandableText
-                title={pageTitle}
+                title={`${pageTitle} Tour Packages`}
                 text={details?.about}
                 collapsedLines={2}
               />
