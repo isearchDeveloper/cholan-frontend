@@ -8,7 +8,7 @@ import React from 'react';
 export async function generateMetadata() {
     const data = await awardsandachievementsData();
     const meta = data?.data?.details?.meta || {};
-    const canonical = await getCanonical('/awards-and-achievement');
+    const canonical = await getCanonical('/awards-and-achievements');
     const currentUrl = canonical;
 
     // Extract the meta_details from API

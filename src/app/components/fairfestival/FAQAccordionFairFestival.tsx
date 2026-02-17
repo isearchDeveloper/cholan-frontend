@@ -10,36 +10,13 @@ interface FAQItem {
   answer: string;
 }
 
-/* Dummy fallback data */
-const dummyFaqs: FAQItem[] = [
-  {
-    question: "What are the most popular festivals in India?",
-    answer:
-      "Some of the most popular festivals include Diwali, Holi, Durga Puja, Navratri, and Kumbh Mela.",
-  },
-  {
-    question: "When is the best time to attend fairs and festivals?",
-    answer:
-      "October to March is considered the best season for festivals in India.",
-  },
-  {
-    question: "Are fair and festival tours suitable for families?",
-    answer:
-      "Yes, most tours are family-friendly and suitable for all age groups.",
-  },
-  {
-    question: "Do festival tours include accommodation?",
-    answer:
-      "Most packages include hotel stays and transport.",
-  },
-  {
-    question: "How early should I book?",
-    answer:
-      "Booking 1–2 months in advance is recommended.",
-  },
-];
-
-const FAQAccordionFairFestival = ({ faqs = [] }: any) => {
+const FAQAccordionFairFestival = ({
+  faqs = [],
+  title = "Fair & Festival FAQs",
+}: {
+  faqs?: FAQItem[];
+  title?: string;
+}) => {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   useEffect(() => {
@@ -50,21 +27,18 @@ const FAQAccordionFairFestival = ({ faqs = [] }: any) => {
     });
   }, []);
 
-  /* 🔥MAIN LOGIC */
-  const finalFaqs =
-    Array.isArray(faqs) && faqs.length > 0
-      ? faqs
-      : dummyFaqs;
+  /* 🔥 ONLY API DATA */
+  if (!faqs || faqs.length === 0) return null;
 
   const handleToggle = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
-  /* Schema uses finalFaqs */
+  /* Schema */
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: finalFaqs.map((faq: FAQItem) => ({
+    mainEntity: faqs.map((faq) => ({
       "@type": "Question",
       name: faq.question,
       acceptedAnswer: {
@@ -89,11 +63,11 @@ const FAQAccordionFairFestival = ({ faqs = [] }: any) => {
           <div className="faq-container">
 
             <h2 className="mb-4 color-blue fs-3 text-center">
-              Fair & Festival FAQs
+              {title}
             </h2>
 
             <div className="faq-accordion">
-              {finalFaqs.map((faq: FAQItem, index: number) => (
+              {faqs.map((faq, index) => (
                 <div className="faq-item" key={index}>
 
                   <div

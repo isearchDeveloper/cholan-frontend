@@ -40,11 +40,11 @@ const CarRentalRoutes = ({ routes ,cityName }: any) => {
 
                 {data.details == null ? (
                   <p>
-                    {data?.from_location} to {data?.to_location}
+                    {`${data?.from_location} to ${data?.to_location}`}
                   </p>
                 ) : (
                   <Link href={`/car-rental/${data.slug}`}>
-                    {data?.from_location} to {data?.to_location}
+                    {`${data?.from_location} to ${data?.to_location}`}
                   </Link>
                 )}
               </div>

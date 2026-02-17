@@ -12,7 +12,12 @@ export async function generateMetadata({ params }: any) {
   const meta = data?.data?.hotel?.meta || "";
 
   const metaDetails = meta?.meta_details || "";
-  const canonical = await getCanonical(params?.slug ? `/${params.slug}` : "");
+ const canonical = await getCanonical(
+  params?.slug
+    ? `/luxury-hotels/${params.slug}`
+    : "/luxury-hotels"
+);
+
   const currentUrl = canonical;
 
   return {

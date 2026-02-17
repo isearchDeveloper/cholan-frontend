@@ -1,4 +1,5 @@
 "use client";
+
 import FairFestivalBanner from "@/app/components/fairfestival/FairFestivalBanner";
 import Breadcrumb from "@/app/components/common/Breadcrumb";
 import FairFestivalExpandableText from "@/app/components/fairfestival/FairFestivalExpandableText";
@@ -9,54 +10,63 @@ import LogoSlider from "../home/LogoSlider";
 
 const staticBreadcrumbItems = [
   { label: "Home", href: "/" },
-  { label: "Fair Festival", isCurrent: true },
+  { label: "Fairs Festivals", isCurrent: true },
 ];
 
-export default function FairFestival() {
+export default function FairFestival({ data }) {
+
+
+
+  const page = data?.page;
+  const festivals = data?.festival;
+  const faqs = data?.faqs;
+
   return (
-    <>
-      <div className="fair-festival-wrapper">
-        {/* Banner */}
-        <FairFestivalBanner />
+    <div className="fair-festival-wrapper">
 
-        {/* Main Content Wrapper */}
-        <div className="pt-4 pb-5">
-          <div className="container">
-            {/* Breadcrumb */}
-            <Breadcrumb items={staticBreadcrumbItems} />
+      {/* Banner */}
+      <FairFestivalBanner banner={page} />
 
-            <div className="row mt-3">
-              <div className="col-lg-8">
-                <FairFestivalExpandableText
-                  title="India Fair & Festival Tours"
-                  subtitle="Celebrate culture & traditions"
-                  text="lorem100
-                            India is known for its colourful fairs and festivals...
-                            (dummy long text here)
-                          "
-                />
-              </div>
+      <div className="pt-4 pb-5">
+        <div className="container">
 
-              <div className="col-lg-4 mt-4 mt-lg-0 car-sticky">
-                <CityEnquiryForm />
-              </div>
+          <Breadcrumb items={staticBreadcrumbItems} />
+
+          <div className="row mt-3">
+            <div className="col-lg-8">
+
+              <FairFestivalExpandableText
+                title={page?.title}
+                subtitle={page?.sub_title}
+                text={page?.overview}
+              />
+
             </div>
-            <div className="py-5 ">
 
-               <FairFestivalCitySection />
+            <div className="col-lg-4 mt-4 mt-lg-0 car-sticky">
+              <CityEnquiryForm />
             </div>
-           
+          </div>
 
+          <div className="py-5">
+            <FairFestivalCitySection festivals={festivals} />
+          </div>
+
+          {faqs?.length > 0 && (
             <div className="py-5 center-faqs">
               <div className="container">
-                <FAQAccordionFairFestival />
+                <FAQAccordionFairFestival
+                  faqs={faqs}
+                  title={page?.faq_title}
+                />
               </div>
             </div>
+          )}
 
-             <LogoSlider />
-          </div>
+          <LogoSlider />
+
         </div>
       </div>
-    </>
+    </div>
   );
 }

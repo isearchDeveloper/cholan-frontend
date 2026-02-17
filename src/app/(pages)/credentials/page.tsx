@@ -8,7 +8,7 @@ import React from 'react';
 export async function generateMetadata() {
   const data = await accreditationData();
   const meta = data?.data?.details?.meta || {};
-  const canonical = await getCanonical('/accreditation');
+  const canonical = await getCanonical('/credentials');
   const currentUrl = canonical;
 
   // Extract the meta_details from API
