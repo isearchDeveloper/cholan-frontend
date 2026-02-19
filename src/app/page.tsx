@@ -46,17 +46,27 @@ export async function generateMetadata({ params }: any) {
     keywords: meta.meta_keywords || "",
     alternates: { canonical },
 
-    openGraph: {
-      title: title,
-      url: currentUrl,
-      description: description,
+  openGraph: {
+  title: title,
+  description: description,
+  url: currentUrl,
+  type: "website",
+  siteName: "CholanTours",
+  images: [
+    {
+      url: "https://www.cholantours.com/public/uploads/logo.png",
+      width: 600,
+      height: 600,
     },
+  ],
+},
 
-    twitter: {
-      title: title,
-      url: currentUrl,
-      description: description,
-    },
+twitter: {
+  title: title,
+  description: description,
+  card: "summary_large_image",
+},
+
 
     // other: {
     //   'meta-details': metaDetails
