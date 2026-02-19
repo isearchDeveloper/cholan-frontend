@@ -16,6 +16,28 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
+
+export const metadata = {
+  openGraph: {
+    type: "website",
+    siteName: "CholanTours",
+    images: [
+      {
+        url: "https://www.cholantours.com/public/uploads/logo.png",
+        width: 600,
+        height: 600,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: "@cholantour",
+    creator: "@cholantour",
+  },
+};
+
+
+
 export default async function RootLayout({
   children,
 }: {
@@ -29,33 +51,7 @@ export default async function RootLayout({
         <link rel="icon" href="/favicon.ico" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#000000" />
-        <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="CholanTours" />
-        <meta
-          property="og:image"
-          content="https://www.cholantours.com/public/uploads/logo.png"
-        />
-        <meta property="og:image:url" content="https://www.cholantours.com/public/uploads/logo.png" />
-        <meta property="og:image:width" content="600" />
-        <meta property="og:image:height" content="600" />
-        <meta name="twitter:card" content="summary" />
-        <meta
-          property="twitter:image"
-          content="https://www.cholantours.com/public/uploads/logo.png"
-        />
-        {meta.meta_title && (
-          <>
-            <meta property="og:title" content={meta.meta_title || "CholanTours"} />
-            <meta property="og:description" content={meta.meta_description || ""} />
-            <meta name="twitter:title" content={meta.meta_title || "Cholan Tours"} />
-            <meta name="twitter:description" content={meta.meta_description || ""} />
-          </>
-        )}
-
-
-        <meta name="twitter:site" content="@cholantour" />
-        <meta name="twitter:creator" content="@cholantour" />
-
+       
         {/* ✅ No-JS CSS fallback (for slider, menus, pagination) */}
         <noscript>
           <style>{`
