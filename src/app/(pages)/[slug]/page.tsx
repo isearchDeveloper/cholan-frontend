@@ -19,6 +19,8 @@
 //     alternates: {
 //       canonical: canonical,
 //     },
+
+
 //   };
 // }
 
@@ -33,15 +35,14 @@
 
 // export default Page;
 
-
-
 import PackagelistByCountry from '@/app/components/common/packagelistByCountry';
 import { getCanonical } from '@/app/lib/getCanonical';
 import { fetchCountryPageData } from '@/app/services/countryService';
 import React from 'react';
 
-export async function generateMetadata({ params }: { params: { slug: string } }) {
-  const { slug } = params;
+//  metadata
+export async function generateMetadata({ params }: any) {
+  const { slug } = await params; //  REQUIRED in Next 15
 
   const data = await fetchCountryPageData(slug);
   const meta = data?.data?.details?.meta || {};
@@ -53,19 +54,15 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   return {
     title,
     description,
-
     alternates: {
       canonical,
     },
-
-    //  THIS IS THE IMPORTANT PART
     openGraph: {
       title,
       description,
       url: canonical,
       type: "website",
     },
-
     twitter: {
       title,
       description,
@@ -74,8 +71,9 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
-const Page = async ({ params }: { params: { slug: string } }) => {
-  const { slug } =  params;
+//  page
+const Page = async ({ params }: any) => {
+  const { slug } = await params; //  REQUIRED in Next 15
 
   return (
     <PackagelistByCountry
