@@ -22,18 +22,42 @@ export async function fetchCountryPageData(slug: any) {
   }
 }
  
+// export async function fetchSpecialData() {
+//   const res = await fetch(`${baseUrl}/api/v1/packages/special`, {
+//     method: "GET",
+//     headers: {
+//       "X-Public-Token": XPublicToken,
+//     },
+//     next: { revalidate: 60 }
+//   });
+ 
+//   if (!res.ok) {
+//     throw new Error("Failed to fetch home data");
+//   }
+ 
+//   return res.json();
+// }
+
 export async function fetchSpecialData() {
-  const res = await fetch(`${baseUrl}/api/v1/packages/special`, {
-    method: "GET",
-    headers: {
-      "X-Public-Token": XPublicToken,
-    },
-    next: { revalidate: 60 }
-  });
- 
-  if (!res.ok) {
-    throw new Error("Failed to fetch home data");
+  try {
+    const res = await fetch(`${baseUrl}/api/v1/packages/special`, {
+      method: "GET",
+      headers: {
+        "X-Public-Token": XPublicToken,
+      },
+      next: { revalidate: 60 },
+    });
+
+    if (!res.ok) {
+      console.error("Special API failed:", res.status);
+      return { data: [] }; //  ALWAYS safe shape
+    }
+
+    const json = await res.json().catch(() => null);
+
+    return json ?? { data: [] }; //  never null
+  } catch (error) {
+    console.error("Special API error:", error);
+    return { data: [] }; //  never null
   }
- 
-  return res.json();
 }

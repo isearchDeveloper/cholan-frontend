@@ -1,11 +1,148 @@
+// import Breadcrumb from "@/app/components/common/Breadcrumb";
+// import Tourpackages from "@/app/components/internationalTourPackages/tourpackages";
+// import TravelPackages from "@/app/components/common/travelpackages";
+// import IntBanner from "@/app/components/internationalTourPackages/intBanner";
+// import IntExpandableText from "@/app/components/internationalTourPackages/intExpandableText";
+// import TabWithImages from "@/app/components/internationalTourPackages/tabwithimages";
+// import { fetchInternationalPageData } from "@/app/services/internationaltourService";
+// import { unstable_cache } from "next/cache";
+// import IntFaq from "@/app/components/internationalTourPackages/intFaq";
+// import {
+//   fetchCountryPageData,
+//   fetchSpecialData,
+// } from "@/app/services/countryService";
+// import CountryExpandableText from "../country/countryExpandableText";
+// import ImageComponentCountry from "../country/tabWithImagesForCountry";
+// import CityStateListStatic from "../country/CityStateListStatic";
+// import { fetchCityIntroData, fetchCityList } from "@/app/services/cityService";
+// import TourpackagesCountry from "../country/tourPackagesByInterest";
+// import TourPackagesByCountry from "@/app/components/common/TourPackagesByCountry";
+// import IndiaThemesSection from "@/app/components/country/IndiaThemesSection";
+// import { fetchThemeList } from "@/app/services/themeService";
+
+// // import { fetchHomeExclusiveData } from "@/app/services/homeService";
+// import { notFound } from "next/navigation";
+// import ReviewsWidget from "../ReviewsWidget";
+// import AboutSection from "../home/AboutSection";
+// import LogoSlider from "../home/LogoSlider";
+// export const XPublicToken =
+//   "zaxsc+/-=0dfvgbnhmjklo*/-piutyerwq*%$25631478907539541lokythbfet&*(@kjhkhgfhk546456456)";
+
+// async function fetchStaticCategorySSR(countrySlug: string) {
+//   const url = `${process.env.NEXT_PUBLIC_UAT_URL}/api/v1/packages/categories/country?slug=honeymoon&country=${countrySlug}&limit=50`;
+//   try {
+//     const res = await fetch(url, {
+//       headers: { "X-Public-Token": XPublicToken },
+//       next: { revalidate: 60 }, // You can use "force-cache" or "no-store"
+//     });
+
+//     const json = await res.json();
+//     return json.data || { packages: [] };
+//   } catch (e) {
+//     return { packages: [] };
+//   }
+// }
+// export default async function PackagelistByCountry({
+//   slug,
+//   country,
+// }: {
+//   slug: string;
+//   country: string;
+// }) {
+//   // 1. First fetch country data
+//   const [countryData] = await Promise.all([fetchCountryPageData(slug)]);
+//   const exclusiveIndiaPackage = await fetchSpecialData();
+
+//   // 2. Validate country data
+//   if (!countryData || slug === "srilanka") {
+//     return notFound();
+//   }
+//   // 3. Extract the dynamic country slug for second API call
+//   const countrySlug = countryData?.data?.details?.slug;
+
+//   // 4. Double-check safety
+//   let ssrHoneymoonData = { packages: [] };
+
+//   if (slug === "india" && countrySlug) {
+//     ssrHoneymoonData = await fetchStaticCategorySSR(countrySlug);
+//   }
+//   const breadcrumbItems = [
+//     { label: "Home", href: "/" },
+//     { label: `${countryData?.data?.details?.title}`, isCurrent: true },
+//   ];
+
+//   const res = await fetchCityList(1);
+//   const cities = res?.data?.cities || [];
+//   const result = await fetchThemeList();
+//   return (
+//     <div className="details-wrapper ">
+//       <IntBanner data={countryData?.data?.details} />
+//       <div className="details-wrapper-inner india">
+//         <div className="pt-4 pb-5">
+//           <div className="container">
+//             <Breadcrumb items={breadcrumbItems} />
+//             <CountryExpandableText
+//               data={countryData?.data.details}
+//               collapsedLines={5}
+//             />
+//           </div>
+
+//           {exclusiveIndiaPackage?.data?.length < 1 ? null : (
+//             <div>
+//               <TourPackagesByCountry
+//                 exclusiveIndiaPackage={exclusiveIndiaPackage?.data}
+//               />
+//             </div>
+//           )}
+//           {/* 
+//           <ImageComponentCountry slug={slug} initialData={countryData.data} /> */}
+//           <ImageComponentCountry slug={slug} initialData={countryData?.data} />
+
+//           {slug === "india" && (
+//             <CityStateListStatic
+//               country={slug as "india"}
+//               cities={cities}
+//               total={res.data.pagination.total}
+//             />
+//           )}
+
+//           {slug === "india" && <IndiaThemesSection result={result} />}
+
+//           <TravelPackages internationalData={countryData?.data.deal_packages} />
+//           <TourpackagesCountry
+//             countryData={countryData?.data}
+//             ssrPackages={{ honeymoon: ssrHoneymoonData }}
+//           />
+//           {countryData?.data?.details?.faqs.length < 1 ? null : (
+//             <div className="faqs pt-5">
+//               <div className="container">
+//                 <IntFaq
+//                   faqs={countryData?.data?.details?.faqs}
+//                   faqtitle={countryData?.data?.details?.faq_title}
+//                 />
+//               </div>
+//             </div>
+//           )}
+
+//           <div className="py-5">
+//             <ReviewsWidget />
+//           </div>
+
+//           {/* <div className="customize-holiday">
+//             <AboutSection />
+//           </div> */}
+
+//           <LogoSlider />
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
+
+
 import Breadcrumb from "@/app/components/common/Breadcrumb";
-import Tourpackages from "@/app/components/internationalTourPackages/tourpackages";
 import TravelPackages from "@/app/components/common/travelpackages";
 import IntBanner from "@/app/components/internationalTourPackages/intBanner";
-import IntExpandableText from "@/app/components/internationalTourPackages/intExpandableText";
-import TabWithImages from "@/app/components/internationalTourPackages/tabwithimages";
-import { fetchInternationalPageData } from "@/app/services/internationaltourService";
-import { unstable_cache } from "next/cache";
 import IntFaq from "@/app/components/internationalTourPackages/intFaq";
 import {
   fetchCountryPageData,
@@ -14,34 +151,36 @@ import {
 import CountryExpandableText from "../country/countryExpandableText";
 import ImageComponentCountry from "../country/tabWithImagesForCountry";
 import CityStateListStatic from "../country/CityStateListStatic";
-import { fetchCityIntroData, fetchCityList } from "@/app/services/cityService";
+import { fetchCityList } from "@/app/services/cityService";
 import TourpackagesCountry from "../country/tourPackagesByInterest";
 import TourPackagesByCountry from "@/app/components/common/TourPackagesByCountry";
 import IndiaThemesSection from "@/app/components/country/IndiaThemesSection";
-import { fetchThemeList} from "@/app/services/themeService";
-
-// import { fetchHomeExclusiveData } from "@/app/services/homeService";
+import { fetchThemeList } from "@/app/services/themeService";
 import { notFound } from "next/navigation";
 import ReviewsWidget from "../ReviewsWidget";
-import AboutSection from "../home/AboutSection";
 import LogoSlider from "../home/LogoSlider";
+
 export const XPublicToken =
   "zaxsc+/-=0dfvgbnhmjklo*/-piutyerwq*%$25631478907539541lokythbfet&*(@kjhkhgfhk546456456)";
 
 async function fetchStaticCategorySSR(countrySlug: string) {
-  const url = `${process.env.NEXT_PUBLIC_UAT_URL}/api/v1/packages/categories/country?slug=honeymoon&country=${countrySlug}&limit=50`;
   try {
+    const url = `${process.env.NEXT_PUBLIC_UAT_URL}/api/v1/packages/categories/country?slug=honeymoon&country=${countrySlug}&limit=50`;
+
     const res = await fetch(url, {
       headers: { "X-Public-Token": XPublicToken },
-      next: { revalidate: 60 }, // You can use "force-cache" or "no-store"
+      next: { revalidate: 60 },
     });
 
-    const json = await res.json();
-    return json.data || { packages: [] };
-  } catch (e) {
+    if (!res.ok) return { packages: [] };
+
+    const json = await res.json().catch(() => null);
+    return json?.data || { packages: [] };
+  } catch {
     return { packages: [] };
   }
 }
+
 export default async function PackagelistByCountry({
   slug,
   country,
@@ -49,68 +188,89 @@ export default async function PackagelistByCountry({
   slug: string;
   country: string;
 }) {
-  // 1. First fetch country data
-  const [countryData] = await Promise.all([fetchCountryPageData(slug)]);
-  const exclusiveIndiaPackage = await fetchSpecialData();
+  // ✅ SAFE parallel fetching (very important on AWS)
+  const [countryData, exclusiveIndiaPackage, res, result] =
+    await Promise.all([
+      fetchCountryPageData(slug).catch(() => null),
+      fetchSpecialData().catch(() => ({ data: [] })),
+      fetchCityList(1).catch(() => null),
+      fetchThemeList().catch(() => []),
+    ]);
 
-  // 2. Validate country data
-  if (!countryData || slug === "srilanka") {
+  // ✅ STRONG guard (fixes ISR window crashes)
+  if (!countryData?.data?.details || slug === "srilanka") {
     return notFound();
   }
-  // 3. Extract the dynamic country slug for second API call
+
   const countrySlug = countryData?.data?.details?.slug;
 
-  // 4. Double-check safety
+  // ✅ safe honeymoon data
   let ssrHoneymoonData = { packages: [] };
-
   if (slug === "india" && countrySlug) {
     ssrHoneymoonData = await fetchStaticCategorySSR(countrySlug);
   }
+
   const breadcrumbItems = [
     { label: "Home", href: "/" },
-    { label: `${countryData?.data?.details?.title}`, isCurrent: true },
+    { label: `${countryData?.data?.details?.title || ""}`, isCurrent: true },
   ];
 
-  const res = await fetchCityList(1);
   const cities = res?.data?.cities || [];
-  const result= await fetchThemeList();
+  const totalCities = res?.data?.pagination?.total || 0;
+
   return (
-    <div className="details-wrapper ">
+    <div className="details-wrapper">
       <IntBanner data={countryData?.data?.details} />
+
       <div className="details-wrapper-inner india">
         <div className="pt-4 pb-5">
           <div className="container">
             <Breadcrumb items={breadcrumbItems} />
+
             <CountryExpandableText
-              data={countryData?.data.details}
+              data={countryData?.data?.details}
               collapsedLines={5}
             />
           </div>
-           
-          {exclusiveIndiaPackage?.data?.length < 1 ? null : (
-            <div>
-              <TourPackagesByCountry
-                exclusiveIndiaPackage={exclusiveIndiaPackage?.data}
-              />
-            </div>
-          )}
 
-          <ImageComponentCountry slug={slug} initialData={countryData.data} />
-          
-          {(slug === "india") && (
-            <CityStateListStatic
-              country={slug as "india"} cities={cities}  total={res.data.pagination.total}
+          {/* ✅ safe exclusive packages */}
+          {(exclusiveIndiaPackage?.data?.length ?? 0) > 0 && (
+            <TourPackagesByCountry
+              exclusiveIndiaPackage={exclusiveIndiaPackage.data}
             />
           )}
 
-          {slug === "india" && <IndiaThemesSection result = {result} />}
+          {/* ✅ safe image section */}
+          <ImageComponentCountry
+            slug={slug}
+            initialData={countryData?.data}
+          />
 
-          <TravelPackages internationalData={countryData?.data.deal_packages} />
+          {/* ✅ safe city list */}
+          {slug === "india" && (
+            <CityStateListStatic
+              country={slug as "india"}
+              cities={cities}
+              total={totalCities}
+            />
+          )}
+
+          {/* ✅ THEME SECTION — now fully safe */}
+          {slug === "india" && Array.isArray(result) && result.length > 0 && (
+            <IndiaThemesSection result={result} />
+          )}
+
+          <TravelPackages
+            internationalData={countryData?.data?.deal_packages || []}
+          />
+
           <TourpackagesCountry
             countryData={countryData?.data}
             ssrPackages={{ honeymoon: ssrHoneymoonData }}
           />
-          {countryData?.data?.details?.faqs.length < 1 ? null : (
+
+          {/* ✅ FAQ SAFE (important fix) */}
+          {(countryData?.data?.details?.faqs?.length ?? 0) > 0 && (
             <div className="faqs pt-5">
               <div className="container">
                 <IntFaq
@@ -124,10 +284,6 @@ export default async function PackagelistByCountry({
           <div className="py-5">
             <ReviewsWidget />
           </div>
-
-          {/* <div className="customize-holiday">
-            <AboutSection />
-          </div> */}
 
           <LogoSlider />
         </div>
