@@ -186,8 +186,8 @@ export default function Navigation({ headerData }: any) {
                         {/* Menu Items */}
                         <div
                           className={`${headerData?.india_promotion
-                              ? "col-lg-6"
-                              : "col-lg-9"
+                            ? "col-lg-6"
+                            : "col-lg-9"
                             } menu-columns`}
                         >
                           {cityTabs.map((tab, index) => {
@@ -410,8 +410,8 @@ export default function Navigation({ headerData }: any) {
 
                   <div
                     className={`mega-menu ${megaMenuOpen === "international"
-                        ? "show slide-up hovered"
-                        : ""
+                      ? "show slide-up hovered"
+                      : ""
                       }`}
                   >
                     <div className="container">
@@ -461,8 +461,8 @@ export default function Navigation({ headerData }: any) {
                         {/* ================= CENTER COUNTRIES + LOCATIONS ================= */}
                         <div
                           className={`${headerData?.international_promotion
-                              ? "col-lg-6"
-                              : "col-lg-9"
+                            ? "col-lg-6"
+                            : "col-lg-9"
                             } menu-columns`}
                         >
                           {internationalTabs.map(
@@ -606,13 +606,13 @@ export default function Navigation({ headerData }: any) {
                             //   {tab}
                             // </label>
                             <label
-                              key={`india-label-${index}`}
+                              key={`holidays-label-${index}`}
                               htmlFor={`holidays-tab-${index}`}
                               className="tab-button"
                               onMouseEnter={() => {
                                 if (window.innerWidth > 991) {
                                   const input = document.getElementById(
-                                    `india-tab-${index}`,
+                                    `holidays-tab-${index}`,
                                   ) as HTMLInputElement;
                                   if (input) input.checked = true;
                                 }
@@ -626,8 +626,8 @@ export default function Navigation({ headerData }: any) {
                         {/* Menu Items */}
                         <div
                           className={`${headerData?.india_promotion
-                              ? "col-lg-6"
-                              : "col-lg-9"
+                            ? "col-lg-6"
+                            : "col-lg-9"
                             } menu-columns`}
                         >
                           {tabs.map((tab, index) => {
@@ -722,10 +722,10 @@ export default function Navigation({ headerData }: any) {
                                                   href={`/india/${stateSlug}`}
                                                   onClick={closeMobileMenu}
                                                 >
-                                                  {stateName} Tour Packages
+                                                  {`${stateName} Tour Packages`}
                                                 </Link>
                                               ) : (
-                                                <span>{stateName} Tour Packages</span>
+                                                <span>{`${stateName} Tour Packages`}</span>
                                               )}
                                             </div>
                                           ) : (
@@ -735,10 +735,10 @@ export default function Navigation({ headerData }: any) {
                                                   href={`/india/${stateSlug}`}
                                                   onClick={closeMobileMenu}
                                                 >
-                                                  {stateName} Tour Packages
+                                                  {`${stateName} Tour Packages`}
                                                 </Link>
                                               ) : (
-                                                <span>{stateName} Tour Packages</span> 
+                                                <span>{`${stateName} Tour Packages`}</span>
                                               )}
                                             </div>
                                           )}
@@ -755,7 +755,7 @@ export default function Navigation({ headerData }: any) {
                                                       href={`/india/${city.slug}`}
                                                       onClick={closeMobileMenu}
                                                     >
-                                                      {city.name} Tour Packages
+                                                      {`${city.name} Tour Packages`}
                                                     </Link>
                                                   </li>
                                                 ))}

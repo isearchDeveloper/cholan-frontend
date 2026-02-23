@@ -62,7 +62,7 @@ function truncateHtmlByWords(html: string, limit: number) {
 export default function CityExpandableText({
   title,
   text,
-  wordLimit = 350,
+  wordLimit = 1500,
 }: CityExpandableTextProps) {
   const [expanded, setExpanded] = useState(false);
   const [htmlState, setHtmlState] = useState(text);

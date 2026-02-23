@@ -87,7 +87,7 @@ export default async function Page() {
           </div>
 
           {trendingInternationalData?.data?.length < 1 ? null : (
-            <div data-aos="fade-up" data-aos-delay="400">
+            <div>
               <TrendingTourPackages
                 trendingInternationalData={trendingInternationalData?.data}
               />

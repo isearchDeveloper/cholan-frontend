@@ -5096,8 +5096,12 @@ input.sr-only:nth-of-type(2):checked~.row .mega-menu-tabs .tab-button:nth-of-typ
 input.sr-only:nth-of-type(3):checked~.row .mega-menu-tabs .tab-button:nth-of-type(3),
 /* Fourth tab */
 input.sr-only:nth-of-type(4):checked~.row .mega-menu-tabs .tab-button:nth-of-type(4),
+
+input.sr-only:nth-of-type(5):checked~.row .mega-menu-tabs .tab-button:nth-of-type(5),
+
+input.sr-only:nth-of-type(6):checked~.row .mega-menu-tabs .tab-button:nth-of-type(6),
 /* Fifth tab */
-input.sr-only:nth-of-type(5):checked~.row .mega-menu-tabs .tab-button:nth-of-type(5) {
+input.sr-only:nth-of-type(7):checked~.row .mega-menu-tabs .tab-button:nth-of-type(7) {
   color: #fff;
   border-radius: 4px;
   background: #05164d url(/images/button-arrow.png);
@@ -5115,7 +5119,9 @@ input.sr-only:nth-of-type(3):checked~.row .menu-columns .panel:nth-of-type(3),
 /* Fourth panel */
 input.sr-only:nth-of-type(4):checked~.row .menu-columns .panel:nth-of-type(4),
 /* Fifth panel */
-input.sr-only:nth-of-type(5):checked~.row .menu-columns .panel:nth-of-type(5) {
+input.sr-only:nth-of-type(5):checked~.row .menu-columns .panel:nth-of-type(5),
+input.sr-only:nth-of-type(6):checked~.row .menu-columns .panel:nth-of-type(6),
+input.sr-only:nth-of-type(7):checked~.row .menu-columns .panel:nth-of-type(7) {
   display: block !important;
 }
 
@@ -5128,6 +5134,9 @@ input.sr-only:nth-of-type(1):checked ~ .row .menu-columns .panel:nth-of-type(1),
 input.sr-only:nth-of-type(2):checked ~ .row .menu-columns .panel:nth-of-type(2),
 input.sr-only:nth-of-type(3):checked ~ .row .menu-columns .panel:nth-of-type(3),
 input.sr-only:nth-of-type(4):checked ~ .row .menu-columns .panel:nth-of-type(4),
+input.sr-only:nth-of-type(5):checked ~ .row .menu-columns .panel:nth-of-type(5),
+input.sr-only:nth-of-type(6):checked ~ .row .menu-columns .panel:nth-of-type(6),
+input.sr-only:nth-of-type(7):checked ~ .row .menu-columns .panel:nth-of-type(7),
 input.sr-only:nth-of-type(5):checked
   ~ .row
   .menu-columns
