@@ -15,10 +15,10 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug, place } = await params;
 
-  // 🔥 try API first
+  //  try API first
   const data = await fetchAttractionDetail(place);
 
-  // ✅ formatted names
+  //  formatted names
   const cityName = slug
     .split("-")
     .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
@@ -31,7 +31,7 @@ export async function generateMetadata({
       .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
       .join(" ");
 
-  // ✅ fallback description
+  //  fallback description
   const description =
     data?.details?.slice(0, 160) ||
     `Explore ${placeName} in ${cityName}. Discover history, highlights, travel tips and visitor information.`;
