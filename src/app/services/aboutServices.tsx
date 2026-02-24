@@ -22,6 +22,7 @@ export async function fetchAboutPageData() {
     return null; // or {} if you prefer
   }
 }
+
 export async function fetchAboutPageTeamData() {
   try {
     const res = await fetch(`${baseUrl}/api/v1/cms/page/details?slug=our-team`, {

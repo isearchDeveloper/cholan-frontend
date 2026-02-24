@@ -108,6 +108,7 @@ export default function CityIntroPage({
       ? cityData?.city?.attractions.map((items: any) => ({
           title: items.title,
           subtitle: items.details,
+          slug: items.slug,
           image: items.banner_image
             ? `https://cdn.cholantours.com/${items.banner_image}`
             : "/images/tour/default.webp",
@@ -184,6 +185,7 @@ export default function CityIntroPage({
         <div className="py-5">
           <ToursitAttraction
             cityName={cityName}
+            citySlug = {slug}
             data={TouristAttractionPlace}
           />
         </div>
