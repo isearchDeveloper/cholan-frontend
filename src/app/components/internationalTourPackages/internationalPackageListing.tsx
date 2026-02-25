@@ -28,10 +28,9 @@ const InternationalPackageListing = ({
   const [currentPage, setCurrentPage] = useState(initialPage);
   const [totalPages, setTotalPages] = useState(1);
   const [showLoader, setShowLoader] = useState(true);
- 
 
   const [fixedData, setfixedData] = useState<any>(ssrFixedData || null);
-  
+
   const [jsEnabled, setJsEnabled] = useState(false);
 
   useEffect(() => {
@@ -52,7 +51,6 @@ const InternationalPackageListing = ({
       setTotalPages(Math.ceil(totalItems / itemsPerPage));
     }
   }, [packageList1]);
-
 
   useEffect(() => {
     if (!fixedData && ssrFixedData) {
@@ -137,35 +135,35 @@ const InternationalPackageListing = ({
   // };
 
   const handlePageChange = async (page: number) => {
-  if (page < 1 || page > totalPages) return;
-  if (!slug1) return;
+    if (page < 1 || page > totalPages) return;
+    if (!slug1) return;
 
-  setShowLoader(true);
+    setShowLoader(true);
 
-  try {
-    const response = await fetchWorldPackageListingData({
-      slug1,
-      currentPage: page,
-      categorySlug: null, // 🔒 locked
-      scopeFromData: "location",
-    });
+    try {
+      const response = await fetchWorldPackageListingData({
+        slug1,
+        currentPage: page,
+        categorySlug: null, // 🔒 locked
+        scopeFromData: "location",
+      });
 
-    if (response?.data) {
-      setPackageList(response.data);
-      setCurrentPage(page);
-      setTotalPages(
-        Math.ceil(
-          (response.data.pagination?.total || 0) /
-          (response.data.pagination?.limit || 10)
-        )
-      );
+      if (response?.data) {
+        setPackageList(response.data);
+        setCurrentPage(page);
+        setTotalPages(
+          Math.ceil(
+            (response.data.pagination?.total || 0) /
+              (response.data.pagination?.limit || 10),
+          ),
+        );
 
-      window.scrollTo({ top: 0, behavior: "smooth" });
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    } finally {
+      setShowLoader(false);
     }
-  } finally {
-    setShowLoader(false);
-  }
-};
+  };
 
   const generatePageNumbers = () => {
     const pages = [];
@@ -192,6 +190,7 @@ const InternationalPackageListing = ({
     "";
 
   const listingTitle = buildListingTitle(locationName);
+  const faqs = packageList?.country?.faqs || packageList?.location?.faqs || [];
 
   const isCategoryPage =
     originalSlug &&
@@ -223,31 +222,31 @@ const InternationalPackageListing = ({
   }
 
   // ✅ SAFE LOCATION NAME
-// const resolvedLocationName =
-//   fixedData?.location?.name ||
-//   fixedData?.country?.name ||
-//   ssrFixedData?.location?.name ||
-//   ssrFixedData?.country?.name ||
-//   "";
+  // const resolvedLocationName =
+  //   fixedData?.location?.name ||
+  //   fixedData?.country?.name ||
+  //   ssrFixedData?.location?.name ||
+  //   ssrFixedData?.country?.name ||
+  //   "";
 
-// // ✅ FORMAT CATEGORY (family-tour-package → Family Tour Package)
-// const formattedCategory = categorySlug
-//   ? categorySlug
-//       .replace(/-/g, " ")
-//       .replace(/\b\w/g, (C: string) => C.toUpperCase())
-//   : "";
+  // // ✅ FORMAT CATEGORY (family-tour-package → Family Tour Package)
+  // const formattedCategory = categorySlug
+  //   ? categorySlug
+  //       .replace(/-/g, " ")
+  //       .replace(/\b\w/g, (C: string) => C.toUpperCase())
+  //   : "";
 
-// // ✅ FINAL TITLE (NO DUPLICATE, NO UNDEFINED)
-// const pageTitle = resolvedLocationName
-//   ? formattedCategory
-//     ? `${resolvedLocationName} ${formattedCategory} Tour Package`
-//     : `${resolvedLocationName} Tour Packages`
-//   : "";
+  // // ✅ FINAL TITLE (NO DUPLICATE, NO UNDEFINED)
+  // const pageTitle = resolvedLocationName
+  //   ? formattedCategory
+  //     ? `${resolvedLocationName} ${formattedCategory} Tour Package`
+  //     : `${resolvedLocationName} Tour Packages`
+  //   : "";
 
-// const pageTitle = buildListingTitle(
-//   packageList?.location?.name,
-//   categorySlug
-// );
+  // const pageTitle = buildListingTitle(
+  //   packageList?.location?.name,
+  //   categorySlug
+  // );
 
   return (
     <div className="tour-listing p-0">
@@ -304,7 +303,6 @@ const InternationalPackageListing = ({
                     ssrFixedData?.location?.name ||
                     ""
                   }
-                
                   setCategorySlug={(slug: any) => {
                     setCurrentPage(1);
                   }}
@@ -313,7 +311,7 @@ const InternationalPackageListing = ({
             </div>
 
             <div className="col-12 col-lg-9">
-              {listingTitle &&  (
+              {listingTitle && (
                 <ExpandableText
                   title={listingTitle}
                   subtitle={
@@ -328,13 +326,15 @@ const InternationalPackageListing = ({
                   }
                   collapsedLines={2}
                 />
-              ) }
+              )}
 
               {packageList?.packages?.length < 1 ? null : (
                 <div className="showing-count my-3 text-sm">
                   <div className="flex gap-2 fs-6 align-items-lg-center">
                     {`Showing 1-${packageList?.packages?.length} packages from`}{" "}
-                   {listingTitle && <h2 className="fs-6 m-0">{listingTitle}</h2>}
+                    {listingTitle && (
+                      <h2 className="fs-6 m-0">{listingTitle}</h2>
+                    )}
                   </div>
                 </div>
               )}
@@ -419,15 +419,18 @@ const InternationalPackageListing = ({
 
               {/* )} */}
 
-              {fixedData?.country?.faqs?.length < 1 ? null : (
+              {faqs.length > 0 && (
                 <div className="mt-5">
+                  {" "}
                   <FAQAccordionListing
-                    faqs={packageList?.country?.faqs}
+                    faqs={faqs}
                     location={
                       packageList?.country?.faq_title ||
-                      packageList?.country?.name
+                      packageList?.location?.faq_title ||
+                      packageList?.country?.name ||
+                      packageList?.location?.name
                     }
-                  />
+                  />{" "}
                 </div>
               )}
             </div>
