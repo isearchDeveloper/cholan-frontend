@@ -6,8 +6,9 @@ import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 
 export default function Navigation({ headerData }: any) {
-  const tabs = Object.keys(headerData?.india_mega_menu || {});
+  const tabs = Object.keys(headerData?.holidays_mega_menu || {});
   const cityTabs = Object.keys(headerData?.city_list || {});
+  const menus = headerData?.menus || [];
   const internationalTabs = headerData?.international_mega_menu || [];
 
   const [navOpen, setNavOpen] = useState(false);
@@ -81,7 +82,6 @@ export default function Navigation({ headerData }: any) {
   const getRegionDisplayText = (regionName: string) => {
     return REGION_DISPLAY_LABELS[regionName] ?? regionName;
   };
-
   const ArrowIcon = () => (
     <svg
       width="10"
@@ -120,801 +120,924 @@ export default function Navigation({ headerData }: any) {
 
             <div className={`mg-menu-wrap ${navOpen ? "show" : ""}`}>
               <ul className={`nav-links ${navOpen ? "show" : ""}`}>
-                {/* ================= INDIA ================= */}
-                <li
-                  className="has-mega-menu"
-                  onMouseEnter={() => {
-                    if (window.innerWidth > 991) {
-                      setMegaMenuOpen("india");
-                    }
-                  }}
-                  onMouseLeave={() => {
-                    if (window.innerWidth > 991) {
-                      setMegaMenuOpen(null);
-                    }
-                  }}
-                >
-                  <Link href="/india" onClick={closeMobileMenu}>
-                    India
-                  </Link>
-                  <span
-                    className="arrow"
-                    onClick={(e) => handleMegaMenuDesktopToggle("india", e)}
-                  >
-                    <ArrowIcon />
-                  </span>
 
-                  <div
-                    className={`mega-menu ${megaMenuOpen === "india" ? "show slide-up hovered" : ""
-                      }`}
-                  >
-                    <div className="container">
-                      {/* Hidden radio inputs directly under container */}
-                      {cityTabs.map((tab, index) => (
-                        <input
-                          key={`india-input-${index}`}
-                          type="radio"
-                          id={`india-tab-${index}`}
-                          name="india-tab"
-                          defaultChecked={index === 0}
-                          className="sr-only"
-                        />
-                      ))}
+                {headerData?.menus?.map((menu: any) => {
 
-                      <div className="row">
-                        {/* Tabs */}
-                        <div className="col-lg-3 col-md-12 mega-menu-tabs">
-                          {cityTabs.map((tab, index) => (
-                            <label
-                              key={`india-label-${index}`}
-                              htmlFor={`india-tab-${index}`}
-                              className="tab-button"
-                              onMouseEnter={() => {
-                                if (window.innerWidth > 991) {
-                                  const input = document.getElementById(
-                                    `india-tab-${index}`,
-                                  ) as HTMLInputElement;
-                                  if (input) input.checked = true;
-                                }
-                              }}
-                            >
-                              {tab}
-                            </label>
-                          ))}
-                        </div>
+                  /* ================= INDIA ================= */
 
-                        {/* Menu Items */}
-                        <div
-                          className={`${headerData?.india_promotion
-                            ? "col-lg-6"
-                            : "col-lg-9"
-                            } menu-columns`}
+                  if (menu.slug === "india") {
+
+                    return (
+
+                      <li
+                        key={menu.id}
+                        className="has-mega-menu"
+
+                        onMouseEnter={() => {
+
+                          if (window.innerWidth > 991)
+
+                            setMegaMenuOpen("india");
+
+                        }}
+
+                        onMouseLeave={() => {
+
+                          if (window.innerWidth > 991)
+
+                            setMegaMenuOpen(null);
+
+                        }}
+
+                      >
+
+                        <Link href="/india">
+
+                          {menu.name}
+
+                        </Link>
+
+                        <span
+
+                          className="arrow"
+
+                          onClick={(e) =>
+
+                            handleMegaMenuDesktopToggle("india", e)
+
+                          }
+
                         >
-                          {cityTabs.map((tab, index) => {
-                            const thisSections =
-                              headerData?.city_list?.[tab];
-                            const regionSlugMap = (
-                              headerData?.regions || []
-                            ).reduce((acc: any, r: any) => {
-                              acc[r.name] = r.slug;
-                              return acc;
-                            }, {});
 
-                            const regionSlug = regionSlugMap[tab];
-                            // ✅ Modified: Sort STATES alphabetically
-                            const sortedIndiaSections = thisSections
-                              ? Object.entries(thisSections).sort(
-                                ([a], [b]) =>
-                                  a.localeCompare(b, "en", {
-                                    sensitivity: "base",
-                                  }), // ✅ modified
-                              )
-                              : [];
-                            return (
-                              <div
-                                key={`india-panel-${index}`}
-                                className={`panel panel-${index}`}
-                              >
-                                <div className="menu-row">
-                                  {sortedIndiaSections.map(
-                                    (
-                                      [sectionTitle, sectionItems]: [
-                                        string,
-                                        any,
-                                      ],
-                                      i,
-                                    ) => {
-                                      const hasCities =
-                                        Array.isArray(sectionItems?.cities) &&
-                                        sectionItems.cities.length > 0;
-                                      const stateSlug =
-                                        sectionItems?.state?.slug;
-                                      const stateName =
-                                        sectionItems?.state?.name ||
-                                        sectionTitle;
+                          <ArrowIcon />
 
-                                      // ✅ Modified: Sort CITIES alphabetically
-                                      const sortedCities = hasCities
-                                        ? [...sectionItems.cities].sort(
-                                          (a, b) =>
-                                            a.name.localeCompare(
-                                              b.name,
-                                              "en",
-                                              {
-                                                sensitivity: "base",
-                                              },
-                                            ),
-                                        ) // ✅ modified
-                                        : [];
-                                      return (
-                                        <div key={i} className="menu-column">
-                                          {hasCities ? (
-                                            <div className="clickable-state underLine">
-                                              {stateSlug ? (
-                                                <Link
-                                                  href={`/india/${stateSlug}`}
-                                                  onClick={closeMobileMenu}
-                                                >
-                                                  {stateName}
-                                                </Link>
-                                              ) : (
-                                                <span>{stateName}</span>
-                                              )}
-                                            </div>
-                                          ) : (
-                                            <div className="clickable-state">
-                                              {stateSlug ? (
-                                                <Link
-                                                  href={`/india/${stateSlug}`}
-                                                  onClick={closeMobileMenu}
-                                                >
-                                                  {stateName}
-                                                </Link>
-                                              ) : (
-                                                <span>{stateName}</span>
-                                              )}
-                                            </div>
-                                          )}
+                        </span>
 
-                                          {hasCities && (
-                                            <ul>
-                                              {[...sectionItems.cities]
-                                                .sort((a, b) =>
-                                                  a.name.localeCompare(b.name),
-                                                )
-                                                .map((city: any, j: number) => (
-                                                  <li key={j}>
-                                                    <Link
-                                                      href={`/india/${city.slug}`}
-                                                      onClick={closeMobileMenu}
-                                                    >
-                                                      {city.name}
-                                                    </Link>
-                                                  </li>
-                                                ))}
-                                            </ul>
-                                            // <ul>
-                                            //   {sectionItems.cities.map(
-                                            //     (city: any, j: number) => (
-                                            //       <li key={j}>
-                                            //         <Link
-                                            //           href={`/india/${city.slug}`}
-                                            //           onClick={closeMobileMenu}
-                                            //         >
-                                            //           {city.name}dgdd
-                                            //         </Link>
-                                            //       </li>
-                                            //     )
-                                            //   )}
-                                            // </ul>
+
+                        {/* ⭐ INDIA MEGA MENU */}
+
+                        {megaMenuOpen === "india" && (
+
+                          <div
+                            className={`mega-menu ${megaMenuOpen === "india" ? "show slide-up hovered" : ""
+                              }`}
+                          >
+                            <div className="container">
+                              {/* Hidden radio inputs directly under container */}
+                              {cityTabs.map((tab, index) => (
+                                <input
+                                  key={`india-input-${index}`}
+                                  type="radio"
+                                  id={`india-tab-${index}`}
+                                  name="india-tab"
+                                  defaultChecked={index === 0}
+                                  className="sr-only"
+                                />
+                              ))}
+
+                              <div className="row">
+                                {/* Tabs */}
+                                <div className="col-lg-3 col-md-12 mega-menu-tabs">
+                                  {cityTabs.map((tab, index) => (
+                                    <label
+                                      key={`india-label-${index}`}
+                                      htmlFor={`india-tab-${index}`}
+                                      className="tab-button"
+                                      onMouseEnter={() => {
+                                        if (window.innerWidth > 991) {
+                                          const input = document.getElementById(
+                                            `india-tab-${index}`,
+                                          ) as HTMLInputElement;
+                                          if (input) input.checked = true;
+                                        }
+                                      }}
+                                    >
+                                      {tab}
+                                    </label>
+                                  ))}
+                                </div>
+
+                                {/* Menu Items */}
+                                <div
+                                  className={`${headerData?.india_promotion
+                                    ? "col-lg-6"
+                                    : "col-lg-9"
+                                    } menu-columns`}
+                                >
+                                  {cityTabs.map((tab, index) => {
+                                    const thisSections =
+                                      headerData?.city_list?.[tab];
+                                    const regionSlugMap = (
+                                      headerData?.regions || []
+                                    ).reduce((acc: any, r: any) => {
+                                      acc[r.name] = r.slug;
+                                      return acc;
+                                    }, {});
+
+                                    const regionSlug = regionSlugMap[tab];
+                                    // ✅ Modified: Sort STATES alphabetically
+                                    const sortedIndiaSections = thisSections
+                                      ? Object.entries(thisSections)
+                                      : [];
+                                    return (
+                                      <div
+                                        key={`india-panel-${index}`}
+                                        className={`panel panel-${index}`}
+                                      >
+                                        <div className="menu-row">
+                                          {sortedIndiaSections.map(
+                                            (
+                                              [sectionTitle, sectionItems]: [
+                                                string,
+                                                any,
+                                              ],
+                                              i,
+                                            ) => {
+                                              const hasCities =
+                                                Array.isArray(sectionItems?.cities) &&
+                                                sectionItems.cities.length > 0;
+                                              const stateSlug =
+                                                sectionItems?.state?.slug;
+                                              const stateName =
+                                                sectionItems?.state?.name ||
+                                                sectionTitle;
+
+                                              // ✅ Modified: Sort CITIES alphabetically
+                                              const sortedCities = hasCities
+                                                ? sectionItems.cities // ✅ modified
+                                                : [];
+                                              return (
+                                                <div key={i} className="menu-column">
+                                                  {hasCities ? (
+                                                    <div className="clickable-state underLine">
+                                                      {stateSlug ? (
+                                                        <Link
+                                                          href={`/india/${stateSlug}`}
+                                                          onClick={closeMobileMenu}
+                                                        >
+                                                          {stateName}
+                                                        </Link>
+                                                      ) : (
+                                                        <span>{stateName}</span>
+                                                      )}
+                                                    </div>
+                                                  ) : (
+                                                    <div className="clickable-state">
+                                                      {stateSlug ? (
+                                                        <Link
+                                                          href={`/india/${stateSlug}`}
+                                                          onClick={closeMobileMenu}
+                                                        >
+                                                          {stateName}
+                                                        </Link>
+                                                      ) : (
+                                                        <span>{stateName}</span>
+                                                      )}
+                                                    </div>
+                                                  )}
+
+                                                  {hasCities && (
+                                                    <ul>
+                                                      {[...sectionItems.cities]
+                                                        .map((city: any, j: number) => (
+                                                          <li key={j}>
+                                                            <Link
+                                                              href={`/india/${city.slug}`}
+                                                              onClick={closeMobileMenu}
+                                                            >
+                                                              {city.name}
+                                                            </Link>
+                                                          </li>
+                                                        ))}
+                                                    </ul>
+                                                    // <ul>
+                                                    //   {sectionItems.cities.map(
+                                                    //     (city: any, j: number) => (
+                                                    //       <li key={j}>
+                                                    //         <Link
+                                                    //           href={`/india/${city.slug}`}
+                                                    //           onClick={closeMobileMenu}
+                                                    //         >
+                                                    //           {city.name}dgdd
+                                                    //         </Link>
+                                                    //       </li>
+                                                    //     )
+                                                    //   )}
+                                                    // </ul>
+                                                  )}
+                                                </div>
+                                              );
+                                            },
                                           )}
                                         </div>
-                                      );
-                                    },
+                                      </div>
+                                    );
+                                  })}
+                                </div>
+
+                                {/* India Promotion */}
+                                {headerData?.india_promotion && (
+                                  <div className="col-lg-3 col-md-12 menu-promo">
+                                    <Link
+                                      href={headerData?.india_promotion?.link || "#"}
+                                      onClick={closeMobileMenu}
+                                      className="custom-hover p-0"
+                                    >
+                                      <Image
+                                        src={
+                                          headerData?.india_promotion?.banner_image ||
+                                          "/images/no-img.webp"
+                                        }
+                                        alt={
+                                          headerData?.india_promotion
+                                            ?.banner_image_alt || ""
+                                        }
+                                        width={300}
+                                        height={180}
+                                        className="h-54 object-cover rounded-1 mb-4 w-100 custom-hover"
+                                      />
+                                    </Link>
+                                    <Link
+                                      href={headerData?.india_promotion?.link || "#"}
+                                      onClick={closeMobileMenu}
+                                      className="fw-semibold p-0 mb-2"
+                                    >
+                                      <div className="promotion-titles">
+                                        {headerData?.india_promotion?.title}
+                                      </div>
+                                    </Link>
+                                    <p
+                                      className="mb-0 text-sm"
+                                      dangerouslySetInnerHTML={{
+                                        __html:
+                                          headerData?.india_promotion?.details || "",
+                                      }}
+                                    />
+                                    <Link
+                                      href={headerData?.india_promotion?.link || "#"}
+                                      onClick={closeMobileMenu}
+                                      className="p-0 mt-3 border-0"
+                                    >
+                                      <div className="btn blue-btn">
+                                        Explore Now{" "}
+                                        <span>
+                                          <Image
+                                            width={23}
+                                            height={23}
+                                            sizes="100vw"
+                                            src="/images/button-arrow.png"
+                                            alt=""
+                                          />
+                                        </span>
+                                      </div>
+                                    </Link>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+
+                        )}
+
+                      </li>
+
+                    );
+
+                  }
+
+
+
+                  /* ================= INTERNATIONAL ================= */
+
+                  if (menu.slug === "international") {
+
+                    return (
+
+                      <li
+
+                        key={menu.id}
+
+                        className="has-mega-menu"
+
+                        onMouseEnter={() => {
+
+                          if (window.innerWidth > 991)
+
+                            setMegaMenuOpen("international");
+
+                        }}
+
+                        onMouseLeave={() => {
+
+                          if (window.innerWidth > 991)
+
+                            setMegaMenuOpen(null);
+
+                        }}
+
+                      >
+
+                        <Link href="/international-holidays">
+
+                          {menu.name}
+
+                        </Link>
+
+                        <span
+
+                          className="arrow"
+
+                          onClick={(e) =>
+
+                            handleMegaMenuDesktopToggle(
+
+                              "international",
+
+                              e
+
+                            )
+
+                          }
+
+                        >
+
+                          <ArrowIcon />
+
+                        </span>
+
+
+                        {megaMenuOpen === "international" && (
+
+                          <div
+                            className={`mega-menu ${megaMenuOpen === "international"
+                              ? "show slide-up hovered"
+                              : ""
+                              }`}
+                          >
+                            <div className="container">
+                              {/* RADIO INPUTS (same as India) */}
+                              {internationalTabs.map((_: any, i: number) => (
+                                <input
+                                  key={`int-tab-${i}`}
+                                  type="radio"
+                                  id={`int-tab-${i}`}
+                                  name="international-tab"
+                                  defaultChecked={i === 0}
+                                  className="sr-only"
+                                />
+                              ))}
+
+                              <div className="row">
+                                {/* ================= LEFT CONTINENTS ================= */}
+                                <div className="col-lg-3 col-md-12 mega-menu-tabs">
+                                  {internationalTabs.map(
+                                    (continent: any, i: number) => (
+                                      // <label
+                                      //   key={i}
+                                      //   htmlFor={`int-tab-${i}`}
+                                      //   className="tab-button"
+                                      // >
+                                      //   {continent.name}
+                                      // </label>
+                                      <label
+                                        key={i}
+                                        htmlFor={`int-tab-${i}`}
+                                        className="tab-button"
+                                        onMouseEnter={() => {
+                                          if (window.innerWidth > 991) {
+                                            const input = document.getElementById(
+                                              `int-tab-${i}`,
+                                            ) as HTMLInputElement;
+                                            if (input) input.checked = true;
+                                          }
+                                        }}
+                                      >
+                                        {continent.name}
+                                      </label>
+                                    ),
                                   )}
                                 </div>
-                              </div>
-                            );
-                          })}
-                        </div>
 
-                        {/* India Promotion */}
-                        {headerData?.india_promotion && (
-                          <div className="col-lg-3 col-md-12 menu-promo">
-                            <Link
-                              href={headerData?.india_promotion?.link || "#"}
-                              onClick={closeMobileMenu}
-                              className="custom-hover p-0"
-                            >
-                              <Image
-                                src={
-                                  headerData?.india_promotion?.banner_image ||
-                                  "/images/no-img.webp"
-                                }
-                                alt={
-                                  headerData?.india_promotion
-                                    ?.banner_image_alt || ""
-                                }
-                                width={300}
-                                height={180}
-                                className="h-54 object-cover rounded-1 mb-4 w-100 custom-hover"
-                              />
-                            </Link>
-                            <Link
-                              href={headerData?.india_promotion?.link || "#"}
-                              onClick={closeMobileMenu}
-                              className="fw-semibold p-0 mb-2"
-                            >
-                              <div className="promotion-titles">
-                                {headerData?.india_promotion?.title}
+                                {/* ================= CENTER COUNTRIES + LOCATIONS ================= */}
+                                <div
+                                  className={`${headerData?.international_promotion
+                                    ? "col-lg-6"
+                                    : "col-lg-9"
+                                    } menu-columns`}
+                                >
+                                  {internationalTabs.map(
+                                    (continent: any, i: number) => (
+                                      <div key={i} className={`panel panel-${i}`}>
+                                        <div className="menu-row">
+                                          {continent.countries
+                                            ?.filter(
+                                              (c: any) => c.locations?.length > 0,
+                                            )
+                                            .map((country: any, j: number) => (
+                                              <div
+                                                key={j}
+                                                className="menu-column international-mega-menu"
+                                              >
+                                                <div className="clickable-state underLine">
+                                                  <Link
+                                                    href={`/international-holidays/${country.slug}`}
+                                                    onClick={closeMobileMenu}
+                                                  >
+                                                    {country.name}
+                                                  </Link>
+                                                </div>
+
+                                                <ul>
+                                                  {country.locations.map(
+                                                    (loc: any, k: number) => (
+                                                      <li key={k}>
+                                                        <Link
+                                                          href={`/international-holidays/${loc.slug}`}
+                                                          onClick={closeMobileMenu}
+                                                        >
+                                                          {loc.name}
+                                                        </Link>
+                                                      </li>
+                                                    ),
+                                                  )}
+                                                </ul>
+                                              </div>
+                                            ))}
+                                        </div>
+                                      </div>
+                                    ),
+                                  )}
+                                </div>
+
+                                {/* ================= RIGHT IMAGE ================= */}
+                                {headerData?.international_promotion && (
+                                  <div className="col-lg-3 col-md-12 menu-promo">
+                                    <Link
+                                      href={
+                                        headerData?.international_promotion?.link || "#"
+                                      }
+                                      onClick={closeMobileMenu}
+                                      className="custom-hover p-0"
+                                    >
+                                      <Image
+                                        src={
+                                          headerData?.international_promotion
+                                            ?.banner_image || "/images/no-img.webp"
+                                        }
+                                        alt={
+                                          headerData?.international_promotion
+                                            ?.banner_image_alt || ""
+                                        }
+                                        width={300}
+                                        height={180}
+                                        className="h-54 object-cover rounded-1 mb-4 w-100"
+                                      />
+                                    </Link>
+
+                                    <h5>
+                                      {headerData?.international_promotion?.title}
+                                    </h5>
+
+                                    <p
+                                      className="mb-0 text-sm"
+                                      dangerouslySetInnerHTML={{
+                                        __html:
+                                          headerData?.international_promotion
+                                            ?.details || "",
+                                      }}
+                                    />
+                                  </div>
+                                )}
                               </div>
-                            </Link>
-                            <p
-                              className="mb-0 text-sm"
-                              dangerouslySetInnerHTML={{
-                                __html:
-                                  headerData?.india_promotion?.details || "",
-                              }}
-                            />
-                            <Link
-                              href={headerData?.india_promotion?.link || "#"}
-                              onClick={closeMobileMenu}
-                              className="p-0 mt-3 border-0"
-                            >
-                              <div className="btn blue-btn">
-                                Explore Now{" "}
-                                <span>
-                                  <Image
-                                    width={23}
-                                    height={23}
-                                    sizes="100vw"
-                                    src="/images/button-arrow.png"
-                                    alt=""
-                                  />
-                                </span>
-                              </div>
-                            </Link>
+                            </div>
                           </div>
+
                         )}
-                      </div>
-                    </div>
-                  </div>
-                </li>
 
-                {/* ================= INTERNATIONAL (TAB MEGA MENU) ================= */}
-                <li
-                  className="has-mega-menu"
-                  onMouseEnter={() => {
-                    if (window.innerWidth > 991)
-                      setMegaMenuOpen("international");
-                  }}
-                  onMouseLeave={() => {
-                    if (window.innerWidth > 991) setMegaMenuOpen(null);
-                  }}
-                >
-                  <Link
-                    href="/international-holidays"
-                    onClick={closeMobileMenu}
-                  >
-                    International
-                  </Link>
+                      </li>
 
-                  <span
-                    className="arrow"
-                    onClick={(e) =>
-                      handleMegaMenuDesktopToggle("international", e)
-                    }
-                  >
-                    <ArrowIcon />
-                  </span>
+                    );
 
-                  <div
-                    className={`mega-menu ${megaMenuOpen === "international"
-                      ? "show slide-up hovered"
-                      : ""
-                      }`}
-                  >
-                    <div className="container">
-                      {/* RADIO INPUTS (same as India) */}
-                      {internationalTabs.map((_: any, i: number) => (
-                        <input
-                          key={`int-tab-${i}`}
-                          type="radio"
-                          id={`int-tab-${i}`}
-                          name="international-tab"
-                          defaultChecked={i === 0}
-                          className="sr-only"
-                        />
-                      ))}
+                  }
 
-                      <div className="row">
-                        {/* ================= LEFT CONTINENTS ================= */}
-                        <div className="col-lg-3 col-md-12 mega-menu-tabs">
-                          {internationalTabs.map(
-                            (continent: any, i: number) => (
-                              // <label
-                              //   key={i}
-                              //   htmlFor={`int-tab-${i}`}
-                              //   className="tab-button"
-                              // >
-                              //   {continent.name}
-                              // </label>
-                              <label
-                                key={i}
-                                htmlFor={`int-tab-${i}`}
-                                className="tab-button"
-                                onMouseEnter={() => {
-                                  if (window.innerWidth > 991) {
-                                    const input = document.getElementById(
-                                      `int-tab-${i}`,
-                                    ) as HTMLInputElement;
-                                    if (input) input.checked = true;
-                                  }
-                                }}
-                              >
-                                {continent.name}
-                              </label>
-                            ),
-                          )}
-                        </div>
 
-                        {/* ================= CENTER COUNTRIES + LOCATIONS ================= */}
-                        <div
-                          className={`${headerData?.international_promotion
-                            ? "col-lg-6"
-                            : "col-lg-9"
-                            } menu-columns`}
+
+                  /* ================= HOLIDAYS ================= */
+
+                  if (menu.slug === "holidays") {
+
+                    return (
+
+                      <li
+
+                        key={menu.id}
+
+                        className="has-mega-menu"
+
+                        onMouseEnter={() => {
+
+                          if (window.innerWidth > 991)
+
+                            setMegaMenuOpen("holidays");
+
+                        }}
+
+                        onMouseLeave={() => {
+
+                          if (window.innerWidth > 991)
+
+                            setMegaMenuOpen(null);
+
+                        }}
+
+                      >
+
+                        <Link href="/customized-holidays">
+
+                          {menu.name}
+
+                        </Link>
+
+                        <span
+
+                          className="arrow"
+
+                          onClick={(e) =>
+
+                            handleMegaMenuDesktopToggle(
+
+                              "holidays",
+
+                              e
+
+                            )
+
+                          }
+
                         >
-                          {internationalTabs.map(
-                            (continent: any, i: number) => (
-                              <div key={i} className={`panel panel-${i}`}>
-                                <div className="menu-row">
-                                  {continent.countries
-                                    ?.filter(
-                                      (c: any) => c.locations?.length > 0,
-                                    )
-                                    .map((country: any, j: number) => (
+
+                          <ArrowIcon />
+
+                        </span>
+
+
+                        {megaMenuOpen === "holidays" && (
+
+                          <div
+                            className={`mega-menu ${megaMenuOpen === "holidays" ? "show slide-up hovered" : ""
+                              }`}
+                          >
+                            <div className="container">
+                              {/* Hidden radio inputs directly under container */}
+                              {tabs.map((tab, index) => (
+                                <input
+                                  key={`holidays-input-${index}`}
+                                  type="radio"
+                                  id={`holidays-tab-${index}`}
+                                  name="holidays-tab"
+                                  defaultChecked={index === 0}
+                                  className="sr-only"
+                                />
+                              ))}
+
+                              <div className="row">
+                                {/* Tabs */}
+                                <div className="col-lg-3 col-md-12 mega-menu-tabs">
+                                  {tabs.map((tab, index) => (
+                                    // <label
+                                    //   key={`india-label-${index}`}
+                                    //   htmlFor={`india-tab-${index}`}
+                                    //   className="tab-button"
+                                    // >
+                                    //   {tab}
+                                    // </label>
+                                    <label
+                                      key={`holidays-label-${index}`}
+                                      htmlFor={`holidays-tab-${index}`}
+                                      className="tab-button"
+                                      onMouseEnter={() => {
+                                        if (window.innerWidth > 991) {
+                                          const input = document.getElementById(
+                                            `holidays-tab-${index}`,
+                                          ) as HTMLInputElement;
+                                          if (input) input.checked = true;
+                                        }
+                                      }}
+                                    >
+                                      {tab}
+                                    </label>
+                                  ))}
+                                </div>
+
+                                {/* Menu Items */}
+                                <div
+                                  className={`${headerData?.india_promotion
+                                    ? "col-lg-6"
+                                    : "col-lg-9"
+                                    } menu-columns`}
+                                >
+                                  {tabs.map((tab, index) => {
+                                    const thisSections =
+                                      headerData?.holidays_mega_menu?.[tab];
+                                    const regionSlugMap = (
+                                      headerData?.regions || []
+                                    ).reduce((acc: any, r: any) => {
+                                      acc[r.name] = r.slug;
+                                      return acc;
+                                    }, {});
+
+                                    const regionSlug = regionSlugMap[tab];
+                                    // ✅ Modified: Sort STATES alphabetically
+                                    const sortedIndiaSections = thisSections
+                                      ? Object.entries(thisSections) : [];
+                                    // const sortedIndiaSections = thisSections
+                                    //   ? Object.entries(thisSections).sort(
+                                    //       ([, a]: [string, any], [, b]: [string, any]) =>
+                                    //         (Array.isArray(a?.cities) ? a.cities.length : 0) -
+                                    //         (Array.isArray(b?.cities) ? b.cities.length : 0)
+                                    //     )
+                                    //   : [];
+
+                                    return (
                                       <div
-                                        key={j}
-                                        className="menu-column international-mega-menu"
+                                        key={`india-panel-${index}`}
+                                        className={`panel panel-${index}`}
                                       >
-                                        <div className="clickable-state underLine">
+                                        {/*  ALL OF REGION LINK (ONLY ONCE) */}
+                                        <div className="clickable-state all-of-region underLine">
                                           <Link
-                                            href={`/international-holidays/${country.slug}`}
+                                            href={
+                                              regionSlug
+                                                ? `/india/${regionSlug}`
+                                                : `/india/${tab
+                                                  .toLowerCase()
+                                                  .replace(/&/g, "")
+                                                  .replace(/,/g, "")
+                                                  .replace(/\s+/g, "-")
+                                                  .replace(/-+/g, "-")}-tour-packages`
+                                            }
                                             onClick={closeMobileMenu}
                                           >
-                                            {country.name}
+                                            All of {getRegionDisplayText(tab)}
                                           </Link>
                                         </div>
 
-                                        <ul>
-                                          {country.locations.map(
-                                            (loc: any, k: number) => (
-                                              <li key={k}>
-                                                <Link
-                                                  href={`/international-holidays/${loc.slug}`}
-                                                  onClick={closeMobileMenu}
-                                                >
-                                                  {loc.name}
-                                                </Link>
-                                              </li>
-                                            ),
-                                          )}
-                                        </ul>
-                                      </div>
-                                    ))}
-                                </div>
-                              </div>
-                            ),
-                          )}
-                        </div>
+                                        <div className="menu-row">
+                                          {sortedIndiaSections.map(
+                                            ([sectionTitle, sectionItems]: [string, any], i) => {
 
-                        {/* ================= RIGHT IMAGE ================= */}
-                        {headerData?.international_promotion && (
-                          <div className="col-lg-3 col-md-12 menu-promo">
-                            <Link
-                              href={
-                                headerData?.international_promotion?.link || "#"
-                              }
-                              onClick={closeMobileMenu}
-                              className="custom-hover p-0"
-                            >
-                              <Image
-                                src={
-                                  headerData?.international_promotion
-                                    ?.banner_image || "/images/no-img.webp"
-                                }
-                                alt={
-                                  headerData?.international_promotion
-                                    ?.banner_image_alt || ""
-                                }
-                                width={300}
-                                height={180}
-                                className="h-54 object-cover rounded-1 mb-4 w-100"
-                              />
-                            </Link>
+                                              const hasCities =
+                                                Array.isArray(sectionItems?.cities) &&
+                                                sectionItems.cities.length > 0;
 
-                            <h5>
-                              {headerData?.international_promotion?.title}
-                            </h5>
+                                              const stateName =
+                                                sectionItems?.state?.name || sectionTitle;
 
-                            <p
-                              className="mb-0 text-sm"
-                              dangerouslySetInnerHTML={{
-                                __html:
-                                  headerData?.international_promotion
-                                    ?.details || "",
-                              }}
-                            />
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </li>
+                                              const stateSlugFromApi =
+                                                sectionItems?.state?.slug;
 
-                {/* {holidays} */}
-                <li
-                  className="has-mega-menu"
-                  onMouseEnter={() => {
-                    if (window.innerWidth > 991) {
-                      setMegaMenuOpen("holidays");
-                    }
-                  }}
-                  onMouseLeave={() => {
-                    if (window.innerWidth > 991) {
-                      setMegaMenuOpen(null);
-                    }
-                  }}
-                >
-                  <Link href="/customized-holidays" onClick={closeMobileMenu}>
-                    Holidays
-                  </Link>
-                  <span
-                    className="arrow"
-                    onClick={(e) => handleMegaMenuDesktopToggle("holidays", e)}
-                  >
-                    <ArrowIcon />
-                  </span>
+                                              // 🔥 FINAL STATE SLUG LOGIC
+                                              const stateSlug =
+                                                stateSlugFromApi && stateSlugFromApi !== ""
+                                                  ? stateSlugFromApi
+                                                  : null;
 
-                  <div
-                    className={`mega-menu ${megaMenuOpen === "holidays" ? "show slide-up hovered" : ""
-                      }`}
-                  >
-                    <div className="container">
-                      {/* Hidden radio inputs directly under container */}
-                      {tabs.map((tab, index) => (
-                        <input
-                          key={`holidays-input-${index}`}
-                          type="radio"
-                          id={`holidays-tab-${index}`}
-                          name="holidays-tab"
-                          defaultChecked={index === 0}
-                          className="sr-only"
-                        />
-                      ))}
+                                              const sortedCities = hasCities
+                                                ? [...sectionItems.cities]
+                                                : [];
+                                              return (
+                                                <div key={i} className="menu-column">
+                                                  {hasCities ? (
+                                                    <div className="clickable-state underLine">
+                                                      {stateSlug ? (
+                                                        <Link
+                                                          href={`/india/${stateSlug}`}
+                                                          onClick={closeMobileMenu}
+                                                        >
+                                                          {`${stateName} Tour Packages`}
+                                                        </Link>
+                                                      ) : (
+                                                        <span>{`${stateName} Tour Packages`}</span>
+                                                      )}
+                                                    </div>
+                                                  ) : (
+                                                    <div className="clickable-state">
+                                                      {stateSlug ? (
+                                                        <Link
+                                                          href={`/india/${stateSlug}`}
+                                                          onClick={closeMobileMenu}
+                                                        >
+                                                          {`${stateName} Tour Packages`}
+                                                        </Link>
+                                                      ) : (
+                                                        <span>{`${stateName} Tour Packages`}</span>
+                                                      )}
+                                                    </div>
+                                                  )}
 
-                      <div className="row">
-                        {/* Tabs */}
-                        <div className="col-lg-3 col-md-12 mega-menu-tabs">
-                          {tabs.map((tab, index) => (
-                            // <label
-                            //   key={`india-label-${index}`}
-                            //   htmlFor={`india-tab-${index}`}
-                            //   className="tab-button"
-                            // >
-                            //   {tab}
-                            // </label>
-                            <label
-                              key={`holidays-label-${index}`}
-                              htmlFor={`holidays-tab-${index}`}
-                              className="tab-button"
-                              onMouseEnter={() => {
-                                if (window.innerWidth > 991) {
-                                  const input = document.getElementById(
-                                    `holidays-tab-${index}`,
-                                  ) as HTMLInputElement;
-                                  if (input) input.checked = true;
-                                }
-                              }}
-                            >
-                              {tab}
-                            </label>
-                          ))}
-                        </div>
-
-                        {/* Menu Items */}
-                        <div
-                          className={`${headerData?.india_promotion
-                            ? "col-lg-6"
-                            : "col-lg-9"
-                            } menu-columns`}
-                        >
-                          {tabs.map((tab, index) => {
-                            const thisSections =
-                              headerData?.india_mega_menu?.[tab];
-                            const regionSlugMap = (
-                              headerData?.regions || []
-                            ).reduce((acc: any, r: any) => {
-                              acc[r.name] = r.slug;
-                              return acc;
-                            }, {});
-
-                            const regionSlug = regionSlugMap[tab];
-                            // ✅ Modified: Sort STATES alphabetically
-                            const sortedIndiaSections = thisSections
-                              ? Object.entries(thisSections).sort(
-                                ([a], [b]) =>
-                                  a.localeCompare(b, "en", {
-                                    sensitivity: "base",
-                                  }), // ✅ modified
-                              )
-                              : [];
-                            // const sortedIndiaSections = thisSections
-                            //   ? Object.entries(thisSections).sort(
-                            //       ([, a]: [string, any], [, b]: [string, any]) =>
-                            //         (Array.isArray(a?.cities) ? a.cities.length : 0) -
-                            //         (Array.isArray(b?.cities) ? b.cities.length : 0)
-                            //     )
-                            //   : [];
-
-                            return (
-                              <div
-                                key={`india-panel-${index}`}
-                                className={`panel panel-${index}`}
-                              >
-                                {/*  ALL OF REGION LINK (ONLY ONCE) */}
-                                <div className="clickable-state all-of-region underLine">
-                                  <Link
-                                    href={
-                                      regionSlug
-                                        ? `/india/${regionSlug}`
-                                        : `/india/${tab
-                                          .toLowerCase()
-                                          .replace(/&/g, "")
-                                          .replace(/,/g, "")
-                                          .replace(/\s+/g, "-")
-                                          .replace(/-+/g, "-")}-tour-packages`
-                                    }
-                                    onClick={closeMobileMenu}
-                                  >
-                                    All of {getRegionDisplayText(tab)}
-                                  </Link>
-                                </div>
-
-                                <div className="menu-row">
-                                  {sortedIndiaSections.map(
-                                    (
-                                      [sectionTitle, sectionItems]: [
-                                        string,
-                                        any,
-                                      ],
-                                      i,
-                                    ) => {
-                                      const hasCities =
-                                        Array.isArray(sectionItems?.cities) &&
-                                        sectionItems.cities.length > 0;
-                                      const stateSlug =
-                                        sectionItems?.state?.slug;
-                                      const stateName =
-                                        sectionItems?.state?.name ||
-                                        sectionTitle;
-
-                                      // ✅ Modified: Sort CITIES alphabetically
-                                      const sortedCities = hasCities
-                                        ? [...sectionItems.cities].sort(
-                                          (a, b) =>
-                                            a.name.localeCompare(
-                                              b.name,
-                                              "en",
-                                              {
-                                                sensitivity: "base",
-                                              },
-                                            ),
-                                        ) // ✅ modified
-                                        : [];
-                                      return (
-                                        <div key={i} className="menu-column">
-                                          {hasCities ? (
-                                            <div className="clickable-state underLine">
-                                              {stateSlug ? (
-                                                <Link
-                                                  href={`/india/${stateSlug}`}
-                                                  onClick={closeMobileMenu}
-                                                >
-                                                  {`${stateName} Tour Packages`}
-                                                </Link>
-                                              ) : (
-                                                <span>{`${stateName} Tour Packages`}</span>
-                                              )}
-                                            </div>
-                                          ) : (
-                                            <div className="clickable-state">
-                                              {stateSlug ? (
-                                                <Link
-                                                  href={`/india/${stateSlug}`}
-                                                  onClick={closeMobileMenu}
-                                                >
-                                                  {`${stateName} Tour Packages`}
-                                                </Link>
-                                              ) : (
-                                                <span>{`${stateName} Tour Packages`}</span>
-                                              )}
-                                            </div>
-                                          )}
-
-                                          {hasCities && (
-                                            <ul>
-                                              {[...sectionItems.cities]
-                                                .sort((a, b) =>
-                                                  a.name.localeCompare(b.name),
-                                                )
-                                                .map((city: any, j: number) => (
-                                                  <li key={j}>
-                                                    <Link
-                                                      href={`/india/${city.slug}`}
-                                                      onClick={closeMobileMenu}
-                                                    >
-                                                      {`${city.name} Tour Packages`}
-                                                    </Link>
-                                                  </li>
-                                                ))}
-                                            </ul>
-                                            // <ul>
-                                            //   {sectionItems.cities.map(
-                                            //     (city: any, j: number) => (
-                                            //       <li key={j}>
-                                            //         <Link
-                                            //           href={`/india/${city.slug}`}
-                                            //           onClick={closeMobileMenu}
-                                            //         >
-                                            //           {city.name}dgdd
-                                            //         </Link>
-                                            //       </li>
-                                            //     )
-                                            //   )}
-                                            // </ul>
+                                                  {hasCities && (
+                                                    <ul>
+                                                      {sortedCities.map((city: any, j: number) => (
+                                                        <li key={j}>
+                                                          <Link
+                                                            href={`/india/${city.slug}`}
+                                                            onClick={closeMobileMenu}
+                                                          >
+                                                            {`${city.name} Tour Packages`}
+                                                          </Link>
+                                                        </li>
+                                                      ))}
+                                                    </ul>
+                                                  )}
+                                                </div>
+                                              );
+                                            },
                                           )}
                                         </div>
-                                      );
-                                    },
-                                  )}
+                                      </div>
+                                    );
+                                  })}
                                 </div>
-                              </div>
-                            );
-                          })}
-                        </div>
 
-                        {/* India Promotion */}
-                        {headerData?.india_promotion && (
-                          <div className="col-lg-3 col-md-12 menu-promo">
-                            <Link
-                              href={headerData?.india_promotion?.link || "#"}
-                              onClick={closeMobileMenu}
-                              className="custom-hover p-0"
-                            >
-                              <Image
-                                src={
-                                  headerData?.india_promotion?.banner_image ||
-                                  "/images/no-img.webp"
-                                }
-                                alt={
-                                  headerData?.india_promotion
-                                    ?.banner_image_alt || ""
-                                }
-                                width={300}
-                                height={180}
-                                className="h-54 object-cover rounded-1 mb-4 w-100 custom-hover"
-                              />
-                            </Link>
-                            <Link
-                              href={headerData?.india_promotion?.link || "#"}
-                              onClick={closeMobileMenu}
-                              className="fw-semibold p-0 mb-2"
-                            >
-                              <div className="promotion-titles">
-                                {headerData?.india_promotion?.title}
+                                {/* India Promotion */}
+                                {headerData?.india_promotion && (
+                                  <div className="col-lg-3 col-md-12 menu-promo">
+                                    <Link
+                                      href={headerData?.india_promotion?.link || "#"}
+                                      onClick={closeMobileMenu}
+                                      className="custom-hover p-0"
+                                    >
+                                      <Image
+                                        src={
+                                          headerData?.india_promotion?.banner_image ||
+                                          "/images/no-img.webp"
+                                        }
+                                        alt={
+                                          headerData?.india_promotion
+                                            ?.banner_image_alt || ""
+                                        }
+                                        width={300}
+                                        height={180}
+                                        className="h-54 object-cover rounded-1 mb-4 w-100 custom-hover"
+                                      />
+                                    </Link>
+                                    <Link
+                                      href={headerData?.india_promotion?.link || "#"}
+                                      onClick={closeMobileMenu}
+                                      className="fw-semibold p-0 mb-2"
+                                    >
+                                      <div className="promotion-titles">
+                                        {headerData?.india_promotion?.title}
+                                      </div>
+                                    </Link>
+                                    <p
+                                      className="mb-0 text-sm"
+                                      dangerouslySetInnerHTML={{
+                                        __html:
+                                          headerData?.india_promotion?.details || "",
+                                      }}
+                                    />
+                                    <Link
+                                      href={headerData?.india_promotion?.link || "#"}
+                                      onClick={closeMobileMenu}
+                                      className="p-0 mt-3 border-0"
+                                    >
+                                      <div className="btn blue-btn">
+                                        Explore Now{" "}
+                                        <span>
+                                          <Image
+                                            width={23}
+                                            height={23}
+                                            sizes="100vw"
+                                            src="/images/button-arrow.png"
+                                            alt=""
+                                          />
+                                        </span>
+                                      </div>
+                                    </Link>
+                                  </div>
+                                )}
                               </div>
-                            </Link>
-                            <p
-                              className="mb-0 text-sm"
-                              dangerouslySetInnerHTML={{
-                                __html:
-                                  headerData?.india_promotion?.details || "",
-                              }}
-                            />
-                            <Link
-                              href={headerData?.india_promotion?.link || "#"}
-                              onClick={closeMobileMenu}
-                              className="p-0 mt-3 border-0"
-                            >
-                              <div className="btn blue-btn">
-                                Explore Now{" "}
-                                <span>
-                                  <Image
-                                    width={23}
-                                    height={23}
-                                    sizes="100vw"
-                                    src="/images/button-arrow.png"
-                                    alt=""
-                                  />
-                                </span>
-                              </div>
-                            </Link>
+                            </div>
                           </div>
+
                         )}
-                      </div>
-                    </div>
-                  </div>
-                </li>
 
-                {/* ================= OTHERS ================= */}
-                <li
-                  className="has-dropdown"
-                  onMouseEnter={() => {
-                    if (window.innerWidth > 991) {
-                      setDropdownOpen("luxury");
-                    }
-                  }}
-                  onMouseLeave={() => {
-                    if (window.innerWidth > 991) {
-                      setDropdownOpen(null);
-                    }
-                  }}
-                >
-                  <a href="#" onClick={(e) => e.preventDefault()}>
-                    Luxury
-                  </a>
-                  <span
-                    className="arrow"
-                    onClick={(e) => handleDropdownToggle("luxury", e)}
-                  >
-                    <ArrowIcon />
-                  </span>
-                  <ul
-                    className={`dropdown-menu ${dropdownOpen === "luxury" ? "show slide-up" : ""
-                      }`}
-                  >
-                    <li>
-                      <Link href="/luxury-trains" onClick={closeMobileMenu}>
-                        <Image
-                          src="/images/icon/train-svg.svg"
-                          width={23}
-                          height={23}
-                          sizes="100vw"
-                          alt=""
-                        />
-                        Luxury Trains
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/luxury-hotels" onClick={closeMobileMenu}>
-                        <Image
-                          src="/images/icon/hotel-svg.svg"
-                          width={23}
-                          height={23}
-                          sizes="100vw"
-                          alt=""
-                        />
-                        Luxury Hotels
-                      </Link>
-                    </li>
-                  </ul>
-                </li>
+                      </li>
 
-                <li>
-                  <Link href="/car-rental">Car Rental</Link>
-                </li>
-                <li>
-                  <Link href="/indian-dmc" onClick={closeMobileMenu}>
-                    Indian DMC
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/contact-us" onClick={closeMobileMenu}>
-                    Contact
-                  </Link>
-                </li>
+                    );
+
+                  }
+
+
+
+                  /* ================= LUXURY ================= */
+
+                  if (menu.name?.toLowerCase() === "luxury") {
+
+                    return (
+
+                      <li
+                        key={menu.id}
+                        className="has-dropdown"
+
+                        onMouseEnter={() => {
+                          if (window.innerWidth > 991) {
+                            setDropdownOpen("luxury");
+                          }
+                        }}
+
+                        onMouseLeave={() => {
+                          if (window.innerWidth > 991) {
+                            setDropdownOpen(null);
+                          }
+                        }}
+
+                      >
+
+                        <a href="#" onClick={(e) => e.preventDefault()}>
+                          Luxury
+                        </a>
+
+                        <span
+                          className="arrow"
+                          onClick={(e) => handleDropdownToggle("luxury", e)}
+                        >
+
+                          <ArrowIcon />
+
+                        </span>
+
+                        <ul
+                          className={`dropdown-menu ${dropdownOpen === "luxury"
+                            ? "show slide-up" : ""
+                            }`}
+                        >
+
+                          <li>
+
+                            <Link
+                              href="/luxury-trains"
+                              onClick={closeMobileMenu}
+                            >
+
+                              <Image
+                                src="/images/icon/train-svg.svg"
+                                width={23}
+                                height={23}
+                                alt=""
+                              />
+
+                              Luxury Trains
+
+                            </Link>
+
+                          </li>
+
+                          <li>
+
+                            <Link
+                              href="/luxury-hotels"
+                              onClick={closeMobileMenu}
+                            >
+
+                              <Image
+                                src="/images/icon/hotel-svg.svg"
+                                width={23}
+                                height={23}
+                                alt=""
+                              />
+
+                              Luxury Hotels
+
+                            </Link>
+
+                          </li>
+
+                        </ul>
+
+                      </li>
+
+                    );
+
+                  }
+
+                  return (
+
+                    <li key={menu.id}>
+
+                      <Link href={`/${menu.slug}`}>
+
+                        {menu.name}
+
+                      </Link>
+
+                    </li>
+
+                  );
+
+                })}
+
               </ul>
             </div>
           </div>
