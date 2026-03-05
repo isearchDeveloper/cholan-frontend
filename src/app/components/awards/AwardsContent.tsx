@@ -55,14 +55,16 @@ export default function AwardsContent() {
   const [awardsData, setAwardsData] = useState<Award[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const XPublicToken =
+    "zaxsc+/-=0dfvgbnhmjklo*/-piutyerwq*%$25631478907539541lokythbfet&*(@kjhkhgfhk546456456)";
+
   useEffect(() => {
     fetch(
-      "https://crm.cholantours.com/api/v1/cms/page/details?slug=awards-and-achievements",
+      `${process.env.NEXT_PUBLIC_UAT_URL}/api/v1/cms/page/details?slug=awards-and-achievements`,
       {
         headers: {
           Accept: "application/json",
-          "X-Public-Token":
-            "zaxsc+/-=0dfvgbnhmjklo*/-piutyerwq*%$25631478907539541lokythbfet&*(@kjhkhgfhk546456456)",
+          "X-Public-Token": XPublicToken,
         },
       }
     )
