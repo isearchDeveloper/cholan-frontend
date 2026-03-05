@@ -68,15 +68,18 @@ export default function CityExpandableText({
   const [htmlState, setHtmlState] = useState(text);
 
   // const [isFullyVisible, setIsFullyVisible] = useState(false);
+  const [isTruncated, setIsTruncated] = useState(false);
 
-  useEffect(() => {
-    if (expanded) {
-      setHtmlState(text); // show full HTML
-    } else {
-      const { html } = truncateHtmlByWords(text, wordLimit);
-      setHtmlState(html); // show 350 words
-    }
-  }, [text, expanded, wordLimit]);
+useEffect(() => {
+  if (expanded) {
+    setHtmlState(text);
+    setIsTruncated(true);
+  } else {
+    const { html, isTruncated } = truncateHtmlByWords(text, wordLimit);
+    setHtmlState(html);
+    setIsTruncated(isTruncated);
+  }
+}, [text, expanded, wordLimit]);
 
   const toggleExpand = () => {
     setExpanded((prev) => !prev);
@@ -91,13 +94,15 @@ export default function CityExpandableText({
         dangerouslySetInnerHTML={{ __html: htmlState }}
       />
 
-      <button
-        type="button"
-        onClick={toggleExpand}
-        className="exp-row btn btn-link mt-2 p-0 color-blue text-decoration-none d-flex align-items-center"
-      >
-        <span>{expanded ? "Less" : "More"}</span>
-      </button>
+      {isTruncated && (
+  <button
+    type="button"
+    onClick={toggleExpand}
+    className="exp-row btn btn-link mt-2 p-0 color-blue text-decoration-none d-flex align-items-center"
+  >
+    <span>{expanded ? "Less" : "More"}</span>
+  </button>
+)}
     </div>
   );
 }
