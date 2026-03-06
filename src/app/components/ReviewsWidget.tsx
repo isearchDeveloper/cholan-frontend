@@ -12,6 +12,15 @@ export default function GoogleReviews() {
       script.async = true;
       document.body.appendChild(script);
     }
+    let interval = setInterval(() => {
+      const widget = document.querySelector('[class*="custom-css-root"]') as HTMLElement;
+
+      if (widget) {
+        widget.style.maxWidth = "100%";
+        widget.style.width = "100%";
+        clearInterval(interval);
+      }
+    }, 400);
   }, []);
 
   return (
