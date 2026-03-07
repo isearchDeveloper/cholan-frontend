@@ -8,10 +8,10 @@ import { fetchCityList } from "@/app/services/cityService";
 interface CityItem {
   title: string;
   slug: string;
-  location: {
-    slug: string;
-    name: string;
-  };
+  location?: {
+    slug?: string;
+    name?: string;
+  } | null;
 }
 
 export default function CityStateListStatic({
@@ -24,7 +24,7 @@ export default function CityStateListStatic({
   total: number;
 }) {
 
-  // ✅ HARD GUARD — if no cities, render nothing (no section, no padding)
+  //  HARD GUARD — if no cities, render nothing (no section, no padding)
   if (!initialCities || initialCities.length === 0) {
     return null;
   }
@@ -74,7 +74,7 @@ export default function CityStateListStatic({
               <div key={city.slug} className="col">
                 <Link href={href} className="route-card text-center">
                   <p className="mt-2 text-capitalize">
-                    {city.location.name}
+                    {city.location?.name || city.title}
                   </p>
                 </Link>
               </div>
