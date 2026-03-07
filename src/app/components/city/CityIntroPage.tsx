@@ -144,7 +144,7 @@ export default function CityIntroPage({
               <CityExpandableBanner
                 title={`About ${cityName}`}
                 text={overview}
-                wordLimit={150}
+                wordLimit={300}
               />
             </div>
           </div>
