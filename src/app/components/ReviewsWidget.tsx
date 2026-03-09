@@ -1,26 +1,21 @@
 "use client";
 
 import { useEffect } from "react";
-import TripAdvisorWidget from "./TripAdvisorWisget";
 
 export default function GoogleReviews() {
+
   useEffect(() => {
-    // Load Elfsight script (only once)
-    if (!document.querySelector(`script[src="https://elfsightcdn.com/platform.js"]`)) {
+    const existingScript = document.querySelector(
+      'script[src="https://elfsightcdn.com/platform.js"]'
+    );
+
+    if (!existingScript) {
       const script = document.createElement("script");
       script.src = "https://elfsightcdn.com/platform.js";
       script.async = true;
-      document.body.appendChild(script);
+      document.head.appendChild(script);
     }
-    let interval = setInterval(() => {
-      const widget = document.querySelector('[class*="custom-css-root"]') as HTMLElement;
 
-      if (widget) {
-        widget.style.maxWidth = "100%";
-        widget.style.width = "100%";
-        clearInterval(interval);
-      }
-    }, 400);
   }, []);
 
   return (
@@ -31,12 +26,15 @@ export default function GoogleReviews() {
             <span>What Travellers Say About Us?</span>
           </h2>
         </div>
-        <div className="customer-rate-wraper">
+
+        <div className="customer-rate-wrapper">
           <div
-            className="elfsight-app-e3ee4787-6689-434d-9efd-47581053d784"
+            className="elfsight-app-e3ee4787-6689-434d-9efd-47581053d784 custom-css-root"
             data-elfsight-app-lazy
-          />
+            style={{ width: "100%", maxWidth: "100%" }}
+          ></div>
         </div>
+
       </div>
     </section>
   );
