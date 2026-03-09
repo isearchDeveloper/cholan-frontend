@@ -169,6 +169,10 @@ const truncateByChars = (text: string, charLimit: number) => {
 
   return text.slice(0, charLimit).trim();
 };
+const stripHtml = (html: string) => {
+  if (!html) return "";
+  return html.replace(/<[^>]*>?/gm, "");
+};
 
 export default function ToursitAttraction({
   cityName,
@@ -218,13 +222,19 @@ export default function ToursitAttraction({
                   <div className="places-card-overlay">
                     <h5 className="place-title">{item.title}</h5>
 
-                    <p className="places-card-subtitle">
-                      {truncateByChars(item.subtitle || "", 60)}
+                  {(() => {
+  const cleanSubtitle = stripHtml(item.subtitle || "");
 
-                      {(item.subtitle?.split(" ").length ?? 0) > 18 && (
-                        <span className="read-more-text"> ... Read more</span>
-                      )}
-                    </p>
+  return (
+    <p className="places-card-subtitle">
+      {truncateByChars(cleanSubtitle, 60)}
+
+      {(cleanSubtitle.split(" ").length ?? 0) > 18 && (
+        <span className="read-more-text"> ... Read more</span>
+      )}
+    </p>
+  );
+})()}
                   </div>
                 </div>
               </Link>
