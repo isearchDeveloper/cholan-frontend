@@ -154,6 +154,11 @@ export default async function RootLayout({
           }}
         />
       </div>
+      
+    <script src="https://elfsightcdn.com/platform.js" async></script>
+    <div className="elfsight-app-d45a979a-17cf-4159-a859-1be7eadd19b0" data-elfsight-app-lazy></div>
+
+
       </body>
     </html>
   );
