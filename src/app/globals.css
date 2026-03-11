@@ -5056,6 +5056,16 @@ body.no-js .js-only {
   transform: translateY(0);
 }
 
+/* add line new for header  */
+.has-mega-menu::after{
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 10px;   /* invisible hover bridge */
+}
+
 /* Dropdown */
 .has-dropdown {
   position: relative;
@@ -5575,7 +5585,7 @@ form small.text-muted {
   }
 
   .mega-menu {
-    top: 93px;
+    top: 92px;
   }
 }
 
