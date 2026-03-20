@@ -114,7 +114,7 @@ export default async function DmcCityPage({
     { label: `${cityData.cityName} DMC`, isCurrent: true },
   ];
 
-console.log("FINAL CLEAN DATA:", cityData);
+// console.log("FINAL CLEAN DATA:", cityData);
   return (
     <div className="dmc-city-page">
       {/*  Banner */}

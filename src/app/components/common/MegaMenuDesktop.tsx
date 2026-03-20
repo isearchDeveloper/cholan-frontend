@@ -5,6 +5,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 
+type DmcCity = {
+  name: string;
+  slug: string;
+};
+
 export default function Navigation({ headerData }: any) {
   const tabs = Object.keys(headerData?.holidays_mega_menu || {});
   const cityTabs = Object.keys(headerData?.city_list || {});
@@ -19,17 +24,23 @@ export default function Navigation({ headerData }: any) {
   const router = useRouter();
   const pathname = usePathname();
 
-  const indianDmcCities = [
-  { name: "Jaipur", slug: "jaipur-dmc" },
-  { name: "Delhi", slug: "delhi-dmc" },
-  { name: "Agra", slug: "agra-dmc" },
-  { name: "Mumbai", slug: "mumbai-dmc" },
-  { name: "Varanasi", slug: "varanasi-dmc" },
-  { name: "Kochi", slug: "kochi-dmc" },
-  { name: "Udaipur", slug: "udaipur-dmc" },
-  { name: "Goa", slug: "goa-dmc" }
-];
-
+  //   const indianDmcCities = [
+  //   { name: "Jaipur", slug: "jaipur-dmc" },
+  //   { name: "Delhi", slug: "delhi-dmc" },
+  //   { name: "Agra", slug: "agra-dmc" },
+  //   { name: "Mumbai", slug: "mumbai-dmc" },
+  //   { name: "Varanasi", slug: "varanasi-dmc" },
+  //   { name: "Kochi", slug: "kochi-dmc" },
+  //   { name: "Udaipur", slug: "udaipur-dmc" },
+  //   { name: "Goa", slug: "goa-dmc" }
+  // ];
+  const indianDmcCities: DmcCity[] =
+    headerData?.dmcCity?.map((city: any) => ({
+      // name: city.title?.replace(/dmc/gi, "").trim(),
+      name: city.title,
+      slug: city.slug,
+    })) || [];
+  // console.log(headerData)
   // Scroll effect
   useEffect(() => {
     const handleScroll = () => {
@@ -939,91 +950,84 @@ export default function Navigation({ headerData }: any) {
                     );
 
                   }
-                
+
                   /* ================= INDIAN DMC ================= */
 
-if (menu.slug === "indian-dmc") {
+                  if (menu.slug === "indian-dmc") {
 
-  return (
+                    return (
 
-    <li
-      key={menu.id}
-      className="has-mega-menu"
+                      <li
+                        key={menu.id}
+                        className="has-mega-menu"
 
-      onMouseEnter={() => {
-        if (window.innerWidth > 991)
-          setMegaMenuOpen("indian-dmc");
-      }}
+                        onMouseEnter={() => {
+                          if (window.innerWidth > 991)
+                            setMegaMenuOpen("indian-dmc");
+                        }}
 
-      onMouseLeave={() => {
-        if (window.innerWidth > 991)
-          setMegaMenuOpen(null);
-      }}
+                        onMouseLeave={() => {
+                          if (window.innerWidth > 991)
+                            setMegaMenuOpen(null);
+                        }}
 
-    >
+                      >
 
-      <Link href="/indian-dmc">
-        {menu.name}
-      </Link>
-
-      <span
-        className="arrow"
-        onClick={(e) =>
-          handleMegaMenuDesktopToggle("indian-dmc", e)
-        }
-      >
-        <ArrowIcon />
-      </span>
-
-      {megaMenuOpen === "indian-dmc" && (
-
-        // <div className="mega-menu show slide-up hovered">
-        <div className="mega-menu dmc-menu show">
-
-          <div className="container">
-
-            <div className="row">
-
-              <div className="col-lg-12 menu-columns">
-
-                <div className="menu-row">
-
-                  {indianDmcCities.map((city, i) => (
-
-                    <div key={i} className="menu-column">
-
-                      <div className="clickable-state underLine">
-
-                        <Link
-                          href={`/indian-dmc/${city.slug}`}
-                          onClick={closeMobileMenu}
-                        >
-                          {city.name} DMC
+                        <Link href="/indian-dmc">
+                          {menu.name}
                         </Link>
 
-                      </div>
+                        <span
+                          className="arrow"
+                          onClick={(e) =>
+                            handleMegaMenuDesktopToggle("indian-dmc", e)
+                          }
+                        >
+                          <ArrowIcon />
+                        </span>
 
-                    </div>
+                        {megaMenuOpen === "indian-dmc" && (
 
-                  ))}
+                          // <div className="mega-menu show slide-up hovered">
+                          <div className="mega-menu dmc-menu show">
 
-                </div>
+                            <div className="container">
 
-              </div>
+                              <div className="row">
 
-            </div>
+                                <div className="col-lg-12 menu-columns">
 
-          </div>
+                                  <div className="menu-row">
 
-        </div>
+                                    {indianDmcCities.map((city: DmcCity, i: number) => (
+                                      <div key={i} className="menu-column">
+                                        <div className="clickable-state underLine">
+                                          <Link
+                                            href={`/indian-dmc/${city.slug}`}
+                                            onClick={closeMobileMenu}
+                                          >
+                                            {city.name}
+                                          </Link>
+                                        </div>
+                                      </div>
+                                    ))}
+                                  </div>
 
-      )}
+                                </div>
 
-    </li>
+                              </div>
 
-  );
+                            </div>
 
-}
+                          </div>
+
+                        )}
+
+                      </li>
+
+                    );
+
+                  }
 
 
                   /* ================= LUXURY ================= */

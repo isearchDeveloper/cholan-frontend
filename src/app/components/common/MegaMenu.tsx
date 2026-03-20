@@ -32,6 +32,11 @@ interface MegaMenuProps {
   setNavOpen: (open: boolean) => void;
 }
 
+type DmcCity = {
+  name: string;
+  slug: string;
+};
+
 const normalizeInternationalMenu = (menu: any[]) => {
   if (!Array.isArray(menu)) return [];
 
@@ -140,6 +145,14 @@ export default function Navigation({
 
   const regionSlugMap = getRegionSlugMap(headerData?.regions);
   const regionSlug = regionSlugMap[activeIndiaTab];
+
+  const indianDmcCities: DmcCity[] =
+  headerData?.dmcCity?.map((city: any) => ({
+    // name: city.title?.replace(/dmc/gi, "").trim(),
+    name: city.title,
+    slug: city.slug,
+  })) || [];
+
 
   return (
     <nav className="custom-navbar">
@@ -865,7 +878,59 @@ export default function Navigation({
                   );
 
                 }
+                 
+                /* ================= INDIAN DMC ================= */
 
+if (menu.slug === "indian-dmc") {
+  return (
+    <li
+      key={menu.id}
+      className="has-mega-menu"
+    >
+      <Link
+        href="/indian-dmc"
+        onClick={() => {
+          setMegaMenuOpen(null);
+          setNavOpen(false);
+        }}
+      >
+        {menu.name}
+      </Link>
+
+      <span
+        className="arrow"
+        onClick={(e: any) => handleMegaMenuToggle("indian-dmc", e)}
+      >
+        <svg width="10" height="6" viewBox="0 0 8 5">
+          <path d="M3.89223 4.48336L0.880039 1.47117C0.658555 1.24969 0.658555 0.917464 0.880039 0.718128L1.36731 0.208714C1.58879 0.00937791 1.92102 0.00937791 2.12035 0.208714L4.2466 2.35711L6.395 0.208714C6.59434 0.00937791 6.92656 0.00937791 7.14805 0.208714L7.63531 0.718128C7.8568 0.917464 7.8568 1.24969 7.63531 1.47117L4.62313 4.48336C4.42379 4.6827 4.09156 4.6827 3.89223 4.48336Z" />
+        </svg>
+      </span>
+
+      <div
+        className={`mega-menu ${
+          megaMenuOpen === "indian-dmc" ? "show slide-up" : ""
+        }`}
+      >
+        <div className="container">
+          <div className="menu-row">
+
+            {indianDmcCities.map((city) => (
+              <div key={city.slug} className="menu-column">
+                <Link
+                  href={`/indian-dmc/${city.slug}`}
+                  onClick={closeMobileMenu}
+                >
+                  {city.name}
+                </Link>
+              </div>
+            ))}
+
+          </div>
+        </div>
+      </div>
+    </li>
+  );
+}
 
                 /* ================= NORMAL ================= */
 
