@@ -1,0 +1,201 @@
+/* app/components/dmc/DmcOtherDestinations.module.css */
+
+.otherDestinations {
+  padding: 80px 0;
+  background-color: #f8f9fa;
+}
+
+.title {
+  font-size: 36px;
+  font-weight: 700;
+  text-align: center;
+  color: #1a1a1a;
+  margin-bottom: 50px;
+  line-height: 1.3;
+}
+
+.carouselWrapper {
+  position: relative;
+  padding: 0 60px;
+}
+
+.carouselContainer {
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+.carouselTrack {
+  display: flex;
+  gap: 20px;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card {
+  flex: 0 0 calc(20% - 16px); /* 5 cards visible */
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  height: 220px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.card:hover .imageWrapper {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.card:hover .image {
+  transform: scale(1.08);
+}
+
+.overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.8) 0%,
+    rgba(0, 0, 0, 0.4) 50%,
+    transparent 100%
+  );
+  padding: 20px 15px;
+  transition: all 0.3s ease;
+}
+
+.card:hover .overlay {
+  background: linear-gradient(
+    to top,
+    rgba(249, 168, 37, 0.9) 0%,
+    rgba(249, 168, 37, 0.6) 50%,
+    transparent 100%
+  );
+}
+
+.cardTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+  text-align: center;
+}
+
+/* Navigation Buttons */
+.navBtn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #fff;
+  border: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #333;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.navBtn:hover {
+  background: #f9a825;
+  color: #fff;
+  box-shadow: 0 6px 20px rgba(249, 168, 37, 0.4);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.navBtnPrev {
+  left: 0;
+}
+
+.navBtnNext {
+  right: 0;
+}
+
+/* Tablet */
+@media (max-width: 991px) {
+  .otherDestinations {
+    padding: 60px 0;
+  }
+
+  .title {
+    font-size: 28px;
+    margin-bottom: 40px;
+  }
+
+  .carouselWrapper {
+    padding: 0 50px;
+  }
+
+  .card {
+    flex: 0 0 calc(33.333% - 14px); /* 3 cards visible */
+  }
+
+  .imageWrapper {
+    height: 200px;
+  }
+
+  .cardTitle {
+    font-size: 16px;
+  }
+
+  .navBtn {
+    width: 42px;
+    height: 42px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+  .otherDestinations {
+    padding: 40px 0;
+  }
+
+  .title {
+    font-size: 24px;
+    margin-bottom: 30px;
+  }
+
+  .carouselWrapper {
+    padding: 0 45px;
+  }
+
+  .card {
+    flex: 0 0 calc(100% - 0px); /* 1 card visible */
+  }
+
+  .imageWrapper {
+    height: 240px;
+  }
+
+  .cardTitle {
+    font-size: 18px;
+  }
+
+  .navBtn {
+    width: 38px;
+    height: 38px;
+  }
+
+  .navBtn svg {
+    width: 20px;
+    height: 20px;
+  }
+}

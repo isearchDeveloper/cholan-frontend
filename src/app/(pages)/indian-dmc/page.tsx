@@ -106,8 +106,8 @@ export default async function Home() {
         // />
 
         <DmcBanner
-          title={pageData?.title}
-          subtitle={pageData?.short_description}
+          // title={pageData?.title}
+          // subtitle={pageData?.short_description}
           imageUrl={pageData?.banner_image}
         />
       )}

@@ -24,15 +24,11 @@ export default function ThemePackageListing({
 }: ThemePackageListingProps) {
   if (!data) return null;
 
-  // console.log(data);
+  
 
   const details = data?.location?.details || {};
   const packages = Array.isArray(data?.packages) ? data.packages : [];
 
-  // const clean = (val: any) => (typeof val === "string" ? val.trim() : "");
-
-  // const city = clean(cityName);
-  // const title = clean(details?.title);
   const formatTitle = (text: any) => {
     if (!text) return "";
 
@@ -56,8 +52,6 @@ export default function ThemePackageListing({
     ? data.faq_title
     : `FAQs About ${data?.title} in ${cityName}`;
 
-  // const cityName = data?.location?.name || "";
-  // const citySlug = cityName.toLowerCase().replace(/\s+/g, "-");
 
   const breadcrumbItems = [
     { label: "Home", href: "/" },

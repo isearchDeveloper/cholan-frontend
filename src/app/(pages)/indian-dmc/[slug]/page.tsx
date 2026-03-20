@@ -1,0 +1,196 @@
+import { Metadata } from "next";
+import { notFound } from "next/navigation";
+
+import DmcBanner from "@/app/components/dmc/dmc-banner";
+import Breadcrumb from "@/app/components/common/Breadcrumb";
+import DmcOverview from "@/app/components/dmc/DmcOverview";
+import DmcWhyChoose from "@/app/components/dmc/DmcWhyChoose";
+import DmcServices from "@/app/components/dmc/DmcServices";
+import DmcAttractions from "@/app/components/dmc/DmcAttractions";
+import DmcBestTime from "@/app/components/dmc/DmcBestTime";
+import DmcRelatedCities from "@/app/components/dmc/Dmcrelatedcities";
+import DmcCta from "@/app/components/dmc/DmcCta";
+// import DmcFleetSection from "@/app/components/dmc/DmcFleet";
+
+import { fetchDmcCityData } from "@/app/services/dmcServices";
+import { getCanonical } from "@/app/lib/getCanonical";
+
+export const revalidate = 180;
+
+// ================= STATIC PARAMS =================
+
+export async function generateStaticParams() {
+  return [
+    { slug: "jaipur-dmc" },
+    { slug: "delhi-dmc" },
+    { slug: "agra-dmc" },
+    { slug: "mumbai-dmc" },
+    { slug: "varanasi-dmc" },
+    { slug: "kochi-dmc" },
+    { slug: "udaipur-dmc" },
+    { slug: "goa-dmc" },
+  ];
+}
+
+// ================= METADATA =================
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string }; //FIXED (no Promise)
+}): Promise<Metadata> {
+  const { slug } = params;
+
+  const cityData = await fetchDmcCityData(slug);
+
+  if (!cityData) {
+    return { title: "City Not Found" };
+  }
+
+  const canonical = await getCanonical(`/indian-dmc/${slug}`);
+
+  return {
+    title:
+      cityData.meta?.meta_title ||
+      `${cityData.cityName} DMC - Cholan Tours`,
+
+    description:
+      cityData.meta?.meta_description ||
+      `Your trusted DMC in ${cityData.cityName}`,
+
+    keywords: cityData.meta?.meta_keywords || "",
+
+    alternates: { canonical },
+
+    openGraph: {
+      title:
+        cityData.meta?.meta_title || `${cityData.cityName} DMC`,
+      url: canonical,
+      description:
+        cityData.meta?.meta_description ||
+        `DMC services in ${cityData.cityName}`,
+      images: cityData.banner_image
+        ? [{ url: cityData.banner_image }]
+        : [],
+    },
+
+    twitter: {
+      title:
+        cityData.meta?.meta_title || `${cityData.cityName} DMC`,
+      description: cityData.meta?.meta_description || "",
+      images: cityData.banner_image
+        ? [cityData.banner_image]
+        : [],
+    },
+  };
+}
+
+// ================= PAGE =================
+
+export default async function DmcCityPage({
+  params,
+}: {
+  params: { slug: string }; //  FIXED
+}) {
+  const { slug } = params;
+
+  const cityData = await fetchDmcCityData(slug);
+
+  if (!cityData) {
+    notFound();
+  }
+
+  // const safeFleets =
+  // cityData.fleets &&
+  // Object.fromEntries(
+  //   Object.entries(cityData.fleets).filter(
+  //     ([_, value]) => Array.isArray(value) && value.length > 0
+  //   )
+  // );
+  const breadcrumbItems = [
+    { label: "Home", href: "/" },
+    { label: "Indian DMC", href: "/indian-dmc" },
+    { label: `${cityData.cityName} DMC`, isCurrent: true },
+  ];
+
+  return (
+    <div className="dmc-city-page">
+      {/*  Banner */}
+      {cityData.banner_image && (
+        <DmcBanner
+          title={cityData.title}
+          subtitle={cityData.subtitle}
+          imageUrl={cityData.banner_image}
+        />
+      )}
+
+      {/*  Breadcrumb */}
+      <section className="pt-4">
+        <div className="container">
+          <Breadcrumb items={breadcrumbItems} />
+        </div>
+      </section>
+
+      {/*  Overview */}
+      {cityData.overview && (
+        <DmcOverview
+          content={cityData.overview}
+          cityName={cityData.cityName}
+        />
+      )}
+
+      {/*  Why Choose */}
+      {cityData.whyChoose?.length > 0 && (
+        <DmcWhyChoose
+          items={cityData.whyChoose}
+          cityName={cityData.cityName}
+        />
+      )}
+
+      {/*  Services */}
+      {cityData.services?.length > 0 && (
+        <DmcServices
+          services={cityData.services}
+          cityName={cityData.cityName}
+        />
+      )}
+
+      {/*  CTA (always show) */}
+      {/* <DmcCta cityName={cityData.cityName} />   */}
+
+      {/*  Attractions */}
+      {cityData.attractions?.length > 0 && (
+        <DmcAttractions
+          attractions={cityData.attractions}
+          cityName={cityData.cityName}
+        />
+      )}
+
+      {/*  Best Time */}
+      {cityData.bestTime  && (
+        <DmcBestTime
+          bestTime={cityData.bestTime}
+          cityName={cityData.cityName}
+        />
+      )}
+
+    {/* {safeFleets && Object.keys(safeFleets).length > 0 && (
+  <DmcFleetSection
+    fleets={safeFleets}
+    cityName={cityData.cityName}
+  />
+)} */}
+
+      {/* FIXED: Related Cities */}
+      {cityData.relatedCities &&
+        cityData.relatedCities.length > 0 && (
+          <DmcRelatedCities
+            cities={cityData.relatedCities}
+          />
+        )}
+
+      {/*  Bottom CTA */}
+      <DmcCta cityName={cityData.cityName} />
+    </div>
+  );
+}

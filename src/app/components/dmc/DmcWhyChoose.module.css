@@ -1,0 +1,105 @@
+/* app/components/dmc/DmcWhyChoose.module.css */
+
+.whyChoose {
+  padding: 70px 0;
+  background-color: #f3efeb;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 600; /* ✅ FIX: not too bold */
+  text-align: center;
+  color: #1a1a1a;
+  margin-bottom: 45px;
+}
+
+/* GRID */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px 25px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* CARD */
+.card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #ffffff;
+  padding: 14px 18px;
+  border-radius: 10px;
+  border: 1px solid #eee;
+  transition: all 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.08);
+}
+
+/* ICON */
+.iconWrapper {
+  min-width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #fff3e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon {
+  color: #f57c00;
+  font-size: 12px;
+}
+
+/* TEXT */
+.cardTitle {
+  font-size: 15px;
+  font-weight: 400; /* ✅ FIX: normal text */
+  color: #333;
+  line-height: 1.4;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 992px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .title {
+    font-size: 26px;
+  }
+}
+
+@media (max-width: 576px) {
+  .whyChoose {
+    padding: 40px 15px;
+  }
+
+  .title {
+    font-size: 22px;
+    margin-bottom: 25px;
+  }
+
+  .card {
+    padding: 12px 14px;
+  }
+
+  .cardTitle {
+    font-size: 14px;
+  }
+
+  .iconWrapper {
+    min-width: 22px;
+    height: 22px;
+  }
+
+  .icon {
+    font-size: 11px;
+  }
+}

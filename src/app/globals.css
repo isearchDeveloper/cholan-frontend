@@ -11287,3 +11287,47 @@ body {
 .customer-rate-wrapper .custom-css-root * {
   max-width: 100% !important;
 }
+
+
+
+/*  new css for india dmc header */
+
+
+/* DMC SMALL DROPDOWN */
+.dmc-menu {
+  position: absolute;
+  top: 100%;
+  left: -300px;
+  width: auto; /* 🔥 full width हटाओ */
+  min-width: 500px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  z-index: 999;
+}
+
+/* GRID FIX (3 per row) */
+.dmc-menu .menu-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px 30px;
+}
+
+/* REMOVE BIG COLUMN BEHAVIOR */
+.dmc-menu .menu-column {
+  width: auto;
+}
+
+/* TEXT STYLE */
+.dmc-menu .clickable-state a {
+  font-size: 15px;
+  font-weight: 500;
+  color: #222;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.dmc-menu .clickable-state a:hover {
+  color: #ff6600;
+}

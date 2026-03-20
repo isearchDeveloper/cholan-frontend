@@ -67,6 +67,7 @@ export async function generateMetadata({
 
     case "CITY_THEME": {
       const { city } = resolved.data;
+      console.log(city);
 
       return {
         title:
@@ -76,7 +77,6 @@ export async function generateMetadata({
 
         description:
           city?.pivot?.meta_description ??
-          city?.pivot?.overview ??
           `Best ${resolved.themeSlug} packages in ${resolved.citySlug}`,
 
         alternates: { canonical },

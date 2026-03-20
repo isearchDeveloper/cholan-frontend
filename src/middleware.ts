@@ -61,7 +61,7 @@ export function middleware(req: Request) {
     return NextResponse.rewrite(new URL("/not-found", req.url));
   }
 
-  // ✅ your existing redirects
+  //  your existing redirects
   const redirect = redirectsData.find((r: any) => r.from === pathname);
   if (redirect) {
     url.pathname = redirect.to;

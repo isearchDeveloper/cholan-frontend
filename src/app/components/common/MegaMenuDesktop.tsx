@@ -19,6 +19,17 @@ export default function Navigation({ headerData }: any) {
   const router = useRouter();
   const pathname = usePathname();
 
+  const indianDmcCities = [
+  { name: "Jaipur", slug: "jaipur-dmc" },
+  { name: "Delhi", slug: "delhi-dmc" },
+  { name: "Agra", slug: "agra-dmc" },
+  { name: "Mumbai", slug: "mumbai-dmc" },
+  { name: "Varanasi", slug: "varanasi-dmc" },
+  { name: "Kochi", slug: "kochi-dmc" },
+  { name: "Udaipur", slug: "udaipur-dmc" },
+  { name: "Goa", slug: "goa-dmc" }
+];
+
   // Scroll effect
   useEffect(() => {
     const handleScroll = () => {
@@ -928,7 +939,91 @@ export default function Navigation({ headerData }: any) {
                     );
 
                   }
+                
+                  /* ================= INDIAN DMC ================= */
 
+if (menu.slug === "indian-dmc") {
+
+  return (
+
+    <li
+      key={menu.id}
+      className="has-mega-menu"
+
+      onMouseEnter={() => {
+        if (window.innerWidth > 991)
+          setMegaMenuOpen("indian-dmc");
+      }}
+
+      onMouseLeave={() => {
+        if (window.innerWidth > 991)
+          setMegaMenuOpen(null);
+      }}
+
+    >
+
+      <Link href="/indian-dmc">
+        {menu.name}
+      </Link>
+
+      <span
+        className="arrow"
+        onClick={(e) =>
+          handleMegaMenuDesktopToggle("indian-dmc", e)
+        }
+      >
+        <ArrowIcon />
+      </span>
+
+      {megaMenuOpen === "indian-dmc" && (
+
+        // <div className="mega-menu show slide-up hovered">
+        <div className="mega-menu dmc-menu show">
+
+          <div className="container">
+
+            <div className="row">
+
+              <div className="col-lg-12 menu-columns">
+
+                <div className="menu-row">
+
+                  {indianDmcCities.map((city, i) => (
+
+                    <div key={i} className="menu-column">
+
+                      <div className="clickable-state underLine">
+
+                        <Link
+                          href={`/indian-dmc/${city.slug}`}
+                          onClick={closeMobileMenu}
+                        >
+                          {city.name} DMC
+                        </Link>
+
+                      </div>
+
+                    </div>
+
+                  ))}
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      )}
+
+    </li>
+
+  );
+
+}
 
 
                   /* ================= LUXURY ================= */
