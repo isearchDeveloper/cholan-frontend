@@ -36,6 +36,7 @@
 
 .card:hover {
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
 }
 
 /* ICON */
@@ -124,4 +125,71 @@
   .icon {
     font-size: 12px;
   }
+}
+
+/* POPUP */
+.popup {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 900px;
+  background: #fff;
+  padding: 12px;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  z-index: 10;
+}
+
+.card {
+  position: relative;
+}
+/* ===== MODAL OVERLAY ===== */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+/* ===== MODAL BOX ===== */
+.modalContent {
+  background: #fff;
+  padding: 24px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 950px;
+  max-height: 80vh;
+  overflow-y: auto;
+  text-align: left;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+/* ===== MODAL TEXT ===== */
+.modalTitle {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.modalDesc {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #444;
+}
+
+/* ===== BUTTON ===== */
+.closeBtn {
+  margin-top: 20px;
+  padding: 10px 16px;
+  background: #f57c00;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
 }

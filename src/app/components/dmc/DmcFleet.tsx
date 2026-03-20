@@ -8,6 +8,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
+import CarEnquiryModal from "@/app/modals/carEnquiryModal";
 
 interface DmcFleetClientProps {
   fleets: any;
@@ -19,6 +20,7 @@ export default function DmcFleetClient({
   cityName,
 }: DmcFleetClientProps) {
   const [isMobile, setIsMobile] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
 
   // Mobile detection
   useEffect(() => {
@@ -36,7 +38,7 @@ export default function DmcFleetClient({
       ? [
           {
             type: "Economy",
-            component: <CarCardEconomy data={fleets} />,
+            component: <CarCardEconomy data={fleets}  setOpenModal={setOpenModal} />,
           },
         ]
       : []),
@@ -44,7 +46,7 @@ export default function DmcFleetClient({
       ? [
           {
             type: "Luxury",
-            component: <CarCardLuxury data={fleets} />,
+            component: <CarCardLuxury data={fleets}  setOpenModal={setOpenModal} />,
           },
         ]
       : []),
@@ -52,7 +54,7 @@ export default function DmcFleetClient({
       ? [
           {
             type: "Executive",
-            component: <CarCardExecutive data={fleets} />,
+            component: <CarCardExecutive data={fleets}  setOpenModal={setOpenModal} />,
           },
         ]
       : []),
@@ -94,6 +96,10 @@ export default function DmcFleetClient({
             ))}
           </div>
         )}
+
+        {openModal && (
+  <CarEnquiryModal onClose={() => setOpenModal(false)} />
+)}
       </div>
     </div>
   );

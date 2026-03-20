@@ -281,7 +281,7 @@ function transformApiData(response: ApiResponse): DmcCityData {
           id: `attr-${i}`,
           name: item.title,
           description: item.description
-            ? stripHTML(item.description).slice(0, 200)
+            ? stripHTML(item.description)
             : "",
           image: "",
         }))

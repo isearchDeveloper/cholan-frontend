@@ -1,5 +1,6 @@
-// app/components/dmc/DmcAttractions.tsx
+"use client";
 
+import { useState } from "react";
 import styles from "./DmcAttractions.module.css";
 import { FaMapMarkerAlt } from "react-icons/fa";
 
@@ -18,6 +19,8 @@ export default function DmcAttractions({
   attractions,
   cityName,
 }: DmcAttractionsProps) {
+  const [activeItem, setActiveItem] = useState<Attraction | null>(null);
+
   return (
     <section className={styles.attractions}>
       <div className="container">
@@ -25,25 +28,48 @@ export default function DmcAttractions({
 
         <div className={styles.grid}>
           {attractions.map((item) => (
-            <div key={item.id} className={styles.card}>
-              
-              {/* ICON */}
+            <div
+              key={item.id}
+              className={styles.card}
+              onClick={() => setActiveItem(item)}
+            >
               <div className={styles.iconWrapper}>
                 <FaMapMarkerAlt className={styles.icon} />
               </div>
 
-              {/* TEXT */}
               <div className={styles.content}>
                 <h3 className={styles.cardTitle}>{item.name}</h3>
                 <p className={styles.cardDescription}>
                   {item.description}
                 </p>
               </div>
-
             </div>
           ))}
         </div>
       </div>
+
+      {/* 🔥 MODAL */}
+      {activeItem && (
+        <div
+          className={styles.modalOverlay}
+          onClick={() => setActiveItem(null)}
+        >
+          <div
+            className={styles.modalContent}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3 className={styles.modalTitle}>{activeItem.name}</h3>
+            <p className={styles.modalDesc}>{activeItem.description}</p>
+
+            <button
+              className={styles.closeBtn}
+              onClick={() => setActiveItem(null)}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

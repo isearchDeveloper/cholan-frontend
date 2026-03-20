@@ -16,31 +16,13 @@ import { fetchDmcCityData } from "@/app/services/dmcServices";
 import { getCanonical } from "@/app/lib/getCanonical";
 import DmcFleetClient from "@/app/components/dmc/DmcFleet";
 
-export const revalidate = 180;
-
-// ================= STATIC PARAMS =================
-
-export async function generateStaticParams() {
-  return [
-    { slug: "jaipur-dmc" },
-    { slug: "delhi-dmc" },
-    { slug: "agra-dmc" },
-    { slug: "mumbai-dmc" },
-    { slug: "varanasi-dmc" },
-    { slug: "kochi-dmc" },
-    { slug: "udaipur-dmc" },
-    { slug: "goa-dmc" },
-  ];
-}
-
+// export const revalidate = 180;
+type PageProps = {
+  params: Promise<{ slug: string }>;
+};
 // ================= METADATA =================
-
-export async function generateMetadata({
-  params,
-}: {
-  params: { slug: string }; //FIXED (no Promise)
-}): Promise<Metadata> {
-  const { slug } = params;
+export async function generateMetadata({ params }: PageProps) {
+  const { slug } = await params;
 
   const cityData = await fetchDmcCityData(slug);
 
@@ -87,27 +69,19 @@ export async function generateMetadata({
 }
 
 // ================= PAGE =================
-
-export default async function DmcCityPage({
-  params,
-}: {
-  params: { slug: string }; //  FIXED
-}) {
-  const { slug } = params;
+export default async function DmcCityPage({ params }: PageProps) {
+  const { slug } = await params;
 
   const cityData = await fetchDmcCityData(slug);
+
+  if (!cityData) notFound();
+
 
   if (!cityData) {
     notFound();
   }
 
-  // const safeFleets =
-  // cityData.fleets &&
-  // Object.fromEntries(
-  //   Object.entries(cityData.fleets).filter(
-  //     ([_, value]) => Array.isArray(value) && value.length > 0
-  //   )
-  // );
+  
   const breadcrumbItems = [
     { label: "Home", href: "/" },
     { label: "Indian DMC", href: "/indian-dmc" },
