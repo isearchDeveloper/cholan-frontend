@@ -66,6 +66,8 @@ interface ApiService {
 }
 
 interface ApiAttraction {
+  location: string;
+  slug: string;
   title: string;
   description: string;
 }
@@ -140,6 +142,8 @@ export interface Attraction {
   name: string;
   description: string;
   image: string;
+  slug :string;
+  location:string
 }
 
 export interface BestTimeInfo {
@@ -284,6 +288,8 @@ function transformApiData(response: ApiResponse): DmcCityData {
             ? stripHTML(item.description)
             : "",
           image: "",
+          slug:item.slug,
+          location:item.location
         }))
     : [],
 

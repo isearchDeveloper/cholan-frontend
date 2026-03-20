@@ -3,8 +3,11 @@
 import { useState } from "react";
 import styles from "./DmcAttractions.module.css";
 import { FaMapMarkerAlt } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 interface Attraction {
+  slug: String;
+  location: String;
   id: string;
   name: string;
   description: string;
@@ -19,8 +22,9 @@ export default function DmcAttractions({
   attractions,
   cityName,
 }: DmcAttractionsProps) {
-  const [activeItem, setActiveItem] = useState<Attraction | null>(null);
-
+  // const [activeItem, setActiveItem] = useState<Attraction | null>(null);
+  const router = useRouter();
+console.log("attraction data",attractions )
   return (
     <section className={styles.attractions}>
       <div className="container">
@@ -31,7 +35,11 @@ export default function DmcAttractions({
             <div
               key={item.id}
               className={styles.card}
-              onClick={() => setActiveItem(item)}
+              onClick={() => {
+    const location = item.location
+      .toLowerCase()
+    router.push(`/india/${location}/${item.slug}`);
+  }}
             >
               <div className={styles.iconWrapper}>
                 <FaMapMarkerAlt className={styles.icon} />
@@ -49,7 +57,7 @@ export default function DmcAttractions({
       </div>
 
       {/* 🔥 MODAL */}
-      {activeItem && (
+      {/* {activeItem && (
         <div
           className={styles.modalOverlay}
           onClick={() => setActiveItem(null)}
@@ -69,7 +77,7 @@ export default function DmcAttractions({
             </button>
           </div>
         </div>
-      )}
+      )} */}
     </section>
   );
 }
