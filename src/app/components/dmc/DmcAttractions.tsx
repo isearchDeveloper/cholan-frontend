@@ -24,7 +24,7 @@ export default function DmcAttractions({
 }: DmcAttractionsProps) {
   // const [activeItem, setActiveItem] = useState<Attraction | null>(null);
   const router = useRouter();
-console.log("attraction data",attractions )
+// console.log("attraction data",attractions )
   return (
     <section className={styles.attractions}>
       <div className="container">

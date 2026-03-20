@@ -953,7 +953,7 @@ export default function Navigation({ headerData }: any) {
 
                   /* ================= INDIAN DMC ================= */
 
-                  if (menu.slug === "indian-dmc") {
+                  if (menu.slug === "indian-dmc" && indianDmcCities.length > 0) {
 
                     return (
 
