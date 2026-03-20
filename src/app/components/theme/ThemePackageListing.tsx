@@ -25,7 +25,7 @@ export default function ThemePackageListing({
   if (!data) return null;
 
   
-
+// console.log(data);
   const details = data?.location?.details || {};
   const packages = Array.isArray(data?.packages) ? data.packages : [];
 
@@ -42,9 +42,9 @@ export default function ThemePackageListing({
 
   const city = formatTitle(cityName);
   const theme = formatTitle(details?.title);
-
+console.log( "title of dynam,ic page :" , theme);
   const pageTitle =
-    [city, theme].filter(Boolean).join(" ") || "Theme Tour Packages";
+     [theme].filter(Boolean).join(" ") || "Theme Tour Packages";
 
   const faqs = Array.isArray(data?.faqs) ? data.faqs : [];
 
@@ -70,7 +70,7 @@ export default function ThemePackageListing({
     <div className="tour-listing p-0">
       {/* Banner */}
       <Banner
-        title={pageTitle}
+        // title={details?.sub_title}
         subtitle={details?.sub_title}
         imageUrl={details?.banner_image}
       />
@@ -95,7 +95,7 @@ export default function ThemePackageListing({
             {/*  MAIN LISTING */}
             <div className="col-12 col-lg-9">
               <ExpandableText
-                title={`${pageTitle} Tour Packages`}
+                title={`${pageTitle}`}
                 text={details?.about}
                 collapsedLines={2}
               />

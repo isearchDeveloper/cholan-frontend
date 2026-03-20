@@ -10,7 +10,7 @@ import CityListOfTheme from "@/app/components/theme/CityListOfTheme";
 export default function ThemeCitySection({ themeData }: { themeData: any }) {
 
   // const themeData = await fetchThemePackages(theme);
-
+    console.log( "theme data :" , themeData.title);
   if (!themeData) return null;
 
   const packages = Array.isArray(themeData.packages)
@@ -64,7 +64,7 @@ export default function ThemeCitySection({ themeData }: { themeData: any }) {
       {hasOverview && (
         <div className="container py-5">
           <Breadcrumb items={breadcrumbItems} />
-          <ThemeOverview theme={themeData.overview} />
+          <ThemeOverview theme={themeData.overview} title = {themeData?.meta?. h1_heading}  city = {themeData.title}/>
         </div>
       )}
 

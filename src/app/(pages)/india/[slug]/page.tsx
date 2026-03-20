@@ -42,9 +42,10 @@ export async function generateMetadata({
     }
 
     case "THEME":
+      // console.log(resolved)
       return {
-        title: resolved.data?.meta_title ?? "Cholan Tours",
-        description: resolved.data?.meta_description ?? "",
+        title: resolved.data?.meta?.meta_title ?? "Cholan Tours",
+        description: resolved.data?.meta?.meta_description ?? "",
         alternates: { canonical },
       };
 
@@ -67,16 +68,16 @@ export async function generateMetadata({
 
     case "CITY_THEME": {
       const { city } = resolved.data;
-      console.log(city);
+      console.log("city+theme data " , city);
 
       return {
         title:
-          city?.pivot?.meta_title ??
+          city?.meta?.meta_title ??
           city?.pivot?.title ??
           `${resolved.citySlug} ${resolved.themeSlug} Tour Packages`,
 
         description:
-          city?.pivot?.meta_description ??
+          city?.meta?.meta_description ??
           `Best ${resolved.themeSlug} packages in ${resolved.citySlug}`,
 
         alternates: { canonical },
@@ -124,7 +125,7 @@ export default async function TourListingPage({
           data={{
             location: {
               details: {
-                title: city.pivot.title,
+                title: city?.meta?.h1_heading || city?.pivot?.title,
                 sub_title: city.pivot.title,
                 banner_image: `https://cdn.cholantours.com/${city.pivot.banner_image}`,
                 about: city.pivot.overview,
