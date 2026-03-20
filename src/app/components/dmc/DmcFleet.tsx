@@ -20,7 +20,7 @@ export default function DmcFleetClient({
 }: DmcFleetClientProps) {
   const [isMobile, setIsMobile] = useState(false);
 
-  // Mobile detection - EXACT SAME AS CAR RENTAL
+  // Mobile detection
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
@@ -30,13 +30,13 @@ export default function DmcFleetClient({
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  // ✅ EXACT SAME FLEET ARRAY LOGIC AS CAR RENTAL
+  // ✅ FIXED: SAME STRUCTURE AS CAR RENTAL
   const fleetArray = [
     ...(fleets?.Economy
       ? [
           {
             type: "Economy",
-            component: <CarCardEconomy data={{ fleets }} />,
+            component: <CarCardEconomy data={fleets} />,
           },
         ]
       : []),
@@ -44,7 +44,7 @@ export default function DmcFleetClient({
       ? [
           {
             type: "Luxury",
-            component: <CarCardLuxury data={{ fleets }} />,
+            component: <CarCardLuxury data={fleets} />,
           },
         ]
       : []),
@@ -52,51 +52,48 @@ export default function DmcFleetClient({
       ? [
           {
             type: "Executive",
-            component: <CarCardExecutive data={{ fleets }} />,
+            component: <CarCardExecutive data={fleets} />,
           },
         ]
       : []),
   ];
 
-  // If no fleets, don't render
-  if (fleetArray.length === 0) {
-    return null;
-  }
+  // If no fleets
+  if (fleetArray.length === 0) return null;
 
-  // ✅ EXACT SAME JSX AS CAR RENTAL
   return (
     <div className="py-5 car-fleet px-2 px-lg-0 bg-light">
       <div className="container">
-        <h2 className="mb-4 text-center fs-3">Our Fleet in {cityName}</h2>
+        <h2 className="mb-4 text-center fs-3">
+          Our Fleet in {cityName}
+        </h2>
 
-        {fleetArray.length > 0 ? (
-          isMobile ? (
-            <Swiper
-              spaceBetween={20}
-              slidesPerView={1}
-              modules={[Pagination, Autoplay]}
-              pagination={{ clickable: true }}
-              autoplay={{ delay: 3000, disableOnInteraction: false }}
-              className="mySwiper"
-            >
-              {fleetArray.map((fleet, idx) => (
-                <SwiperSlide key={idx}>
-                  <div className="d-flex justify-content-center">
-                    {fleet.component}
-                  </div>
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          ) : (
-            <div className="row">
-              {fleetArray.map((fleet, idx) => (
-                <div key={idx} className="col-lg-4 col-xl-4">
+        {isMobile ? (
+          <Swiper
+            spaceBetween={20}
+            slidesPerView={1}
+            modules={[Pagination, Autoplay]}
+            pagination={{ clickable: true }}
+            autoplay={{ delay: 3000, disableOnInteraction: false }}
+            className="mySwiper"
+          >
+            {fleetArray.map((fleet, idx) => (
+              <SwiperSlide key={idx}>
+                <div className="d-flex justify-content-center">
                   {fleet.component}
                 </div>
-              ))}
-            </div>
-          )
-        ) : null}
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        ) : (
+          <div className="row">
+            {fleetArray.map((fleet, idx) => (
+              <div key={idx} className="col-lg-4 col-xl-4">
+                {fleet.component}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

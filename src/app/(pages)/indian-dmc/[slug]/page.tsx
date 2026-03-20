@@ -10,10 +10,11 @@ import DmcAttractions from "@/app/components/dmc/DmcAttractions";
 import DmcBestTime from "@/app/components/dmc/DmcBestTime";
 import DmcRelatedCities from "@/app/components/dmc/Dmcrelatedcities";
 import DmcCta from "@/app/components/dmc/DmcCta";
-// import DmcFleetSection from "@/app/components/dmc/DmcFleet";
+import DmcFleetSection from "@/app/components/dmc/DmcFleet";
 
 import { fetchDmcCityData } from "@/app/services/dmcServices";
 import { getCanonical } from "@/app/lib/getCanonical";
+import DmcFleetClient from "@/app/components/dmc/DmcFleet";
 
 export const revalidate = 180;
 
@@ -113,6 +114,7 @@ export default async function DmcCityPage({
     { label: `${cityData.cityName} DMC`, isCurrent: true },
   ];
 
+console.log("FINAL CLEAN DATA:", cityData);
   return (
     <div className="dmc-city-page">
       {/*  Banner */}
@@ -167,19 +169,23 @@ export default async function DmcCityPage({
       )}
 
       {/*  Best Time */}
-      {cityData.bestTime  && (
+     {cityData.bestTime?.description && (
         <DmcBestTime
           bestTime={cityData.bestTime}
           cityName={cityData.cityName}
         />
       )}
 
-    {/* {safeFleets && Object.keys(safeFleets).length > 0 && (
-  <DmcFleetSection
-    fleets={safeFleets}
-    cityName={cityData.cityName}
-  />
-)} */}
+      {cityData.fleets && Object.keys(cityData.fleets).length > 0 && (
+        <DmcFleetClient
+          fleets={cityData.fleets}
+          cityName={cityData.cityName}
+        />
+      )}
+
+
+      {/*  Bottom CTA */}
+      <DmcCta cityName={cityData.cityName} />
 
       {/* FIXED: Related Cities */}
       {cityData.relatedCities &&
@@ -189,8 +195,6 @@ export default async function DmcCityPage({
           />
         )}
 
-      {/*  Bottom CTA */}
-      <DmcCta cityName={cityData.cityName} />
     </div>
   );
 }

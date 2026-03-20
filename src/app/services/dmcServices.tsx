@@ -110,7 +110,7 @@ interface ApiResponse {
     meta: ApiMeta;
     attractions: ApiAttraction[];
   };
-  // fleets?: Record<string, ApiFleetItem[]>;
+  fleets?: Record<string, ApiFleetItem[]>;
   related_cities?: {
     title: string;
     slug: string;
@@ -186,7 +186,7 @@ export interface DmcCityData {
   bestTime: BestTimeInfo | null;
   faqs: FaqItem[];
   meta: ApiMeta;
-  // fleets: Record<string, FleetItem[]>;
+  fleets: Record<string, FleetItem[]>;
   relatedCities: RelatedCity[];
 }
 
@@ -218,6 +218,7 @@ export async function fetchDmcCityData(
       return null;
     }
 
+    //  console.log("service response" , response);
     return transformApiData(response);
   } catch (error) {
     console.error("Fetch error:", error);
@@ -237,75 +238,90 @@ function transformApiData(response: ApiResponse): DmcCityData {
     .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
     .join(" ");
 
-  return {
-    cityName,
-    slug: data.slug,
-    title: data.title,
-    subtitle: `Your Trusted Destination Management Company in ${cityName}`,
+ return {
+  cityName,
+  slug: data.slug,
+  title: data.title,
+  subtitle: `Your Trusted Destination Management Company in ${cityName}`,
 
-    banner_image: data.banner_image,
-    banner_image_alt: data.banner_image_alt,
+  banner_image: data.banner_image,
+  banner_image_alt: data.banner_image_alt,
 
-    overview: data.description || "",
+  overview: data.description || "",
 
-    whyChoose: Array.isArray(data.why_chooses)
-      ? data.why_chooses.map((item, i) => ({
+  //  FIXED WHY CHOOSE
+  whyChoose: Array.isArray(data.why_chooses)
+    ? data.why_chooses
+        .filter((item) => item?.text)
+        .map((item, i) => ({
           id: `why-${i}`,
-          title: item.text || "",
+          title: item.text,
           description: "",
           icon: "check",
         }))
-      : [],
+    : [],
 
-    services: Array.isArray(data.services)
-      ? data.services.map((item, i) => ({
+  //  FIXED SERVICES
+  services: Array.isArray(data.services)
+    ? data.services
+        .filter((item) => item?.title)
+        .map((item, i) => ({
           id: `service-${i}`,
-          title: item.title || "",
+          title: item.title,
           description: item.description || "",
           icon: item.icon || "",
         }))
-      : [],
+    : [],
 
-    attractions: Array.isArray(data.attractions)
-      ? data.attractions.map((item, i) => ({
+  //  FIXED ATTRACTIONS
+  attractions: Array.isArray(data.attractions)
+    ? data.attractions
+        .filter((item) => item?.title)
+        .map((item, i) => ({
           id: `attr-${i}`,
-          name: item.title || "",
+          name: item.title,
           description: item.description
             ? stripHTML(item.description).slice(0, 200)
             : "",
           image: "",
         }))
-      : [],
+    : [],
 
-    bestTime: data.best_time
+  //  FIXED BEST TIME (IMPORTANT)
+  bestTime:
+    data.best_time &&
+    (data.best_time.title || data.best_time.description)
       ? {
           title: data.best_time.title || "",
           description: data.best_time.description || "",
         }
       : null,
 
-    faqs: Array.isArray(data.faqs) ? data.faqs : [],
+  //  SAFE FAQ
+  faqs: Array.isArray(data.faqs) ? data.faqs : [],
 
-    meta: data.meta || {
-      meta_title: null,
-      meta_description: null,
-      meta_keywords: null,
-    },
+  //  SAFE META
+  meta: data.meta || {
+    meta_title: null,
+    meta_description: null,
+    meta_keywords: null,
+  },
 
-    // ✅ FIXED
-  // fleets:
-  // response.fleets && typeof response.fleets === "object"
-  //   ? Object.fromEntries(
-  //       Object.entries(response.fleets).filter(
-  //         ([_, value]) => Array.isArray(value) && value.length > 0
-  //       )
-  //     )
-  //   : {},
-    // ✅ FIXED
-    relatedCities: Array.isArray(response.related_cities)
-      ? response.related_cities
-      : [],
-  };
+  //  FLEETS (ALREADY GOOD)
+  fleets:
+    response.fleets && typeof response.fleets === "object"
+      ? Object.fromEntries(
+          Object.entries(response.fleets).filter(
+            ([_, value]) => Array.isArray(value) && value.length > 0
+          )
+        )
+      : {},
+
+  //  RELATED CITIES
+  relatedCities: Array.isArray(response.related_cities)
+    ? response.related_cities
+    : [],
+};
 }
 
 // ================= HELPERS =================
