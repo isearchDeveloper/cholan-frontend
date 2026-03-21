@@ -42,7 +42,7 @@ export default function ThemePackageListing({
 
   const city = formatTitle(cityName);
   const theme = formatTitle(details?.title);
-console.log( "title of dynam,ic page :" , theme);
+// console.log( "title of dynamic page :" , theme);
   const pageTitle =
      [theme].filter(Boolean).join(" ") || "Theme Tour Packages";
 

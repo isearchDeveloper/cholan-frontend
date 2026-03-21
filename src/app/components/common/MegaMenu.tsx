@@ -881,7 +881,7 @@ export default function Navigation({
                  
                 /* ================= INDIAN DMC ================= */
 
-if (menu.slug === "indian-dmc") {
+if (menu.slug === "indian-dmc" && indianDmcCities.length > 0) {
   return (
     <li
       key={menu.id}

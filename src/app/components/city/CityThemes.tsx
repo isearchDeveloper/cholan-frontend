@@ -7,7 +7,7 @@ interface Theme {
   id?: number;
   title: string;
   slug: string;
-  primary_img?: string | null;
+  banner_image?: string | null;
 }
 
 export default function CityThemes({
@@ -35,8 +35,8 @@ export default function CityThemes({
 
         <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4">
           {themes.map((theme) => {
-            const imageUrl = theme.primary_img
-              ? `https://cdn.cholantours.com/${theme.primary_img}`
+            const imageUrl = theme.banner_image
+              ? `https://cdn.cholantours.com/${theme.banner_image}`
               : "/images/default-theme.webp";
 
             return (

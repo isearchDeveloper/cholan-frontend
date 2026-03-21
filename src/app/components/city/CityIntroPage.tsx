@@ -114,7 +114,7 @@ export default function CityIntroPage({
             : "/images/tour/default.webp",
         }))
       : [];
-  // console.log(cityData?.themes);
+  // console.log("city page theme data :" , cityData?.themes);
   // const themesForCity = CITY_THEMES[slug] || [];
 
   const themesForCity = Array.isArray(cityData?.themes)

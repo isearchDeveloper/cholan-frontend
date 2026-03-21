@@ -207,7 +207,7 @@ export async function fetchDmcCityData(
           "Content-Type": "application/json",
           "X-Public-Token": XPublicToken,
         },
-        next: { revalidate: 180 },
+        next: { revalidate: 60 },
       }
     );
 

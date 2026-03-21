@@ -167,7 +167,7 @@ const TabWithImages: React.FC<any> = ({
                                     <ImageComponent
                                       src={
                                         data?.details?.banner_image ||
-                                        "/images/no-img.webp"
+                                        "/images/global_themes_banner.webp"
                                       }
                                       alt={data?.details?.banner_image_alt}
                                       href={`/international-holidays/${

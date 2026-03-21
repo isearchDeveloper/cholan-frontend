@@ -52,7 +52,7 @@ export default function CityListOfTheme({
                       src={
                         city.img
                           ? `https://cdn.cholantours.com/${city.img}`
-                          : "/images/no-img.webp"
+                          : "/images/city-placeholder.webp"
                       }
                       alt={city.name}
                       width={400}

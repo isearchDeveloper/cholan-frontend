@@ -29,6 +29,10 @@
   border: 1px solid #eee;
   transition: all 0.25s ease;
   position: relative;
+
+   min-height: 150px;
+  max-height: 200px; /* 🔥 control range */
+  overflow: hidden; 
 }
 
 .card::before {
@@ -42,6 +46,7 @@
   transition: width 0.3s ease;
   border-top-left-radius: 14px;
   border-top-right-radius: 14px;
+
 }
 
 .card:hover::before {
@@ -98,6 +103,10 @@
   font-size: 14px;
   color: #666;
   line-height: 1.6;
+display: -webkit-box;
+  -webkit-line-clamp: 4; /* 🔥 adjust 3–4 lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 /* RESPONSIVE */
