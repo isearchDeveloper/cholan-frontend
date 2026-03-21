@@ -304,7 +304,7 @@ export default function FairFestivalCitySection({
                 </div>
 
                 <div className={styles.festivalContent}>
-                  <h3 className={styles.festivalTitle}>{item.title}</h3>
+                  <h6 className={styles.festivalTitle}>{item.title}</h6>
                 </div>
               </article>
             </Link>

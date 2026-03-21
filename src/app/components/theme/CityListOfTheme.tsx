@@ -13,7 +13,7 @@ export default function CityListOfTheme({
 }) {
   const [showAll, setShowAll] = useState(false);
 
-  // console.log(locations);
+  console.log(locations);
 
   // 🔥 Prepare city list once
   const cities = useMemo(() => {
