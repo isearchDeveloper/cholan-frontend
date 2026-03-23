@@ -10,7 +10,7 @@ import CityListOfTheme from "@/app/components/theme/CityListOfTheme";
 export default function ThemeCitySection({ themeData }: { themeData: any }) {
 
   // const themeData = await fetchThemePackages(theme);
-    console.log( "theme data :" , themeData.title);
+    // console.log( "theme data :" , themeData.title);
   if (!themeData) return null;
 
   const packages = Array.isArray(themeData.packages)

@@ -70,6 +70,7 @@ const Banner: React.FC<any> = ({ title, subtitle, imageUrl }) => {
 
         <div className="container">
           <div className="banner-content">
+             <div className="banner-title">{title}</div>
             <div className="banner-title">{subtitle}</div>
           </div>
         </div>

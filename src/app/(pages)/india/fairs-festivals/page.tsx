@@ -3,7 +3,7 @@ import { fairfestivalData } from "@/app/services/fairfestivalService";
 
 /* ---------- ONE SHARED FETCH ---------- */
 async function getData() {
-  return await fairfestivalData();
+  return await fairfestivalData(1,16);
 }
 
 /* ---------- METADATA ---------- */
@@ -48,6 +48,8 @@ export async function generateMetadata() {
 export default async function Page() {
 
   const data = await getData();
+
+  console.log(data);
 
   return <FairFestival data={data} />;
 }
