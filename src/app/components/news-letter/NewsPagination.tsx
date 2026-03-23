@@ -15,7 +15,6 @@ export default function NewsPagination({
   type: "news" | "newsletter";
 }) {
 
-  // console.log("Initial News:", initialNews);
 
   const [news, setNews] = useState<any[]>([]);
 
@@ -46,7 +45,6 @@ export default function NewsPagination({
 
     const data = await res.json();
     const items = data?.news || [];
-    console.log(data);
     setNews(items);
 
     // Calculate total pages WITHOUT total count from backend

@@ -16,7 +16,6 @@ export default function FairFestival({ data }) {
   const page = data?.page;
   const festivals = data?.festival;
   const faqs = data?.faqs;
-console.log( "festival lenght"  , festivals);
   return (
     <div className="fair-festival-wrapper">
 

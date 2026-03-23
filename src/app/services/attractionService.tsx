@@ -3,9 +3,9 @@ const baseUrl = process.env.NEXT_PUBLIC_UAT_URL;
 const XPublicToken =
   "zaxsc+/-=0dfvgbnhmjklo*/-piutyerwq*%$25631478907539541lokythbfet&*(@kjhkhgfhk546456456)";
 
-  export async function fetchAttractionDetail(slug: string) {
+  export async function fetchAttractionDetail(slug: string, citySlug: string) {
   try {
-    const res = await fetch(`${baseUrl}/api/v1/pages/city/attraction/${slug}`, {
+    const res = await fetch(`${baseUrl}/api/v1/pages/city/${citySlug}/attraction/${slug}`, {
       method: "GET",
      headers: {
         "X-Public-Token": XPublicToken,
