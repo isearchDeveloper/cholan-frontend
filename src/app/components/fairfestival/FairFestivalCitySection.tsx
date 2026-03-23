@@ -247,9 +247,9 @@ export default function FairFestivalCitySection({
 
     const res = await fairfestivalData(nextPage, LIMIT);
 
-    console.log("RES:", res);
+    // console.log("RES:", res);
 
-    const newItems = res?.festival; // ✅ FIX HERE
+    const newItems = res?.festival; // FIX HERE
 
     if (newItems && newItems.length > 0) {
       setList((prev) => [...prev, ...newItems]);
