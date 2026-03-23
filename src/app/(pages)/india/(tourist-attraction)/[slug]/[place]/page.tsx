@@ -7,18 +7,16 @@ import CityEnquiryForm from "@/app/components/common/CityEnquiryForm";
 import { fetchAttractionDetail } from "@/app/services/attractionService";
 import type { Metadata } from "next";
 
-//  fetch attraction detail by slug
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ slug: string; place: string }>;
 }): Promise<Metadata> {
+
   const { slug, place } = await params;
 
-  //  try API first
-  const data = await fetchAttractionDetail(place);
+  const data = await fetchAttractionDetail(place, slug);
 
-  //  formatted names
   const cityName = slug
     .split("-")
     .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
@@ -31,9 +29,16 @@ export async function generateMetadata({
       .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
       .join(" ");
 
-  //  fallback description
+  // API meta
+  const meta = data?.meta?.[0];
+
+  const title =
+    meta?.meta_title ||
+    `${placeName} – Tourist Attraction in ${cityName}`;
+
   const description =
-    data?.details?.slice(0, 160) ||
+    meta?.meta_description ||
+    data?.details?.replace(/<[^>]+>/g, "").slice(0, 160) ||
     `Explore ${placeName} in ${cityName}. Discover history, highlights, travel tips and visitor information.`;
 
   const imageUrl = data?.banner_image
@@ -43,7 +48,7 @@ export async function generateMetadata({
   const url = `https://www.cholantours.com/india/${slug}/${place}`;
 
   return {
-    title: `${placeName} – Tourist Attraction in ${cityName}`,
+    title,
     description,
 
     alternates: {
@@ -51,7 +56,7 @@ export async function generateMetadata({
     },
 
     openGraph: {
-      title: `${placeName} – Tourist Attraction in ${cityName}`,
+      title,
       description,
       url,
       siteName: "Cholan Tours",
@@ -69,7 +74,7 @@ export async function generateMetadata({
 
     twitter: {
       card: "summary_large_image",
-      title: `${placeName} – Tourist Attraction in ${cityName}`,
+      title,
       description,
       images: [imageUrl],
     },
@@ -88,7 +93,7 @@ export default async function TouristAttractionDetail({
 
 
 
-  const data = await fetchAttractionDetail(placeSlug);
+  const data = await fetchAttractionDetail(placeSlug, slug);
  
 
   if (!data) return notFound();

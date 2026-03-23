@@ -68,7 +68,6 @@ export async function generateMetadata({
 
     case "CITY_THEME": {
       const { city } = resolved.data;
-      console.log("city+theme data " , city);
 
       return {
         title:
