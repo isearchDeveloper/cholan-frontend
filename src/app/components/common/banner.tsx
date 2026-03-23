@@ -34,8 +34,10 @@ const Banner: React.FC<any> = ({ title, subtitle, imageUrl }) => {
   const [bgImage, setBgImage] = useState(imageUrl);
 
   const fallbackImages = [
-    "/images/indian_city_banner.webp",
-    "/images/indian_city_banner.webp",
+    "/images/cholantours2.webp",
+    "/images/cholantours1.webp",
+    "/images/cholantours3.webp",
+
   ];
 
   const getImageIndex = (str: string): number => {
