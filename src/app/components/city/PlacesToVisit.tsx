@@ -48,19 +48,24 @@ export default function PlacesToVisit({ cityName, data }: PlacesToVisitProps) {
 
   const FALLBACK = "/images/cholantours-tourist-attractions.webp";
   function SafeImage({ src, alt }: { src: string; alt: string }) {
-  const [imgSrc, setImgSrc] = useState(src || FALLBACK);
+    const [imgSrc, setImgSrc] = useState(src || FALLBACK);
 
-  return (
-    <Image
-      src={imgSrc}
-      alt={alt}
-      width={500}
-      height={300}
-      className="places-card-image"
-      onError={() => setImgSrc(FALLBACK)}
-    />
-  );
-}
+
+    const stripHtml = (html: string) => {
+      if (!html) return "";
+      return html.replace(/<[^>]*>?/gm, "");
+    };
+    return (
+      <Image
+        src={imgSrc}
+        alt={alt}
+        width={500}
+        height={300}
+        className="places-card-image"
+        onError={() => setImgSrc(FALLBACK)}
+      />
+    );
+  }
 
   return (
     <div
@@ -99,17 +104,24 @@ export default function PlacesToVisit({ cityName, data }: PlacesToVisitProps) {
                     >
                       {item.title}
                     </h5>
-                    {/* /* <p className="places-card-subtitle">{item.subtitle}</p> */}                   <p className="places-card-subtitle">
-                      {truncateByChars(item.subtitle, 60)}
-                      {item.subtitle.length  > 18 && (
-                        <span
-                          className="read-more-text"
-                          onClick={() => handleOpen(item)}
-                        >
-                          ... Read more
-                        </span>
-                      )}
-                    </p>
+                    {/* /* <p className="places-card-subtitle">{item.subtitle}</p> */}                   {(() => {
+                      const cleanText = (item.subtitle || "").replace(/<[^>]*>?/gm, "");
+
+                      return (
+                        <p className="places-card-subtitle">
+                          {truncateByChars(cleanText, 60)}
+
+                          {cleanText.length > 60 && (
+                            <span
+                              className="read-more-text"
+                              onClick={() => handleOpen(item)}
+                            >
+                              ... Read more
+                            </span>
+                          )}
+                        </p>
+                      );
+                    })()}
 
                     {/* <button
                     className="btn orange-btn inline-flex items-center gap-1 px-3 py-1 text-sm"
