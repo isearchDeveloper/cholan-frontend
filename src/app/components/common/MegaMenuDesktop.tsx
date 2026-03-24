@@ -26,6 +26,7 @@ export default function Navigation({ headerData }: any) {
 
   const indianDmcCities: DmcCity[] =
     headerData?.dmcCity?.map((city: any) => ({
+      // name: city.title?.replace(/dmc/gi, "").trim(),
       name: city.title,
       slug: city.slug,
     })) || [];
@@ -680,17 +681,31 @@ export default function Navigation({ headerData }: any) {
                                   {tabs.map((tab, index) => {
                                     const thisSections =
                                       headerData?.holidays_mega_menu?.[tab];
+                                    const regionSlugMap = (
+                                      headerData?.regions || []
+                                    ).reduce((acc: any, r: any) => {
+                                      acc[r.name] = r.slug;
+                                      return acc;
+                                    }, {});
 
+                                    const regionSlug = regionSlugMap[tab];
+                                    // ✅ Modified: Sort STATES alphabetically
                                     const sortedIndiaSections = thisSections
-                                      ? Object.entries(thisSections)
-                                      : [];
+                                      ? Object.entries(thisSections) : [];
+                                    // const sortedIndiaSections = thisSections
+                                    //   ? Object.entries(thisSections).sort(
+                                    //       ([, a]: [string, any], [, b]: [string, any]) =>
+                                    //         (Array.isArray(a?.cities) ? a.cities.length : 0) -
+                                    //         (Array.isArray(b?.cities) ? b.cities.length : 0)
+                                    //     )
+                                    //   : [];
 
                                     return (
                                       <div
                                         key={`holidays-panel-${index}`}
                                         className={`panel panel-${index}`}
                                       >
-                                        {/* ✅ FIX: getRegionHref use karo correct slug ke liye */}
+                                        {/*  ALL OF REGION LINK (ONLY ONCE) */}
                                         <div className="clickable-state all-of-region underLine">
                                           <Link
                                             href={getRegionHref(tab)}
