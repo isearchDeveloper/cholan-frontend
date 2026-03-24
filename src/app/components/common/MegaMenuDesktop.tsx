@@ -24,24 +24,14 @@ export default function Navigation({ headerData }: any) {
   const router = useRouter();
   const pathname = usePathname();
 
-  //   const indianDmcCities = [
-  //   { name: "Jaipur", slug: "jaipur-dmc" },
-  //   { name: "Delhi", slug: "delhi-dmc" },
-  //   { name: "Agra", slug: "agra-dmc" },
-  //   { name: "Mumbai", slug: "mumbai-dmc" },
-  //   { name: "Varanasi", slug: "varanasi-dmc" },
-  //   { name: "Kochi", slug: "kochi-dmc" },
-  //   { name: "Udaipur", slug: "udaipur-dmc" },
-  //   { name: "Goa", slug: "goa-dmc" }
-  // ];
   const indianDmcCities: DmcCity[] =
     headerData?.dmcCity?.map((city: any) => ({
-      // name: city.title?.replace(/dmc/gi, "").trim(),
+   
       name: city.title,
       slug: city.slug,
     })) || [];
-  // console.log(headerData)
-  // Scroll effect
+
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 50) {
@@ -769,6 +759,7 @@ export default function Navigation({ headerData }: any) {
                                     }, {});
 
                                     const regionSlug = regionSlugMap[tab];
+                               
                                     // ✅ Modified: Sort STATES alphabetically
                                     const sortedIndiaSections = thisSections
                                       ? Object.entries(thisSections) : [];
@@ -779,13 +770,14 @@ export default function Navigation({ headerData }: any) {
                                     //         (Array.isArray(b?.cities) ? b.cities.length : 0)
                                     //     )
                                     //   : [];
-
+                                          
                                     return (
                                       <div
                                         key={`india-panel-${index}`}
                                         className={`panel panel-${index}`}
                                       >
                                         {/*  ALL OF REGION LINK (ONLY ONCE) */}
+                                      
                                         <div className="clickable-state all-of-region underLine">
                                           <Link
                                             href={

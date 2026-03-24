@@ -15,7 +15,7 @@ export async function generateMetadata({
 
   const { slug, place } = await params;
 
-  const data = await fetchAttractionDetail(place, slug);
+  const data = await fetchAttractionDetail(place, slug );
 
   const cityName = slug
     .split("-")
@@ -41,9 +41,9 @@ export async function generateMetadata({
     data?.details?.replace(/<[^>]+>/g, "").slice(0, 160) ||
     `Explore ${placeName} in ${cityName}. Discover history, highlights, travel tips and visitor information.`;
 
-  const imageUrl = data?.banner_image
-    ? `https://cdn.cholantours.com/${data.banner_image}`
-    : "/images/banner.webp";
+const imageUrl = data?.banner_image
+  ? `https://cdn.cholantours.com/${data.banner_image}?v=${Date.now()}`
+  : "/images/banner.webp";
 
   const url = `https://www.cholantours.com/india/${slug}/${place}`;
 
@@ -106,7 +106,7 @@ export default async function TouristAttractionDetail({
     subtitle: "",
     imageUrl: data.banner_image
       ? `https://cdn.cholantours.com/${data.banner_image}`
-      : "/images/banner.webp",
+      : "/images/cholantours3.webp",
   };
 
   //  breadcrumb
