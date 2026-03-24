@@ -45,6 +45,23 @@ export default function PlacesToVisit({ cityName, data }: PlacesToVisitProps) {
     setSelected(item);
     setOpen(true);
   };
+
+  const FALLBACK = "/images/cholantours-tourist-attractions.webp";
+  function SafeImage({ src, alt }: { src: string; alt: string }) {
+  const [imgSrc, setImgSrc] = useState(src || FALLBACK);
+
+  return (
+    <Image
+      src={imgSrc}
+      alt={alt}
+      width={500}
+      height={300}
+      className="places-card-image"
+      onError={() => setImgSrc(FALLBACK)}
+    />
+  );
+}
+
   return (
     <div
       className="places-to-visit-section py-5"
@@ -73,13 +90,7 @@ export default function PlacesToVisit({ cityName, data }: PlacesToVisitProps) {
             <SwiperSlide key={index}>
               <div className="places-card-outer">
                 <div className="places-card-inner">
-                  <Image
-                    src={item.image}
-                    alt={item.title}
-                    width={500}
-                    height={300}
-                    className="places-card-image"
-                  />
+                  <SafeImage src={item.image} alt={item.title} />
 
                   <div className="places-card-overlay">
                     <h5
@@ -132,73 +143,3 @@ export default function PlacesToVisit({ cityName, data }: PlacesToVisitProps) {
     </div>
   );
 }
-
-
-
-
-// image part of rad more 
-//  <div className="places-card-inner">
-//                   <Image
-//                     src={item.image}
-//                     alt={item.title}
-//                     width={500}
-//                     height={300}
-//                     className="places-card-image"
-//                   />
-
-                  // <div className="places-card-overlay">
-                    {/* <h5
-                      className="place-title"
-                      onClick={() => handleOpen(item)}
-                    >
-                      {item.title}
-                    </h5> */}
-                    {/* /* <p className="places-card-subtitle">{item.subtitle}</p> */}
-                    {/* <p className="places-card-subtitle">
-                      {truncateByWords(item.subtitle, 10)}
-                      {item.subtitle.split(" ").length > 18 && (
-                        <span
-                          className="read-more-text"
-                         ... Read more
-                        </span>
-                      )}
-                    </p> */}
-
-                    {/* <button
-                    className="btn orange-btn inline-flex items-center gap-1 px-3 py-1 text-sm"
-                      onClick={() => handleOpen(item)}
-                    >
-                      Read Details
-                      <span>
-                        <Image
-                          width={23}
-                          height={23}
-                          sizes="100vw"
-                          src="/images/button-arrow.png"
-                          alt="arrow"
-                        />
-                      </span>
-                    </button> */}
-                //   </div>
-                // </div>                    onClick={() => handleOpen(item)}
-                        // >
-      // hover backup
-
-
-      // <div className="places-card-inner">
-      //             <Image
-      //               src={item.image}
-      //               alt={item.title}
-      //               width={500}
-      //               height={300}
-      //               className="places-card-image"
-      //             />
-      //             <div className="places-card-title">
-      //               <h5>{item.title}</h5>
-      //             </div>
-      //             {/* Hover Overlay */}
-      //             <div className="places-card-hover">
-      //               <h5 className="hover-title">{item.title}</h5>
-      //               <p className="hover-desc">{item.subtitle}</p>
-      //             </div>
-      //           </div>
