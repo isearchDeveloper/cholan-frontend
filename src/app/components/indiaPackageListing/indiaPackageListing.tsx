@@ -245,7 +245,7 @@ const IndiaPackageListing = ({
       {details?.title || details?.sub_title || details?.banner_image ? (
         <Banner
           title={details?.title || name}
-          subtitle={details?.sub_title || ""}
+          // subtitle={details?.sub_title || ""}
           imageUrl={details?.banner_image || ""}
         />
       ) : null}

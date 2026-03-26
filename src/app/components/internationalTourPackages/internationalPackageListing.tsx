@@ -262,11 +262,11 @@ const InternationalPackageListing = ({
               ? packageList?.country?.details?.title
               : packageList?.location?.details?.title
           }
-          subtitle={
-            packageList?.country?.details?.sub_title
-              ? packageList?.country?.details?.sub_title
-              : packageList?.location?.details?.sub_title
-          }
+          // subtitle={
+          //   packageList?.country?.details?.sub_title
+          //     ? packageList?.country?.details?.sub_title
+          //     : packageList?.location?.details?.sub_title
+          // }
           imageUrl={
             packageList?.country?.details?.banner_image
               ? packageList?.country?.details?.banner_image
