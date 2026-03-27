@@ -70,8 +70,8 @@ export default function ThemePackageListing({
     <div className="tour-listing p-0">
       {/* Banner */}
       <Banner
-        // title={details?.sub_title}
-        subtitle={details?.sub_title}
+        title={details?.sub_title}
+        // subtitle={details?.sub_title}
         imageUrl={details?.banner_image}
       />
 
