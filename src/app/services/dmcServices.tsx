@@ -95,6 +95,16 @@ interface ApiFleetItem {
   };
 }
 
+interface ApiPackage {
+  details: any;
+  title: string;
+  slug: string;
+  primary_image: string;
+  primary_image_alt: string | null;
+  short_description: string;
+}
+
+
 interface ApiResponse {
   status: string;
   message: string;
@@ -119,6 +129,8 @@ interface ApiResponse {
     banner_image: string;
     banner_image_alt: string;
   }[];
+
+  packages?: ApiPackage[]; 
 }
 
 // ================= FRONTEND TYPES =================
@@ -154,6 +166,17 @@ export interface BestTimeInfo {
 export interface FaqItem {
   question: string;
   answer: string;
+}
+
+
+export interface DmcPackage {
+  id?: number;
+  type?: number;
+  title: string;
+  slug: string;
+  primary_image: string;
+  primary_image_alt: string;
+  short_description: string;
 }
 
 export interface FleetItem {
@@ -192,6 +215,7 @@ export interface DmcCityData {
   meta: ApiMeta;
   fleets: Record<string, FleetItem[]>;
   relatedCities: RelatedCity[];
+   packages: DmcPackage[];
 }
 
 // ================= FETCH =================
@@ -207,7 +231,7 @@ export async function fetchDmcCityData(
           "Content-Type": "application/json",
           "X-Public-Token": XPublicToken,
         },
-        next: { revalidate: 60 },
+        next: { revalidate:60 },
       }
     );
 
@@ -326,6 +350,20 @@ function transformApiData(response: ApiResponse): DmcCityData {
   //  RELATED CITIES
   relatedCities: Array.isArray(response.related_cities)
     ? response.related_cities
+    : [],
+
+     packages: Array.isArray(response.packages)
+    ? response.packages
+        .filter((pkg) => pkg?.slug)
+        .map((pkg) => ({
+          title: pkg.title,
+          slug: pkg.slug,
+          primary_image: pkg.primary_image || "",
+          primary_image_alt: pkg.primary_image_alt || "",
+          short_description: pkg.short_description || "",
+          duratioin_days:pkg.details.duration_days || "",
+          duration_nights : pkg.details.duration_nights || "" 
+        }))
     : [],
 };
 }

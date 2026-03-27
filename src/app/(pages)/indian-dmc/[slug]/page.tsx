@@ -15,6 +15,7 @@ import DmcFleetSection from "@/app/components/dmc/DmcFleet";
 import { fetchDmcCityData } from "@/app/services/dmcServices";
 import { getCanonical } from "@/app/lib/getCanonical";
 import DmcFleetClient from "@/app/components/dmc/DmcFleet";
+import DmcPackages from "@/app/components/dmc/Dmcpackages";
 
 // export const revalidate = 180;
 type PageProps = {
@@ -81,14 +82,14 @@ export default async function DmcCityPage({ params }: PageProps) {
     notFound();
   }
 
-  
+
   const breadcrumbItems = [
     { label: "Home", href: "/" },
     { label: "Indian DMC", href: "/indian-dmc" },
     { label: `${cityData.cityName} DMC`, isCurrent: true },
   ];
 
-// console.log("FINAL CLEAN DATA:", cityData);
+  // console.log("FINAL CLEAN DATA:", cityData);
   return (
     <div className="dmc-city-page">
       {/*  Banner */}
@@ -142,8 +143,16 @@ export default async function DmcCityPage({ params }: PageProps) {
         />
       )}
 
+      {/* packages */}
+      {cityData.packages.length > 0 && (
+        <DmcPackages
+          packages={cityData.packages}
+          cityName={cityData.cityName}
+        />
+      )}
+
       {/*  Best Time */}
-     {cityData.bestTime?.description && (
+      {cityData.bestTime?.description && (
         <DmcBestTime
           bestTime={cityData.bestTime}
           cityName={cityData.cityName}

@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -20,22 +21,43 @@ interface PlacesToVisitProps {
   }[];
 }
 
-// const truncateByWords = (text: string, wordLimit: number) => {
-//   if (!text) return "";
+const FALLBACK = "/images/cholantours-tourist-attractions.webp";
 
-//   const words = text.split(" ");
-//   if (words.length <= wordLimit) return text;
+// clean subtitle
+const stripHtml = (html: string) => {
+  if (!html) return "";
+  return html.replace(/<[^>]*>?/gm, "");
+};
 
-//   return words.slice(0, wordLimit).join(" ");
-// };
-
+//  truncate
 const truncateByChars = (text: string, charLimit: number) => {
   if (!text) return "";
-
   if (text.length <= charLimit) return text;
-
   return text.slice(0, charLimit).trim();
 };
+
+//  FINAL IMAGE COMPONENT (PRO LEVEL)
+function SafeImage({ src, alt }: { src: string; alt: string }) {
+  const initialSrc =
+    src && src.startsWith("http") ? src : FALLBACK;
+
+  const [imgSrc, setImgSrc] = useState(initialSrc);
+
+  return (
+    <div className="relative w-full h-[220px]">
+      <Image
+        src={imgSrc}
+        alt={alt}
+        fill
+        className="places-card-image object-cover"
+        sizes="(max-width: 768px) 100vw, 25vw"
+        placeholder="blur"
+        blurDataURL={FALLBACK}
+        onError={() => setImgSrc(FALLBACK)}
+      />
+    </div>
+  );
+}
 
 export default function PlacesToVisit({ cityName, data }: PlacesToVisitProps) {
   const [open, setOpen] = useState(false);
@@ -46,32 +68,8 @@ export default function PlacesToVisit({ cityName, data }: PlacesToVisitProps) {
     setOpen(true);
   };
 
-  const FALLBACK = "/images/cholantours-tourist-attractions.webp";
-  function SafeImage({ src, alt }: { src: string; alt: string }) {
-    const [imgSrc, setImgSrc] = useState(src || FALLBACK);
-
-
-    const stripHtml = (html: string) => {
-      if (!html) return "";
-      return html.replace(/<[^>]*>?/gm, "");
-    };
-    return (
-      <Image
-        src={imgSrc}
-        alt={alt}
-        width={500}
-        height={300}
-        className="places-card-image"
-        onError={() => setImgSrc(FALLBACK)}
-      />
-    );
-  }
-
   return (
-    <div
-      className="places-to-visit-section py-5"
-      style={{ background: "#e9f4ff" }}
-    >
+    <div className="places-to-visit-section py-5" style={{ background: "#e9f4ff" }}>
       <div className="container">
         <h2 className="text-center mb-4 fs-2 fw-bold">
           Places to visit in {cityName}
@@ -81,7 +79,7 @@ export default function PlacesToVisit({ cityName, data }: PlacesToVisitProps) {
           modules={[Navigation, Pagination]}
           spaceBetween={20}
           slidesPerView={1.2}
-          navigation={true}
+          navigation
           pagination={{ clickable: true }}
           breakpoints={{
             640: { slidesPerView: 1.5 },
@@ -91,58 +89,45 @@ export default function PlacesToVisit({ cityName, data }: PlacesToVisitProps) {
           }}
           className="lux-swiper city-slider"
         >
-          {data.map((item, index) => (
-            <SwiperSlide key={index}>
-              <div className="places-card-outer">
-                <div className="places-card-inner">
-                  <SafeImage src={item.image} alt={item.title} />
+          {data.map((item, index) => {
+            const cleanText = stripHtml(item.subtitle || "");
 
-                  <div className="places-card-overlay">
-                    <h5
-                      className="place-title"
-                      onClick={() => handleOpen(item)}
-                    >
-                      {item.title}
-                    </h5>
-                    {/* /* <p className="places-card-subtitle">{item.subtitle}</p> */}                   {(() => {
-                      const cleanText = (item.subtitle || "").replace(/<[^>]*>?/gm, "");
+            return (
+              <SwiperSlide key={index}>
+                <div className="places-card-outer">
+                  <div className="places-card-inner">
 
-                      return (
-                        <p className="places-card-subtitle">
-                          {truncateByChars(cleanText, 60)}
+                    {/* ✅ IMAGE */}
+                    <SafeImage src={item.image} alt={item.title} />
 
-                          {cleanText.length > 60 && (
-                            <span
-                              className="read-more-text"
-                              onClick={() => handleOpen(item)}
-                            >
-                              ... Read more
-                            </span>
-                          )}
-                        </p>
-                      );
-                    })()}
+                    <div className="places-card-overlay">
+                      <h5
+                        className="place-title"
+                        onClick={() => handleOpen(item)}
+                      >
+                        {item.title}
+                      </h5>
 
-                    {/* <button
-                    className="btn orange-btn inline-flex items-center gap-1 px-3 py-1 text-sm"
-                      onClick={() => handleOpen(item)}
-                    >
-                      Read Details
-                      <span>
-                        <Image
-                          width={23}
-                          height={23}
-                          sizes="100vw"
-                          src="/images/button-arrow.png"
-                          alt="arrow"
-                        />
-                      </span>
-                    </button> */}
+                      {/* ✅ CLEAN SUBTITLE */}
+                      <p className="places-card-subtitle">
+                        {truncateByChars(cleanText, 60)}
+
+                        {cleanText.length > 60 && (
+                          <span
+                            className="read-more-text"
+                            onClick={() => handleOpen(item)}
+                          >
+                            ... Read more
+                          </span>
+                        )}
+                      </p>
+
+                    </div>
                   </div>
                 </div>
-              </div>
-            </SwiperSlide>
-          ))}
+              </SwiperSlide>
+            );
+          })}
         </Swiper>
       </div>
 

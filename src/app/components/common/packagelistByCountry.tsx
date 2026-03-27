@@ -188,7 +188,7 @@ export default async function PackagelistByCountry({
   slug: string;
   country: string;
 }) {
-  // ✅ SAFE parallel fetching (very important on AWS)
+  //  SAFE parallel fetching (very important on AWS)
   const [countryData, exclusiveIndiaPackage, res, result] =
     await Promise.all([
       fetchCountryPageData(slug).catch(() => null),
