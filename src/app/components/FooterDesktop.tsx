@@ -164,8 +164,8 @@ export default async function FooterDesktopSec() {
       href: "/international-holidays/tokyo-tour-packages",
     },
     {
-      label: "Netherland Tour Packages",
-      href: "/international-holidays/netherland-tour-packages",
+      label: "Netherlands Tour Packages",
+      href: "/international-holidays/netherlands-tour-packages",
     },
     {
       label: "Spain Tour Packages",

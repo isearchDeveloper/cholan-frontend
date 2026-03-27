@@ -18,7 +18,7 @@ export default function DmcCta({ cityName }: DmcCtaProps) {
           </p>
           <p className={styles.subtext}>Contact us today.</p>
 
-          <Link href="/contact" className={styles.btn}>
+          <Link href="/contact-us" className={styles.btn}>
             Book or Enquire
           </Link>
         </div>
