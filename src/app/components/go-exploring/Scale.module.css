@@ -1,0 +1,92 @@
+.scale {
+  padding: 80px 20px;
+  background: #cfd0d3;
+  color: white;
+}
+
+.container {
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* HEADING */
+.heading {
+  margin-bottom: 40px;
+}
+
+.heading h2 {
+  font-size: 38px;
+  color: black!important;
+  font-weight: 700;
+}
+
+.heading span {
+  color: #3b5bdb; /* YOUR THEME COLOR */
+}
+
+.heading p {
+  margin-top: 10px;
+  color: black;
+  max-width: 500px;
+}
+
+/* GRID */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+/* CARD */
+.card {
+  background: #f1f2f3;
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 14px;
+  padding: 24px;
+  transition: 0.3s;
+  position: relative;
+}
+
+/* HOVER EFFECT */
+.card:hover {
+  transform: translateY(-6px);
+  border-color: #3b5bdb;
+  box-shadow: 0 10px 30px rgba(59,91,219,0.2);
+}
+
+/* ICON */
+.icon {
+  font-size: 26px;
+  margin-bottom: 12px;
+  color: black;
+}
+
+/* TITLE */
+.card h3 {
+  font-size: 18px;
+  margin-bottom: 8px;
+  color:black!important
+}
+
+/* DESC */
+.card p {
+  font-size: 14px;
+  color: black;
+}
+
+/* RESPONSIVE */
+@media (max-width: 992px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 576px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .heading h2 {
+    font-size: 26px;
+  }
+}
