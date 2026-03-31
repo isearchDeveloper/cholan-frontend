@@ -18,7 +18,7 @@ export default function Hero({ data }: any) {
     return () => clearInterval(i);
   }, [slides]);
 
-  console.log("data", data)
+  
 
   return (
     <section className={styles.hero}>
