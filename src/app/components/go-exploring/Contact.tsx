@@ -3,7 +3,7 @@
 import { useState } from "react";
 import styles from "./Contact.module.css";
 import Image from "next/image";
-import { submitGoEnquiry } from"@/app/services/goservice"
+import { submitGoEnquiry } from "@/app/services/goservice";
 
 export default function Contact() {
   const [form, setForm] = useState({
@@ -15,48 +15,68 @@ export default function Contact() {
 
   const [loading, setLoading] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
-  const [errorMsg, setErrorMsg] = useState("");
 
-  /* =========================
-     HANDLE INPUT
-  ========================= */
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const [errors, setErrors] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    msg: "",
+  });
+
+  /* ================= HANDLE INPUT ================= */
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+
+    // clear error when typing
+    setErrors({ ...errors, [e.target.name]: "" });
   };
 
-  /* =========================
-     VALIDATION
-  ========================= */
+  /* ================= VALIDATION ================= */
   const validate = () => {
-    if (!form.name.trim()) return "Name is required";
-    if (!form.email.trim()) return "Email is required";
-    if (!/^\S+@\S+\.\S+$/.test(form.email)) return "Invalid email";
-    if (!form.phone.trim()) return "Phone is required";
-    if (!form.msg.trim()) return "Message is required";
-    return "";
+    const newErrors = {
+      name: "",
+      email: "",
+      phone: "",
+      msg: "",
+    };
+
+    if (!form.name.trim()) newErrors.name = "Name is required";
+
+    if (!form.email.trim()) newErrors.email = "Email is required";
+    else if (!/^\S+@\S+\.\S+$/.test(form.email))
+      newErrors.email = "Invalid email";
+
+    if (!form.phone.trim()) newErrors.phone = "Phone is required";
+
+    if (!form.msg.trim()) newErrors.msg = "Message is required";
+
+    setErrors(newErrors);
+
+    return Object.values(newErrors).some((err) => err !== "");
   };
 
-  /* =========================
-     SUBMIT
-  ========================= */
+  /* ================= SUBMIT ================= */
   const handleSubmit = async () => {
-    const validationError = validate();
-    if (validationError) {
-      setErrorMsg(validationError);
-      return;
-    }
+    const hasError = validate();
+    if (hasError) return;
 
     setLoading(true);
     setSuccessMsg("");
-    setErrorMsg("");
 
     const res = await submitGoEnquiry(form);
 
     if (res?.success) {
       setSuccessMsg(res.message || "Enquiry submitted successfully");
+
       setForm({ name: "", email: "", phone: "", msg: "" });
-    } else {
-      setErrorMsg(res.message || "Something went wrong");
+      setErrors({ name: "", email: "", phone: "", msg: "" });
+
+      // auto remove success
+      setTimeout(() => {
+        setSuccessMsg("");
+      }, 3000);
     }
 
     setLoading(false);
@@ -65,13 +85,14 @@ export default function Contact() {
   return (
     <section className={styles.contact}>
       <div className={styles.container}>
-
+        
         {/* ================= LEFT FORM ================= */}
         <div className={styles.formBox}>
           <h3>
             <span>Send</span> Your Words
           </h3>
 
+          {/* NAME */}
           <input
             type="text"
             name="name"
@@ -79,7 +100,9 @@ export default function Contact() {
             onChange={handleChange}
             placeholder="Your Name*"
           />
+          {errors.name && <p className={styles.error}>{errors.name}</p>}
 
+          {/* EMAIL */}
           <input
             type="email"
             name="email"
@@ -87,7 +110,9 @@ export default function Contact() {
             onChange={handleChange}
             placeholder="Your email*"
           />
+          {errors.email && <p className={styles.error}>{errors.email}</p>}
 
+          {/* PHONE */}
           <input
             type="tel"
             name="phone"
@@ -95,7 +120,9 @@ export default function Contact() {
             onChange={handleChange}
             placeholder="Your phone*"
           />
+          {errors.phone && <p className={styles.error}>{errors.phone}</p>}
 
+          {/* MESSAGE */}
           <textarea
             name="msg"
             value={form.msg}
@@ -103,19 +130,15 @@ export default function Contact() {
             placeholder="Your message*"
             rows={5}
           />
+          {errors.msg && <p className={styles.error}>{errors.msg}</p>}
 
           <button onClick={handleSubmit} disabled={loading}>
             {loading ? "Sending..." : "Send"}
           </button>
 
-          {/* ✅ SUCCESS */}
+          {/* ✅ SUCCESS MESSAGE */}
           {successMsg && (
             <p className={styles.success}>{successMsg}</p>
-          )}
-
-          {/* ❌ ERROR */}
-          {errorMsg && (
-            <p className={styles.error}>{errorMsg}</p>
           )}
 
           {/* 🔒 SECURITY */}
@@ -127,7 +150,6 @@ export default function Contact() {
 
         {/* ================= RIGHT CONTENT ================= */}
         <div className={styles.right}>
-
           <span className={styles.tag}>Contacts</span>
 
           <h3>
@@ -136,7 +158,6 @@ export default function Contact() {
           </h3>
 
           <div className={styles.media}>
-
             <div className={styles.qr}>
               <a href="https://cholantours.com" target="_blank">
                 <Image
@@ -180,7 +201,6 @@ export default function Contact() {
                 allowFullScreen
               ></iframe>
             </div>
-
           </div>
         </div>
 
