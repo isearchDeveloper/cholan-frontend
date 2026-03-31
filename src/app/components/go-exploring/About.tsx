@@ -1,6 +1,8 @@
 import styles from "./About.module.css";
 
-export default function About() {
+export default function About({ data }: any) {
+  const images = data?.about_images || [];
+
   return (
     <section className={styles.about}>
       <div className={styles.container}>
@@ -13,37 +15,44 @@ export default function About() {
             Who Are <span>We</span>
           </h2>
 
-          <p>
-            India is a diversified land with varied culture, lifestyles,
-            history, heritage and traditions surprising the global tourists
-            every time they visit Mother India.
-          </p>
+          {/* ✅ API DESCRIPTION (HTML) */}
+          <div
+            dangerouslySetInnerHTML={{
+              __html: data?.about_description || "",
+            }}
+          />
 
-          <p>
-            A first time traveller to India always gets amazed to look at the
-            magnificent palaces and forts, beautifully architected temples
-            housing intricate sculptures and figurines and the featured
-            destinations dotted across the country.
-          </p>
-
-          <a href="/about-us" ><button className={styles.btn}>Find Out More</button></a>
+          {/* ✅ BUTTON LINK FROM API */}
+          <a href={data?.about_button_link || "#"}>
+            <button className={styles.btn}>Find Out More</button>
+          </a>
         </div>
 
         {/* RIGHT IMAGES */}
         <div className={styles.right}>
-          <div className={styles.imgMain}>
-            <img src="/go-exploring/activity1.jpg" />
-          </div>
+          
+          {/* MAIN IMAGE */}
+          {images[0] && (
+            <div className={styles.imgMain}>
+              <img src={images[0]} alt="about" />
+            </div>
+          )}
 
-          <div className={styles.imgTop}>
-            <img src="/go-exploring/activity2.jpg" />
-          </div>
+          {/* TOP IMAGE */}
+          {images[1] && (
+            <div className={styles.imgTop}>
+              <img src={images[1]} alt="about" />
+            </div>
+          )}
 
-          <div className={styles.imgBottom}>
-            <img src="/go-exploring/activity3.jpg" />
-          </div>
+          {/* BOTTOM IMAGE */}
+          {images[2] && (
+            <div className={styles.imgBottom}>
+              <img src={images[2]} alt="about" />
+            </div>
+          )}
+
         </div>
-
       </div>
     </section>
   );

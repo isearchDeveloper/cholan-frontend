@@ -174,3 +174,35 @@
     padding: 20px;
   }
 }
+
+.success {
+  color: #16a34a;
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.error {
+  color: #dc2626;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.secure {
+  margin-top: 12px;
+  font-size: 13px;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.lock {
+  font-size: 14px;
+}
+
+/* Button UX improvement */
+.formBox button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}

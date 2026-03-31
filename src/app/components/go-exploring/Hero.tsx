@@ -1,85 +1,63 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import styles from "./Hero.module.css";
 
-const slides = [
-  "/go-exploring/slider-1.png",
-  "/go-exploring/slider-2.png",
-  "/go-exploring/slider-3.png",
-  "/go-exploring/slider-4.png",
-  "/go-exploring/slider-5.png",
-  "/go-exploring/slider-6.png",
-  "/go-exploring/slider-7.png",
-  "/go-exploring/slider-8.png",
-];
-
-export default function Hero() {
+export default function Hero({ data }: any) {
   const [current, setCurrent] = useState(0);
 
+  const slides = data?.hero_images || [];
+
   useEffect(() => {
+    if (!slides.length) return;
+
     const i = setInterval(() => {
       setCurrent((prev) => (prev + 1) % slides.length);
     }, 4000);
+
     return () => clearInterval(i);
-  }, []);
+  }, [slides]);
+
+  console.log("data", data)
 
   return (
     <section className={styles.hero}>
       <div className={styles.container}>
-
+        
         {/* LEFT */}
         <div className={styles.left}>
 
+          {/* LOGO */}
           <div className={styles.logoWrap}>
-            <Image
-              src="/go-exploring/app_logo.png"
-              alt="Go Exploring"
-              width={140}
-              height={50}
-            />
+            <img src={data?.app_logo} alt="logo" />
           </div>
-          <h1>
-            Connecting Global tourists <br />
-            <span>with Indian Tourist Guides</span>
-          </h1>
 
-          <p>
-            Explore India with the right guide by your side. Your journey begins here{" "}
-            <strong>- Download the App Now.</strong>
-          </p>
+          {/* TITLE */}
+          <h1>{data?.title}</h1>
 
+          {/* HTML TEXT */}
+          <div
+            className={styles.desc}
+            dangerouslySetInnerHTML={{ __html: data?.banner_text }}
+          />
+
+          {/* STORE BUTTONS (STATIC for now) */}
           <div className={styles.store}>
-
-            {/* GOOGLE PLAY */}
             <a
               href="https://play.google.com/store/apps/details?id=com.goexploring"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <Image
-                src="/go-exploring/play-store.png"
-                alt="Google Play"
-                width={160}
-                height={50}
-              />
+              <img src="/go-exploring/play-store.png" alt="play" />
             </a>
 
-            {/* APP STORE */}
             <a
               href="https://apps.apple.com/in/app/go-exploring/id6758142143"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <Image
-                src="/go-exploring/app-store.png"
-                alt="App Store"
-                width={160}
-                height={50}
-              />
+              <img src="/go-exploring/app-store.png" alt="app" />
             </a>
-
           </div>
         </div>
 
@@ -92,20 +70,22 @@ export default function Hero() {
               </clipPath>
             </defs>
 
-            {/* BACKGROUND SHAPE */}
+            {/* BACKGROUND */}
             <path
               fill="#f1f3f5"
               d="M617,425.6C538.8,622,285.4,656.9,91.2,571.9c-141-61.7-71.5-182.7-89.3-353C-18.1,28,123.4-22,295.5,8.1C486,41.5,692.9,235,617,425.6z"
             />
 
-            {/* IMAGE */}
-            <image
-              href={slides[current]}
-              width="100%"
-              height="100%"
-              preserveAspectRatio="xMidYMid slice"
-              clipPath="url(#clipShape)"
-            />
+            {/* DYNAMIC IMAGE */}
+            {slides.length > 0 && (
+              <image
+                href={slides[current]}
+                width="100%"
+                height="100%"
+                preserveAspectRatio="xMidYMid slice"
+                clipPath="url(#clipShape)"
+              />
+            )}
           </svg>
 
           {/* FLOATING */}
@@ -118,15 +98,19 @@ export default function Hero() {
       </div>
 
       {/* DOTS */}
-      <div className={styles.dots}>
-        {slides.map((_, i) => (
-          <span
-            key={i}
-            className={`${styles.dot} ${i === current ? styles.active : ""}`}
-            onClick={() => setCurrent(i)}
-          />
-        ))}
-      </div>
+      {slides.length > 1 && (
+        <div className={styles.dots}>
+          {slides.map((_: any, i: number) => (
+            <span
+              key={i}
+              className={`${styles.dot} ${
+                i === current ? styles.active : ""
+              }`}
+              onClick={() => setCurrent(i)}
+            />
+          ))}
+        </div>
+      )}
     </section>
   );
 }
