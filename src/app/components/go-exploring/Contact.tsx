@@ -89,7 +89,7 @@ export default function Contact() {
         {/* ================= LEFT FORM ================= */}
         <div className={styles.formBox}>
           <h3>
-            <span>Send</span> Your Words
+            <span>Get</span>in Touch
           </h3>
 
           {/* NAME */}
