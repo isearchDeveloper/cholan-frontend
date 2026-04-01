@@ -91,6 +91,7 @@ export default function Scale({ data }: ScaleProps) {
                     alt={item.title}
                     className={styles.icon}
                     loading="lazy"
+               
                   />
                 ) : (
                   <div className={styles.icon}>{item.icon}</div>
