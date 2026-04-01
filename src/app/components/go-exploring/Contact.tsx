@@ -85,7 +85,7 @@ export default function Contact() {
   return (
     <section className={styles.contact}>
       <div className={styles.container}>
-        
+
         {/* ================= LEFT FORM ================= */}
         <div className={styles.formBox}>
           <h3>
@@ -157,51 +157,48 @@ export default function Contact() {
             Need To <span>Get Started Is Right Here.</span>
           </h3>
 
-          <div className={styles.media}>
-            <div className={styles.qr}>
-              <a href="https://cholantours.com" target="_blank">
-                <Image
-                  src="/go-exploring/qr-go-exploring.png"
-                  alt="QR"
-                  width={120}
-                  height={120}
-                />
-              </a>
+         <div className={styles.media}>
+  <div className={styles.qrBlock}>
+    
+    {/* QR */}
+    <div className={styles.qrBox}>
+      <a href="https://cholantours.com" target="_blank">
+        <Image
+          src="/go-exploring/qr-go-exploring.png"
+          alt="QR"
+          width={120}
+          height={120}
+        />
+      </a>
+    </div>
 
-              <a
-                href="https://play.google.com/store/apps/details?id=com.goexploring"
-                target="_blank"
-              >
-                <Image
-                  className={styles.store}
-                  src="/go-exploring/play-store.png"
-                  alt="Google Play"
-                  width={150}
-                  height={45}
-                />
-              </a>
+    {/* STORE BUTTONS */}
+    <div className={styles.storeGroup}>
+      <a
+        href="https://play.google.com/store/apps/details?id=com.goexploring"
+        target="_blank"
+      >
+        <img src="/go-exploring/play-store.jpg" alt="Google Play" />
+      </a>
 
-              <a
-                href="https://apps.apple.com/in/app/go-exploring/id6758142143"
-                target="_blank"
-              >
-                <Image
-                  className={styles.store}
-                  src="/go-exploring/app-store.png"
-                  alt="App Store"
-                  width={150}
-                  height={45}
-                />
-              </a>
-            </div>
+      <a
+        href="https://apps.apple.com/in/app/go-exploring/id6758142143"
+        target="_blank"
+      >
+        <img src="/go-exploring/app-store.jpg" alt="App Store" />
+      </a>
+    </div>
 
-            <div className={styles.video}>
-              <iframe
-                src="https://www.youtube-nocookie.com/embed/BpYLxh4VyfE"
-                allowFullScreen
-              ></iframe>
-            </div>
-          </div>
+  </div>
+
+  {/* VIDEO */}
+  <div className={styles.video}>
+    <iframe
+      src="https://www.youtube-nocookie.com/embed/BpYLxh4VyfE"
+      allowFullScreen
+    ></iframe>
+  </div>
+</div>
         </div>
 
       </div>

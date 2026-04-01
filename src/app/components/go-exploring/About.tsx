@@ -12,7 +12,7 @@ export default function About({ data }: any) {
           <span className={styles.tag}>About us</span>
 
           <h2>
-            Who Are <span>We</span>
+          { data.about_title}
           </h2>
 
           {/* ✅ API DESCRIPTION (HTML) */}

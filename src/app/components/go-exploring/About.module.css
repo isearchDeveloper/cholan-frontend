@@ -81,6 +81,7 @@
   right: 0;
   top: 0;
   width: 45%;
+  height: 45%;
   border-radius: 10px;
   overflow: hidden;
 }
@@ -96,8 +97,10 @@
   position: absolute;
   right: 0;
   bottom: 0;
-  top:200px;
+  height: 45%;
+  top:170px;
   width: 45%;
+ 
   border-radius: 10px;
   overflow: hidden;
 }

@@ -16,6 +16,7 @@ type ApiFeature = {
 type ScaleProps = {
   data?: {
     features?: ApiFeature[];
+    feature_section_title?: string;
     feature_section_description?: string;
   };
 };
@@ -63,7 +64,7 @@ export default function Scale({ data }: ScaleProps) {
         {/* ================= HEADING ================= */}
         <div className={styles.heading}>
           <h2>
-            Everything You Need to <span>Scale</span>
+          {data?.feature_section_title ||" hii"}
           </h2>
 
           {/* ✅ HTML render from API */}
