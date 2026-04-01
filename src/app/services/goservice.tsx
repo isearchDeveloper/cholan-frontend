@@ -11,7 +11,7 @@ export async function fetchGoExploringData() {
         headers: {
           "X-Public-Token": XPublicToken,
         },
-        next: { revalidate: 0 }, // cache for 60 sec (better than 0)
+        next: { revalidate: 60 }, // cache for 60 sec (better than 0)
       }
     );
 
