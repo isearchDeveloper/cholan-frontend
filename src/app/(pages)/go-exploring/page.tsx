@@ -69,7 +69,7 @@ export default async function GoExploring() {
       <div className="pt-5">
         <ReviewsWidget />
       </div>
-      <Cta />
+      {/* <Cta /> */}
     </>
   );
 }
