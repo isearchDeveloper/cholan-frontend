@@ -1,11 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import styles from "./Contact.module.css";
 import Image from "next/image";
 import { submitGoEnquiry } from "@/app/services/goservice";
+import ReCAPTCHA from "react-google-recaptcha";
 
 export default function Contact() {
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
+
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -21,6 +26,7 @@ export default function Contact() {
     email: "",
     phone: "",
     msg: "",
+    captcha: "",
   });
 
   /* ================= HANDLE INPUT ================= */
@@ -29,8 +35,20 @@ export default function Contact() {
   ) => {
     setForm({ ...form, [e.target.name]: e.target.value });
 
-    // clear error when typing
     setErrors({ ...errors, [e.target.name]: "" });
+  };
+
+  /* ================= CAPTCHA ================= */
+  const handleCaptchaChange = (token: string | null) => {
+    setCaptchaToken(token);
+    if (errors.captcha) {
+      setErrors({ ...errors, captcha: "" });
+    }
+  };
+
+  const resetCaptcha = () => {
+    setCaptchaToken(null);
+    recaptchaRef.current?.reset();
   };
 
   /* ================= VALIDATION ================= */
@@ -40,6 +58,7 @@ export default function Contact() {
       email: "",
       phone: "",
       msg: "",
+      captcha: "",
     };
 
     if (!form.name.trim()) newErrors.name = "Name is required";
@@ -52,6 +71,9 @@ export default function Contact() {
 
     if (!form.msg.trim()) newErrors.msg = "Message is required";
 
+    if (!captchaToken)
+      newErrors.captcha = "Please verify captcha";
+
     setErrors(newErrors);
 
     return Object.values(newErrors).some((err) => err !== "");
@@ -60,23 +82,32 @@ export default function Contact() {
   /* ================= SUBMIT ================= */
   const handleSubmit = async () => {
     const hasError = validate();
-    if (hasError) return;
+    if (hasError) {
+      resetCaptcha(); // 🔥 reset if error
+      return;
+    }
 
     setLoading(true);
     setSuccessMsg("");
 
-    const res = await submitGoEnquiry(form);
+    const res = await submitGoEnquiry({
+      ...form,
+      recaptcha_token: captchaToken, // 🔥 send to backend
+    });
 
     if (res?.success) {
       setSuccessMsg(res.message || "Enquiry submitted successfully");
 
       setForm({ name: "", email: "", phone: "", msg: "" });
-      setErrors({ name: "", email: "", phone: "", msg: "" });
+      setErrors({ name: "", email: "", phone: "", msg: "", captcha: "" });
 
-      // auto remove success
+      resetCaptcha(); // 🔥 reset after success
+
       setTimeout(() => {
         setSuccessMsg("");
       }, 3000);
+    } else {
+      resetCaptcha(); // 🔥 reset on fail
     }
 
     setLoading(false);
@@ -92,7 +123,6 @@ export default function Contact() {
             <span>Get</span> in Touch
           </h3>
 
-          {/* NAME */}
           <input
             type="text"
             name="name"
@@ -102,7 +132,6 @@ export default function Contact() {
           />
           {errors.name && <p className={styles.error}>{errors.name}</p>}
 
-          {/* EMAIL */}
           <input
             type="email"
             name="email"
@@ -112,7 +141,6 @@ export default function Contact() {
           />
           {errors.email && <p className={styles.error}>{errors.email}</p>}
 
-          {/* PHONE */}
           <input
             type="tel"
             name="phone"
@@ -122,7 +150,6 @@ export default function Contact() {
           />
           {errors.phone && <p className={styles.error}>{errors.phone}</p>}
 
-          {/* MESSAGE */}
           <textarea
             name="msg"
             value={form.msg}
@@ -132,16 +159,26 @@ export default function Contact() {
           />
           {errors.msg && <p className={styles.error}>{errors.msg}</p>}
 
+          {/* 🔐 CAPTCHA */}
+          <div style={{ margin: "10px" }}>
+            <ReCAPTCHA
+              ref={recaptchaRef}
+              sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}
+              onChange={handleCaptchaChange}
+            />
+            {errors.captcha && (
+              <p className={styles.error}>{errors.captcha}</p>
+            )}
+          </div>
+
           <button onClick={handleSubmit} disabled={loading}>
             {loading ? "Sending..." : "Send"}
           </button>
 
-          {/* ✅ SUCCESS MESSAGE */}
           {successMsg && (
             <p className={styles.success}>{successMsg}</p>
           )}
 
-          {/* 🔒 SECURITY */}
           <p className={styles.secure}>
             <span className={styles.lock}>🔒</span>
             Your data is secure with us
@@ -157,48 +194,37 @@ export default function Contact() {
             Need To <span>Get Started Is Right Here.</span>
           </h3>
 
-         <div className={styles.media}>
-  <div className={styles.qrBlock}>
-    
-    {/* QR */}
-    <div className={styles.qrBox}>
-      <a href="https://cholantours.com" target="_blank">
-        <Image
-          src="/go-exploring/qr-go-exploring.png"
-          alt="QR"
-          width={120}
-          height={120}
-        />
-      </a>
-    </div>
+          <div className={styles.media}>
+            <div className={styles.qrBlock}>
+              <div className={styles.qrBox}>
+                <a href="https://cholantours.com" target="_blank">
+                  <Image
+                    src="/go-exploring/qr-go-exploring.png"
+                    alt="QR"
+                    width={120}
+                    height={120}
+                  />
+                </a>
+              </div>
 
-    {/* STORE BUTTONS */}
-    <div className={styles.storeGroup}>
-      <a
-        href="https://play.google.com/store/apps/details?id=com.goexploring"
-        target="_blank"
-      >
-        <img src="/go-exploring/play-store.jpg" alt="Google Play" />
-      </a>
+              <div className={styles.storeGroup}>
+                <a href="https://play.google.com/store/apps/details?id=com.goexploring" target="_blank">
+                  <img src="/go-exploring/play-store.jpg" alt="Google Play" />
+                </a>
 
-      <a
-        href="https://apps.apple.com/in/app/go-exploring/id6758142143"
-        target="_blank"
-      >
-        <img src="/go-exploring/app-store.jpg" alt="App Store" />
-      </a>
-    </div>
+                <a href="https://apps.apple.com/in/app/go-exploring/id6758142143" target="_blank">
+                  <img src="/go-exploring/app-store.jpg" alt="App Store" />
+                </a>
+              </div>
+            </div>
 
-  </div>
-
-  {/* VIDEO */}
-  <div className={styles.video}>
-    <iframe
-      src="https://www.youtube-nocookie.com/embed/BpYLxh4VyfE"
-      allowFullScreen
-    ></iframe>
-  </div>
-</div>
+            <div className={styles.video}>
+              <iframe
+                src="https://www.youtube-nocookie.com/embed/BpYLxh4VyfE"
+                allowFullScreen
+              ></iframe>
+            </div>
+          </div>
         </div>
 
       </div>

@@ -38,6 +38,7 @@ export async function submitGoEnquiry(form: {
   email: string;
   phone: string;
   msg: string;
+   recaptcha_token?: string | null; 
 }) {
   try {
     const formData = new FormData();

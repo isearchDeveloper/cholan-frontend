@@ -20,7 +20,7 @@ export default function CTA() {
         </h2>
 
         <p>
-          Join thousands of guides already earning more with GuideMitra.
+          Join thousands of guides already earning more with GoExploring.
           Free forever to start.
         </p>
 
