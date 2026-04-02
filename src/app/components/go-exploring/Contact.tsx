@@ -120,7 +120,7 @@ export default function Contact() {
         {/* ================= LEFT FORM ================= */}
         <div className={styles.formBox}>
           <h3>
-            <span>Get</span> in Touch
+            <span>Register</span> Now
           </h3>
 
           <input
@@ -172,7 +172,7 @@ export default function Contact() {
           </div>
 
           <button onClick={handleSubmit} disabled={loading}>
-            {loading ? "Sending..." : "Send"}
+            {loading ? "Sending..." : "Show my Experience"}
           </button>
 
           {successMsg && (

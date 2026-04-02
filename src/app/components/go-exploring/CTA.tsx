@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import styles from "./CTA.module.css";
+import Image from "next/image";
 
 export default function CTA() {
   const [open, setOpen] = useState(false);
@@ -25,7 +26,7 @@ export default function CTA() {
         </p>
 
         <button className={styles.btn} onClick={() => setOpen(true)}>
-          Register Free Now →
+          Register  Now →
         </button>
       </div>
 
@@ -46,9 +47,7 @@ export default function CTA() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <button className={styles.androidBtn}>
-                  Android
-                </button>
+                <img src="/go-exploring/playstore-images.png" className={styles.iosBtn} alt="Android App" />
               </a>
 
               {/* IOS */}
@@ -57,9 +56,7 @@ export default function CTA() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <button className={styles.iosBtn}>
-                  iOS
-                </button>
+                <img  src="/go-exploring/ios-images.png" className={styles.iosBtn} alt="iOS App" />
               </a>
 
             </div>

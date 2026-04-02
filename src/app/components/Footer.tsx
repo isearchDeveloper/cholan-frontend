@@ -89,7 +89,7 @@ const FooterSec = () => {
         { label: "CSR Policy", href: "/csr" },
         { label: "Awards & Achievements", href: "/awards-and-achievements" },
         { label: "Policies", href: "/policies" },
-         { label: "Our Tour Guide", href: "/go-exploring" },
+         { label: "Go Exploring", href: "/go-exploring" },
       ],
     },
     international: {

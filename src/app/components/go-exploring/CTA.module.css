@@ -120,25 +120,27 @@
 .modalButtons {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 5px;
 }
 
 .androidBtn {
   background: #3b5bdb;
   color: white;
-  padding: 10px;
+  padding:5px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
+  height: 20px!important;
 }
 
 .iosBtn {
-  background: #111;
+  /* background: #111; */
   color: white;
-  padding: 10px;
+  padding: 5px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
+   height: 60px!important;
 }
 
 /* CLOSE */
