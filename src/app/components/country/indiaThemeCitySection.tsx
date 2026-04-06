@@ -55,7 +55,7 @@ export default function ThemeCitySection({ themeData }: { themeData: any }) {
             priority
           />
           <div className="theme-banner-overlay">
-            <h1>{themeData.title}</h1>
+            <div className="banner-title">{themeData.title}</div>
           </div>
         </div>
       )}

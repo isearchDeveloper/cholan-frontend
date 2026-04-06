@@ -72,8 +72,7 @@ export default function FairFestivalBanner({ banner }: { banner: BannerType }) {
      FALLBACK IMAGES
   ========================= */
   const fallbackImages = [
-    "/images/festival-placeholder-1.webp",
-    "/images/festival-placeholder-2.webp",
+    "/images/fairs-and-festivals.webp",
   ];
 
   const getImageIndex = (str: string): number => {
