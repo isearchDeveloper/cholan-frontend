@@ -631,7 +631,7 @@ export default function Navigation({
                                   : "col-lg-9"
                               } menu-columns`}
                             >
-                              {/* ✅ FIX: All of Region link with correct slug */}
+                              {/*  FIX: All of Region link with correct slug */}
                               <div className="clickable-state all-of-region underLine mobile-region-tab">
                                 <Link
                                   href={getRegionHref(
