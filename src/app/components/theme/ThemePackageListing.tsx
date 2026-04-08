@@ -5,7 +5,6 @@ import TourCard from "@/app/components/common/TourCard";
 import Banner from "@/app/components/common/banner";
 import ExpandableText from "@/app/components/common/ExpandableText";
 import FAQAccordionListing from "@/app/components/common/FAQAccordionForListing";
-import Sidebar from "@/app/components/common/sidebar";
 import Breadcrumb from "@/app/components/common/Breadcrumb";
 import ThemeSidebar from "./ThemeSidebar";
 
@@ -13,6 +12,7 @@ interface ThemePackageListingProps {
   data: any;
   cityName: string;
   citySlug: string;
+  themeSlug: string;
   sidebarThemes: any[];
 }
 
@@ -20,6 +20,7 @@ export default function ThemePackageListing({
   data,
   cityName,
   citySlug,
+  themeSlug,
   sidebarThemes,
 }: ThemePackageListingProps) {
   if (!data) return null;
@@ -40,9 +41,9 @@ export default function ThemePackageListing({
       .trim();
   };
 
-  const city = formatTitle(cityName);
+  // const city = formatTitle(cityName);
   const theme = formatTitle(details?.title);
-// console.log( "title of dynamic page :" , theme);
+// console.log( "title of dynamic page :" , data);
   const pageTitle =
      [theme].filter(Boolean).join(" ") || "Theme Tour Packages";
 
@@ -57,8 +58,8 @@ export default function ThemePackageListing({
     { label: "Home", href: "/" },
     { label: "India", href: "/india" },
     {
-      label: cityName,
-      href: `/india/${citySlug}`,
+      label: themeSlug,
+      href: `/india/${themeSlug}-tour-packages`,
     },
     {
       label: data?.location?.details?.title,

@@ -69,7 +69,6 @@ export default async function InternationalListing({
   if (!res?.data) {
     notFound();
   }
-
   // 3️⃣ Packages must exist
   const packages = res?.data?.packages ?? [];
 

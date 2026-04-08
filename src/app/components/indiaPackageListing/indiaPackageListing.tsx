@@ -7,7 +7,6 @@ import ExpandableText from "@/app/components/common/ExpandableText";
 import FAQAccordion from "@/app/components/common/FAQAccordion";
 
 import AOS from "aos";
-import "aos/dist/aos.css";
 import { notFound, useParams } from "next/navigation";
 import { XPublicToken } from "@/app/urls/apiUrls";
 import axios from "axios";
@@ -23,6 +22,7 @@ const IndiaPackageListing = ({
   slug1,
   categorySlug: serverCategorySlug,
   originalSlug,
+  sidebarThemes = [],
 }: any) => {
   const [packageList, setPackageList] = useState<any>(packageList1 || null);
   const [currentPage, setCurrentPage] = useState(initialPage);
@@ -50,6 +50,10 @@ const IndiaPackageListing = ({
 
   useEffect(() => {
     if (categorySlug) {
+      // Clear packages immediately so stale cards don't show while new data loads
+      setPackageList((prev: any) =>
+        prev ? { ...prev, packages: [] } : prev
+      );
       handlePageChange(1);
     }
   }, [categorySlug]);
@@ -216,7 +220,7 @@ const IndiaPackageListing = ({
   //   categorySlug
   // );
 
-  // ✅ Fallback for region pages (no location in API)
+  //  Fallback for region pages (no location in API)
   const sidebarLocationName =
     packageList?.location?.name ||
     virtualRegionTitleMap[slug1]?.replace(" Tour Packages", "") ||
@@ -231,6 +235,11 @@ const IndiaPackageListing = ({
         themes: [], // prevent crash
       },
     };
+
+    const finalSidebarData =
+  sidebarThemes.length > 0
+    ? sidebarThemes //  priority
+    : packageList?.categories || []; // 🔁 fallback
   return (
     <div className="tour-listing p-0">
       {/* {packageList?.location?.details?.title ||
@@ -267,9 +276,12 @@ const IndiaPackageListing = ({
               /> */}
 
               <Sidebar
-                data={sidebarData}
+               data={{ categories: finalSidebarData }}
                 cities={sidebarLocationName}
                 citySlug={slug1}
+                categorySlug={categorySlug}
+                setCategorySlug={setCategorySlug}
+                sidebarThemes={sidebarThemes}
               />
             </div>
 
@@ -295,7 +307,31 @@ const IndiaPackageListing = ({
                 </div>
               )}
 
-              {packageList?.packages?.length < 1 ? (
+              {showLoader ? (
+                // Skeleton loader — shown while API is fetching
+                <div className="grid grid-cols-1 gap-6">
+                  {[1, 2, 3].map((n) => (
+                    <div
+                      key={n}
+                      className="skeleton-card"
+                      style={{
+                        height: "200px",
+                        borderRadius: "12px",
+                        background: "linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%)",
+                        backgroundSize: "200% 100%",
+                        animation: "shimmer 1.4s infinite",
+                        marginBottom: "16px",
+                      }}
+                    />
+                  ))}
+                  <style>{`
+                    @keyframes shimmer {
+                      0% { background-position: 200% 0; }
+                      100% { background-position: -200% 0; }
+                    }
+                  `}</style>
+                </div>
+              ) : packageList?.packages?.length < 1 ? (
                 <h6 className="mt-5 text-danger">No Packages Found</h6>
               ) : (
                 <div className="grid grid-cols-1 gap-6">

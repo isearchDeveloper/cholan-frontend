@@ -94,7 +94,7 @@ export default async function TourListingPage({
   const { slug } = await params;
   const { page } = await searchParams;
 
- 
+
 
 
 
@@ -111,13 +111,19 @@ export default async function TourListingPage({
   switch (resolved.type) {
     case "CITY_THEME": {
       const r = resolved; //  lock the narrowed union type here
-
-      const { citySlug, data } = resolved;
+      //  console.log("resolved data in city theme page :", r);
+      const { citySlug, themeSlug, data } = resolved;
       const { city, packages } = data;
 
+      // console.log("resolved data :" , resolved)
       //  bring back sidebar data
-      const cityIntro = await fetchCityIntroData(citySlug);
-      const sidebarThemes = cityIntro?.data?.themes || [];
+      let sidebarThemes: any[] = [];
+      try {
+        const cityIntro = await fetchCityIntroData(citySlug);
+        sidebarThemes = cityIntro?.data?.themes || [];
+      } catch (e) {
+        sidebarThemes = [];
+      }
 
       return (
         <ThemePackageListing
@@ -135,6 +141,7 @@ export default async function TourListingPage({
           cityName={city.name}
           citySlug={citySlug}
           sidebarThemes={sidebarThemes}
+          themeSlug={themeSlug}
         />
       );
     }
@@ -148,8 +155,8 @@ export default async function TourListingPage({
         />
       );
 
- case "THEME":
-  return <ThemeCitySection themeData={resolved.data} />;
+    case "THEME":
+      return <ThemeCitySection themeData={resolved.data} />;
 
 
     case "LISTING": {
@@ -158,12 +165,24 @@ export default async function TourListingPage({
       if (!data?.packages?.length) {
         notFound();
       }
+      const citySlug = slug.replace("-tour-packages", "");
+
+      //  try fetch themes (same as CITY_THEME)
+      let sidebarThemes: any[] = [];
+
+      try {
+        const cityIntro = await fetchCityIntroData(citySlug);
+        sidebarThemes = cityIntro?.data?.themes || [];
+      } catch (e) {
+        sidebarThemes = [];
+      }
 
       return (
         <IndiaPackageListing
           packageList1={data}
           initialPage={currentPage}
           slug1={slug}
+          sidebarThemes={sidebarThemes}
         />
       );
     }

@@ -144,8 +144,8 @@ const SriLankaPackageListing: any = () => {
             <div className="col-12 col-lg-3">
               <Sidebar
                 data={packageList}
-                packageList
                 cities={packageList?.location?.name}
+                categorySlug={categorySlug}
                 setCategorySlug={setCategorySlug}
               />
             </div>

@@ -289,6 +289,7 @@ const InternationalPackageListing = ({
                       ? ssrFixedData?.country?.name
                       : ssrFixedData?.location?.name
                   }
+                  citySlug={slug1}
                   categorySlug={null}
                   setCategorySlug={() => {}}
                 />
@@ -303,6 +304,8 @@ const InternationalPackageListing = ({
                     ssrFixedData?.location?.name ||
                     ""
                   }
+                  citySlug={slug1}
+                  categorySlug={null}
                   setCategorySlug={(slug: any) => {
                     setCurrentPage(1);
                   }}

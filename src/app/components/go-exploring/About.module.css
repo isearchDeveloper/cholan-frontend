@@ -148,6 +148,7 @@
     object-fit: cover;
   }
 }
+
 @media (max-width: 576px) {
   .left h2 {
     font-size: 26px;

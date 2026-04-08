@@ -8,11 +8,16 @@ export function buildListingTitle(
     return `${locationName} Tour Packages`;
   }
 
+  // Format slug to title case: "family-tour-package" → "Family Tour Package"
   const formattedCategory = categorySlug
     .replace(/-/g, " ")
     .replace(/\b\w/g, c => c.toUpperCase());
 
-  // ⚠️ IMPORTANT:
-  // backend needs "Tour Package" for family-tour-package
-  return `${locationName} ${formattedCategory} Tour Package`;
+  // Strip trailing "Tour Package" or "Tour Packages" from the category
+  // so we don't end up with "Kerala Family Tour Package Tour Package"
+  const cleanedCategory = formattedCategory
+    .replace(/\s+Tour Packages?\s*$/i, "")
+    .trim();
+
+  return `${locationName} ${cleanedCategory} Tour Package`;
 }
