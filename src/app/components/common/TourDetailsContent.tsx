@@ -29,10 +29,17 @@ const TourDetailsContent: React.FC<any> = ({ tour }) => {
     <div className="tour-content">
       <h1 className="tour-title d-flex flex-wrap gap-1 align-items-center fs-2">
         {tour?.title}{" "}
-        <span className="color-blue fw-normal">
+        <span className="color-blue fw-normal">    
           {" "}
-          - {tour?.details?.duration_nights} {tour?.details?.duration_nights < 2 ? "Night" : "Nights"} / {tour?.details?.duration_days}{" "}
-          {tour?.details?.duration_days < 2 ? "Day" : "Days" }
+          - {(() => {
+            const nights = tour?.details?.duration_nights ?? 0;
+            const days = tour?.details?.duration_days ?? 0;
+
+            return `${nights > 0
+              ? `${nights} ${nights === 1 ? "Night" : "Nights"} / `
+              : ""
+              }${days} ${days === 1 ? "Day" : "Days"}`;
+          })()}
         </span>
       </h1>
 
@@ -61,7 +68,7 @@ const TourDetailsContent: React.FC<any> = ({ tour }) => {
                     <Image
                       height={20}
                       width={20}
-                     
+
                       src={matchedAmenity.img || "/images/no-img.webp"}
                       alt={matchedAmenity.label}
                     />
