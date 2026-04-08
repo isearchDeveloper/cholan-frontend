@@ -18,11 +18,19 @@ export default function ThemeSidebar({
 }: ThemeSidebarProps) {
   if (!themes || themes.length === 0) return null;
 
+  // Helper to ensure clean Title Case format for the list items
+  const formatLabel = (city: string, themeTitle: string) => {
+    const rawLabel = `${city} ${themeTitle} Tour Packages`;
+    return rawLabel
+      .replace(/-/g, " ")
+      .replace(/\b\w/g, (c) => c.toUpperCase());
+  };
+
   return (
     <div className="sidebar-listing">
       <div className="mb-4 theme-section shadow-sm c-sec">
         <div className="d-flex align-items-center p-3 text-white">
-          <img src="/images/icon-head-1.svg" className="icon" />
+          <img src="/images/icon-head-1.svg" className="icon" alt="Theme Icon" />
           <h6 className="ms-2 mb-0 text-white font-semibold">
             {cityName} Tour By Theme
           </h6>
@@ -35,7 +43,7 @@ export default function ThemeSidebar({
                 href={`/india/${citySlug}-${theme.slug}`}
                 className="text-decoration-none text-dark hover-link"
               >
-                {theme.title}
+                {formatLabel(cityName, theme.title)}
               </Link>
             </li>
           ))}
