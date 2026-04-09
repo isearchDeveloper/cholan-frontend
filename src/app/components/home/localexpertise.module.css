@@ -44,6 +44,7 @@
   line-height: 1.15;
   margin-bottom: 24px;
   letter-spacing: -0.5px;
+  color: #fff!important;
 }
 
 /* TEXT */
@@ -67,6 +68,10 @@
   font-size: 15px;
   font-weight: 400;
   transition: all 0.3s ease;
+}
+
+.Curatedheading{
+  color: #fff!important;
 }
 
 .cta:hover {

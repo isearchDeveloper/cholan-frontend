@@ -58,7 +58,7 @@ const InterTourPackage = ({ trendingInternationalData }: any) => {
               <div className={styles.overlay}>
                 <span className={styles.tag}>Famous Places</span>
 
-                <h3>{data.title}</h3>
+                <h3 className={styles.headig}>{data.title}</h3>
 
                 <p>Explore the wonders of</p>
 

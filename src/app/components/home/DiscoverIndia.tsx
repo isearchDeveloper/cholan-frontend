@@ -60,7 +60,7 @@ const DiscoverIndia = ({ discoverIndiaPackageData }: DiscoverIndiaProps) => {
 
               {/* OVERLAY */}
               <div className={styles.overlay}>
-                <h3>{item.title}</h3>
+                <h3 >{item.title}</h3>
 
                 <p>
                   {(() => {

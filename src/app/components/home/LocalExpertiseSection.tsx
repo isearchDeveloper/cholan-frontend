@@ -13,7 +13,7 @@ const LocalExpertiseSection = () => {
 
       <div className={styles.content}>
         
-        <h2 className={styles.heading}>
+        <h2 className={styles.Curatedheading}>
           Curated Experiences by <br /> Local Experts
         </h2>
 
