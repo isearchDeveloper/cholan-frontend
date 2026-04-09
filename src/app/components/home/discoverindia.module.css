@@ -108,9 +108,10 @@
 }
 
 .overlay h3 {
-  font-size: 10px;
+  font-size: 15px!important;
   font-weight: 400!important;
   margin-bottom: 5px;
+    color: #fff!important;
 }
 
 .overlay p {
