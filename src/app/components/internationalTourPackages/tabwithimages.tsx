@@ -171,17 +171,17 @@ const TabWithImages: React.FC<any> = ({
                                       }
                                       alt={data?.details?.banner_image_alt}
                                       href={`/international-holidays/${
-                                        data.slug == "sri-lanka-tour-packages"
-                                          ? "sri-lanka-tour-packages"
-                                          : data.slug
+                                        data.slug.endsWith("-tour-packages")
+                                          ? data.slug
+                                          : `${data.slug}-tour-packages`
                                       }`}
                                     />
                                     <Link
                                       className="text-black"
                                       href={`/international-holidays/${
-                                        data.slug == "sri-lanka-tour-packages"
-                                          ? "sri-lanka-tour-packages"
-                                          : data.slug
+                                        data.slug.endsWith("-tour-packages")
+                                          ? data.slug
+                                          : `${data.slug}-tour-packages`
                                       }`}
                                     >
                                       <h6 className="mt-4 text-center transition-colors duration-300">
@@ -255,10 +255,10 @@ const TabWithImages: React.FC<any> = ({
                     <ImageComponent
                       src={data?.details?.banner_image || "/images/no-img.webp"}
                       alt={data?.details?.banner_image_alt}
-                      href={`/international-holidays/${data.slug}`}
+                      href={`/international-holidays/${data.slug?.endsWith("-tour-packages") ? data.slug : `${data.slug}-tour-packages`}`}
                     />
 
-                    <Link href={`/international-holidays/${data.slug}`}>
+                    <Link href={`/international-holidays/${data.slug?.endsWith("-tour-packages") ? data.slug : `${data.slug}-tour-packages`}`}>
                       <h6 className="mt-3 text-center">{data.name}</h6>
                     </Link>
                   </div>

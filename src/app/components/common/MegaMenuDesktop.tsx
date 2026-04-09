@@ -517,7 +517,7 @@ export default function Navigation({ headerData }: any) {
                                                 >
                                                   <div className="clickable-state underLine">
                                                     <Link
-                                                      href={`/international-holidays/${country.slug}`}
+                                                      href={`/international-holidays/${country.slug?.endsWith("-tour-packages") ? country.slug : `${country.slug}-tour-packages`}`}
                                                       onClick={closeMobileMenu}
                                                     >
                                                       {country.name}
@@ -531,7 +531,7 @@ export default function Navigation({ headerData }: any) {
                                                       ) => (
                                                         <li key={k}>
                                                           <Link
-                                                            href={`/international-holidays/${loc.slug}`}
+                                                            href={`/international-holidays/${loc.slug?.endsWith("-tour-packages") ? loc.slug : `${loc.slug}-tour-packages`}`}
                                                             onClick={
                                                               closeMobileMenu
                                                             }

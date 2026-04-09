@@ -4,7 +4,7 @@ import React from "react";
 import InternationalPackageListing from "@/app/components/internationalTourPackages/internationalPackageListing";
 import { fetchInternationalPackageData } from "@/app/services/internationaltourService";
 import { getCanonical } from "@/app/lib/getCanonical";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
  
 /* =======================
    SEO METADATA
@@ -58,10 +58,10 @@ export default async function InternationalListing({
   const currentPage = Number(page ?? 1);
  
  
-  // // 1️⃣ Only allow -tour-packages routes
-  // if (!slug.endsWith("-tour-packages")) {
-  //   notFound();
-  // }
+  // 1️⃣ Redirect package details to the canonical route
+  if (!slug.endsWith("-tour-packages")) {
+    redirect(`/packages/${slug}`);
+  }
 
   const res = await fetchInternationalPackageData(slug);
 
