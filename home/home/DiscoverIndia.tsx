@@ -1,14 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import styles from "./discoverindia.module.css";
 import { useRouter } from "next/navigation";
 
-interface DiscoverIndiaProps {
-  discoverIndiaPackageData: any[];
-}
-
-const DiscoverIndia = ({ discoverIndiaPackageData }: DiscoverIndiaProps) => {
+const DiscoverIndia = ({ discoverIndiaPackageData }: any) => {
   const router = useRouter();
 
   const setUrl = (slug: any) => {
@@ -27,38 +22,35 @@ const DiscoverIndia = ({ discoverIndiaPackageData }: DiscoverIndiaProps) => {
 
           <div className={styles.rightText}>
             <p>
-              For over two decades, we’ve crafted journeys that go beyond travel—where every destination tells a story through our travelers.
+              For over two decades, we’ve crafted journeys that go beyond
+              travel—where every destination tells a story through our travelers.
             </p>
 
-            <span onClick={() => router.push("/packages")}>
-              View All Packages →
-            </span>
+            <a href="/packages">View All Packages →</a>
           </div>
         </div>
 
         {/* CARDS */}
-        <div className={styles.cards}>
-          {discoverIndiaPackageData?.slice(0, 4).map((item) => (
+        <div className={styles.cardContainer}>
+          {discoverIndiaPackageData?.slice(0, 4).map((item: any) => (
             <div
               key={item.slug}
               className={styles.card}
               onClick={() => setUrl(item.slug)}
             >
-              <Image
+              <img
                 src={
-                  item?.primary_image || "/images/fallback.jpg"
+                  item?.primary_image ||
+                  "https://images.pexels.com/photos/21014/pexels-photo.jpg"
                 }
                 alt={item.title}
-                fill
                 className={styles.image}
               />
 
-              {/* ARROW */}
-              <div className={styles.arrow}>
-                →
-              </div>
+              {/* Arrow */}
+              <div className={styles.arrow}>↗</div>
 
-              {/* OVERLAY */}
+              {/* Overlay */}
               <div className={styles.overlay}>
                 <h3>{item.title}</h3>
 
@@ -66,8 +58,8 @@ const DiscoverIndia = ({ discoverIndiaPackageData }: DiscoverIndiaProps) => {
                   {(() => {
                     const raw = item.short_description || "";
                     const noHtml = raw.replace(/<[^>]*>?/gm, "");
-                    return noHtml.length > 110
-                      ? noHtml.slice(0, 110) + "..."
+                    return noHtml.length > 100
+                      ? noHtml.slice(0, 100) + "..."
                       : noHtml;
                   })()}
                 </p>

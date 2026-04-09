@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { Swiper as SwiperType } from "swiper";
-
+import TrainEnquiryModal from "@/app/modals/trainEnquiryModal";
 import styles from "./homebanner.module.css";
 
 import "swiper/css";
@@ -21,10 +21,7 @@ const HomeBanner = ({ bannerData }: any) => {
     <section className={styles.hero}>
       <Swiper
         modules={[Navigation, Pagination, Autoplay]}
-        navigation={{
-          prevEl: `.${styles.prevBtn}`,
-          nextEl: `.${styles.nextBtn}`,
-        }}
+        navigation
         pagination={{ clickable: true }}
         autoplay={{ delay: 4000, disableOnInteraction: false }}
         loop
@@ -86,16 +83,6 @@ const HomeBanner = ({ bannerData }: any) => {
             </div>
           </SwiperSlide>
         ))}
-
-        {/* CUSTOM NAVIGATION ALIGNED WITH BOTTOM */}
-        <div className={styles.navContainer}>
-          {/* <button className={styles.prevBtn} onClick={() => swiperRef.current?.slidePrev()}>
-            &larr; Prev
-          </button>
-          <button className={styles.nextBtn} onClick={() => swiperRef.current?.slideNext()}>
-            Next &rarr;
-          </button> */}
-        </div>
       </Swiper>
     </section>
   );

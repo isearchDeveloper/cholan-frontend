@@ -1,0 +1,193 @@
+.section {
+  background: #e9e6df;
+  padding: 80px 60px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* TOP */
+.top {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  margin-bottom: 50px;
+  align-items: flex-start;
+}
+
+.heading {
+  font-size: 38px;
+  font-weight: 500;
+  line-height: 1.3;
+  max-width: 500px;
+  flex: 1;
+}
+
+.rightText {
+  max-width: 500px;
+  font-size: 15px;
+  color: #444;
+  flex-shrink: 0;
+  line-height: 1.65;
+}
+
+.link {
+  display: inline-block;
+  margin-top: 10px;
+  color: #475569;
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+  font-size: 15px;
+}
+
+.link:hover {
+  opacity: 0.75;
+}
+
+.link span {
+  font-size: 18px;
+  vertical-align: middle;
+}
+
+/* GRID */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+/* CARD */
+.card {
+  background: #fff;
+  padding: 25px;
+  border-radius: 10px;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* NUMBER */
+.number {
+  position: absolute;
+  top: 15px;
+  right: 25px;
+  font-size: 52px;
+  color: #ede9fe;
+  font-weight: 700;
+  line-height: 1;
+  user-select: none;
+}
+
+/* ICON WRAPPER */
+.iconWrapper {
+  margin-bottom: 25px;
+  display: flex;
+}
+
+/* TITLE */
+.title {
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #1f2937;
+  line-height: 1.3;
+  padding-right: 10px;
+}
+
+/* TEXT */
+.text {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* ── RESPONSIVE ── */
+
+/* Large Tablet */
+@media (max-width: 1200px) {
+  .heading {
+    font-size: 34px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .section {
+    padding: 60px 24px;
+  }
+
+  .top {
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 36px;
+  }
+
+  .heading {
+    font-size: 30px;
+    max-width: 100%;
+  }
+
+  .rightText {
+    max-width: 100%;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Tablet Portrait */
+@media (max-width: 768px) {
+  .section {
+    padding: 48px 20px;
+  }
+
+  .heading {
+    font-size: 26px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+
+  .card {
+    padding: 20px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .section {
+    padding: 40px 16px;
+  }
+
+  .heading {
+    font-size: 22px;
+  }
+
+  .rightText {
+    font-size: 14px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .title {
+    font-size: 15px;
+  }
+
+  .number {
+    font-size: 26px;
+  }
+}

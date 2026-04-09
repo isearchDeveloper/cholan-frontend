@@ -1,0 +1,190 @@
+.section {
+  background: #e4efea;
+  padding: 90px 90px;
+}
+
+.wrapper {
+  max-width: 1500px;
+  margin: auto;
+  display: flex;
+  gap: 50px;
+  align-items: center;
+}
+
+/* LEFT */
+.left {
+  width: 45%;
+  position: relative;
+}
+
+/* BIG IMAGE */
+.bigCard {
+  position: relative;
+  height: 500px;
+  width: 400px;
+  border-radius: 14px;
+  overflow: hidden;
+  object-fit: contain;
+}
+
+/* OVERLAY */
+.overlay {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  color: #fff;
+}
+
+.overlay h3 {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.overlay p {
+  font-size: 14px;
+  margin-top: 6px;
+}
+
+/* SMALL IMAGE */
+.smallCard {
+  position: absolute;
+  bottom: 40px;
+  right: 150px;
+  width: 270px;
+  height: 360px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+.travelText {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  font-size: 26px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 1px;
+}
+
+/* IMAGE */
+.image {
+  object-fit: cover;
+}
+
+/* BUTTON */
+.btn {
+  margin-top: 80px;
+  background: #0a1f44;
+  color: #fff;
+  padding: 14px 30px;
+  border-radius: 30px;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  background: #1a2f6b;
+}
+
+/* RIGHT */
+.right {
+  flex: 1;
+}
+
+.right h2 {
+  font-size: 36px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.desc {
+  font-size: 15px;
+  color: #555;
+  margin-bottom: 32px;
+  max-width: 520px;
+  line-height: 1.6;
+}
+
+/* POINTS */
+.points {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+.row {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.row p {
+  font-size: 14px;
+  margin: 2px 0;
+  color: #333;
+}
+
+/* ================== */
+/* RESPONSIVE */
+/* ================== */
+
+@media (max-width: 1024px) {
+  .wrapper {
+    flex-direction: column;
+    gap: 90px;
+  }
+
+  .left {
+    width: 100%;
+  }
+
+  .bigCard {
+    height: 360px;
+  }
+}
+
+@media (max-width: 768px) {
+  .bigCard {
+    height: 300px;
+  }
+
+  .smallCard {
+    width: 160px;
+    height: 200px;
+  }
+
+  .right h2 {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 480px) {
+  .section {
+    padding: 60px 16px;
+  }
+
+  .bigCard {
+    height: 240px;
+  }
+
+  .smallCard {
+    width: 130px;
+    height: 160px;
+    bottom: -30px;
+  }
+
+  .overlay h3 {
+    font-size: 18px;
+  }
+
+  .right h2 {
+    font-size: 22px;
+  }
+
+  .row p {
+    font-size: 13px;
+  }
+}

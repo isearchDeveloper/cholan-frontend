@@ -1,0 +1,179 @@
+.section {
+  padding: 80px 0;
+  background: #f6f4f1;
+}
+
+/* CONTAINER */
+.container {
+  max-width: 1500px;
+  margin: auto;
+  padding: 0 20px;
+}
+
+/* HEADER */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 50px;
+  gap: 40px;
+}
+
+.header h2 {
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #111;
+}
+
+.rightText {
+  max-width: 420px;
+}
+
+.rightText p {
+  font-size: 15px;
+  color: #555;
+  margin-bottom: 12px;
+  line-height: 1.6;
+}
+
+.rightText span {
+  font-size: 15px;
+  color: #2a5bd7;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+/* CARDS */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+/* CARD */
+.card {
+  position: relative;
+  height: 520px;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+/* IMAGE */
+.image {
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.card:hover .image {
+  transform: scale(1.08);
+}
+
+/* ARROW */
+.arrow {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 38px;
+  height: 38px;
+  background: rgba(255,255,255,0.95);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  z-index: 2;
+  transition: 0.3s;
+}
+
+.card:hover .arrow {
+  background: #111;
+  color: #fff;
+}
+
+/* OVERLAY */
+.overlay {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 22px;
+  color: #fff;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.85),
+    rgba(0, 0, 0, 0.2),
+    transparent
+  );
+}
+
+.overlay h3 {
+  font-size: 10px;
+  font-weight: 400!important;
+  margin-bottom: 5px;
+}
+
+.overlay p {
+  font-size: 15px!important;
+  line-height: 1.5!important;
+  opacity: 0.9;
+}
+
+/* ===================== */
+/* 🔥 RESPONSIVE */
+/* ===================== */
+
+@media (max-width: 1024px) {
+  .header {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .header h2 {
+    font-size: 32px;
+  }
+
+  .cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .card {
+    height: 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 60px 0;
+  }
+
+  .header h2 {
+    font-size: 26px;
+  }
+
+  .cards {
+    gap: 14px;
+  }
+
+  .card {
+    height: 260px;
+  }
+}
+
+@media (max-width: 480px) {
+  .cards {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    height: 240px;
+  }
+
+  .overlay h3 {
+    font-size: 16px;
+  }
+
+  .overlay p {
+    font-size: 12px;
+  }
+}

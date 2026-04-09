@@ -50,13 +50,10 @@ const StateTourSection = () => {
             <div
               key={i}
               className={`${styles.card} ${isActive ? styles.active : ""}`}
+              style={{ backgroundImage: `url(${item.image})` }}
               onMouseEnter={() => setHoverIndex(i)}
               onMouseLeave={() => setHoverIndex(null)}
             >
-              <div 
-                className={styles.bgImage} 
-                style={{ backgroundImage: `url(${item.image})` }} 
-              />
               <Link href={item.link} className={styles.cardLink}>
                 <div className={styles.overlay}></div>
 

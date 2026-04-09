@@ -33,10 +33,8 @@ const TopService: React.FC<TopServiceProps> = ({ tourServices }) => {
             The Tailor-made specialists in offering customised tour packages for you.
           </p>
 
-          {/* Watermark Illustration */}
-          <div className={styles.watermark}>
-            <img src="/images/airballon.png" alt="" />
-          </div>
+          {/* Background icon (optional) */}
+          <div className={styles.bgIcon}></div>
         </div>
 
         {/* RIGHT CARDS */}
@@ -48,11 +46,11 @@ const TopService: React.FC<TopServiceProps> = ({ tourServices }) => {
                 <img
                   src={
                     data.title === "Car Rental"
-                      ? "/images/car-2.png"
+                      ? "https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg"
                       : data.title === "Bus Rental"
-                      ? "/images/car-3.png"
+                      ? "https://images.pexels.com/photos/210182/pexels-photo-210182.jpeg"
                       : data.title === "Customized Holidays"
-                      ? "/images/customize.png"
+                      ? "https://images.pexels.com/photos/358457/pexels-photo-358457.jpeg"
                       : data.banner_image || "/images/no-img.webp"
                   }
                   alt={data.title}

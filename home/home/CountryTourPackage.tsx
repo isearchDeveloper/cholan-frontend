@@ -1,29 +1,26 @@
 "use client";
 
-import React, { useRef } from "react";
 import styles from "./countrytourpackage.module.css";
 import Image from "next/image";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Autoplay, Navigation } from "swiper/modules";
-import { Swiper as SwiperType } from "swiper";
+import { Pagination } from "swiper/modules";
 
 import "swiper/css";
 import "swiper/css/pagination";
-import "swiper/css/navigation";
-import "swiper/css/autoplay";
 
 const CountryTourPackage = ({ countryPackageHomeData }: any) => {
-  const swiperRef = useRef<SwiperType | null>(null);
   const data = countryPackageHomeData || [];
 
   return (
     <section className={styles.section}>
+      <div className={styles.container}>
 
         {/* HEADER */}
         <div className={styles.header}>
-          <h2 className={styles.heading}>
-            Top Trending <span>{data[0]?.location?.country?.name}</span> Tour Packages
+          <h2>
+            Top Trending{" "}
+            <span>{data[0]?.location?.country?.name}</span> Tour Packages
           </h2>
 
           <div className={styles.rightText}>
@@ -43,32 +40,27 @@ const CountryTourPackage = ({ countryPackageHomeData }: any) => {
 
         {/* SLIDER */}
         <Swiper
-          modules={[Pagination, Autoplay, Navigation]}
-          slidesPerView={1.2}
-          spaceBetween={25}
-          loop={true}
-          autoplay={{ delay: 3500, disableOnInteraction: false }}
-          navigation={{
-            nextEl: `.${styles.nextCircle}`,
-          }}
-          pagination={{ 
-            clickable: true,
-            el: `.${styles.paginationContainer}`,
-          }}
-          onSwiper={(swiper) => (swiperRef.current = swiper)}
-          onMouseEnter={() => swiperRef.current?.autoplay?.stop()}
-          onMouseLeave={() => swiperRef.current?.autoplay?.start()}
-          breakpoints={{
-            640: { slidesPerView: 2.5 },
-            1024: { slidesPerView: 4 },
-          }}
-          className={styles.swiper}
-        >
+  modules={[Pagination]}
+  slidesPerView={1.2}   // 🔥 FIX
+  spaceBetween={20}
+  loop={false}
+  centeredSlides={false}
+  initialSlide={0} // 🔥 FORCE LEFT START
+  speed={500}
+  allowTouchMove={true}
+  pagination={{ clickable: true }}
+  breakpoints={{
+    640: { slidesPerView: 2 },
+    1024: { slidesPerView: 3 },
+  }}
+  className={styles.swiper}
+>
           {data.map((item: any, i: number) => (
             <SwiperSlide key={item.id || i}>
               <div
-                className={`${styles.card} ${i % 2 === 0 ? styles.down : styles.up
-                  }`}
+                className={`${styles.card} ${
+                  i % 2 === 0 ? styles.down : styles.up
+                }`}
               >
                 <Link href={`/packages/${item.slug}`}>
 
@@ -95,13 +87,7 @@ const CountryTourPackage = ({ countryPackageHomeData }: any) => {
           ))}
         </Swiper>
 
-        {/* CUSTOM PAGINATION + NEXT BUTTON */}
-        <div className={styles.controls}>
-          <div className={styles.paginationContainer}></div>
-          <button className={styles.nextCircle}>
-            <span>&rsaquo;</span>
-          </button>
-        </div>
+      </div>
     </section>
   );
 };

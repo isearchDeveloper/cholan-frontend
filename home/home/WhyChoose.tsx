@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import styles from "./whychoose.module.css";
-import { MessageCircle } from "lucide-react";
 
 interface WhyChooseItem {
   title: string;
@@ -24,6 +23,7 @@ const WhyChoose: React.FC<WhyChooseProps> = ({ data }) => {
 
   return (
     <section className={styles.section}>
+      <div className={styles.container}>
 
         {/* HEADER */}
         <div className={styles.header}>
@@ -71,9 +71,7 @@ const WhyChoose: React.FC<WhyChooseProps> = ({ data }) => {
           {/* RIGHT CARD */}
           <div className={styles.right}>
             <div className={styles.card}>
-              <div className={styles.icon}>
-                <MessageCircle size={38} strokeWidth={1.5} color="#3b4252" />
-              </div>
+              <div className={styles.icon}>💬</div>
 
               <h3>Do You Have More Questions?</h3>
 
@@ -87,6 +85,8 @@ const WhyChoose: React.FC<WhyChooseProps> = ({ data }) => {
               </a>
             </div>
           </div>
+
+        </div>
 
       </div>
     </section>

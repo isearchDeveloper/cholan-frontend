@@ -1,29 +1,28 @@
 "use client";
 
 import styles from "./whycholan.module.css";
-import { MessageSquareShare, Briefcase, Handshake, Backpack } from "lucide-react";
 
 const data = [
   {
-    icon: <MessageSquareShare size={38} strokeWidth={1.5} color="#3b4252" />,
+    icon: "/images/684908.png",
     title: "Experiences & Destinations",
     text: "From luxury escapes to spiritual journeys, every itinerary is crafted for unforgettable travel experiences.",
     number: "01",
   },
   {
-    icon: <Briefcase size={38} strokeWidth={1.5} color="#3b4252" />,
+    icon: "/images/942748.png",
     title: "Services & Expertise",
     text: "Cholan Tours delivers seamless solutions, including customised itineraries, MICE services, and group travel management.",
     number: "02",
   },
   {
-    icon: <Handshake size={38} strokeWidth={1.5} color="#3b4252" />,
+    icon: "/images/2909592.png",
     title: "Sustainability & Responsible Tourism",
     text: "We promote eco-friendly tourism, cultural preservation, and meaningful community engagement in every journey.",
     number: "03",
   },
   {
-    icon: <Backpack size={38} strokeWidth={1.5} color="#3b4252" />,
+    icon: "/images/2920277.png",
     title: "Why Cholan Tours?",
     text: "Over two decades of expertise, delivering tailored travel with award-winning service and multilingual support.",
     number: "04",
@@ -33,8 +32,9 @@ const data = [
 const WhyCholanSection = () => {
   return (
     <section className={styles.section}>
+      <div className={styles.container}>
 
-      {/* TOP CONTENT */}
+        {/* TOP CONTENT */}
         <div className={styles.top}>
           <h2 className={styles.heading}>
             Why Cholan Tours is Your Best Choice
@@ -47,7 +47,7 @@ const WhyCholanSection = () => {
             </p>
 
             <a href="/about-us" className={styles.link}>
-              About Cholan Tour <span>&rarr;</span>
+              About Cholan Tour →
             </a>
           </div>
         </div>
@@ -59,9 +59,11 @@ const WhyCholanSection = () => {
               
               <span className={styles.number}>{item.number}</span>
 
-              <div className={styles.iconWrapper}>
-                {item.icon}
-              </div>
+              <img
+                src={item.icon}
+                alt={item.title}
+                className={styles.icon}
+              />
 
               <h4 className={styles.title}>{item.title}</h4>
 
@@ -69,6 +71,8 @@ const WhyCholanSection = () => {
             </div>
           ))}
         </div>
+
+      </div>
     </section>
   );
 };

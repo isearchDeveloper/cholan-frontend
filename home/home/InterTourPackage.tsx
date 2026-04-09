@@ -14,7 +14,7 @@ const InterTourPackage = ({ trendingInternationalData }: any) => {
 
   return (
     <section className={styles.section}>
-      <div className={styles.wrapper}>
+      <div className="container">
         {/* Header */}
         <div className={styles.header}>
           <div>
