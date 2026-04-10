@@ -207,6 +207,8 @@
 
   .rightText {
     font-size: 14px;
+    flex-shrink: 1 !important; /* Allow text to shrink on mobile */
+    max-width: 100% !important;
   }
 
   .grid {

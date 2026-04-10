@@ -170,6 +170,8 @@
   .girlImage {
     height: 100%;
     transform: none;
+    position: absolute;
+    left: 40%;
   }
 
   .balloonSmall, .balloonLarge {

@@ -10,6 +10,10 @@ const CountryTourPackage = ({ countryPackageHomeData }: any) => {
 
   return (
     <section className={styles.section}>
+      <div className={styles.bgElements}>
+        <img src="/images/bgflower.png" className={styles.bgflower} />
+        {/* <img src="/images/destination.png" className={styles.destination} /> */}
+      </div>
 
       {/* HEADER */}
       <div className={styles.header}>
