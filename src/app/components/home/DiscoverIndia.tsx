@@ -3,6 +3,14 @@
 import Image from "next/image";
 import styles from "./discoverindia.module.css";
 import { useRouter } from "next/navigation";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination } from "swiper/modules";
+
+import "swiper/css";
+import "swiper/css/pagination";
+
+const stripHtml = (html: string) =>
+  html?.replace(/<[^>]*>/g, "").replace(/&[a-z]+;/gi, " ").trim() || "";
 
 interface DiscoverIndiaProps {
   discoverIndiaPackageData: any[];
@@ -11,70 +19,72 @@ interface DiscoverIndiaProps {
 const DiscoverIndia = ({ discoverIndiaPackageData }: DiscoverIndiaProps) => {
   const router = useRouter();
 
-  const setUrl = (slug: any) => {
-    router.push(`/packages/${slug}`);
-  };
-
   return (
     <section className={styles.section}>
       <div className={styles.container}>
 
         {/* HEADER */}
         <div className={styles.header}>
-          <h2>
+          <h2 className={styles.heading}>
             Experience the Timeless Beauty <br /> of India
           </h2>
 
           <div className={styles.rightText}>
             <p>
-              For over two decades, we’ve crafted journeys that go beyond travel—where every destination tells a story through our travelers.
+              For over two decades, we've crafted journeys that go beyond
+              travel—where every destination tells a story through our travelers.
             </p>
-
-            <span onClick={() => router.push("/packages")}>
+            <span onClick={() => router.push("/packages")} className={styles.link}>
               View All Packages →
             </span>
           </div>
         </div>
 
-        {/* CARDS */}
-        <div className={styles.cards}>
-          {discoverIndiaPackageData?.slice(0, 4).map((item) => (
-            <div
-              key={item.slug}
-              className={styles.card}
-              onClick={() => setUrl(item.slug)}
-            >
-              <Image
-                src={
-                  item?.primary_image || "/images/fallback.jpg"
-                }
-                alt={item.title}
-                fill
-                className={styles.image}
-              />
+        {/* CARDS SLIDER */}
+        <Swiper
+          modules={[Pagination]}
+          slidesPerView={1.2}
+          spaceBetween={18}
+          pagination={{ clickable: true, el: `.${styles.pagination}` }}
+          breakpoints={{
+            640:  { slidesPerView: 2.1 },
+            1024: { slidesPerView: 3.2 },
+            1280: { slidesPerView: 4   },
+          }}
+          className={styles.swiper}
+        >
+          {discoverIndiaPackageData?.map((item) => (
+            <SwiperSlide key={item.slug}>
+              <div
+                className={styles.card}
+                onClick={() => router.push(`/packages/${item.slug}`)}
+              >
+                <Image
+                  src={item?.primary_image || "/images/fallback.jpg"}
+                  alt={item.title}
+                  fill
+                  className={styles.image}
+                />
 
-              {/* ARROW */}
-              <div className={styles.arrow}>
-                →
+                {/* ARROW BADGE */}
+                <div className={styles.arrow}>↗</div>
+
+                {/* BOTTOM OVERLAY — always visible */}
+                <div className={styles.overlay}>
+                  <h3 className={styles.cardTitle}>{item.title}</h3>
+                  <div className={styles.line} />
+                  <p className={styles.cardDesc}>
+                    {stripHtml(item.short_description).slice(0, 120)}
+                    {stripHtml(item.short_description).length > 120 ? "..." : ""}
+                  </p>
+                </div>
               </div>
-
-              {/* OVERLAY */}
-              <div className={styles.overlay}>
-                <h3 >{item.title}</h3>
-
-                <p>
-                  {(() => {
-                    const raw = item.short_description || "";
-                    const noHtml = raw.replace(/<[^>]*>?/gm, "");
-                    return noHtml.length > 110
-                      ? noHtml.slice(0, 110) + "..."
-                      : noHtml;
-                  })()}
-                </p>
-              </div>
-            </div>
+            </SwiperSlide>
           ))}
-        </div>
+        </Swiper>
+
+        {/* PAGINATION DOTS */}
+        <div className={styles.pagination} />
 
       </div>
     </section>

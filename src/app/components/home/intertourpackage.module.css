@@ -1,3 +1,6 @@
+/* ========================= */
+/* SECTION */
+/* ========================= */
 .section {
   padding: 80px 0;
   background: #f4f1ea;
@@ -9,21 +12,25 @@
   box-sizing: border-box;
 }
 
+/* ========================= */
 /* HEADER */
+/* ========================= */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 50px;
-  gap: 40px;
+  margin-bottom: 48px;
   padding: 0 60px;
+  gap: 60px;
   box-sizing: border-box;
 }
 
 .header h2 {
-  font-size: 32px;
-  font-weight: 600;
+  font-size: 40px;
+  font-weight: 500;
   color: #111;
+  line-height: 1.2;
+  white-space: nowrap;
 }
 
 .header h2 span {
@@ -31,44 +38,56 @@
 }
 
 .right {
-  max-width: 420px;
+  max-width: 620px;
   flex-shrink: 0;
+  padding-top: 6px;
 }
 
 .right p {
-  font-size: 14px;
+  font-size: 15px;
   color: #555;
-  margin-bottom: 10px;
-  line-height: 1.6;
+  margin-bottom: 14px;
+  line-height: 1.65;
 }
 
 .right a {
-  font-size: 14px;
-  font-weight: 500;
-  color: #1a73e8;
-  text-decoration: none;
+  font-size: 15px;
+  font-weight: 600;
+  color: #1d4ed8;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: gap 0.2s;
 }
 
+.right a:hover {
+  gap: 8px;
+}
+
+/* ========================= */
 /* CARD CONTAINER */
+/* ========================= */
 .cardContainer {
   display: flex;
-  gap: 15px;
-  height: 520px;
+  gap: 14px;
+  height: 500px;
   width: 100%;
   padding: 0 60px;
   box-sizing: border-box;
-  max-width: 1400px;
-  margin: 0 auto;
 }
 
+/* ========================= */
 /* CARD */
+/* ========================= */
 .card {
   position: relative;
   flex: 1;
-  border-radius: 12px;
+  border-radius: 14px;
   overflow: hidden;
   cursor: pointer;
-  transition: flex 0.7s cubic-bezier(0.25, 1, 0.5, 1), transform 0.3s;
+  transition: flex 0.6s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 /* IMAGE */
@@ -76,100 +95,139 @@
   object-fit: cover;
 }
 
-/* HOVER EXPAND EFFECT */
-.card:hover {
-  flex: 2.2;
+/* ACTIVE EXPAND (default: first card, or hovered card) */
+.activeCard {
+  flex: 2.5;
 }
 
-/* ARROW */
+/* ========================= */
+/* ARROW BADGE */
+/* ========================= */
 .arrow {
   position: absolute;
-  top: 12px;
-  right: 12px;
-  width: 34px;
-  height: 34px;
+  top: 14px;
+  right: 14px;
+  width: 36px;
+  height: 36px;
   background: #fff;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 16px;
   font-weight: bold;
-  z-index: 2;
-  font-size: 14px;
+  z-index: 3;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
 
+/* ========================= */
 /* OVERLAY */
+/* ========================= */
 .overlay {
   position: absolute;
   inset: 0;
-  padding: 30px;
+  padding: 28px;
   color: #fff;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 10%, transparent 60%);
+  background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 55%);
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   opacity: 0;
-  transition: opacity 0.4s ease 0.2s;
+  transition: opacity 0.35s ease 0.15s;
   box-sizing: border-box;
 }
 
-.card:hover .overlay {
-  opacity: 1;
+.overlayActive {
+  opacity: 1 !important;
 }
 
 /* TAG */
 .tag {
-  font-size: 12px;
-  padding: 6px 14px;
-  border: 1px solid rgba(255, 255, 255, 0.8);
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  padding: 5px 12px;
+  border: 1px solid rgba(255,255,255,0.75);
   border-radius: 20px;
   display: inline-block;
-  margin-bottom: 12px;
-  align-self: flex-start;
+  margin-bottom: 10px;
   width: fit-content;
 }
 
-/* TEXT */
-.overlay h3 {
-  font-size: 24px;
+/* TITLE */
+.headig {
+  font-size: 22px;
   font-weight: 500;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.overlay p {
-  font-size: 15px;
+.overlay p,
+.shortDesc {
+  font-size: 14px;
   opacity: 0.8;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
+}
+
+.shortDesc {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
 }
 
 /* EXPLORE */
 .explore {
-  font-size: 15px;
-  font-weight: 400;
-  display: flex;
+  font-size: 14px;
+  font-weight: 500;
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
-  transition: transform 0.2s;
+  gap: 6px;
+  transition: gap 0.2s;
 }
 
 .explore:hover {
-  transform: translateX(5px);
+  gap: 10px;
 }
 
-/* ── RESPONSIVE ── */
+/* ========================= */
+/* RESPONSIVE */
+/* ========================= */
 
-/* Large Tablet */
+@media (max-width: 1280px) {
+  .header h2 {
+    font-size: 36px;
+  }
+
+  .cardContainer {
+    height: 460px;
+  }
+}
+
 @media (max-width: 1024px) {
+  .section {
+    padding: 60px 0;
+  }
+
   .header {
     flex-direction: column;
     gap: 16px;
-    margin-bottom: 24px;
+    margin-bottom: 28px;
     padding: 0 24px;
+  }
+
+  .header h2 {
+    font-size: 28px;
+    white-space: normal;
   }
 
   .right {
     max-width: 100%;
+    padding-top: 0;
   }
 
   .cardContainer {
@@ -184,18 +242,15 @@
     flex: unset !important;
   }
 
-  .cardContainer:hover .card,
-  .cardContainer .card:hover {
-    flex: unset;
+  .card:hover {
+    flex: unset !important;
   }
 
   .overlay {
     opacity: 1;
-    transform: translateY(0);
   }
 }
 
-/* Tablet Portrait */
 @media (max-width: 768px) {
   .section {
     padding: 48px 0;
@@ -220,7 +275,6 @@
   }
 }
 
-/* Mobile */
 @media (max-width: 480px) {
   .section {
     padding: 40px 0;
@@ -243,7 +297,7 @@
     height: 200px;
   }
 
-  .overlay h3 {
-    font-size: 16px;
+  .headig {
+    font-size: 17px;
   }
 }

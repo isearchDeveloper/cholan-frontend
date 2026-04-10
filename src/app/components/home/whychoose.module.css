@@ -141,7 +141,7 @@
 .btn {
   display: inline-block;
   background: #0b1d51;
-  color: #fff;
+  color: #fff!important;
   padding: 12px 24px;
   border-radius: 30px;
   text-decoration: none;

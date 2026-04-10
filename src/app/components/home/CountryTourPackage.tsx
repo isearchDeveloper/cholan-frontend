@@ -1,107 +1,78 @@
 "use client";
 
-import React, { useRef } from "react";
+import React from "react";
 import styles from "./countrytourpackage.module.css";
 import Image from "next/image";
 import Link from "next/link";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Autoplay, Navigation } from "swiper/modules";
-import { Swiper as SwiperType } from "swiper";
-
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
-import "swiper/css/autoplay";
 
 const CountryTourPackage = ({ countryPackageHomeData }: any) => {
-  const swiperRef = useRef<SwiperType | null>(null);
-  const data = countryPackageHomeData || [];
+  const data = (countryPackageHomeData || []).slice(0, 4);
 
   return (
     <section className={styles.section}>
 
-        {/* HEADER */}
-        <div className={styles.header}>
-          <h2 className={styles.heading}>
-            Top Trending <span>{data[0]?.location?.country?.name}</span> Tour Packages
-          </h2>
+      {/* HEADER */}
+      <div className={styles.header}>
+        <h2 className={styles.heading}>
+          Top Trending <span>{data[0]?.location?.country?.name}</span> Tour Packages
+        </h2>
 
-          <div className={styles.rightText}>
-            <p>
-              For years, we’ve curated unforgettable journeys across{" "}
-              {data[0]?.location?.country?.name}.
-            </p>
+        <div className={styles.rightText}>
+          <p>
+            For years, we've curated unforgettable journeys across{" "}
+            {data[0]?.location?.country?.name}.
+          </p>
 
-            <Link
-              href={`/international-holidays/${data[0]?.location?.country?.slug}`}
-              className={styles.link}
-            >
-              View All Packages →
+          <Link
+            href={`/international-holidays/${data[0]?.location?.country?.slug}`}
+            className={styles.link}
+          >
+            View All Packages →
+          </Link>
+        </div>
+      </div>
+
+      {/* 4 CARDS ZIG-ZAG GRID */}
+      <div className={styles.grid}>
+        {data.map((item: any, i: number) => (
+          <div
+            key={item.id || i}
+            className={`${styles.card} ${i % 2 === 0 ? styles.up : styles.down}`}
+          >
+            <Link href={`/packages/${item.slug}`}>
+
+              <div className={styles.imageWrapper}>
+                <Image
+                  src={item.primary_image || "/images/no-img.webp"}
+                  alt={item.title}
+                  fill
+                  className={styles.image}
+                />
+              </div>
+
+              <div className={styles.overlay}></div>
+
+              <div className={styles.content}>
+                <h3>{item.title}</h3>
+              </div>
+
+              <div className={styles.icon}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M7 17L17 7M17 7H8M17 7V16"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </div>
+
             </Link>
           </div>
-        </div>
+        ))}
+      </div>
 
-        {/* SLIDER */}
-        <Swiper
-          modules={[Pagination, Autoplay, Navigation]}
-          slidesPerView={1.2}
-          spaceBetween={25}
-          loop={true}
-          autoplay={{ delay: 3500, disableOnInteraction: false }}
-          navigation={{
-            nextEl: `.${styles.nextCircle}`,
-          }}
-          pagination={{ 
-            clickable: true,
-            el: `.${styles.paginationContainer}`,
-          }}
-          onSwiper={(swiper) => (swiperRef.current = swiper)}
-          onMouseEnter={() => swiperRef.current?.autoplay?.stop()}
-          onMouseLeave={() => swiperRef.current?.autoplay?.start()}
-          breakpoints={{
-            640: { slidesPerView: 2.5 },
-            1024: { slidesPerView: 4 },
-          }}
-          className={styles.swiper}
-        >
-          {data.map((item: any, i: number) => (
-            <SwiperSlide key={item.id || i}>
-              <div
-                className={`${styles.card} ${i % 2 === 0 ? styles.down : styles.up
-                  }`}
-              >
-                <Link href={`/packages/${item.slug}`}>
-
-                  <div className={styles.imageWrapper}>
-                    <Image
-                      src={item.primary_image || "/images/no-img.webp"}
-                      alt={item.title}
-                      fill
-                      className={styles.image}
-                    />
-                  </div>
-
-                  <div className={styles.overlay}></div>
-
-                  <div className={styles.content}>
-                    <h3>{item.title}</h3>
-                  </div>
-
-                  <div className={styles.arrow}>↗</div>
-
-                </Link>
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-
-        {/* CUSTOM PAGINATION + NEXT BUTTON */}
-        <div className={styles.controls}>
-          <div className={styles.paginationContainer}></div>
-          <button className={styles.nextCircle}>
-            <span>&rsaquo;</span>
-          </button>
-        </div>
     </section>
   );
 };

@@ -1,86 +1,58 @@
 "use client";
-import React from "react";
 import styles from "./topservice.module.css";
 
-interface TourService {
-  title: string;
-  banner_image?: string;
-  banner_image_alt?: string;
-  link: string;
-}
-
-interface TopServiceProps {
-  tourServices: TourService[];
-}
-
-const TopService: React.FC<TopServiceProps> = ({ tourServices }) => {
-  if (!tourServices || tourServices.length === 0) return null;
-
+export default function TopService() {
   return (
     <section className={styles.section}>
+      <div className={styles.wrapper}>
+        <h2 className={styles.heading}>OUR TOUR SERVICES</h2>
+      </div>
+
       <div className={styles.container}>
 
-        {/* LEFT CONTENT */}
+        {/* LEFT */}
         <div className={styles.left}>
-          <h2>OUR TOUR SERVICES</h2>
 
-          <p>
-            We Provide Car & Bus Rental Services, Luxury Trains and Hotels as
-            these are very important for us.
+          <p className={styles.desc}>
+            We Provide Car & Bus Rental Services, Luxury Trains and Hotels as these are very important for us.
           </p>
 
-          <p className={styles.space}>
+          <p className={styles.desc}>
             The Tailor-made specialists in offering customised tour packages for you.
           </p>
 
-          {/* Watermark Illustration */}
-          <div className={styles.watermark}>
-            <img src="/images/airballon.png" alt="" />
+          {/* Illustration */}
+          <div className={styles.illustration}>
+            <img src="/images/bag1.png" className={styles.bag} />
+            {/* <img src="/images/flight.png" className={styles.plane} /> */}
+            <img src="/images/destination.png" className={styles.pin} />
           </div>
         </div>
 
-        {/* RIGHT CARDS */}
+        {/* RIGHT */}
         <div className={styles.right}>
-          {tourServices.slice(0, 3).map((data) => (
-            <a key={data.title} href={data.link} className={styles.card}>
 
-              <div className={styles.imageWrap}>
-                <img
-                  src={
-                    data.title === "Car Rental"
-                      ? "/images/car-2.png"
-                      : data.title === "Bus Rental"
-                      ? "/images/car-3.png"
-                      : data.title === "Customized Holidays"
-                      ? "/images/customize.png"
-                      : data.banner_image || "/images/no-img.webp"
-                  }
-                  alt={data.title}
-                />
-              </div>
+          <div className={styles.card}>
+            <img src="/images/customize.png" className={styles.image} />
+            <h3>Customized Holidays</h3>
+            <p>Tailor-made holiday experiences crafted to your preferences with stays.</p>
+          </div>
 
-              <div className={styles.body}>
-                <h3>{data.title}</h3>
+          <div className={styles.card}>
+            <img src="/images/car-2.png" className={styles.image} />
+            <h3>Car Rental</h3>
+            <p>Comfortable and well-maintained cars with professional drivers.</p>
+          </div>
 
-                <p>
-                  {data.title === "Car Rental" &&
-                    "Comfortable and well-maintained cars with professional drivers."}
+          <div className={styles.card}>
+            <img src="/images/car-3.png" className={styles.image} />
+            <h3>Bus Rental</h3>
+            <p>Spacious and reliable buses with expert drivers for long-distance journeys.</p>
+          </div>
 
-                  {data.title === "Bus Rental" &&
-                    "Spacious and reliable buses with expert drivers for long-distance journeys."}
-
-                  {data.title === "Customized Holidays" &&
-                    "Tailor-made holiday experiences crafted to your preferences with stays."}
-                </p>
-              </div>
-
-            </a>
-          ))}
         </div>
 
       </div>
     </section>
   );
-};
-
-export default TopService;
+}

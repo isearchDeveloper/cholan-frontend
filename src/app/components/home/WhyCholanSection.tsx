@@ -7,25 +7,25 @@ const data = [
   {
     icon: <MessageSquareShare size={38} strokeWidth={1.5} color="#3b4252" />,
     title: "Experiences & Destinations",
-    text: "From luxury escapes to spiritual journeys, every itinerary is crafted for unforgettable travel experiences.",
+    text: "Whether it’s luxury escapes, spiritual journeys, or thrilling expeditions, our expertly crafted itineraries ensure every destination becomes an unforgettable experience.",
     number: "01",
   },
   {
     icon: <Briefcase size={38} strokeWidth={1.5} color="#3b4252" />,
     title: "Services & Expertise",
-    text: "Cholan Tours delivers seamless solutions, including customised itineraries, MICE services, and group travel management.",
+    text: "As a leading Destination Management Company, Cholan Tours delivers seamless travel solutions, from customised itineraries to world-class MICE and group travel services.",
     number: "02",
   },
   {
     icon: <Handshake size={38} strokeWidth={1.5} color="#3b4252" />,
     title: "Sustainability & Responsible Tourism",
-    text: "We promote eco-friendly tourism, cultural preservation, and meaningful community engagement in every journey.",
+    text: "Committed to responsible tourism, Cholan Tours integrates eco-friendly practices, cultural preservation and community empowerment into every journey we create.",
     number: "03",
   },
   {
     icon: <Backpack size={38} strokeWidth={1.5} color="#3b4252" />,
     title: "Why Cholan Tours?",
-    text: "Over two decades of expertise, delivering tailored travel with award-winning service and multilingual support.",
+    text: "With over two decades of expertise, Cholan Tours stands as a trusted leader in destination management, offering seamless, tailor-made travel experiences backed by award-winning service and a dedicated multilingual team.",
     number: "04",
   },
 ];
@@ -33,6 +33,7 @@ const data = [
 const WhyCholanSection = () => {
   return (
     <section className={styles.section}>
+      <div className={styles.inner}>
 
       {/* TOP CONTENT */}
         <div className={styles.top}>
@@ -68,6 +69,7 @@ const WhyCholanSection = () => {
               <p className={styles.text}>{item.text}</p>
             </div>
           ))}
+        </div>
         </div>
     </section>
   );
