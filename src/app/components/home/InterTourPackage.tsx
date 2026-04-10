@@ -54,7 +54,17 @@ const InterTourPackage = ({ trendingInternationalData }: any) => {
               />
 
               {/* Arrow */}
-              <div className={styles.arrow}>↗</div>
+              <div className={styles.arrow}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M7 17L17 7M17 7H8M17 7V16"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </div>
 
               {/* Overlay — always visible on active card */}
               <div className={`${styles.overlay} ${activeIndex === i ? styles.overlayActive : ""}`}>

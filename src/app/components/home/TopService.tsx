@@ -1,7 +1,11 @@
 "use client";
 import styles from "./topservice.module.css";
 
-export default function TopService() {
+interface TopServiceProps {
+  tourServices?: any[];
+}
+
+export default function TopService({ tourServices }: TopServiceProps) {
   return (
     <section className={styles.section}>
       <div className={styles.wrapper}>
