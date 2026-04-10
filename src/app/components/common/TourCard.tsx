@@ -13,7 +13,7 @@ interface TourCardProps {
   title: string;
   rating: number;
   duration: string;
-  tourTime: string;
+  tourTime?: string;
   highlights: string[];
   imageUrl: string;
 }
@@ -137,7 +137,7 @@ const TourCard: React.FC<TourCardProps> = ({
                           </div>
                         ) : null}
                       </div>
-                      {tourTime != "null - null" ? (
+                      {tourTime && tourTime !== "null - null" && tourTime !== "undefined - undefined" ? (
                         <div className="d-flex align-items-center gap-1">
                           <svg
                             width="24"

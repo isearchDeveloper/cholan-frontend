@@ -73,8 +73,6 @@ const Sidebar: any = ({
   data,
   cities,
   citySlug,
-  categorySlug,
-  setCategorySlug,
   sidebarThemes = [],
 }: any) => {
   useEffect(() => {

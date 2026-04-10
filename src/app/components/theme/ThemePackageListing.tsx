@@ -116,9 +116,6 @@ export default function ThemePackageListing({
                       } ${tour.details?.duration_days} ${
                         tour.details?.duration_days < 2 ? "Day" : "Days"
                       }`}
-                      tourTime={`${tour.details?.start_date} - ${
-                        tour.details?.end_date
-                      }`}
                       highlights={tour.details?.tour_highlights}
                       imageUrl={
                         tour.primary_image
