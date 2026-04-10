@@ -9,17 +9,15 @@
 /* @import "tailwindcss"; */
 
 /*..............common styles..............*/
-html, body {
+body {
   margin: 0;
   padding: 0;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter", sans-serif !important;
   font-size: 16px;
   font-weight: 400;
   color: #464646;
-  overflow-x: hidden !important;
-  width: 100% !important;
-  position: relative;
-  top: 0px;
+  overflow-x: hidden;
+  top: 0px !important;
 }
 
 h1,
@@ -32,7 +30,7 @@ h6 {
 
   padding: 0;
   color: #383838;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter", sans-serif !important;
   line-height: 1.1;
 }
 
@@ -59,7 +57,7 @@ h6 {
 h1,
 h2,
 h3 {
-  font-weight: 600;
+  font-weight: 600 !important;
 }
 
 .faq-item p {
@@ -78,7 +76,7 @@ h3 {
 p,
 li,
 a {
-  font-size: 0.92rem;
+  font-size: 0.92rem !important;
 }
 
 .text-gray-700 {
@@ -101,14 +99,18 @@ a {
   width: 0.75rem;
 }
 
-/* Removed unused utility .text-gray-400 */
+.text-gray-400 {
+  color: #cbd5e0;
+}
 
 .mx-1 {
   margin-left: 0.25rem;
   margin-right: 0.25rem;
 }
 
-/* Removed unused utility .h-3 */
+.h-3 {
+  height: 0.75rem;
+}
 
 .text-sm {
   font-size: 0.875rem;
@@ -118,7 +120,12 @@ a {
   color: #a0aec0;
 }
 
-/* Removed unused utility .inset-0 */
+.inset-0 {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
 
 .absolute {
   position: absolute;
@@ -132,7 +139,9 @@ a {
   align-items: flex-end;
 }
 
-/* Removed duplicate .flex at line 142 */
+.flex {
+  display: flex;
+}
 
 .h-54 {
   height: 10rem;
@@ -185,7 +194,9 @@ video {
   height: auto;
 }
 
-/* Removed duplicate .items-end at line 197 */
+.items-end {
+  align-items: flex-end;
+}
 
 .shadow-md {
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
@@ -213,7 +224,13 @@ video {
   align-self: flex-start;
 }
 
-/* Removed unused .mgmenu related styles */
+.main-menu .mgmenu a:after {
+  display: none;
+}
+
+.main-menu .mgmenu a h6 {
+  color: #383838;
+}
 
 @media screen and (max-width: 1366px) {
   .faq-answer {
@@ -362,7 +379,24 @@ p:last-child {
 
 /* --- common background color --- */
 
-/* Removed unused Wordpress alignment classes (.alignleft, .alignright, .aligncenter) */
+/* --- only use for wordpress (Image alignment) --- */
+.alignleft,
+.alignnone {
+  float: left;
+  margin: 0 15px 10px 0;
+}
+
+.alignright {
+  float: right;
+  margin: 0 0 10px 15px;
+}
+
+.aligncenter {
+  margin: 10px auto;
+  display: block;
+}
+
+/* --- only use for wordpress (Image alignment) --- */
 
 /* --- Button Styles --- */
 
@@ -431,11 +465,49 @@ p:last-child {
 
 /* --- Button Styles --- */
 
-/* Removed unused .row-eq-height utility */
+/*row with equal height column*/
+.row-eq-height {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
 
 /*row with equal height column*/
 
-/* Removed unused .builder_radiobox utility */
+/* --- checkbox and radio button Styles --- */
+
+.builder_radiobox ul li label {
+  font-weight: normal;
+}
+
+.builder_radiobox ul li input[type="radio"] {
+  opacity: 0;
+}
+
+.builder_radiobox ul li input[type="radio"]:empty~label {
+  position: relative;
+  float: left;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  padding: 0 0 0 22px;
+}
+
+.builder_radiobox ul li input[type="radio"]:empty~label:before {
+  position: absolute;
+  display: block;
+  top: 2px;
+  bottom: 0;
+  left: 0;
+  content: "";
+  width: 16px;
+  height: 16px;
+}
+
+/* --- checkbox and radio button Styles --- */
 
 .common-padd {
   padding-top: 3rem !important;
@@ -1048,7 +1120,91 @@ footer .brochure-link ul li {
 
 
 /* ----------home------------ */
-/* Removed legacy .banner-section styles (replaced by homebanner.module.css) */
+.banner-section {
+  background: linear-gradient(101.27deg,
+      rgba(48, 92, 222, 0.2) 2.04%,
+      rgba(134, 128, 108, 0.2) 36.3%,
+      rgba(108, 64, 116, 0.2) 70.55%,
+      rgba(26, 50, 120, 0.2) 97.04%);
+  padding: 40px 0;
+}
+
+.banner-section .swiper-button-prev,
+.banner-section .swiper-button-next {
+  display: none;
+}
+
+.banner-section .slider-content-wraper>img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.banner-section .slider-content-wraper {
+  position: relative;
+  height: 500px;
+  border-radius: 25px;
+  overflow: hidden;
+}
+
+.banner-section .button {
+  text-align: center;
+  width: 100%;
+  padding: 25px;
+  position: absolute;
+  bottom: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.banner-section span.swiper-pagination-bullet.swiper-pagination-bullet-active {
+  background-color: #fff !important;
+}
+
+.banner-section span.swiper-pagination-bullet {
+  background-color: #a1a1a1 !important;
+  opacity: 1;
+}
+
+.banner-section .swiper-slide {
+  padding: 0px;
+}
+
+.banner-section .slider-content {
+  border-radius: 25px;
+  /* box-shadow: 0 0 14px #00000047; */
+}
+
+.banner-section .swiper-pagination {
+  bottom: 2px !important;
+}
+
+.banner-section .right-box {
+  padding: 0px 0;
+}
+
+.banner-section .right-box .button {
+  text-align: center;
+  width: 100%;
+  padding: 15px;
+  position: absolute;
+  bottom: 0;
+  height: 100%;
+  /* background-color: #00000073; */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 25px;
+}
+
+.banner-section .right-box h1 {
+  color: #fff;
+}
 
 /* --------slider with card----- */
 
@@ -1627,7 +1783,33 @@ footer .brochure-link ul li {
   margin-top: 30px;
 }
 
-/* Removed legacy .why-choose-sec styles (replaced by whychoose.module.css) */
+.why-choose-sec .sngl-box {
+  text-align: center;
+}
+
+.why-choose-sec .icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.why-choose-sec .icon {
+  width: 40px;
+  height: 40px;
+  margin: 0 auto;
+  margin-bottom: 20px;
+}
+
+.why-choose-sec .sngl-box h5 {
+  margin-bottom: 5px !important;
+  color: #fff;
+  font-weight: 600;
+}
+
+.why-choose-sec .sngl-box p {
+  color: #fff;
+  margin-bottom: 0 !important;
+}
 
 .why-choose-sec .common-header-center h2 {
   color: #000;
