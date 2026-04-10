@@ -29,7 +29,7 @@
   top: 10px; 
   left: 140px;
   /* width: 400px; */
-  opacity: 0.5;
+  opacity: 0.2;
   z-index: 1;
   justify-content: center;
 }
@@ -82,6 +82,7 @@
 
 .link:hover {
   gap: 8px;
+  color: #1d4ed8;
 }
 
 /* ========================= */

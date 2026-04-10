@@ -17,11 +17,6 @@ export async function generateMetadata({
   const { slug } = await params;
  
  
-  // npmn Only listing pages allowed
-  if (!slug.endsWith("-tour-packages")) {
-    return {};
-  }
- 
   const res = await fetchInternationalPackageData(slug);
   if (!res?.data) return {};
  
@@ -58,23 +53,24 @@ export default async function InternationalListing({
   const currentPage = Number(page ?? 1);
  
  
-  // 1️⃣ Redirect package details to the canonical route
-  if (!slug.endsWith("-tour-packages")) {
-    redirect(`/packages/${slug}`);
-  }
-
   const res = await fetchInternationalPackageData(slug);
-
-  // 2️⃣ Data must exist
-  if (!res?.data) {
-    notFound();
-  }
-  // 3️⃣ Packages must exist
-  const packages = res?.data?.packages ?? [];
-
-  if (!Array.isArray(packages) || packages.length === 0) {
-    notFound();
-  }
+ 
+   // 2️⃣ If data doesn't exist for this slug, check for redirect to package detail
+   if (!res?.data) {
+     if (!slug.endsWith("-tour-packages")) {
+       // Legacy detail link or missing listing, redirect to canonical packages route
+       redirect(`/packages/${slug}`);
+     }
+     // Valid listing format but no data
+     notFound();
+   }
+ 
+   // 3️⃣ Packages must exist
+   const packages = res?.data?.packages ?? [];
+ 
+   if (!Array.isArray(packages) || packages.length === 0) {
+     notFound();
+   }
 
  
   const countryName =

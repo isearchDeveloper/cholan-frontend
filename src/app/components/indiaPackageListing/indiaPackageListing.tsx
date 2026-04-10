@@ -341,7 +341,10 @@ const IndiaPackageListing = ({
                       slug={tour.slug}
                       title={tour.title}
                       rating={5}
-                      duration={`${tour.details?.duration_nights || 0} ${(tour.details?.duration_nights || 0) < 2 ? "Night" : "Nights"}  ${tour.details?.duration_days || 0} ${(tour.details?.duration_days || 0) < 2 ? "Day" : "Days"}`}
+                      duration={[
+                        tour.details?.duration_nights ? `${tour.details.duration_nights} ${tour.details.duration_nights < 2 ? "Night" : "Nights"}` : null,
+                        tour.details?.duration_days ? `${tour.details.duration_days} ${tour.details.duration_days < 2 ? "Day" : "Days"}` : null
+                      ].filter(Boolean).join(" / ")}
                       highlights={tour.details?.tour_highlights || []}
                       imageUrl={tour.primary_image}
                     />

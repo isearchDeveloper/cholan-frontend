@@ -4,13 +4,8 @@ import TourCard from "@/app/components/common/TourCard";
 import Banner from "@/app/components/common/banner";
 import Sidebar from "@/app/components/common/sidebar";
 import ExpandableText from "@/app/components/common/ExpandableText";
-import FAQAccordion from "@/app/components/common/FAQAccordion";
-
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { notFound, useParams } from "next/navigation";
-import { XPublicToken } from "@/app/urls/apiUrls";
-import axios from "axios";
 import FAQAccordionListing from "@/app/components/common/FAQAccordionForListing";
 import Breadcrumb from "@/app/components/common/Breadcrumb";
 import { fetchWorldPackageListingData } from "@/app/services/internationaltourService";
@@ -27,7 +22,7 @@ const InternationalPackageListing = ({
   const [packageList, setPackageList] = useState<any>(packageList1 || null);
   const [currentPage, setCurrentPage] = useState(initialPage);
   const [totalPages, setTotalPages] = useState(1);
-  const [showLoader, setShowLoader] = useState(true);
+  const [showLoader, setShowLoader] = useState(false);
 
   const [fixedData, setfixedData] = useState<any>(ssrFixedData || null);
 
@@ -350,9 +345,11 @@ const InternationalPackageListing = ({
                       slug={tour.slug}
                       title={tour.title}
                       rating={5}
-                      duration={`${tour.details.duration_nights} Nights ${tour.details.duration_days} Days`}
-                      tourTime={`${tour.details.start_date} - ${tour.details.end_date}`}
-                      highlights={tour.details.tour_highlights}
+                      duration={[
+                        tour.details?.duration_nights ? `${tour.details.duration_nights} ${tour.details.duration_nights < 2 ? "Night" : "Nights"}` : null,
+                        tour.details?.duration_days ? `${tour.details.duration_days} ${tour.details.duration_days < 2 ? "Day" : "Days"}` : null
+                      ].filter(Boolean).join(" / ")}
+                      highlights={tour.details?.tour_highlights || []}
                       imageUrl={tour.primary_image}
                     />
                   ))}

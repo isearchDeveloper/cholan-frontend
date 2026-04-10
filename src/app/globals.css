@@ -1790,11 +1790,7 @@ footer .brochure-link ul li {
   border: 1px solid rgba(0, 0, 0, 0);
   border-radius: 30px;
   padding: 20px;
-}
-
-.tourCard .tour-wrapper {
-  flex-wrap: wrap;
-  display: flex;
+  transition: all 0.3s ease;
 }
 
 .tourCard img {
@@ -4821,10 +4817,6 @@ h4.clickable-state a::after {
   width: 25%;
   height: 1px;
   background-color: #000;
-}
-
-.tourCard {
-  transition: all 0.3s ease;
 }
 
 /* .tourCard:hover {

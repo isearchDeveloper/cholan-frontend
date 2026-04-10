@@ -10,7 +10,7 @@ const LuxuryTour = () => {
         {/* LEFT IMAGE */}
         <div className={styles.left}>
           <img
-            src="https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg"
+            src="/images/luxury-img.jpg"
             alt="Luxury Travel"
             className={styles.image}
           />

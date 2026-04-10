@@ -1,0 +1,214 @@
+.section {
+  padding: 40px 0;
+}
+.container {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.heading {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 14px;
+}
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+
+.tab {
+  padding: 8px 18px;
+  border-radius: 10px;
+  border: 1px solid #fff;
+}
+
+.tabActive {
+  background: #0a1f44;
+  color: #fff;
+}
+
+/* GRID */
+.bentoGrid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: 16px;
+  gap: 6px;
+}
+
+/* COMMON CARD */
+.card {
+  position: relative;
+  border-radius: 3px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+/* IMAGE with transition */
+.cardImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.card:hover .cardImage {
+  transform: scale(1.08);
+}
+
+/* OVERLAY */
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+}
+
+/* CONTENT */
+.content {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  color: #fff;
+}
+
+/* TITLE */
+.cardTitle {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+/* WHITE LINE */
+.cardLine {
+  width: 30px;
+  height: 2px;
+  background-color: #fff;
+  margin-top: 5px;
+  border-radius: 2px;
+  transition: width 0.4s ease, transform 0.4s ease;
+}
+
+.card:hover .cardLine {
+  width: 50px;
+  transform: scaleY(1.3);
+}
+
+/* ========================= */
+/* INDIVIDUAL CARDS CONTROL */
+/* ========================= */
+
+.card0 {
+  grid-column: span 2;
+  grid-row: span 12;
+}
+
+.card1 {
+  grid-column: span 3;
+  grid-row: span 12;
+}
+
+.card2 {
+  grid-column: span 4;
+  grid-row: span 24;
+}
+
+.card3 {
+  grid-column: span 3;
+  grid-row: span 14;
+}
+
+.card4 {
+  grid-column: span 3;
+  grid-row: span 12;
+}
+
+.card5 {
+  grid-column: span 2;
+  grid-row: span 12;
+}
+
+.card6 {
+  grid-column: span 3;
+  grid-row: span 10;
+}
+
+/* ========= RESPONSIVE ========= */
+
+@media (max-width: 1280px) {
+  .bentoGrid {
+    grid-template-columns: repeat(6, 1fr);
+    grid-auto-rows: 25px;
+  }
+
+  .card0 { grid-column: span 2; grid-row: span 10; }
+  .card1 { grid-column: span 2; grid-row: span 10; }
+  .card2 { grid-column: span 2; grid-row: span 20; }
+  .card3 { grid-column: span 3; grid-row: span 10; }
+  .card4 { grid-column: span 3; grid-row: span 10; }
+  .card5 { grid-column: span 2; grid-row: span 10; }
+  .card6 { grid-column: span 4; grid-row: span 10; }
+}
+
+@media (max-width: 1024px) {
+  .bentoGrid {
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-auto-rows: unset;
+    gap: 8px;
+  }
+
+  .card0, .card1, .card3, .card4, .card5, .card6 {
+    grid-column: span 1;
+    grid-row: span 1;
+    height: 200px;
+  }
+
+  .card2 {
+    grid-column: span 3;
+    grid-row: span 1;
+    height: 260px;
+  }
+}
+
+@media (max-width: 768px) {
+  .bentoGrid {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .card0, .card1, .card3, .card4, .card5, .card6 {
+    grid-column: span 1;
+    height: 180px;
+  }
+
+  .card2 {
+    grid-column: span 2;
+    height: 220px;
+  }
+
+  .heading {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .bentoGrid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .card0, .card1, .card2, .card3, .card4, .card5, .card6 {
+    grid-column: span 1 !important;
+    height: 200px !important;
+  }
+
+  .heading {
+    font-size: 1.3rem;
+  }
+
+  .tab {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+}
