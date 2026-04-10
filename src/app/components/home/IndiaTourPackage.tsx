@@ -55,7 +55,7 @@ const data: Record<string, Card[]> = {
   ],
 };
 
-export default function IndiaTourPackage() {
+export default function IndiaTourPackage({ exclusiveIndiaPackage }: { exclusiveIndiaPackage?: any }) {
   const [active, setActive] = useState("South India");
 
   return (
