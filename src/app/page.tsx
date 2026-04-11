@@ -19,6 +19,7 @@ import {
   fetchHomeCountryPackageData,
   fetchHomeData,
   fetchHomeExclusiveData,
+  fetchHomeTabsData,
   trendingInternationalHomePackageData,
 } from "./services/homeService";
 import CountryTourPackage from "./components/home/CountryTourPackage";
@@ -82,6 +83,7 @@ export default async function Home() {
     trendingInternationalData,
     discoverIndiaPackageData,
     packageReviewData,
+    homeTabsData,
   ] = await Promise.all([
     fetchHomeData(),
     fetchHomeExclusiveData(),
@@ -89,6 +91,7 @@ export default async function Home() {
     trendingInternationalHomePackageData(),
     discoverIndiaPackageHomeData(),
     fetchPackageReviewData(),
+    fetchHomeTabsData(),
   ]);
 
 
@@ -115,10 +118,10 @@ export default async function Home() {
         </div>
 
 
-        {exclusiveIndiaPackage?.data?.length < 1 ? null : (
+        {homeTabsData?.homepage_tabs?.length < 1 ? null : (
           <div data-aos="fade-up" data-aos-delay="200">
             <HomeTourPackage
-              exclusiveIndiaPackage={exclusiveIndiaPackage?.data}
+              homeTabsData={homeTabsData.homepage_tabs}
             />
           </div>
         )}

@@ -70,10 +70,21 @@
 }
 
 /* ========================= */
-/* SWIPER */
+/* SWIPER SLIDER */
 /* ========================= */
+.sliderWrapper {
+  position: relative;
+  width: 100%;
+}
+
 .swiper {
   width: 100%;
+  padding: 10px 0 20px 0 !important;
+  overflow: hidden !important;
+}
+
+.swiperSlide {
+  height: auto !important;
 }
 
 /* ========================= */
@@ -85,6 +96,9 @@
   border-radius: 12px;
   overflow: hidden;
   cursor: pointer;
+  background: #f8f8f8;
+  transition: transform 0.45s cubic-bezier(0.25, 0.8, 0.25, 1),
+              box-shadow 0.45s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 /* IMAGE */

@@ -1,190 +1,146 @@
+/* ========================
+   AT A GLANCE SECTION
+======================== */
+
 .section {
-  background: #e4efea;
-  padding: 90px 90px;
-}
-
-.wrapper {
-  max-width: 1500px;
-  margin: auto;
-  display: flex;
-  gap: 50px;
-  align-items: center;
-}
-
-/* LEFT */
-.left {
-  width: 45%;
+  background: #cccccc;
+  /* Matching the light gray in image */
+  padding: 100px 60px;
   position: relative;
+  overflow: hidden;
 }
 
-/* BIG IMAGE */
-.bigCard {
+/* DECORATIVE BALLOON */
+.balloonBg {
+  position: absolute;
+  top: 10px;
+  right: -50px;
+  opacity: 0.3;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.balloonImg {
+  transform: rotate(-10deg);
+}
+
+/* HEADER */
+.header {
+  text-align: center;
+  margin-bottom: 70px;
   position: relative;
-  height: 500px;
-  width: 400px;
-  border-radius: 14px;
-  overflow: hidden;
-  object-fit: contain;
+  z-index: 1;
 }
 
-/* OVERLAY */
-.overlay {
-  position: absolute;
-  top: 24px;
-  left: 24px;
-  color: #fff;
+.heading {
+  font-size: 30px;
+  /* Reduced from 34px */
+  font-weight: 500;
+  color: #111;
+  margin-bottom: 12px;
+  letter-spacing: -0.5px;
 }
 
-.overlay h3 {
-  font-size: 28px;
-  font-weight: 700;
-}
-
-.overlay p {
-  font-size: 14px;
-  margin-top: 6px;
-}
-
-/* SMALL IMAGE */
-.smallCard {
-  position: absolute;
-  bottom: 40px;
-  right: 150px;
-  width: 270px;
-  height: 360px;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-}
-
-.travelText {
-  position: absolute;
-  bottom: 14px;
-  left: 14px;
-  font-size: 26px;
-  font-weight: 700;
-  color: #fff;
-  letter-spacing: 1px;
-}
-
-/* IMAGE */
-.image {
-  object-fit: cover;
-}
-
-/* BUTTON */
-.btn {
-  margin-top: 80px;
-  background: #0a1f44;
-  color: #fff;
-  padding: 14px 30px;
-  border-radius: 30px;
-  border: none;
-  font-size: 14px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.btn:hover {
-  background: #1a2f6b;
-}
-
-/* RIGHT */
-.right {
-  flex: 1;
-}
-
-.right h2 {
-  font-size: 36px;
-  font-weight: 600;
-  margin-bottom: 16px;
-}
-
-.desc {
-  font-size: 15px;
-  color: #555;
-  margin-bottom: 32px;
-  max-width: 520px;
+.subheading {
+  font-size: 18px !important;
+  color: #111;
+  max-width: 720px;
+  font-weight: 400;
+  margin: 0 auto;
   line-height: 1.6;
 }
 
-/* POINTS */
-.points {
-  display: flex;
-  flex-direction: column;
-  gap: 26px;
+/* GRID */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
-.row {
+/* CARD */
+.card {
   display: flex;
+  flex-direction: column;
   gap: 16px;
   align-items: flex-start;
 }
 
-.row p {
-  font-size: 14px;
-  margin: 2px 0;
-  color: #333;
+/* ICON */
+.iconWrap {
+  width: 100px;
+  height: 100px;
+  flex-shrink: 0;
+  margin-bottom: 5px;
 }
 
-/* ================== */
-/* RESPONSIVE */
-/* ================== */
+/* CARD TITLE */
+.cardTitle {
+  font-size: 20px !important;
+  /* Reduced from 16px */
+  font-weight: 500;
+  color: #0c104b;
+  margin: 0;
+  line-height: 1.3;
+  white-space: nowrap;
+}
 
-@media (max-width: 1024px) {
-  .wrapper {
-    flex-direction: column;
-    gap: 90px;
-  }
+/* LIST */
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
 
-  .left {
-    width: 100%;
-  }
+.listItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  color: #555;
+  line-height: 1.4;
+}
 
-  .bigCard {
-    height: 360px;
+/* GREEN TICK SVG */
+.tick {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+/* ========================
+   RESPONSIVE
+======================== */
+
+@media (max-width: 1200px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 50px;
   }
 }
 
 @media (max-width: 768px) {
-  .bigCard {
-    height: 300px;
+  .section {
+    padding: 60px 20px;
   }
 
-  .smallCard {
-    width: 160px;
-    height: 200px;
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
   }
 
-  .right h2 {
+  .heading {
     font-size: 28px;
   }
-}
 
-@media (max-width: 480px) {
-  .section {
-    padding: 60px 16px;
-  }
-
-  .bigCard {
-    height: 240px;
-  }
-
-  .smallCard {
-    width: 130px;
-    height: 160px;
-    bottom: -30px;
-  }
-
-  .overlay h3 {
-    font-size: 18px;
-  }
-
-  .right h2 {
-    font-size: 22px;
-  }
-
-  .row p {
-    font-size: 13px;
+  .subheading {
+    font-size: 15px;
   }
 }

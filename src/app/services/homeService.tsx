@@ -100,3 +100,19 @@ export async function PackageDetailsData(slug: any) {
 
   return res.json();
 }
+
+export async function fetchHomeTabsData() {
+  const res = await fetch(`${baseUrl}/api/v1/page/settings/home/tabs`, {
+    method: "GET",
+    headers: {
+      "X-Public-Token": XPublicToken,
+    },
+    next: { revalidate: 60 }
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch home tabs data");
+  }
+
+  return res.json();
+}

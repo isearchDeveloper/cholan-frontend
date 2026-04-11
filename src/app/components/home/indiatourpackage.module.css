@@ -38,6 +38,77 @@
   gap: 6px;
 }
 
+.simpleGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.simpleGrid .card {
+  grid-column: span 1 !important;
+  grid-row: span 1 !important;
+  height: 240px;
+}
+
+/* SPECIAL FOR 5 ITEMS (Center Big, 2 Left, 2 Right) */
+.grid5 {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: 14px;
+  gap: 12px;
+}
+
+.grid5 .card0 { grid-column: 1 / span 4; grid-row: 1 / span 12; }
+.grid5 .card1 { grid-column: 1 / span 4; grid-row: 13 / span 12; }
+.grid5 .card2 { grid-column: 5 / span 4; grid-row: 1 / span 24; }
+.grid5 .card3 { grid-column: 9 / span 4; grid-row: 1 / span 12; }
+.grid5 .card4 { grid-column: 9 / span 4; grid-row: 13 / span 12; }
+
+@media (max-width: 1280px) {
+  .grid5 .card0, .grid5 .card1, .grid5 .card3, .grid5 .card4 { grid-row: span 10; }
+  .grid5 .card2 { grid-row: span 20; }
+  .grid5 .card1 { grid-row-start: 11; }
+  .grid5 .card4 { grid-row-start: 11; }
+}
+
+@media (max-width: 991px) {
+  .grid5 {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: unset;
+  }
+  .grid5 .card0, .grid5 .card1, .grid5 .card2, .grid5 .card3, .grid5 .card4 {
+    grid-column: span 1 !important;
+    grid-row: span 1 !important;
+    height: 200px;
+  }
+  .grid5 .card2 {
+    grid-column: span 2 !important;
+    height: 260px;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid5 {
+    grid-template-columns: 1fr;
+  }
+  .grid5 .card0, .grid5 .card1, .grid5 .card2, .grid5 .card3, .grid5 .card4 {
+    grid-column: span 1 !important;
+    height: 200px !important;
+  }
+}
+
+@media (max-width: 991px) {
+  .simpleGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .simpleGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* COMMON CARD */
 .card {
   position: relative;

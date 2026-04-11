@@ -62,15 +62,15 @@
 }
 
 .rightText p {
-  font-size: 15px;
-  color: #444;
+  font-size: 18px;
+  color: black;
   margin-bottom: 12px;
   line-height: 1.7;
 }
 
 .link {
   font-size: 15px;
-  color: #1d4ed8;
+  color: #1d4ed8!important;
   text-decoration: none;
   font-weight: 600;
   cursor: pointer;
@@ -88,11 +88,32 @@
 /* ========================= */
 /* 4-CARD ZIG-ZAG GRID       */
 /* ========================= */
+/* ========================= */
+/* SLIDER WRAPPER */
+/* ========================= */
+.sliderWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.swiperContainer {
+  padding: 60px 0 80px 0 !important; 
+  overflow: visible !important;
+  width: 100%;
+}
+
+.swiperSlide {
+  height: auto !important;
+  display: flex;
+  align-items: center;
+  overflow: visible !important;
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 24px;
-  align-items: center; /* lets translateY create the zig-zag wave */
+  align-items: center;
 }
 
 /* ========================= */
