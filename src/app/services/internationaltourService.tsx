@@ -4,19 +4,25 @@ const XPublicToken =
   "zaxsc+/-=0dfvgbnhmjklo*/-piutyerwq*%$25631478907539541lokythbfet&*(@kjhkhgfhk546456456)";
 
 export async function fetchInternationalPageData() {
-  const res = await fetch(`${baseUrl}/api/v1/page/settings/international`, {
-    method: "GET",
-    headers: {
-      "X-Public-Token": XPublicToken,
-    },
-    next: { revalidate: 60 }
-  });
+  try {
+    const res = await fetch(`${baseUrl}/api/v1/page/settings/international`, {
+      method: "GET",
+      headers: {
+        "X-Public-Token": XPublicToken,
+      },
+      next: { revalidate: 60 }
+    });
 
-  if (!res.ok) {
-    throw new Error("Failed to fetch home data");
+    if (!res.ok) {
+      console.error("Failed to fetch international page data:", res.statusText);
+      return { data: null };
+    }
+
+    return res.json();
+  } catch (error) {
+    console.error("Error fetching international page data:", error);
+    return { data: null };
   }
-
-  return res.json();
 }
 
 
@@ -60,28 +66,36 @@ export async function fetchWorldPackageListingData({
   categorySlug?: string | null;
   scopeFromData: "country" | "location";
 }) {
+  try {
+    const scopeQuery =
+      scopeFromData === "country"
+        ? `country=${slug1}`
+        : `location=${slug1}`;
 
-  const scopeQuery =
-    scopeFromData === "country"
-      ? `country=${slug1}`
-      : `location=${slug1}`;
+    let url = "";
 
-  let url = "";
+    if (categorySlug) {
+      url = `${process.env.NEXT_PUBLIC_UAT_URL}/api/v1/packages/${slug1}?page=${currentPage}&category_slug=${categorySlug}&package_country=international`;
+    } else {
+      url = `${process.env.NEXT_PUBLIC_UAT_URL}/api/v1/packages/${slug1}?page=${currentPage}&package_country=international`;
+    }
 
-  if (categorySlug) {
-    url =  `${process.env.NEXT_PUBLIC_UAT_URL}/api/v1/packages/${slug1}?page=${currentPage}&category_slug=${categorySlug}&package_country=international`;
-  } else {
-    url = `${process.env.NEXT_PUBLIC_UAT_URL}/api/v1/packages/${slug1}?page=${currentPage}&package_country=international`;
+    const res = await fetch(url, {
+      method: "GET",
+      headers: { "X-Public-Token": XPublicToken },
+      next: { revalidate: 60 },
+    });
+
+    if (!res.ok) {
+      console.error("Failed to fetch world package listing:", res.statusText);
+      return null;
+    }
+
+    return await res.json();
+  } catch (error) {
+    console.error("Error fetching world package listing:", error);
+    return null;
   }
-
-  const res = await fetch(url, {
-    method: "GET",
-    headers: { "X-Public-Token": XPublicToken },
-    next: { revalidate: 60 },
-  });
-
-  if (!res.ok) return null;
-  return await res.json();
 }
 
 
@@ -122,22 +136,28 @@ export async function fetchNoJsTourPackages() {
 }
 
 export async function specialInternationalPackageData() {
-  const res = await fetch(
-    `${baseUrl}/api/v1/packages/top-special-international`,
-    {
-      method: "GET",
-      headers: {
-        "X-Public-Token": XPublicToken,
-      },
-      next: { revalidate: 60 }
+  try {
+    const res = await fetch(
+      `${baseUrl}/api/v1/packages/top-special-international`,
+      {
+        method: "GET",
+        headers: {
+          "X-Public-Token": XPublicToken,
+        },
+        next: { revalidate: 60 }
+      }
+    );
+
+    if (!res.ok) {
+      console.error("Failed to fetch special international data:", res.statusText);
+      return { data: [] };
     }
-  );
- 
-  if (!res.ok) {
-    throw new Error("Failed to fetch home data");
+
+    return res.json();
+  } catch (error) {
+    console.error("Error fetching special international data:", error);
+    return { data: [] };
   }
- 
-  return res.json();
 }
  
 // ✅ FOR PACKAGE LISTING (slider, pagination, etc.)
@@ -148,19 +168,27 @@ export async function fetchInternationalPackageListingByCity({
   citySlug: string;
   page?: number;
 }) {
-  const listingSlug = `${citySlug}-tour-packages`;
+  try {
+    const listingSlug = `${citySlug}-tour-packages`;
 
-  const url = `${process.env.NEXT_PUBLIC_UAT_URL}/api/v1/packages/${listingSlug}?page=${page}`;
+    const url = `${process.env.NEXT_PUBLIC_UAT_URL}/api/v1/packages/${listingSlug}?page=${page}`;
 
-  const res = await fetch(url, {
-    method: "GET",
-    headers: {
-      "X-Public-Token": XPublicToken,
-    },
-    next: { revalidate: 60 },
-  });
+    const res = await fetch(url, {
+      method: "GET",
+      headers: {
+        "X-Public-Token": XPublicToken,
+      },
+      next: { revalidate: 60 },
+    });
 
-  if (!res.ok) return null;
+    if (!res.ok) {
+      console.error("Failed to fetch international package listing by city:", res.statusText);
+      return null;
+    }
 
-  return await res.json();
+    return await res.json();
+  } catch (error) {
+    console.error("Error fetching international package listing by city:", error);
+    return null;
+  }
 }

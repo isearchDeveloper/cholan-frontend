@@ -116,19 +116,25 @@ export async function discoverIndiaPackageHomeData() {
 }
 
 export async function PackageDetailsData(slug: any) {
-  const res = await fetch(`${baseUrl}/api/v1/package/${slug}`, {
-    method: "GET",
-    headers: {
-      "X-Public-Token": XPublicToken,
-    },
-    next: { revalidate: 60 }
-  });
+  try {
+    const res = await fetch(`${baseUrl}/api/v1/package/${slug}`, {
+      method: "GET",
+      headers: {
+        "X-Public-Token": XPublicToken,
+      },
+      next: { revalidate: 60 }
+    });
 
-  if (!res.ok) {
-    throw new Error("Failed to fetch home data");
+    if (!res.ok) {
+      console.error(`Failed to fetch package details for ${slug}:`, res.statusText);
+      return null;
+    }
+
+    return res.json();
+  } catch (error) {
+    console.error(`Error fetching package details for ${slug}:`, error);
+    return null;
   }
-
-  return res.json();
 }
 
 export async function fetchHomeTabsData() {
