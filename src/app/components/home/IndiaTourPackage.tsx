@@ -61,18 +61,21 @@ export default function IndiaTourPackage({ homeTabsData }: IndiaTourPackageProps
         <div className={gridClass}>
           {locations.slice(0, 7).map((loc, i) => (
             <Link 
-              href={`/india/${loc.slug || "#"}`} 
-              key={`location-${loc.id || i}`} 
+              href={`/india/${loc?.slug || ""}`} 
+              key={`location-${loc?.id || i}`} 
               className={`${styles.card} ${styles[`card${i}`]}`}
             >
               <img 
-                src={loc.banner_image || "/images/placeholder.jpg"} 
-                alt={loc.banner_image_alt || loc.name || "Tour Title"} 
+                src={loc?.banner_image || "/images/no-img.webp"} 
+                alt={loc?.banner_image_alt || loc?.name || "Tour Title"} 
                 className={styles.cardImage} 
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = "/images/no-img.webp";
+                }}
               />
               <div className={styles.overlay} />
               <div className={styles.content}>
-                <div className={styles.cardTitle}>{loc.name || "Explore Location"}</div>
+                <div className={styles.cardTitle}>{loc?.name || "Explore Location"}</div>
                 <div className={styles.cardLine}></div>
               </div>
             </Link>

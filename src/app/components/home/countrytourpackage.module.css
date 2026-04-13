@@ -4,13 +4,7 @@
 .section {
    position: relative; /* Makes bg elements position relative to this section */
   padding: 80px 60px;
-  background: linear-gradient(
-    180deg,
-    #008bff 0%,
-    rgba(90, 180, 255, 0.65) 35%,
-    rgba(247, 234, 221, 0.85) 75%,
-    #f7eadd 100%
-);
+  background: linear-gradient(180deg, #008bff5c, rgb(90 180 255 / 11%) 35%, rgba(247, 234, 221, .85) 75%, #f7eadd);
   width: 100%;
   box-sizing: border-box;
 }
@@ -29,7 +23,7 @@
   top: 10px; 
   left: 140px;
   /* width: 400px; */
-  opacity: 0.2;
+  opacity: 0.6;
   z-index: 1;
   justify-content: center;
 }

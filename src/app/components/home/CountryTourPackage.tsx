@@ -8,6 +8,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
 
+// @ts-ignore
 import "swiper/css";
 
 const CountryTourPackage = ({ countryPackageHomeData }: any) => {
@@ -35,8 +36,7 @@ const CountryTourPackage = ({ countryPackageHomeData }: any) => {
 
         <div className={styles.rightText}>
           <p>
-            For years, we've curated unforgettable journeys across{" "}
-            {originalData[0]?.location?.country?.name}.
+           Discover Sri Lanka through curated tour packages with landscapes and unforgettable experiences. 
           </p>
 
           <Link
@@ -77,24 +77,27 @@ const CountryTourPackage = ({ countryPackageHomeData }: any) => {
           className={styles.swiperContainer}
         >
           {data.map((item: any, i: number) => (
-            <SwiperSlide key={`${item.id}-${i}`} className={styles.swiperSlide}>
+            <SwiperSlide key={`${item?.id || i}-${i}`} className={styles.swiperSlide}>
               <div
                 className={`${styles.card} ${i % 2 === 0 ? styles.up : styles.down}`}
               >
-                <Link href={`/packages/${item.slug}`}>
+                <Link href={`/packages/${item?.slug || ""}`}>
                   <div className={styles.imageWrapper}>
                     <Image
-                      src={item.primary_image || "/images/no-img.webp"}
-                      alt={item.title}
+                      src={item?.primary_image || "/images/no-img.webp"}
+                      alt={item?.title || "Tour Package"}
                       fill
                       className={styles.image}
+                      onError={(e: any) => {
+                        e.target.src = "/images/no-img.webp";
+                      }}
                     />
                   </div>
 
                   <div className={styles.overlay}></div>
 
                   <div className={styles.content}>
-                    <h3>{item.title}</h3>
+                    <h3>{item?.title || "Exclusive Tour"}</h3>
                   </div>
 
                   <div className={styles.icon}>

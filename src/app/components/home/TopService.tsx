@@ -37,19 +37,19 @@ export default function TopService({ tourServices }: TopServiceProps) {
         <div className={styles.right}>
 
           <div className={styles.card}>
-            <img src="/images/customize.png" className={styles.image} />
+            <img src="/images/customize.webp" className={styles.image} alt="Customized Holidays" />
             <h3>Customized Holidays</h3>
             <p>Tailor-made holiday experiences crafted to your preferences with stays.</p>
           </div>
 
           <div className={styles.card}>
-            <img src="/images/car-2.png" className={styles.image} />
+            <img src="/images/car.webp" className={styles.image} alt="Car Rental" />
             <h3>Car Rental</h3>
             <p>Comfortable and well-maintained cars with professional drivers.</p>
           </div>
 
           <div className={styles.card}>
-            <img src="/images/car-3.png" className={styles.image} />
+            <img src="/images/bus.webp" className={styles.image} alt="Bus Rental" />
             <h3>Bus Rental</h3>
             <p>Spacious and reliable buses with expert drivers for long-distance journeys.</p>
           </div>

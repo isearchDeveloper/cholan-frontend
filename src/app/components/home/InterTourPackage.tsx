@@ -23,8 +23,10 @@ const InterTourPackage = ({ trendingInternationalData }: any) => {
         <div className={styles.header}>
           <div>
             <h2>
-              Top Trending <span>International</span><br />
-              Tour Packages
+              {/* Top Trending International<br />
+              Tour Packages */}
+              Explore Top <span>International</span> Destinations
+
             </h2>
           </div>
 
@@ -41,16 +43,19 @@ const InterTourPackage = ({ trendingInternationalData }: any) => {
         >
           {trendingInternationalData?.slice(0, 5).map((data: any, i: number) => (
             <div
-              key={data.id ?? data.slug}
+              key={data?.id ?? data?.slug ?? i}
               className={`${styles.card} ${activeIndex === i ? styles.activeCard : ""}`}
               onMouseEnter={() => setActiveIndex(i)}
-              onClick={() => setUrl(data.slug)}
+              onClick={() => setUrl(data?.slug || "")}
             >
               <Image
-                src={data.primary_image || "/images/no-img.webp"}
-                alt={data.title}
+                src={data?.primary_image || "/images/no-img.webp"}
+                alt={data?.title || "International Tour"}
                 fill
                 className={styles.image}
+                onError={(e: any) => {
+                  e.target.src = "/images/no-img.webp";
+                }}
               />
 
               {/* Arrow */}
@@ -69,8 +74,8 @@ const InterTourPackage = ({ trendingInternationalData }: any) => {
               {/* Overlay — always visible on active card */}
               <div className={`${styles.overlay} ${activeIndex === i ? styles.overlayActive : ""}`}>
                 <span className={styles.tag}>Famous Places</span>
-                <h3 className={styles.headig}>{data.title}</h3>
-                <p className={styles.shortDesc}>{stripHtml(data.short_description)}</p>
+                <h3 className={styles.headig}>{data?.title || "Tour Destination"}</h3>
+                <p className={styles.shortDesc}>{stripHtml(data?.short_description || "")}</p>
                 <div className={styles.explore}>Explore More →</div>
               </div>
             </div>

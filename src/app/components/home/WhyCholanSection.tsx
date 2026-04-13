@@ -43,8 +43,7 @@ const WhyCholanSection = () => {
 
           <div className={styles.rightText}>
             <p>
-              With years of expertise, we create thoughtfully curated journeys
-              backed by seamless service and a strong commitment to responsible travel.
+              Experience travel redefined with expertly crafted itineraries, seamless execution, and a commitment to sustainability, ensuring every journey is meaningful, responsible, and truly unforgettable.
             </p>
 
             <a href="/about-us" className={styles.link}>

@@ -10,7 +10,7 @@ const LuxuryTour = () => {
         {/* LEFT IMAGE */}
         <div className={styles.left}>
           <img
-            src="/images/luxury-img.jpg"
+            src="/images/luxury-home.webp"
             alt="Luxury Travel"
             className={styles.image}
           />
@@ -19,10 +19,10 @@ const LuxuryTour = () => {
         {/* RIGHT CONTENT */}
         <div className={styles.right}>
           <div className={styles.content}>
-            <h2>Luxury Tours</h2>
+            <h2>Journey Through India in Luxury</h2>
 
             <p>
-              From Majestic Rails to Exquisite Hotels - India's Heritage in Luxury
+              Experience India’s rich heritage through luxurious rail journeys and exquisite hotel stays. It is thoughtfully curated to deliver elegance and unforgettable travel moments.
             </p>
 
             <a href="/luxury-trains" className={styles.link}>

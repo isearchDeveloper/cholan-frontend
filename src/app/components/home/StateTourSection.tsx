@@ -8,19 +8,19 @@ const data = [
   {
     title: "Discover India for Your Next Adventure!",
     image:
-      "https://images.unsplash.com/photo-1564507592333-c60657eea523?q=80&w=1600",
+      "/images/india.webp",
     link: "/india",
   },
   {
     title: "Nepal",
     image:
-      "https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=1600",
+      "/images/nepal-home.webp",
     link: "/international-holidays/nepal-tour-packages",
   },
   {
     title: "Sri Lanka",
     image:
-      "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1600",
+      "/images/srilankaimg.webp",
     link: "/international-holidays/sri-lanka-tour-packages",
   },
 ];

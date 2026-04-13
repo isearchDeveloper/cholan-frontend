@@ -8,17 +8,19 @@ const LocalExpertiseSection = () => {
     <section className={styles.section}>
       
       {/* Background Decorations */}
-      <img src="/images/airballon.png" alt="" className={styles.balloonSmall} />
-      <img src="/images/airballon.png" alt="" className={styles.balloonLarge} />
+      <img src="/images/local-exper-girlbg-icon.png" alt="" className={styles.bgIconLayer} />
+      <img src="/images/airballon.png" alt="" className={styles.balloonLeft} />
+      <img src="/images/ballonandcloud.png" alt="" className={styles.balloonTopCenter} />
+      {/* <img src="/images/ballonandcloud.png" alt="" className={styles.cloudFloating} /> */}
 
       <div className={styles.content}>
         
         <h2 className={styles.Curatedheading}>
-          Curated Experiences by <br /> Local Experts
+          Curated Experiences by Local  Experts
         </h2>
 
         <p className={styles.text}>
-          Cholan Tours Pvt. Ltd. is a leading India Tour Operator specializing in personalized <br /> travel experiences for both international and domestic travelers.
+          Cholan Tours Pvt. Ltd. is a leading India Tour Operator specializing in personalized travel experiences for both international and domestic travelers.
         </p>
 
         <Link href="/about-us" className={styles.cta}>
@@ -30,7 +32,7 @@ const LocalExpertiseSection = () => {
       {/* Hero Image */}
       <div className={styles.imageContainer}>
         <img 
-          src="/images/girl.png.png" 
+          src="/images/girl.webp" 
           alt="Travel Expert" 
           className={styles.girlImage} 
         />

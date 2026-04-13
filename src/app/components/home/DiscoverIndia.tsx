@@ -7,7 +7,9 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
 
+// @ts-ignore
 import "swiper/css";
+// @ts-ignore
 import "swiper/css/pagination";
 
 const stripHtml = (html: string) =>
@@ -41,8 +43,7 @@ const DiscoverIndia = ({ discoverIndiaPackageData }: DiscoverIndiaProps) => {
 
           <div className={styles.rightText}>
             <p>
-              For over two decades, we've crafted journeys that go beyond
-              travel—where every destination tells a story through our travelers.
+              Discover India’s timeless beauty through expertly crafted journeys, where decades of experience transform destinations into meaningful stories.
             </p>
             <span onClick={() => router.push("/packages")} className={styles.link}>
               View All Packages →
@@ -78,16 +79,19 @@ const DiscoverIndia = ({ discoverIndiaPackageData }: DiscoverIndiaProps) => {
             className={styles.swiper}
           >
             {data.map((item, i) => (
-              <SwiperSlide key={`${item.slug}-${i}`} className={styles.swiperSlide}>
+              <SwiperSlide key={`${item?.slug || i}-${i}`} className={styles.swiperSlide}>
                 <div
                   className={styles.card}
-                  onClick={() => router.push(`/packages/${item.slug}`)}
+                  onClick={() => router.push(`/packages/${item?.slug || ""}`)}
                 >
                   <Image
-                    src={item?.primary_image || "/images/fallback.jpg"}
-                    alt={item.title}
+                    src={item?.primary_image || "/images/no-img.webp"}
+                    alt={item?.title || "Tour"}
                     fill
                     className={styles.image}
+                    onError={(e: any) => {
+                      e.target.src = "/images/no-img.webp";
+                    }}
                   />
 
                   {/* ARROW BADGE */}
@@ -105,11 +109,11 @@ const DiscoverIndia = ({ discoverIndiaPackageData }: DiscoverIndiaProps) => {
 
                   {/* BOTTOM OVERLAY — always visible */}
                   <div className={styles.overlay}>
-                    <h3 className={styles.cardTitle}>{item.title}</h3>
+                    <h3 className={styles.cardTitle}>{item?.title || "Exclusive Tour"}</h3>
                     <div className={styles.line} />
                     <p className={styles.cardDesc}>
-                      {stripHtml(item.short_description).slice(0, 120)}
-                      {stripHtml(item.short_description).length > 120 ? "..." : ""}
+                      {stripHtml(item?.short_description || "").slice(0, 120)}
+                      {stripHtml(item?.short_description || "").length > 120 ? "..." : ""}
                     </p>
                   </div>
                 </div>

@@ -199,4 +199,3 @@ const GroupTourListing = () => {
 };
 
 export default GroupTourListing;
-

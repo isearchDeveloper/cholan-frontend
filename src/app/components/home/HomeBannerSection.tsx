@@ -9,8 +9,11 @@ import { Swiper as SwiperType } from "swiper";
 
 import styles from "./homebanner.module.css";
 
+// @ts-ignore
 import "swiper/css";
+// @ts-ignore
 import "swiper/css/navigation";
+// @ts-ignore
 import "swiper/css/pagination";
 
 const HomeBanner = ({ bannerData }: any) => {
@@ -41,11 +44,14 @@ const HomeBanner = ({ bannerData }: any) => {
               {/* Background Image */}
               <div className={styles.heroImageWrapper}>
                 <Image
-                  src={item.banner_image || "/images/no-img.webp"}
-                  alt={item.banner_image_alt || "Cholan Tours"}
+                  src={item?.banner_image || "/images/no-img.webp"}
+                  alt={item?.banner_image_alt || "Cholan Tours"}
                   fill
                   priority
                   className={styles.heroImage}
+                  onError={(e: any) => {
+                    e.target.src = "/images/no-img.webp";
+                  }}
                 />
               </div>
 
