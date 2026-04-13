@@ -9,17 +9,16 @@
 /* @import "tailwindcss"; */
 
 /*..............common styles..............*/
-html, body {
+body {
   margin: 0;
   padding: 0;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter", sans-serif !important;
   font-size: 16px;
   font-weight: 400;
   color: #464646;
-  overflow-x: hidden !important;
-  width: 100% !important;
-  position: relative;
-  top: 0px;
+  overflow-x: hidden;
+  top: 0px !important;
+  padding-top: 130px; /* Space for the fixed header */
 }
 
 h1,
@@ -543,11 +542,12 @@ header .logo-box img {
 
 header {
   padding: 12px 0;
-
   border-bottom: 1px solid #eceaf3;
-  position: sticky;
+  position: fixed;
   top: 0;
-  z-index: 99;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
   background: #fff;
 }
 
@@ -1695,12 +1695,12 @@ footer .brochure-link ul li {
 
   header {
     padding: 12px 0;
-    position: sticky;
+    position: fixed;
     top: 0;
-
+    left: 0;
+    width: 100%;
     background-color: #ffffff;
-
-    z-index: 100;
+    z-index: 1000;
   }
 
   .mg-menu-wrap.show {
