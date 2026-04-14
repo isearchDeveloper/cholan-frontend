@@ -14,10 +14,10 @@ import "swiper/css";
 const CountryTourPackage = ({ countryPackageHomeData }: any) => {
   const originalData = countryPackageHomeData || [];
   // Duplicate data for infinite loop if count is small
-  const data = originalData.length > 0 && originalData.length < 8 
-    ? [...originalData, ...originalData] 
+  const data = originalData.length > 0 && originalData.length < 8
+    ? [...originalData, ...originalData]
     : originalData;
-    
+
   const swiperRef = useRef<SwiperType | null>(null);
 
   if (!data || data.length === 0) return null;
@@ -25,7 +25,7 @@ const CountryTourPackage = ({ countryPackageHomeData }: any) => {
   return (
     <section className={styles.section}>
       <div className={styles.bgElements}>
-        <img src="/images/bgflower.png" className={styles.bgflower} />
+        <img src="/images/bgflower.png" className={styles.bgflower} alt="Background decorative flower" />
       </div>
 
       {/* HEADER */}
@@ -36,7 +36,7 @@ const CountryTourPackage = ({ countryPackageHomeData }: any) => {
 
         <div className={styles.rightText}>
           <p>
-           Discover Sri Lanka through curated tour packages with landscapes and unforgettable experiences. 
+            Discover Sri Lanka through curated tour packages with landscapes and unforgettable experiences.
           </p>
 
           <Link
@@ -49,7 +49,7 @@ const CountryTourPackage = ({ countryPackageHomeData }: any) => {
       </div>
 
       {/* 4 CARDS ZIG-ZAG SLIDER */}
-      <div 
+      <div
         className={styles.sliderWrapper}
         onMouseEnter={() => swiperRef.current?.autoplay?.stop()}
         onMouseLeave={() => swiperRef.current?.autoplay?.start()}

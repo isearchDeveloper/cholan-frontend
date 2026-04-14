@@ -2696,7 +2696,6 @@ span.flatpickr-weekday {
   position: fixed;
   top: 50%;
   right: 10px;
-
   background-color: #f26c21;
   color: white;
   padding: 20px 12px;
@@ -2709,14 +2708,63 @@ span.flatpickr-weekday {
   border-radius: 30px;
   text-decoration: none;
   transform: translateY(-50%) rotate(180deg);
-
   transition: background-color 0.3s;
-  z-index: 99;
+  z-index: 9999;
   border: 0px;
+  cursor: pointer;
 }
 
 .floating-button:hover {
   background-color: #d65c1c;
+}
+
+/* Mobile: exact same look as desktop */
+@media (max-width: 768px) {
+  .floating-button {
+    top: 50%;
+    right: 6px;
+    padding: 18px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 30px;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: translateY(-50%) rotate(180deg);
+    z-index: 9999;
+  }
+}
+
+/* Mobile modal overrides */
+@media (max-width: 576px) {
+  .modal-dialog {
+    margin: 0 !important;
+    max-width: 100% !important;
+  }
+  .modal-content {
+    border-radius: 16px 16px 0 0 !important;
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    max-height: 92vh;
+    overflow-y: auto;
+  }
+  .modal-body {
+    padding: 16px !important;
+  }
+  .modal-body .row.g-4 {
+    gap: 12px !important;
+  }
+  .modal-body .col-6 {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+  }
+  .modal-body .btn-close {
+    top: 12px !important;
+    right: 12px !important;
+    position: absolute !important;
+    z-index: 10;
+  }
 }
 
 .timeline {

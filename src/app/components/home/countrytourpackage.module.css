@@ -2,11 +2,12 @@
 /* SECTION */
 /* ========================= */
 .section {
-   position: relative; /* Makes bg elements position relative to this section */
+  position: relative;
   padding: 80px 60px;
   background: linear-gradient(180deg, #008bff5c, rgb(90 180 255 / 11%) 35%, rgba(247, 234, 221, .85) 75%, #f7eadd);
   width: 100%;
   box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 
@@ -20,12 +21,12 @@
 /* BAG IMAGE */
 .bgflower {
   position: absolute;
-  top: 10px; 
+  top: 10px;
   left: 140px;
-  /* width: 400px; */
   opacity: 0.6;
   z-index: 1;
   justify-content: center;
+  max-width: 60%;
 }
 
 /* ========================= */
@@ -91,7 +92,7 @@
 }
 
 .swiperContainer {
-  padding: 60px 0 80px 0 !important; 
+  padding: 60px 0 80px 0 !important;
   overflow: visible !important;
   width: 100%;
 }
@@ -265,6 +266,10 @@
     max-width: 100%;
   }
 
+  .rightText {
+    max-width: 100%;
+  }
+
   .grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
@@ -280,36 +285,109 @@
   .down:hover { transform: translateY(14px) scale(1.02); }
 }
 
-@media (max-width: 640px) {
+/* ========================= */
+/* MOBILE — 768px and below  */
+/* ========================= */
+@media (max-width: 768px) {
   .section {
-    padding: 50px 16px;
+    padding: 40px 16px;
+    overflow-x: hidden;
+  }
+
+  .bgflower {
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 80%;
+    opacity: 0.3;
+  }
+
+  .header {
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
   }
 
   .heading {
     font-size: 24px;
+    max-width: 100%;
+    line-height: 1.3;
   }
 
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 14px;
+  .rightText {
+    max-width: 100%;
+  }
+
+  .rightText p {
+    font-size: 14px;
+    margin-bottom: 8px;
+    line-height: 1.6;
+  }
+
+  .link {
+    font-size: 13px;
+  }
+
+  /* Disable zig-zag on mobile — prevents overflow & clipping */
+  .up,
+  .down {
+    transform: translateY(0) !important;
+  }
+
+  .up:hover,
+  .down:hover {
+    transform: translateY(0) scale(1.02) !important;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Reduce swiper padding since no zig-zag */
+  .swiperContainer {
+    padding: 10px 0 20px 0 !important;
+  }
+
+  .sliderWrapper {
+    overflow: hidden;
+  }
+
+  .card {
+    height: 280px;
+  }
+
+  .content h3 {
+    font-size: 15px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .section {
+    padding: 32px 12px;
+  }
+
+  .heading {
+    font-size: 20px;
   }
 
   .card {
     height: 240px;
   }
 
-  .up  { transform: translateY(-16px); }
-  .down { transform: translateY(16px); }
-  .up:hover  { transform: translateY(-22px); }
-  .down:hover { transform: translateY(10px); }
-
   .content h3 {
-    font-size: 14px !important;
+    font-size: 13px !important;
+  }
+
+  .icon {
+    width: 28px;
+    height: 28px;
+    top: 10px;
+    right: 10px;
   }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 360px) {
   .card {
-    height: 200px;
+    height: 210px;
+  }
+
+  .heading {
+    font-size: 18px;
   }
 }

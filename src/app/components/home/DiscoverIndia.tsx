@@ -45,9 +45,6 @@ const DiscoverIndia = ({ discoverIndiaPackageData }: DiscoverIndiaProps) => {
             <p>
               Discover India’s timeless beauty through expertly crafted journeys, where decades of experience transform destinations into meaningful stories.
             </p>
-            <span onClick={() => router.push("/packages")} className={styles.link}>
-              View All Packages →
-            </span>
           </div>
         </div>
 

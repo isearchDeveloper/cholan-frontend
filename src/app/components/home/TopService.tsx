@@ -1,5 +1,6 @@
 "use client";
 import styles from "./topservice.module.css";
+import Link from "next/link";
 
 interface TopServiceProps {
   tourServices?: any[];
@@ -27,33 +28,31 @@ export default function TopService({ tourServices }: TopServiceProps) {
 
           {/* Illustration */}
           <div className={styles.illustration}>
-            <img src="/images/bag1.png" className={styles.bag} />
-            {/* <img src="/images/flight.png" className={styles.plane} /> */}
-            <img src="/images/destination.png" className={styles.pin} />
+            <img src="/images/bag1.png" className={styles.bag} alt="Travel suitcases illustration" />
+            {/* <img src="/images/flight.png" className={styles.plane} alt="" /> */}
+            <img src="/images/destination.png" className={styles.pin} alt="Map pin destination icon" />
           </div>
         </div>
 
         {/* RIGHT */}
         <div className={styles.right}>
-
-          <div className={styles.card}>
+          <Link href="/customized-holidays" className={styles.card}>
             <img src="/images/customize.webp" className={styles.image} alt="Customized Holidays" />
             <h3>Customized Holidays</h3>
             <p>Tailor-made holiday experiences crafted to your preferences with stays.</p>
-          </div>
+          </Link>
 
-          <div className={styles.card}>
+          <Link href="/car-rental" className={styles.card}>
             <img src="/images/car.webp" className={styles.image} alt="Car Rental" />
             <h3>Car Rental</h3>
             <p>Comfortable and well-maintained cars with professional drivers.</p>
-          </div>
+          </Link>
 
-          <div className={styles.card}>
+          <Link href="/bus-rental" className={styles.card}>
             <img src="/images/bus.webp" className={styles.image} alt="Bus Rental" />
             <h3>Bus Rental</h3>
             <p>Spacious and reliable buses with expert drivers for long-distance journeys.</p>
-          </div>
-
+          </Link>
         </div>
 
       </div>

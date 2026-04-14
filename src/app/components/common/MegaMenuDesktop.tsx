@@ -140,9 +140,8 @@ export default function Navigation({ headerData }: any) {
     <>
       <nav className="custom-navbar">
         <div
-          className={`menu-overlay ${
-            navOpen || megaMenuOpen || dropdownOpen ? "show" : ""
-          }`}
+          className={`menu-overlay ${navOpen || megaMenuOpen || dropdownOpen ? "show" : ""
+            }`}
           onClick={closeAll}
         ></div>
 
@@ -189,11 +188,10 @@ export default function Navigation({ headerData }: any) {
 
                         {megaMenuOpen === "india" && (
                           <div
-                            className={`mega-menu ${
-                              megaMenuOpen === "india"
-                                ? "show slide-up hovered"
-                                : ""
-                            }`}
+                            className={`mega-menu ${megaMenuOpen === "india"
+                              ? "show slide-up hovered"
+                              : ""
+                              }`}
                           >
                             <div className="container">
                               {cityTabs.map((tab, index) => (
@@ -231,11 +229,10 @@ export default function Navigation({ headerData }: any) {
 
                                 {/* Menu Items */}
                                 <div
-                                  className={`${
-                                    headerData?.india_promotion
-                                      ? "col-lg-6"
-                                      : "col-lg-9"
-                                  } menu-columns`}
+                                  className={`${headerData?.india_promotion
+                                    ? "col-lg-6"
+                                    : "col-lg-9"
+                                    } menu-columns`}
                                 >
                                   {cityTabs.map((tab, index) => {
                                     const thisSections =
@@ -446,11 +443,10 @@ export default function Navigation({ headerData }: any) {
 
                         {megaMenuOpen === "international" && (
                           <div
-                            className={`mega-menu ${
-                              megaMenuOpen === "international"
-                                ? "show slide-up hovered"
-                                : ""
-                            }`}
+                            className={`mega-menu ${megaMenuOpen === "international"
+                              ? "show slide-up hovered"
+                              : ""
+                              }`}
                           >
                             <div className="container">
                               {internationalTabs.map((_: any, i: number) => (
@@ -491,11 +487,10 @@ export default function Navigation({ headerData }: any) {
 
                                 {/* CENTER: Countries + Locations */}
                                 <div
-                                  className={`${
-                                    headerData?.international_promotion
-                                      ? "col-lg-6"
-                                      : "col-lg-9"
-                                  } menu-columns`}
+                                  className={`${headerData?.international_promotion
+                                    ? "col-lg-6"
+                                    : "col-lg-9"
+                                    } menu-columns`}
                                 >
                                   {internationalTabs.map(
                                     (continent: any, i: number) => (
@@ -629,11 +624,10 @@ export default function Navigation({ headerData }: any) {
 
                         {megaMenuOpen === "holidays" && (
                           <div
-                            className={`mega-menu ${
-                              megaMenuOpen === "holidays"
-                                ? "show slide-up hovered"
-                                : ""
-                            }`}
+                            className={`mega-menu ${megaMenuOpen === "holidays"
+                              ? "show slide-up hovered"
+                              : ""
+                              }`}
                           >
                             <div className="container">
                               {tabs.map((tab, index) => (
@@ -672,11 +666,10 @@ export default function Navigation({ headerData }: any) {
 
                                 {/* Menu Items */}
                                 <div
-                                  className={`${
-                                    headerData?.india_promotion
-                                      ? "col-lg-6"
-                                      : "col-lg-9"
-                                  } menu-columns`}
+                                  className={`${headerData?.india_promotion
+                                    ? "col-lg-6"
+                                    : "col-lg-9"
+                                    } menu-columns`}
                                 >
                                   {tabs.map((tab, index) => {
                                     const thisSections =
@@ -739,7 +732,7 @@ export default function Navigation({ headerData }: any) {
 
                                               const stateSlug =
                                                 stateSlugFromApi &&
-                                                stateSlugFromApi !== ""
+                                                  stateSlugFromApi !== ""
                                                   ? stateSlugFromApi
                                                   : null;
 
@@ -975,9 +968,8 @@ export default function Navigation({ headerData }: any) {
                         </span>
 
                         <ul
-                          className={`dropdown-menu ${
-                            dropdownOpen === "luxury" ? "show slide-up" : ""
-                          }`}
+                          className={`dropdown-menu ${dropdownOpen === "luxury" ? "show slide-up" : ""
+                            }`}
                         >
                           <li>
                             <Link
