@@ -12,7 +12,15 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { usePathname, useRouter } from "next/navigation";
 import { useForm } from "@/app/context/FormContext";
 
-export default function PlanTripButton() {
+export default function PlanTripButton({
+  openModal,
+  setOpenModal,
+  setIsOpen,
+}: {
+  openModal?: boolean;
+  setOpenModal?: (val: boolean) => void;
+  setIsOpen?: (val: boolean) => void;
+} = {}) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const recaptchaRef = useRef<ReCAPTCHA>(null);
   const isSubmittingRef = useRef(false);
@@ -227,6 +235,12 @@ export default function PlanTripButton() {
       "Zimbabwe",
     ].map((c) => ({ value: c, label: c })),
   ];
+
+  useEffect(() => {
+    if (openModal === true) {
+      setIsModalOpen(true);
+    }
+  }, [openModal]);
 
   useEffect(() => {
     const closeToasts = () => {
@@ -660,6 +674,8 @@ export default function PlanTripButton() {
   const handleCloseModal = () => {
     resetForm();
     setIsModalOpen(false);
+    setOpenModal?.(false);
+    setIsOpen?.(true);
     // toast.dismiss({ containerId: "planTripContainer" });
   };
 
