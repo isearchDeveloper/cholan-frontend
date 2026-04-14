@@ -245,70 +245,38 @@ const InternationalPackageListing = ({
 
   return (
     <div className="tour-listing p-0">
-      {packageList?.country?.details?.title ||
-      packageList?.location?.details?.title ||
-      packageList?.country?.details?.sub_title ||
-      packageList?.location?.details?.sub_title ||
-      packageList?.country?.details?.banner_image ||
-      packageList?.location?.details?.banner_image ? (
-        <Banner
-          title={
-            packageList?.country?.details?.title
-              ? packageList?.country?.details?.title
-              : packageList?.location?.details?.title
-          }
-          // subtitle={
-          //   packageList?.country?.details?.sub_title
-          //     ? packageList?.country?.details?.sub_title
-          //     : packageList?.location?.details?.sub_title
-          // }
-          imageUrl={
-            packageList?.country?.details?.banner_image
-              ? packageList?.country?.details?.banner_image
-              : packageList?.location?.details?.banner_image
-          }
-        />
-      ) : null}
+      <div className="d-none d-lg-block">
+        {packageList?.country?.details?.title ||
+        packageList?.location?.details?.title ||
+        packageList?.country?.details?.sub_title ||
+        packageList?.location?.details?.sub_title ||
+        packageList?.country?.details?.banner_image ||
+        packageList?.location?.details?.banner_image ? (
+          <Banner
+            title={
+              packageList?.country?.details?.title
+                ? packageList?.country?.details?.title
+                : packageList?.location?.details?.title
+            }
+            // subtitle={
+            //   packageList?.country?.details?.sub_title
+            //     ? packageList?.country?.details?.sub_title
+            //     : packageList?.location?.details?.sub_title
+            // }
+            imageUrl={
+              packageList?.country?.details?.banner_image
+                ? packageList?.country?.details?.banner_image
+                : packageList?.location?.details?.banner_image
+            }
+          />
+        ) : null}
+      </div>
 
       <div className="listing-inner-wrapper">
         <div className="container mx-auto pt-4 pb-5">
           <Breadcrumb items={breadcrumbItems} />
           <div className="row">
-            <div className="col-12 col-lg-3">
-              {/* ✅ JS Disabled Sidebar */}
-              {!jsEnabled ? (
-                <Sidebar
-                  data={ssrFixedData}
-                  cities={
-                    ssrFixedData?.country?.name
-                      ? ssrFixedData?.country?.name
-                      : ssrFixedData?.location?.name
-                  }
-                  citySlug={slug1}
-                  categorySlug={null}
-                  setCategorySlug={() => {}}
-                />
-              ) : (
-                /* ✅ JS Enabled Sidebar */
-                <Sidebar
-                  data={fixedData}
-                  cities={
-                    fixedData?.country?.name ||
-                    fixedData?.location?.name ||
-                    ssrFixedData?.country?.name ||
-                    ssrFixedData?.location?.name ||
-                    ""
-                  }
-                  citySlug={slug1}
-                  categorySlug={null}
-                  setCategorySlug={(slug: any) => {
-                    setCurrentPage(1);
-                  }}
-                />
-              )}
-            </div>
-
-            <div className="col-12 col-lg-9">
+            <div className="col-12 col-lg-9 order-1 order-lg-2">
               {listingTitle && (
                 <ExpandableText
                   title={listingTitle}
@@ -414,12 +382,44 @@ const InternationalPackageListing = ({
                   </nav>
                 </div>
               )}
+            </div>
 
-              {/* )} */}
+            <div className="col-12 col-lg-3 order-2 order-lg-1 mt-4 mt-lg-0 mb-4 mb-lg-0">
+              {/* ✅ JS Disabled Sidebar */}
+              {!jsEnabled ? (
+                <Sidebar
+                  data={ssrFixedData}
+                  cities={
+                    ssrFixedData?.country?.name
+                      ? ssrFixedData?.country?.name
+                      : ssrFixedData?.location?.name
+                  }
+                  citySlug={slug1}
+                  categorySlug={null}
+                  setCategorySlug={() => {}}
+                />
+              ) : (
+                /* ✅ JS Enabled Sidebar */
+                <Sidebar
+                  data={fixedData}
+                  cities={
+                    fixedData?.country?.name ||
+                    fixedData?.location?.name ||
+                    ssrFixedData?.country?.name ||
+                    ssrFixedData?.location?.name ||
+                    ""
+                  }
+                  citySlug={slug1}
+                  categorySlug={null}
+                  setCategorySlug={(slug: any) => {
+                    setCurrentPage(1);
+                  }}
+                />
+              )}
+            </div>
 
-              {/* )} */}
-
-              {faqs.length > 0 && (
+            {faqs.length > 0 && (
+              <div className="col-12 order-3 order-lg-3">
                 <div className="mt-5">
                   {" "}
                   <FAQAccordionListing
@@ -432,8 +432,8 @@ const InternationalPackageListing = ({
                     }
                   />{" "}
                 </div>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

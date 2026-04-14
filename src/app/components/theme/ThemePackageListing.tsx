@@ -84,17 +84,8 @@ export default function ThemePackageListing({
               <Breadcrumb items={breadcrumbItems} />
             </div>
 
-            {/* SIDEBAR (same as India page) */}
-            <div className="col-12 col-lg-3">
-              <ThemeSidebar
-                citySlug={citySlug}
-                cityName={cityName}
-                themes={sidebarThemes}
-              />
-            </div>
-
             {/*  MAIN LISTING */}
-            <div className="col-12 col-lg-9">
+            <div className="col-12 col-lg-9 order-1 order-lg-2">
               <ExpandableText
                 title={`${pageTitle}`}
                 text={details?.about}
@@ -125,14 +116,25 @@ export default function ThemePackageListing({
                   ))}
                 </div>
               )}
+            </div>
 
-              {/* FAQ */}
-              {faqs.length > 0 && (
+            {/* SIDEBAR (same as India page) */}
+            <div className="col-12 col-lg-3 order-2 order-lg-1 mt-4 mt-lg-0 mb-4 mb-lg-0">
+              <ThemeSidebar
+                citySlug={citySlug}
+                cityName={cityName}
+                themes={sidebarThemes}
+              />
+            </div>
+
+            {/* FAQ */}
+            {faqs.length > 0 && (
+              <div className="col-12 order-3 order-lg-3">
                 <div className="mt-5">
                   <FAQAccordionListing faqs={faqs} location={faqTitle} />
                 </div>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

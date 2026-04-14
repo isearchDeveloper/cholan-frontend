@@ -267,25 +267,7 @@ const IndiaPackageListing = ({
             <div className="col-lg-12">
               <Breadcrumb items={breadcrumbItems} />
             </div>
-            <div className="col-12 col-lg-3">
-              {/* <Sidebar
-                data={packageList}
-                cities={packageList?.location?.name}
-                citySlug={slug1}
-              
-              /> */}
-
-              <Sidebar
-               data={{ categories: finalSidebarData }}
-                cities={sidebarLocationName}
-                citySlug={slug1}
-                categorySlug={categorySlug}
-                setCategorySlug={setCategorySlug}
-                sidebarThemes={sidebarThemes}
-              />
-            </div>
-
-            <div className="col-12 col-lg-9">
+            <div className="col-12 col-lg-9 order-1 order-lg-2">
               {(activeSource?.details?.about ||
                 activeSource?.details?.sub_title) && (
                   <ExpandableText
@@ -400,17 +382,29 @@ const IndiaPackageListing = ({
                   </nav>
                 </div>
               )}
+            </div>
 
-              {faqs.length > 0 && (
+            <div className="col-12 col-lg-3 order-2 order-lg-1 mt-4 mt-lg-0 mb-4 mb-lg-0">
+              <Sidebar
+               data={{ categories: finalSidebarData }}
+                cities={sidebarLocationName}
+                citySlug={slug1}
+                categorySlug={categorySlug}
+                setCategorySlug={setCategorySlug}
+                sidebarThemes={sidebarThemes}
+              />
+            </div>
+
+            {faqs.length > 0 && (
+              <div className="col-12 order-3 order-lg-3">
                 <div className="mt-5">
                   <FAQAccordionListing
                     faqs={faqs}
                     location={faqTitle}
                   />
                 </div>
-              )}
-
-            </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
