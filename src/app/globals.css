@@ -11147,24 +11147,46 @@ body {
 
 
 /* DMC SMALL DROPDOWN */
-.dmc-menu {
-  position: absolute;
-  top: 100%;
-  left: -300px;
-  width: auto; /* 🔥 full width हटाओ */
-  min-width: 500px;
-  background: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-  z-index: 999;
+@media screen and (min-width: 1181px) {
+  .dmc-menu {
+    position: absolute;
+    top: 100%;
+    left: -300px;
+    width: auto;
+    min-width: 500px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+  }
+
+  /* GRID FIX (3 per row) */
+  .dmc-menu .menu-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px 30px;
+  }
 }
 
-/* GRID FIX (3 per row) */
-.dmc-menu .menu-row {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 15px 30px;
+@media screen and (max-width: 1180px) {
+  .dmc-menu {
+    position: static;
+    width: 100%;
+    min-width: unset;
+    left: unset;
+    background: transparent;
+    padding: 10px 0;
+    box-shadow: none;
+    border: none;
+  }
+
+  .dmc-menu .menu-row {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-left: 15px;
+  }
 }
 
 /* REMOVE BIG COLUMN BEHAVIOR */

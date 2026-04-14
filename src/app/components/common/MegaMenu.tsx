@@ -222,7 +222,7 @@ export default function Navigation({
 
                 /* ================= INDIA ================= */
 
-                if (menu.type === "india") {
+                if (menu.slug === "india") {
                   return (
                     <li
                       key={menu.id}
@@ -414,7 +414,7 @@ export default function Navigation({
 
                 /* ================= INTERNATIONAL ================= */
 
-                if (menu.type === "international") {
+                if (menu.slug === "international") {
                   return (
                     <li
                       key={menu.id}
@@ -562,7 +562,7 @@ export default function Navigation({
 
                 /* ================= HOLIDAYS ================= */
 
-                if (menu.type === "holiday") {
+                if (menu.slug === "holidays") {
                   return (
                     <li
                       key={menu.id}
@@ -804,7 +804,7 @@ export default function Navigation({
 
                 /* ================= LUXURY ================= */
 
-                if (menu.type === "luxury") {
+                if (menu.name?.toLowerCase() === "luxury") {
                   return (
                     <li key={menu.id} className="has-dropdown"
                       onMouseEnter={() => {
@@ -899,32 +899,36 @@ export default function Navigation({
                           handleMegaMenuToggle("indian-dmc", e)
                         }
                       >
-                        <svg width="10" height="6" viewBox="0 0 8 5" fill="none">
-                          <path d="M3.89223 4.48336L0.880039 1.47117C0.658555 1.24969 0.658555 0.917464 0.880039 0.718128L1.36731 0.208714C1.58879 0.00937791 1.92102 0.00937791 2.12035 0.208714L4.2466 2.35711L6.395 0.208714C6.59434 0.00937791 6.92656 0.00937791 7.14805 0.208714L7.63531 0.718128C7.8568 0.917464 7.8568 1.24969 7.63531 1.47117L4.62313 4.48336C4.42379 4.6827 4.09156 4.6827 3.89223 4.48336Z" />
+                        <svg width="10" height="6" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M3.89223 4.48336L0.880039 1.47117C0.658555 1.24969 0.658555 0.917464 0.880039 0.718128L1.36731 0.208714C1.58879 0.00937791 1.92102 0.00937791 2.12035 0.208714L4.2466 2.35711L6.395 0.208714C6.59434 0.00937791 6.92656 0.00937791 7.14805 0.208714L7.63531 0.718128C7.8568 0.917464 7.8568 1.24969 7.63531 1.47117L4.62313 4.48336C4.42379 4.6827 4.09156 4.6827 3.89223 4.48336Z" fill="black" />
                         </svg>
                       </span>
 
                       <div
-                        className={`mega-menu ${
+                        className={`mega-menu dmc-menu ${
                           megaMenuOpen === "indian-dmc"
-                            ? "show slide-up"
+                            ? "show slide-up hovered"
                             : ""
                         }`}
                       >
                         <div className="container">
-                          <div className="menu-row">
-                            {indianDmcCities.map((city) => (
-                              <div key={city.slug} className="menu-column">
-                                <div className="clickable-state underLine">
-                                  <Link
-                                    href={`/indian-dmc/${city.slug}`}
-                                    onClick={closeMobileMenu}
-                                  >
-                                    {city.name}
-                                  </Link>
-                                </div>
+                          <div className="row">
+                            <div className="col-lg-12 menu-columns">
+                              <div className="menu-row">
+                                {indianDmcCities.map((city) => (
+                                  <div key={city.slug} className="menu-column">
+                                    <div className="clickable-state underLine">
+                                      <Link
+                                        href={`/indian-dmc/${city.slug}`}
+                                        onClick={closeMobileMenu}
+                                      >
+                                        {city.name}
+                                      </Link>
+                                    </div>
+                                  </div>
+                                ))}
                               </div>
-                            ))}
+                            </div>
                           </div>
                         </div>
                       </div>
