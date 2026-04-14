@@ -16,11 +16,7 @@ export default function PlanTripButton({
   openModal,
   setOpenModal,
   setIsOpen,
-}: {
-  openModal?: boolean;
-  setOpenModal?: (val: boolean) => void;
-  setIsOpen?: (val: boolean) => void;
-} = {}) {
+}: any = {}) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const recaptchaRef = useRef<ReCAPTCHA>(null);
   const isSubmittingRef = useRef(false);
