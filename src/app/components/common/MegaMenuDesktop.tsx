@@ -16,10 +16,26 @@ export default function Navigation({ headerData }: any) {
   const menus = headerData?.menus || [];
   const internationalTabs = headerData?.international_mega_menu || [];
 
+  // true when viewport > 1180px (no hamburger) so nav is always visible
   const [navOpen, setNavOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [megaMenuOpen, setMegaMenuOpen] = useState<string | null>(null);
   const [dropdownOpen, setDropdownOpen] = useState<string | null>(null);
+
+  // Keep navOpen in sync with viewport width:
+  // > 1180px → always show nav (no hamburger), <= 1180px → hamburger controls it
+  useEffect(() => {
+    const syncNav = () => {
+      if (window.innerWidth > 1180) {
+        setNavOpen(true);
+      } else {
+        setNavOpen(false);
+      }
+    };
+    syncNav(); // run on mount
+    window.addEventListener("resize", syncNav);
+    return () => window.removeEventListener("resize", syncNav);
+  }, []);
 
   const router = useRouter();
   const pathname = usePathname();
@@ -56,21 +72,26 @@ export default function Navigation({ headerData }: any) {
   }, []);
 
   const closeAll = () => {
-    setNavOpen(false);
+    if (window.innerWidth <= 1180) setNavOpen(false);
     setMegaMenuOpen(null);
     setDropdownOpen(null);
   };
 
+  // On route change, only close mega menus/dropdowns — not the nav itself
+  // so the menu stays visible after footer link clicks and hard refresh
   useEffect(() => {
-    closeAll();
+    setMegaMenuOpen(null);
+    setDropdownOpen(null);
   }, [pathname]);
 
   const closeMobileMenu = () => {
-    if (window.innerWidth <= 1180) closeAll();
+    closeAll();
   };
 
   const handleHamburgerToggle = () => {
-    setNavOpen(!navOpen);
+    if (window.innerWidth <= 1180) {
+      setNavOpen(!navOpen);
+    }
   };
 
   const handleMegaMenuDesktopToggle = (menu: string, e: React.MouseEvent) => {
@@ -198,6 +219,7 @@ export default function Navigation({ headerData }: any) {
                                 <input
                                   key={`india-input-${index}`}
                                   type="radio"
+                                  autoComplete="off"
                                   id={`india-tab-${index}`}
                                   name="india-tab"
                                   defaultChecked={index === 0}
@@ -453,6 +475,7 @@ export default function Navigation({ headerData }: any) {
                                 <input
                                   key={`int-tab-${i}`}
                                   type="radio"
+                                  autoComplete="off"
                                   id={`int-tab-${i}`}
                                   name="international-tab"
                                   defaultChecked={i === 0}
@@ -634,6 +657,7 @@ export default function Navigation({ headerData }: any) {
                                 <input
                                   key={`holidays-input-${index}`}
                                   type="radio"
+                                  autoComplete="off"
                                   id={`holidays-tab-${index}`}
                                   name="holidays-tab"
                                   defaultChecked={index === 0}

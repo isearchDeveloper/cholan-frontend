@@ -110,3 +110,6 @@ Explore India and the world with Cholan Tours - a trusted destination management
 - [Tour Packages](https://www.cholantours.com/packages/grand-tour-of-rome-florence-pisa-venice-milan-8-days-7-nights): Explore various travel packages offered by Cholan Tours.
 - [Cholan Car Rental](https://payment.cholantours.com/): Specific car rental services provided by Cholan Tours.
 - [Cholan Tour - Home](https://www.cholantours.com/blog/): The homepage for Cholan Tours.
+
+# Sitemap Reference
+Sitemap: https://www.cholantours.com/sitemap.xml

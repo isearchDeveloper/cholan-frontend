@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import axios from "axios";
 import { XPublicToken } from "@/app/urls/apiUrls";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 const REGION_DISPLAY_LABELS: Record<string, string> = {
   "North India": "North India",
@@ -84,16 +84,10 @@ export default function Navigation({
   const [worldPage, setWorldPage] = useState(0);
   const [worldMenuData, setWorldMenuData] = useState<any>(null);
 
-  // Scroll Effect
+  // Scroll Effect (only track state, body id managed by MegaMenuDesktop)
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
-        document.body.id = "scrolled";
-        setIsScrolled(true);
-      } else {
-        document.body.removeAttribute("id");
-        setIsScrolled(false);
-      }
+      setIsScrolled(window.scrollY > 50);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -164,6 +158,13 @@ export default function Navigation({
   };
 
   const router = useRouter();
+  const pathname = usePathname();
+
+  // ✅ FIX: Close menu on every route change (handles footer links + any navigation)
+  useEffect(() => {
+    closeAll();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname]);
 
   const onRedirect = (slug: any) => {
     router.push(`/${slug}`);
@@ -174,11 +175,9 @@ export default function Navigation({
   };
 
   const closeMobileMenu = () => {
-    if (window.innerWidth <= 1180) {
-      setNavOpen(false);
-      setMegaMenuOpen(null);
-      setToursDropdownOpen(false);
-    }
+    setNavOpen(false);
+    setMegaMenuOpen(null);
+    setToursDropdownOpen(false);
   };
 
   // ✅ FIX: regionSlugMap normalized keys ke saath
