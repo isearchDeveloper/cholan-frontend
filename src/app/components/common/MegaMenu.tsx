@@ -118,7 +118,7 @@ export default function Navigation({
   // ✅ FIX: holidays_mega_menu se first tab initialize karo
   useEffect(() => {
     if (headerData?.holidays_mega_menu) {
-      const firstTab = Object.keys(headerData.holidays_mega_menu)[0];
+      const firstTab = Object.keys(headerData.holidays_mega_menu).find((tab) => tab && tab.trim());
       if (firstTab) setActiveHolidaysTab(firstTab);
     }
   }, [headerData?.holidays_mega_menu]);
@@ -607,7 +607,7 @@ export default function Navigation({
                             {/* ✅ FIX: holidays_mega_menu se tabs — india_mega_menu nahi */}
                             <div className="col-lg-3 col-md-12 mega-menu-tabs">
                               {headerData?.holidays_mega_menu &&
-                                Object.keys(headerData.holidays_mega_menu).map(
+                                Object.keys(headerData.holidays_mega_menu).filter((tab) => tab && tab.trim()).map(
                                   (tab) => (
                                     <button
                                       key={tab}
@@ -631,6 +631,7 @@ export default function Navigation({
                               } menu-columns`}
                             >
                               {/*  FIX: All of Region link with correct slug */}
+                              {activeHolidaysTab && (
                               <div className="clickable-state all-of-region underLine mobile-region-tab">
                                 <Link
                                   href={getRegionHref(
@@ -643,6 +644,7 @@ export default function Navigation({
                                   {getRegionDisplayText(activeHolidaysTab)}
                                 </Link>
                               </div>
+                              )}
 
                               <div className="menu-row">
                                 {/* ✅ FIX: holidays_mega_menu use karo, india_mega_menu nahi */}

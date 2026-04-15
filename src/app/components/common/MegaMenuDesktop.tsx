@@ -11,7 +11,7 @@ type DmcCity = {
 };
 
 export default function Navigation({ headerData }: any) {
-  const tabs = Object.keys(headerData?.holidays_mega_menu || {});
+  const tabs = Object.keys(headerData?.holidays_mega_menu || {}).filter((tab) => tab && tab.trim());
   const cityTabs = Object.keys(headerData?.city_list || {});
   const menus = headerData?.menus || [];
   const internationalTabs = headerData?.international_mega_menu || [];
