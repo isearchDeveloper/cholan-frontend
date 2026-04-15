@@ -59,7 +59,7 @@ const indiaCategorySlug =
   href: `${
     pkg?.location?.country?.name === "India"
       ? `/india/${indiaCategorySlug}`
-      : `/international-holidays/${pkg?.location?.country?.slug ? `${pkg.location.country.slug}-tour-packages` : ""}`
+      : `/international-holidays/${pkg?.location?.country?.slug ? (pkg.location.country.slug.endsWith("-tour-packages") ? pkg.location.country.slug : `${pkg.location.country.slug}-tour-packages`) : ""}`
   }`,
 },
 
