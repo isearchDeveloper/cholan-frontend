@@ -9,6 +9,7 @@ import InterTourPackage from "./components/home/InterTourPackage";
 import LogoSlider from "./components/home/LogoSlider";
 import LuxaryTour from "./components/home/LuxuryTour";
 import TopService from "./components/home/TopService";
+import EventsSection from "./components/home/EventsSection";
 import WhyChoose from "./components/home/WhyChoose";
 import AboutDetailSection from "./components/home/AboutDetailSection";
 import StateTourSection from "./components/home/StateTourSection";
@@ -168,6 +169,10 @@ export default async function Home() {
             <TopService tourServices={bannerData.data.tour_services} />
           </div>
         )}
+
+        <div data-aos="fade-up" data-aos-delay="900">
+          <EventsSection />
+        </div>
 
         
 
