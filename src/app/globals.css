@@ -7424,8 +7424,8 @@ border border-black group
       rgba(108, 64, 116, 0.3) 70.55%,
       rgba(26, 50, 120, 0.3) 97.04%);
   padding: 40px 20px;
-  margin: 20px 20px 40px;
-  border-radius: 30px;
+  /* margin: 20px 20px 40px;
+  border-radius: 30px; */
 }
 
 .glance-container {
