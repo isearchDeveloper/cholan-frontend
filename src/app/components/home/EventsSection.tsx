@@ -22,7 +22,7 @@ const events = [
     date: "April 2026",
     location: "Jaipur, Rajasthan, India",
     stallNo: "65 & 66",
-    image: "/images/gitbevent.webp",
+    image: "/images/jaipurgibt.webp",
     description: "Cholan Tours is participating in the upcoming GITB 2026 (Great India Travel Bazaar) in Jaipur."
   },
   //  {

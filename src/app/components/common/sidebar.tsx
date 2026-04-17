@@ -181,7 +181,7 @@ const Sidebar: any = ({
       {/* NEW SIDEBAR BANNER SECTION */}
       <div className={`${styles.bannerContainer} d-none d-lg-block`} data-aos="fade-up" data-aos-delay="200">
         <Image
-          src="/images/sidebaarbanner.png"
+          src="/images/bannerside.webp"
           alt="Explore India"
           width={400}
           height={600}
