@@ -96,7 +96,7 @@ export default async function DmcCityPage({ params }: PageProps) {
       {cityData.banner_image && (
         <DmcBanner
           title={cityData.title}
-          subtitle={cityData.subtitle}
+          // subtitle={cityData.subtitle}
           imageUrl={cityData.banner_image}
         />
       )}
