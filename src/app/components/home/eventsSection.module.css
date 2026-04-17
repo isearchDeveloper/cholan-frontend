@@ -97,7 +97,7 @@
   height: 100%;
   object-fit: cover;
 }
-
+/* 
 .imageOverlay {
   position: absolute;
   inset: 0;
@@ -106,7 +106,7 @@
   align-items: center;
   justify-content: center;
   padding: 20px;
-}
+} */
 
 .overlayText {
   color: #ffffff;

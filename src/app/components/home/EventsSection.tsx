@@ -22,8 +22,8 @@ const events = [
     date: "April 2026",
     location: "Jaipur, Rajasthan, India",
     stallNo: "65 & 66",
-    image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?q=80&w=2071&auto=format&fit=crop",
-    description: "Cholan Tours is participating in the upcoming GITB 2026 (Great India Travel Bazaar) in Jaipur. Our stall numbers are 65 & 66."
+    image: "/images/gitbevent.webp",
+    description: "Cholan Tours is participating in the upcoming GITB 2026 (Great India Travel Bazaar) in Jaipur."
   },
   //  {
   //   id: 2,
@@ -115,7 +115,7 @@ const EventCard = ({ event }: { event: any }) => (
     <div className={styles.cardLeft}>
       <img src={event.image} alt={event.title} className={styles.cardImage} />
       <div className={styles.imageOverlay}>
-        <h3 className={styles.overlayText}>{event.imageText}</h3>
+        {/* <h3 className={styles.overlayText}>{event.imageText}</h3> */}
       </div>
     </div>
 
