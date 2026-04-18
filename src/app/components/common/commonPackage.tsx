@@ -210,10 +210,19 @@ const CommonPackage = ({ similarPackage }: any) => {
                               alt=""
                             />
                           </span>
-                          {common.details.duration_nights}{" "}
-                          {common.details.duration_nights < 2 ? "Night" : "Nights"}{" "}
-                          / {common.details.duration_days}{" "}
-                          {common.details.duration_days < 2 ? "Day" : "Days"}
+
+                          {[
+                            common.details?.duration_nights
+                              ? `${common.details.duration_nights} ${common.details.duration_nights < 2 ? "Night" : "Nights"
+                              }`
+                              : null,
+                            common.details?.duration_days
+                              ? `${common.details.duration_days} ${common.details.duration_days < 2 ? "Day" : "Days"
+                              }`
+                              : null,
+                          ]
+                            .filter(Boolean)
+                            .join(" / ")}
                         </li>
                       </ul>
 
@@ -340,10 +349,19 @@ const CommonPackage = ({ similarPackage }: any) => {
                             <span>
                               <img src="/images/moon.png" width="16" height="16" alt="" />
                             </span>
-                            {common.details.duration_nights}{" "}
-                            {common.details.duration_nights < 2 ? "Night" : "Nights"}{" "}
-                            / {common.details.duration_days}{" "}
-                            {common.details.duration_days < 2 ? "Day" : "Days"}
+
+                            {[
+                              common.details?.duration_nights
+                                ? `${common.details.duration_nights} ${common.details.duration_nights < 2 ? "Night" : "Nights"
+                                }`
+                                : null,
+                              common.details?.duration_days
+                                ? `${common.details.duration_days} ${common.details.duration_days < 2 ? "Day" : "Days"
+                                }`
+                                : null,
+                            ]
+                              .filter(Boolean)
+                              .join(" / ")}
                           </li>
                         </ul>
 
@@ -373,7 +391,7 @@ const CommonPackage = ({ similarPackage }: any) => {
             <Link
               href={
                 similarPackage[0].location.country.name.toLowerCase() === "india" ||
-                similarPackage[0].location.country.name.toLowerCase() === "srilanka"
+                  similarPackage[0].location.country.name.toLowerCase() === "srilanka"
                   ? `/${similarPackage[0].location.country.name.toLowerCase()}`
                   : "/international-holidays"
               }

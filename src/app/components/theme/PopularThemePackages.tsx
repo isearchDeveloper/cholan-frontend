@@ -65,8 +65,18 @@ export default function PopularThemePackages({
                     <h3 className="ts-holiday-title">{pkg.title}</h3>
 
                     <div className="ts-holiday-duration">
-                      {pkg.details?.duration_nights} Nights /{" "}
-                      {pkg.details?.duration_days} Days
+                      {[
+                        pkg.details?.duration_nights
+                          ? `${pkg.details.duration_nights} ${pkg.details.duration_nights < 2 ? "Night" : "Nights"
+                          }`
+                          : null,
+                        pkg.details?.duration_days
+                          ? `${pkg.details.duration_days} ${pkg.details.duration_days < 2 ? "Day" : "Days"
+                          }`
+                          : null,
+                      ]
+                        .filter(Boolean)
+                        .join(" / ")}
                     </div>
 
                     <button className="ts-holiday-btn">
