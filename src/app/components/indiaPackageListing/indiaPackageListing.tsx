@@ -4,12 +4,7 @@ import TourCard from "@/app/components/common/TourCard";
 import Banner from "@/app/components/common/banner";
 import Sidebar from "@/app/components/common/sidebar";
 import ExpandableText from "@/app/components/common/ExpandableText";
-import FAQAccordion from "@/app/components/common/FAQAccordion";
-
 import AOS from "aos";
-import { notFound, useParams } from "next/navigation";
-import { XPublicToken } from "@/app/urls/apiUrls";
-import axios from "axios";
 import FAQAccordionListing from "@/app/components/common/FAQAccordionForListing";
 import Breadcrumb from "@/app/components/common/Breadcrumb";
 import { fetchIndiaPackageListingData } from "@/app/services/indiaPackageListService";
@@ -50,13 +45,13 @@ const IndiaPackageListing = ({
 
   useEffect(() => {
     if (categorySlug) {
-      // Clear packages immediately so stale cards don't show while new data loads
       setPackageList((prev: any) =>
         prev ? { ...prev, packages: [] } : prev
       );
       handlePageChange(1);
     }
   }, [categorySlug]);
+
   const handlePageChange = async (page: number) => {
     if (page < 1 || page > totalPages) return;
     if (!slug1) return;
@@ -105,44 +100,18 @@ const IndiaPackageListing = ({
     }
     return pages;
   };
+
   const isCategoryPage =
     originalSlug &&
     slug1 &&
     originalSlug !== slug1 &&
     originalSlug.endsWith("-tour-packages");
 
-  // const breadcrumbItems: any = [
-  //   { label: "Home", href: "/" },
-  //   { label: `${packageList?.location?.country?.name}`, href: "/india" },
-  // ];
-
-  // if (isCategoryPage && serverCategorySlug) {
-  //   breadcrumbItems.push({
-  //     label: `${packageList?.location?.name}`,
-  //     href: `/india/${slug1}`,
-  //   });
-
-  //   breadcrumbItems.push({
-  //     label: `${packageList?.location?.name} ${serverCategorySlug
-  //       .replace(/-/g, " ")
-  //       .replace(/\b\w/g, (l: string) => l.toUpperCase())} Tour Packages`,
-  //     isCurrent: true,
-  //   });
-  // } else {
-  //   breadcrumbItems.push({
-  //     label: `${packageList?.location?.name} Tour Packages`,
-  //     isCurrent: true,
-  //   });
-  // }
-
-  // temp
-  // ✅ Fallback titles for virtual region pages (North India, South India etc.)
   const virtualRegionTitleMap: any = {
     "north-india-tour-packages": "North India Tour Packages",
     "south-india-tour-packages": "South India Tour Packages",
     "west-central-india-tour-packages": "West & Central India Tour Packages",
-    "north-east-india-tour-packages":
-      "East & North East India Tour Packages",
+    "north-east-india-tour-packages": "East & North East India Tour Packages",
   };
 
   const fallbackTitle = virtualRegionTitleMap[slug1] || "";
@@ -162,12 +131,8 @@ const IndiaPackageListing = ({
   const faqTitle =
     activeSource?.faq_title ||
     activeSource?.country?.faq_title ||
-    activeSource?.faq_title ||
     "";
 
-
-
-  // Try to get real location name, else derive from fallback
   const locationName =
     packageList?.location?.name || fallbackTitle.replace(" Tour Packages", "");
 
@@ -200,66 +165,29 @@ const IndiaPackageListing = ({
     categorySlug,
   );
 
+  const expandableTitle =
+    activeSource?.meta?.h1_heading ||
+    activeSource?.details?.title ||
+    fallbackTitle;
 
-  // const resolvedLocationName =
-  //   packageList?.location?.name || "";
-
-  // const formattedCategory = categorySlug
-  //   ? categorySlug
-  //       .replace(/-/g, " ")
-  //       .replace(/\b\w/g, (c: string) => c.toUpperCase())
-  //   : "";
-
-  // const pageTitle = resolvedLocationName
-  //   ? formattedCategory
-  //     ? `${resolvedLocationName} ${formattedCategory} Tour Package`
-  //     : `${resolvedLocationName} Tour Packages`
-  //   : "";
-  // const pageTitle = buildListingTitle(
-  //   packageList?.location?.name,
-  //   categorySlug
-  // );
-
-  //  Fallback for region pages (no location in API)
   const sidebarLocationName =
     packageList?.location?.name ||
     virtualRegionTitleMap[slug1]?.replace(" Tour Packages", "") ||
     "";
 
-  const sidebarData = packageList?.location
-    ? packageList
-    : {
-      ...packageList,
-      location: {
-        name: sidebarLocationName,
-        themes: [], // prevent crash
-      },
-    };
+  const finalSidebarData =
+    sidebarThemes.length > 0
+      ? sidebarThemes
+      : packageList?.categories || [];
 
-    const finalSidebarData =
-  sidebarThemes.length > 0
-    ? sidebarThemes //  priority
-    : packageList?.categories || []; // 🔁 fallback
   return (
     <div className="tour-listing p-0">
-      {/* {packageList?.location?.details?.title ||
-        packageList?.location?.details?.sub_title ||
-        packageList?.location?.details?.banner_image ? (
-        <Banner
-          title={packageList?.location?.details?.title}
-          subtitle={packageList?.location?.details?.sub_title}
-          imageUrl={packageList?.location?.details?.banner_image}
-        />
-      ) : null} */}
       {details?.title || details?.sub_title || details?.banner_image ? (
         <Banner
           title={details?.title || name}
-          // subtitle={details?.sub_title || ""}
           imageUrl={details?.banner_image || ""}
         />
       ) : null}
-
-
 
       <div className="listing-inner-wrapper">
         <div className="container mx-auto pt-4 pb-5">
@@ -271,7 +199,7 @@ const IndiaPackageListing = ({
               {(activeSource?.details?.about ||
                 activeSource?.details?.sub_title) && (
                   <ExpandableText
-                    title={listingTitle}
+                    title={expandableTitle}
                     subtitle={activeSource?.details?.sub_title || ""}
                     text={activeSource?.details?.about || ""}
                     collapsedLines={2}
@@ -290,7 +218,6 @@ const IndiaPackageListing = ({
               )}
 
               {showLoader ? (
-                // Skeleton loader — shown while API is fetching
                 <div className="grid grid-cols-1 gap-6">
                   {[1, 2, 3].map((n) => (
                     <div
@@ -339,8 +266,7 @@ const IndiaPackageListing = ({
                   <nav aria-label="Page navigation">
                     <ul className="pagination justify-content-center">
                       <li
-                        className={`page-item ${currentPage === 1 ? "disabled" : ""
-                          }`}
+                        className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
                       >
                         <button
                           className="page-link"
@@ -354,8 +280,7 @@ const IndiaPackageListing = ({
                       {generatePageNumbers().map((page) => (
                         <li
                           key={page}
-                          className={`page-item ${currentPage === page ? "active" : ""
-                            }`}
+                          className={`page-item ${currentPage === page ? "active" : ""}`}
                         >
                           <button
                             className="page-link"
@@ -367,8 +292,7 @@ const IndiaPackageListing = ({
                       ))}
 
                       <li
-                        className={`page-item ${currentPage === totalPages ? "disabled" : ""
-                          }`}
+                        className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}
                       >
                         <button
                           className="page-link"
@@ -386,7 +310,7 @@ const IndiaPackageListing = ({
 
             <div className="col-12 col-lg-3 order-2 order-lg-1 mt-4 mt-lg-0 mb-4 mb-lg-0">
               <Sidebar
-               data={{ categories: finalSidebarData }}
+                data={{ categories: finalSidebarData }}
                 cities={sidebarLocationName}
                 citySlug={slug1}
                 categorySlug={categorySlug}
