@@ -10,6 +10,7 @@ import LogoSlider from "./components/home/LogoSlider";
 import LuxaryTour from "./components/home/LuxuryTour";
 import TopService from "./components/home/TopService";
 import EventsSection from "./components/home/EventsSection";
+import FloatingEvent from "./components/home/FloatingEvent";
 import WhyChoose from "./components/home/WhyChoose";
 import AboutDetailSection from "./components/home/AboutDetailSection";
 import StateTourSection from "./components/home/StateTourSection";
@@ -101,7 +102,8 @@ export default async function Home() {
       <main>
         {bannerData?.data?.single_banner == null &&
           bannerData?.data?.slider_banners?.length < 1 ? null : (
-          <div data-aos="fade-up" data-aos-delay="100">
+          <div style={{ position: 'relative' }} data-aos="fade-up" data-aos-delay="100">
+            <FloatingEvent />
             <HomeBanner bannerData={bannerData?.data} />
           </div>
         )}
@@ -170,9 +172,9 @@ export default async function Home() {
           </div>
         )}
 
-        <div data-aos="fade-up" data-aos-delay="900">
+        {/* <div data-aos="fade-up" data-aos-delay="900">
           <EventsSection />
-        </div>
+        </div> */}
 
         
 
