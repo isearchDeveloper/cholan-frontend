@@ -59,7 +59,7 @@ const ExpandableText: React.FC<ExpandableTextProps> = ({
         className={`overflow-hidden transition-all duration-500 ease-in-out ${!expanded ? "line-clamp" : null} `}
         style={{ maxHeight }}
       >
-        <div className="mb-0 text-sm">
+        <div className="mb-0 text-sm exp-text-area">
           <div
             dangerouslySetInnerHTML={{
               __html: text,

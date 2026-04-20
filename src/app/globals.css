@@ -11206,3 +11206,18 @@ body {
 .dmc-menu .clickable-state a:hover {
   color: #ff6600;
 }
+.exp-text-area table{
+  width: 100% !important;
+  border-collapse: collapse !important;
+  margin: 20px 0;
+}
+
+.exp-text-area table tr:nth-child(1),th:nth-child(1){
+  background: aliceblue;
+}
+.exp-text-area table tr td, .exp-text-area table th td {
+  padding: 6px !important;
+  border:1px solid #ddd !important;
+  text-align: center !important;
+
+}
