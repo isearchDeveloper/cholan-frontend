@@ -171,6 +171,7 @@ const TourDetailsBanner: React.FC<TourDetailsBannerProps> = ({
         {/* Left side: One large image */}
         <div
           className="left-banner col-lg-6 d-flex align-items-center justify-content-center group pe-0"
+          style={{ minHeight: "398px" }}
           onClick={() => openLightbox(0)}
         >
           <div className="position-relative w-100 h-100">
@@ -191,7 +192,7 @@ const TourDetailsBanner: React.FC<TourDetailsBannerProps> = ({
           </div>
         </div>
 
-        <div className="right-banner col-lg-6 d-flex flex-col gap-2">
+        <div className="right-banner col-lg-6 d-flex flex-col gap-2" style={{ minHeight: "398px" }}>
           <div className="row gap-4 gap-sm-4 gap-md-0">
             {images?.slice(0, 2).map((img, index) => (
               <div

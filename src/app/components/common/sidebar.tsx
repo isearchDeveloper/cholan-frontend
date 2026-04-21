@@ -118,7 +118,7 @@ const Sidebar: any = ({
   };
 
   return (
-    <div className="sidebar-listing">
+    <div className={`sidebar-listing ${styles.stickyWrapper}`}>
       {data?.categories?.length > 0 && (
         <div className="mb-4 theme-section shadow-sm c-sec">
           <div className="d-flex align-items-center p-3 text-white">

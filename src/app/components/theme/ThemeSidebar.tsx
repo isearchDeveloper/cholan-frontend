@@ -27,7 +27,7 @@ export default function ThemeSidebar({
   };
 
   return (
-    <div className="sidebar-listing">
+    <div className="sidebar-listing" style={{ position: "sticky", top: "80px" }}>
       <div className="mb-4 theme-section shadow-sm c-sec">
         <div className="d-flex align-items-center p-3 text-white">
           <img src="/images/icon-head-1.svg" className="icon" alt="Theme Icon" />

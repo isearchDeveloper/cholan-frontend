@@ -305,15 +305,16 @@
 }
 
 .btnFilled {
-  padding: 10px 24px;
-  border-radius: 8px;
+  padding: 8px 16px;
+  border-radius: 50px;
   background: #05164d;
   color: #ffffff;
   border: none;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
+  white-space: nowrap;
 }
 
 .btnFilled:hover {

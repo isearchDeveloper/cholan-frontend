@@ -1,0 +1,115 @@
+/* ── SUMMARY CARD ── */
+.summaryCard {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #eeeeee;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  padding: 24px;
+}
+
+.detailTitle {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0;
+  line-height: 1.3;
+}
+
+/* ── SECTION WRAPPER ── */
+.section {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #eeeeee;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  padding: 24px;
+}
+
+.sectionHeading {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 20px 0;
+}
+
+/* ── OVERVIEW TEXT ── */
+.overviewText {
+  font-size: 14px;
+  color: #444444;
+  line-height: 1.8;
+}
+
+.overviewText p {
+  font-style: italic;
+  margin-bottom: 12px;
+}
+
+/* ── DATES GRID ── */
+.datesGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.dateTile {
+  display: flex;
+  flex-direction: row;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid #e0e0e0;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dateTile:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* LEFT — colored month+year box */
+.dateTileLeft {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 12px;
+  color: #ffffff;
+  min-width: 52px;
+  gap: 2px;
+}
+
+.dateMon {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  line-height: 1;
+}
+
+.dateYear {
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+/* RIGHT — white date+price info */
+.dateTileRight {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 8px 12px;
+  background: #fff8f4;
+  gap: 3px;
+}
+
+.dateDayRow {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1a1a1a;
+  white-space: nowrap;
+}
+
+.dateTilePrice {
+  font-size: 12px;
+  font-weight: 600;
+  color: #444444;
+}

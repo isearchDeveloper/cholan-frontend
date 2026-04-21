@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import Link from "next/link";
 import EnquiryModal from "@/app/modals/enquiryModal";
 import styles from "./grouptour.module.css";
 
@@ -146,15 +147,18 @@ const GroupTourCard: React.FC<GroupTourCardProps> = ({
             </div>
 
             <div className={styles.actions}>
-              <div className={styles.btnOutline}>
+              <Link href={`/group-tours/${slug}`} className="btn orange-btn d-flex align-items-center gap-2" style={{ whiteSpace: "nowrap", fontSize: "13px", padding: "8px 16px" }}>
                 View Tour Details
-              </div>
+                <span><img src="/images/button-arrow.png" alt="" width={16} height={16} /></span>
+              </Link>
               <button
                 type="button"
-                className={styles.btnFilled}
+                className={`${styles.btnFilled} d-flex align-items-center gap-2`}
+                style={{ borderRadius: "50px", whiteSpace: "nowrap", fontSize: "13px", padding: "8px 16px" }}
                 onClick={() => setOpenModal(true)}
               >
                 Book Now
+                <span><img src="/images/button-arrow.png" alt="" width={16} height={16} /></span>
               </button>
             </div>
           </div>

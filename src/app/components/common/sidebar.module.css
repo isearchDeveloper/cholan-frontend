@@ -1,3 +1,8 @@
+.stickyWrapper {
+  position: sticky;
+  top: 80px;
+}
+
 .bannerContainer {
   position: relative;
   width: 100%;
