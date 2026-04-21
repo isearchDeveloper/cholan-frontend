@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
@@ -623,8 +623,8 @@ export default function Navigation({ headerData }: any) {
 
                   if (menu.slug === "holidays") {
                     return (
+                      <React.Fragment key={menu.id}>
                       <li
-                        key={menu.id}
                         className="has-mega-menu"
                         onMouseEnter={() => {
                           if (window.innerWidth > 991)
@@ -903,6 +903,10 @@ export default function Navigation({ headerData }: any) {
                           </div>
                         )}
                       </li>
+                      <li key="group-tours-nav">
+                        <Link href="/group-tours" onClick={closeMobileMenu}>Group Tours</Link>
+                      </li>
+                      </React.Fragment>
                     );
                   }
 
