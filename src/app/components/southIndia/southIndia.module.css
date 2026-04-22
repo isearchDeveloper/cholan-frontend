@@ -4,9 +4,9 @@
 
 /* ── OFFER BANNER WRAPPER — responsive height ── */
 .bannerWrap :global(.banner) {
-  height: clamp(160px, 22vw, 400px);
-  background-position: center center;
-  background-size: cover;
+  height: clamp(160px, 22vw, 400px) !important;
+  background-position: center center !important;
+  background-size: cover !important;
 }
 
 /* ── TITLE BANNER WITH DOODLE IMAGES ── */
