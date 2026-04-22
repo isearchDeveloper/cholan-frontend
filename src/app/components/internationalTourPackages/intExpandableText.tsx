@@ -40,7 +40,7 @@ const IntExpandableText: React.FC<any> = ({ data }) => {
         <div>
           <h1 className="mb-2 fs-2">International Tour Packages</h1>
 
-          <div className="mb-0 text-sm">
+          <div className="mb-0 text-sm exp-text-area">
             <div
               dangerouslySetInnerHTML={{
                 __html: expanded
