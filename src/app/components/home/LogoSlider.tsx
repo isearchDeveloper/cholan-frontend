@@ -49,7 +49,7 @@ const LogoSlider = () => {
   if (logos.length === 0) return null; // hide slider if no logos
 
   return (
-    <section className="logo-slider-sec pt-0">
+    <section className="logo-slider-sec" style={{ padding: "48px 0" }}>
       <div className="container">
         <div
           

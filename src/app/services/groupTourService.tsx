@@ -2,6 +2,25 @@ const baseUrl = process.env.NEXT_PUBLIC_UAT_URL;
 const XPublicToken =
   "zaxsc+/-=0dfvgbnhmjklo*/-piutyerwq*%$25631478907539541lokythbfet&*(@kjhkhgfhk546456456)";
 
+async function fetchSpecialVacationOffer(id: number) {
+  try {
+    const res = await fetch(`${baseUrl}/api/v1/special-vacation-offer/${id}`, {
+      method: "GET",
+      headers: { "X-Public-Token": XPublicToken },
+      next: { revalidate: 300 },
+    });
+    if (!res.ok) return null;
+    const json = await res.json();
+    return json?.data?.[0] ?? null;
+  } catch (error) {
+    console.error("Error fetching special vacation offer:", error);
+    return null;
+  }
+}
+
+export const fetchSouthIndiaOffer = () => fetchSpecialVacationOffer(2);
+export const fetchNorthIndiaOffer = () => fetchSpecialVacationOffer(1);
+
 export async function fetchGroupTourDetails(slug: string) {
   try {
     const res = await fetch(`${baseUrl}/api/v1/packages/group-tour/${slug}`, {
@@ -11,8 +30,6 @@ export async function fetchGroupTourDetails(slug: string) {
       },
       next: { revalidate: 60 },
     });
-
-    console.log("Group Tour Detail API status:", res.status, "slug:", slug);
 
     if (!res.ok) return null;
     return res.json();

@@ -1,0 +1,679 @@
+/* ============================================================
+   SOUTH INDIA LANDING PAGE
+============================================================ */
+
+/* ── TITLE BANNER WITH DOODLE IMAGES ── */
+.titleBanner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0;
+  overflow: hidden;
+  padding-top: 32px;
+}
+
+.titleDoodle {
+  flex: 0 0 260px;
+  height: 220px;
+  overflow: hidden;
+}
+
+.titleDoodle img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.titleCenter {
+  flex: 1;
+  text-align: center;
+  padding: 20px 16px;
+}
+
+/* ── PACKAGES SECTION ── */
+.packagesSection {
+  padding: 60px 0 40px;
+}
+
+.sectionHead {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.sectionTitle {
+  font-size: 32px;
+  font-weight: 800;
+  color: #1a1a2e;
+  margin: 0 0 12px;
+}
+
+.sectionSubtitle {
+  font-size: 15px;
+  color: #666;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Grid: 3 top + 2 bottom */
+.packagesGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.packagesGridBottom {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
+  margin-top: 24px;
+  padding: 0 12px;
+}
+
+.packagesGridBottom > * {
+  flex: 0 0 calc(33.33% - 16px);
+  max-width: calc(33.33% - 16px);
+}
+
+/* ── PACKAGE CARD ── */
+.pkgCard {
+  background: #f5f5f3;
+  border-radius: 12px;
+  border: 1px solid #e8e8e4;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.pkgCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.1);
+}
+
+.pkgImageWrap {
+  height: 300px;
+  overflow: hidden;
+}
+
+.pkgImageWrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.pkgCard:hover .pkgImageWrap img {
+  transform: scale(1.06);
+}
+
+.pkgBody {
+  padding: 16px 18px 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Title row: title left, number bottom-right */
+.pkgTitleRow {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.pkgTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0;
+  line-height: 1.35;
+  flex: 1;
+}
+
+.pkgNumber {
+  font-size: 30px;
+  font-weight: 800;
+  color: #d0d5e0;
+  flex-shrink: 0;
+  line-height: 1;
+  letter-spacing: -1px;
+}
+
+.pkgDesc {
+  font-size: 13px;
+  color: #777;
+  margin: 0;
+  line-height: 1.65;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.pkgBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: auto;
+  padding: 8px 20px;
+  background: transparent;
+  border: 1.5px solid #d0d0d0;
+  color: #333;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  width: fit-content;
+}
+
+.pkgBtn:hover {
+  border-color: #f6933a;
+  color: #f6933a;
+  background: #fff8f2;
+}
+
+.pkgBtn span {
+  font-size: 14px;
+  line-height: 1;
+}
+
+/* ── MORE BENEFITS ── */
+.benefitsSection {
+  padding: 60px 0;
+  background: #f9f9f7;
+}
+
+.benefitsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-top: 36px;
+}
+
+.benefitCard {
+  background: #fff;
+  border-radius: 14px;
+  padding: 28px 20px;
+  text-align: center;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Sweep fill from bottom-left */
+.benefitCard::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #05164d;
+  border-radius: 14px;
+  transform: scaleY(0);
+  transform-origin: bottom left;
+  transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 0;
+}
+
+/* First card: filled by default unless another card is hovered */
+.benefitCard:nth-child(1)::before {
+  transform: scaleY(1);
+}
+
+.benefitsGrid:has(.benefitCard:not(:nth-child(1)):hover) .benefitCard:nth-child(1)::before {
+  transform: scaleY(0);
+}
+
+.benefitsGrid:has(.benefitCard:not(:nth-child(1)):hover) .benefitCard:nth-child(1) .benefitTitle {
+  color: #1a1a2e;
+}
+
+.benefitsGrid:has(.benefitCard:not(:nth-child(1)):hover) .benefitCard:nth-child(1) .benefitText {
+  color: #777;
+}
+
+/* Any card on hover: fill */
+.benefitCard:hover::before {
+  transform: scaleY(1);
+}
+
+.benefitCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(5, 22, 77, 0.25);
+}
+
+/* Text above the fill layer */
+.benefitCard .benefitIcon,
+.benefitCard .benefitTitle,
+.benefitCard .benefitText {
+  position: relative;
+  z-index: 1;
+  transition: color 0.35s ease;
+}
+
+.benefitCard:nth-child(1) .benefitTitle,
+.benefitCard:hover .benefitTitle {
+  color: #fff;
+}
+
+.benefitCard:nth-child(1) .benefitText,
+.benefitCard:hover .benefitText {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.benefitIcon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f0f2f8;
+  border-radius: 50%;
+  color: #05164d;
+  transition: background 0.35s ease, color 0.35s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.benefitCard:nth-child(1) .benefitIcon,
+.benefitCard:hover .benefitIcon {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+}
+
+.benefitsGrid:has(.benefitCard:not(:nth-child(1)):hover) .benefitCard:nth-child(1) .benefitIcon {
+  background: #f0f2f8;
+  color: #05164d;
+}
+
+.benefitTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0 0 8px;
+}
+
+.benefitText {
+  font-size: 13px;
+  color: #777;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ── WHY CHOLAN TOURS ── */
+.whySection {
+  display: flex;
+  align-items: stretch;
+  min-height: 520px;
+  overflow: hidden;
+}
+
+.whyLeft {
+  flex: 0 0 45%;
+  max-width: 45%;
+  overflow: hidden;
+  position: relative;
+}
+
+.whyLeft img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: -10% center;
+  display: block;
+  position: absolute;
+  inset: 0;
+}
+
+.whyRight {
+  flex: 0 0 55%;
+  max-width: 55%;
+  background: #ffffff;
+  padding: 56px 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+  box-sizing: border-box;
+}
+
+.whyHeading {
+  font-size: 26px;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin: 0;
+  line-height: 1.35;
+}
+
+.whySubtext {
+  font-size: 13px;
+  color: #666;
+  margin: 0;
+  line-height: 1.65;
+}
+
+.whyItems {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: 6px;
+}
+
+.whyItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.whyItem:first-child {
+  padding-top: 0;
+}
+
+.whyItem:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.whyItemIcon {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #444;
+  margin-top: 1px;
+}
+
+.whyItemTitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0 0 3px;
+  text-decoration: none;
+}
+
+.whyItemText {
+  font-size: 12px;
+  color: #888;
+  margin: 0;
+  line-height: 1.55;
+}
+
+/* ── BOOK YOUR HOLIDAYS ── */
+.bookSection {
+  position: relative;
+  padding: 70px 0;
+  overflow: hidden;
+}
+
+/* Background image */
+.bookSection::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('/images/summer_contact_banner.webp');
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+}
+
+/* Gradient overlay: transparent → semi → solid #074FAE */
+.bookSection::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    rgba(7, 79, 174, 0) 0%,
+    rgba(7, 79, 174, 0.5) 50%,
+    rgba(7, 79, 174, 1) 100%
+  );
+  z-index: 1;
+}
+
+.bookInner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 48px;
+}
+
+.bookLeft {
+  flex: 1;
+  color: #fff;
+
+}
+
+.bookLeft h2 {
+  font-size: 45px!important;
+  font-weight: 800;
+  margin: 0 0 12px;
+  line-height: 1.3;
+}
+
+.bookLeft p {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.bookRight {
+  flex: 0 0 550px;
+  max-width: 520px;
+  /* background: #fff; */
+  border-radius: 8px;
+  padding: 0 0px;
+  box-shadow: 0 8px 40px rgba(7, 79, 174, 0.3);
+}
+
+/* ── RESPONSIVE ── */
+
+/* Large tablet / small desktop */
+@media (max-width: 1200px) {
+  .whyRight {
+    padding: 48px 44px;
+  }
+
+  .bookLeft h2 {
+    font-size: 26px;
+  }
+
+  .titleDoodle {
+    flex: 0 0 200px;
+    height: 180px;
+  }
+}
+
+/* Tablet landscape */
+@media (max-width: 1024px) {
+  .packagesGridBottom > * {
+    flex: 0 0 calc(50% - 12px);
+    max-width: calc(50% - 12px);
+  }
+
+  .benefitsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .whyLeft {
+    flex: 0 0 40%;
+    max-width: 40%;
+  }
+
+  .whyRight {
+    flex: 0 0 60%;
+    max-width: 60%;
+    padding: 40px 36px;
+  }
+
+  .whyHeading {
+    font-size: 22px;
+  }
+
+  .titleDoodle {
+    flex: 0 0 160px;
+    height: 160px;
+  }
+
+  .sectionTitle {
+    font-size: 26px;
+  }
+
+  .bookLeft h2 {
+    font-size: 22px;
+  }
+}
+
+/* Tablet portrait */
+@media (max-width: 768px) {
+  /* Why section stacks */
+  .whySection {
+    flex-direction: column;
+    min-height: unset;
+  }
+
+  .whyLeft {
+    flex: unset;
+    max-width: 100%;
+    width: 100%;
+    height: 280px;
+    position: relative;
+  }
+
+  .whyLeft img {
+    position: absolute;
+  }
+
+  .whyRight {
+    flex: unset;
+    max-width: 100%;
+    width: 100%;
+    padding: 36px 24px;
+  }
+
+  .whyHeading {
+    font-size: 20px;
+  }
+
+  /* Doodle title row — keep row on mobile, shrink doodles */
+  .titleBanner {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .titleDoodle {
+    flex: 0 0 80px;
+    height: 100px;
+  }
+
+  .titleCenter {
+    padding: 12px 8px;
+  }
+
+  /* Package grids single column */
+  .packagesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .packagesGridBottom > * {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  /* Benefits 2 columns */
+  .benefitsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Book section stacks */
+  .bookInner {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .bookLeft h2 {
+    font-size: 22px;
+  }
+
+  .bookRight {
+    flex: unset;
+    max-width: 100%;
+    width: 100%;
+    padding: 24px;
+  }
+
+  .sectionTitle {
+    font-size: 22px;
+  }
+
+  .sectionSubtitle {
+    font-size: 14px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .benefitsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .whyRight {
+    padding: 28px 16px;
+  }
+
+  .whyHeading {
+    font-size: 18px;
+  }
+
+  .sectionTitle {
+    font-size: 20px;
+  }
+
+  .titleDoodle {
+    flex: 0 0 60px;
+    height: 80px;
+  }
+
+  .titleCenter {
+    padding: 10px 6px;
+  }
+
+  .pkgImageWrap {
+    height: 220px;
+  }
+
+  .bookLeft h2 {
+    font-size: 20px;
+  }
+
+  .bookRight {
+    padding: 20px 16px;
+  }
+}
+
+/* Small mobile */
+@media (max-width: 360px) {
+  .sectionTitle {
+    font-size: 18px;
+  }
+
+  .whyHeading {
+    font-size: 16px;
+  }
+
+  .benefitsGrid {
+    grid-template-columns: 1fr;
+  }
+}
