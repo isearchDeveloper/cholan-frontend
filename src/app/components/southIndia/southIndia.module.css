@@ -2,6 +2,13 @@
    SOUTH INDIA LANDING PAGE
 ============================================================ */
 
+/* ── OFFER BANNER WRAPPER — responsive height ── */
+.bannerWrap :global(.banner) {
+  height: clamp(160px, 22vw, 400px);
+  background-position: center center;
+  background-size: cover;
+}
+
 /* ── TITLE BANNER WITH DOODLE IMAGES ── */
 .titleBanner {
   display: flex;

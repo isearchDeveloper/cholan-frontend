@@ -129,7 +129,9 @@ export default function OfferLandingPage({
     <main>
 
       {/* 1. HERO BANNER */}
-      <Banner imageUrl={bannerImg} title="" subtitle="" />
+      <div className={styles.bannerWrap}>
+        <Banner imageUrl={bannerImg} title="" subtitle="" />
+      </div>
 
       {/* 2. DOODLE IMAGES LEFT/RIGHT + TITLE CENTER */}
       <div className={styles.titleBanner}>
@@ -139,7 +141,7 @@ export default function OfferLandingPage({
         <div className={styles.titleCenter}>
           <h1 className={styles.sectionTitle}>{sectionTitle}</h1>
           <p className={styles.sectionSubtitle}>
-            Discover thoughtfully curated {regionLabel} packages designed for summer — blending
+            Discover thoughtfully curated {regionLabel} packages designed for summer - blending
             nature, heritage, wellness, and comfort into one seamless journey.
           </p>
         </div>

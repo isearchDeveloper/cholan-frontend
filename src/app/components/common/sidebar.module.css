@@ -66,3 +66,20 @@
 .exploreBtn:hover span {
   transform: translateX(5px);
 }
+
+@media (max-width: 991px) {
+  .stickyWrapper {
+    position: static;
+  }
+
+  .bannerContainer {
+    margin-top: 40px;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .bannerImage {
+    height: 400px;
+  }
+}

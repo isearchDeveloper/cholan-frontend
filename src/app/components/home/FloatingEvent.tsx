@@ -77,7 +77,7 @@ const FloatingEvent = () => {
           </div>
 
           <div className={styles.stallBox}>
-            <span className={styles.stallLabel}>Stall:</span>
+            <span className={styles.stallLabel}>Cholan Tours - Stall No.</span>
             <span className={styles.stallValue}>{event.stallNo}</span>
           </div>
 

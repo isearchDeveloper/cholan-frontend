@@ -179,7 +179,7 @@ const Sidebar: any = ({
       )}
 
       {/* NEW SIDEBAR BANNER SECTION */}
-      <div className={`${styles.bannerContainer} d-none d-lg-block`} data-aos="fade-up" data-aos-delay="200">
+      <div className={styles.bannerContainer} data-aos="fade-up" data-aos-delay="200">
         <Image
           src="/images/bannerside.webp"
           alt="Explore India"
@@ -188,7 +188,7 @@ const Sidebar: any = ({
           className={styles.bannerImage}
         />
         <div className={styles.bannerOverlay}>
-          <div className={styles.exploreBtn} style={{ cursor: "default" }}>
+          <Link href="/group-tours" className={styles.exploreBtn}>
             Explore Group Tours
             <span>
               <Image
@@ -198,7 +198,7 @@ const Sidebar: any = ({
                 alt=""
               />
             </span>
-          </div>
+          </Link>
         </div>
       </div>
     </div>

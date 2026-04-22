@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 import Image from "next/image";
 import Banner from "@/app/components/common/banner";
 import ExpandableText from "@/app/components/common/ExpandableText";
@@ -33,12 +34,12 @@ const GroupTourSidebar = () => (
         className={sidebarStyles.bannerImage}
       />
       <div className={sidebarStyles.bannerOverlay}>
-        <div className={sidebarStyles.exploreBtn} style={{ cursor: "default" }}>
+        <Link href="/group-tours" className={sidebarStyles.exploreBtn}>
           Explore Group Tours
           <span>
             <Image width={16} height={16} src="/images/button-arrow.png" alt="" />
           </span>
-        </div>
+        </Link>
       </div>
     </div>
   </div>
@@ -109,13 +110,13 @@ const GroupTourListing = () => {
               />
             </div>
 
-            <div className="col-12 col-lg-3">
+            <div className="col-12 col-lg-3 order-2 order-lg-1">
               <div className={styles.stickySidebar}>
                 <GroupTourSidebar />
               </div>
             </div>
 
-            <div className="col-12 col-lg-9">
+            <div className="col-12 col-lg-9 order-1 order-lg-2">
               <ExpandableText
                 title="Group Tour Packages"
                 subtitle="Travel together, create memories forever"
