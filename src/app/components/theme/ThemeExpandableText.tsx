@@ -87,7 +87,7 @@ export default function ThemeExpandableText({
   };
 
   return (
-    <div className="theme-expandable-text">
+    <div className="theme-expandable-text exp-text-area">
       <div
         className="expandable-content"
         dangerouslySetInnerHTML={{ __html: htmlState }}

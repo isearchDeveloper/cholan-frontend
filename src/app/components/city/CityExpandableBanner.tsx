@@ -86,7 +86,7 @@ useEffect(() => {
   };
 
   return (
-    <div className="expandable-text">
+    <div className="expandable-text exp-text-area">
       {title && <h1 className="expandable-title">{title}</h1>}
 
       <div

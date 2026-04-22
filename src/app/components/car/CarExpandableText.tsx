@@ -39,7 +39,7 @@ const CarExpandableText: React.FC<ExpandableTextProps> = ({
         <h6 className="mb-2 text-md font-semibold fs-6">{subtitle}</h6>
       )}
 
-      <div className="mb-0 text-sm">
+      <div className="mb-0 text-sm exp-text-area">
         <p
           dangerouslySetInnerHTML={{
             __html: displayText,

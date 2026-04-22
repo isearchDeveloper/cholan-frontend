@@ -40,7 +40,7 @@ const FairFestivalExpandableText = ({
         </h6>
       )} */}
 
-      <div className="mb-0 text-sm">
+      <div className="mb-0 text-sm exp-text-area">
         <p
           dangerouslySetInnerHTML={{
             __html: displayText,
