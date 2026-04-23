@@ -383,7 +383,8 @@ export default function Navigation({ headerData }: any) {
                                         }
                                         width={300}
                                         height={180}
-                                        className="h-54 object-cover rounded-1 mb-4 w-100 custom-hover"
+                                        className="rounded-1 mb-4 w-100 custom-hover"
+                                        style={{ width: "100%", height: "auto" }}
                                       />
                                     </Link>
                                     <Link
@@ -854,7 +855,8 @@ export default function Navigation({ headerData }: any) {
                                         }
                                         width={300}
                                         height={180}
-                                        className="h-54 object-cover rounded-1 mb-4 w-100 custom-hover"
+                                        className="rounded-1 mb-4 w-100 custom-hover"
+                                        style={{ width: "100%", height: "auto" }}
                                       />
                                     </Link>
                                     <Link
@@ -903,7 +905,7 @@ export default function Navigation({ headerData }: any) {
                           </div>
                         )}
                       </li>
-                      <li key="group-tours-nav">
+                      <li key="group-tours-nav" style={{ display: "none" }}>
                         <Link href="/group-tours" onClick={closeMobileMenu}>Group Tours</Link>
                       </li>
                       </React.Fragment>

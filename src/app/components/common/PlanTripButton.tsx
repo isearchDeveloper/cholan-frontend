@@ -16,6 +16,7 @@ export default function PlanTripButton({
   openModal,
   setOpenModal,
   setIsOpen,
+  hideButton,
 }: any = {}) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const recaptchaRef = useRef<ReCAPTCHA>(null);
@@ -686,9 +687,11 @@ export default function PlanTripButton({
         position="top-right"
         autoClose={5000}
       />
-      <button className="floating-button" onClick={() => setIsModalOpen(true)}>
-        Plan Your Trip
-      </button>
+      {!hideButton && (
+        <button className="floating-button" onClick={() => setIsModalOpen(true)}>
+          Plan Your Trip
+        </button>
+      )}
       {isModalOpen && (
         <div
           className="modal fade show d-block"

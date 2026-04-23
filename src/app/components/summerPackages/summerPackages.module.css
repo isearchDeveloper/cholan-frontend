@@ -1,0 +1,288 @@
+/* ── TAB SWITCHER ── */
+.tabWrapper {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+}
+
+.tab {
+  padding: 8px 18px;
+  border-radius: 10px;
+  border: 1px solid #e0e0e0;
+  background: transparent;
+  color: #555;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  outline: none;
+}
+
+.tab:hover {
+  background: #0a1f44;
+  border-color: #0a1f44;
+  color: #fff;
+}
+
+.tabActive {
+  background: #0a1f44;
+  color: #fff;
+  border-color: #0a1f44;
+}
+
+/* ── EMPTY STATE ── */
+.emptyState {
+  text-align: center;
+  padding: 80px 20px;
+  color: #999;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* ── VIEW ALL ROW ── */
+.viewAllWrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 36px;
+}
+
+.viewAllBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 32px;
+  background: #0a1f44;
+  color: #fff;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.viewAllBtn:hover {
+  background: #05164d;
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+/* ── MOBILE ── */
+@media (max-width: 480px) {
+  .tab {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+
+  .viewAllBtn {
+    font-size: 13px;
+    padding: 10px 24px;
+  }
+}
+
+/* ============================================================
+   WHY CHOLAN TOURS — full-width image, text overlaid on right
+============================================================ */
+
+.whySection {
+  position: relative;
+  overflow: hidden;
+  min-height: 520px;
+}
+
+/* Image fills the entire section */
+.whyBgImage {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.whyBgImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* Gradient: transparent on left → solid dark navy on right */
+.whyGradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.04) 0%,
+    rgba(5, 22, 77, 0.55) 38%,
+    rgba(5, 22, 77, 0.96) 72%,
+    rgba(5, 22, 77, 1) 100%
+  );
+  z-index: 1;
+}
+
+/* Content row: empty spacer left + text right */
+.whyInner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: stretch;
+  min-height: 520px;
+}
+
+/* Empty left gap — lets the image show through */
+.whyGap {
+  flex: 0 0 45%;
+}
+
+/* Text panel */
+.whyTextBox {
+  flex: 1;
+  padding: 56px 60px 56px 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+  box-sizing: border-box;
+}
+
+.whyHeading {
+  font-size: 26px;
+  font-weight: 600;
+  color: #fff;
+  margin: 0;
+  line-height: 1.35;
+}
+
+.whySubtext {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.78);
+  margin: 0;
+  line-height: 1.65;
+}
+
+.whyList {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: 6px;
+}
+
+.whyListItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.whyListItem:first-child {
+  padding-top: 0;
+}
+
+.whyListItem:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.whyListIcon {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.88);
+  margin-top: 1px;
+}
+
+.whyListTitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 3px;
+}
+
+.whyListDesc {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.68);
+  margin: 0;
+  line-height: 1.55;
+}
+
+/* ── WHY RESPONSIVE ── */
+
+@media (max-width: 1024px) {
+  .whyGap {
+    flex: 0 0 35%;
+  }
+
+  .whyTextBox {
+    padding: 48px 40px 48px 36px;
+  }
+
+  .whyHeading {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Stack: image block on top, text block below */
+  .whySection {
+    min-height: 0;
+  }
+
+  /* Image becomes in-flow block with fixed height */
+  .whyBgImage {
+    position: relative;
+    height: 280px;
+    inset: unset;
+  }
+
+  /* img stays absolutely positioned inside whyBgImage */
+  .whyBgImage img {
+    position: absolute;
+    inset: 0;
+  }
+
+  /* Gradient fades image bottom into the text block below */
+  .whyGradient {
+    background: linear-gradient(
+      to bottom,
+      rgba(5, 22, 77, 0) 0%,
+      rgba(5, 22, 77, 0.5) 55%,
+      rgba(5, 22, 77, 1) 100%
+    );
+  }
+
+  .whyInner {
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .whyGap {
+    display: none;
+  }
+
+  .whyTextBox {
+    padding: 36px 24px 40px;
+    background: rgba(5, 22, 77, 0.97);
+  }
+
+  .whyHeading {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .whyBgImage {
+    height: 220px;
+  }
+
+  .whyTextBox {
+    padding: 28px 16px 36px;
+  }
+
+  .whyHeading {
+    font-size: 18px;
+  }
+}

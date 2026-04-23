@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 
+
 import Link from "next/link";
 import { Eye, Users, UtensilsCrossed, Map } from "lucide-react";
 import AtAGlance from "@/app/components/home/AtAGlance";
@@ -9,8 +10,9 @@ import LogoSlider from "@/app/components/home/LogoSlider";
 import WhyCholanSection from "@/app/components/common/WhyCholanSection";
 import VacationContactSection from "@/app/components/common/VacationContactSection";
 import styles from "@/app/components/southIndia/southIndia.module.css";
+import tabStyles from "./summerPackages.module.css";
+import { OfferData } from "@/app/components/offerLanding/OfferLandingPage";
 import PlanTripButton from "@/app/components/common/PlanTripButton";
-
 
 /* ── Types ── */
 interface PkgItem {
@@ -21,34 +23,6 @@ interface PkgItem {
   image: string;
   imageAlt?: string;
 }
-
-export interface OfferData {
-  page?: {
-    title?: string;
-    h1_heading?: string;
-    banner_img?: string;
-    banner_img_alt?: string;
-    overview?: string;
-  };
-  packages?: any[];
-}
-
-export interface OfferLandingPageProps {
-  offer?: OfferData | null;
-  /** Shown in title fallback e.g. "South India" or "North India" */
-  regionLabel: string;
-  /** Fallback packages shown when API returns none */
-  fallbackPackages?: PkgItem[];
-}
-
-/* ── Static benefit items ── */
-const benefits = [
-  { icon: <Eye size={30} strokeWidth={1.5} />, title: "Maximum Sightseeing", text: "Explore more, See more & Travel more" },
-  { icon: <Users size={30} strokeWidth={1.5} />, title: "Tour Managers", text: "Specialists on tour to take good care of you" },
-  { icon: <UtensilsCrossed size={30} strokeWidth={1.5} />, title: "Meals included", text: "Delicious food covered in one price" },
-  { icon: <Map size={30} strokeWidth={1.5} />, title: "Best Plans", text: "Crafted itineraries with maximum attractions" },
-];
-
 
 /* ── Helpers ── */
 function decodeEntities(text: string): string {
@@ -85,26 +59,46 @@ function mapApiPackages(apiPkgs: any[]): PkgItem[] {
   }));
 }
 
+/* ── Static data ── */
+const benefits = [
+  { icon: <Eye size={30} strokeWidth={1.5} />, title: "Maximum Sightseeing", text: "Explore more, See more & Travel more" },
+  { icon: <Users size={30} strokeWidth={1.5} />, title: "Tour Managers", text: "Specialists on tour to take good care of you" },
+  { icon: <UtensilsCrossed size={30} strokeWidth={1.5} />, title: "Meals included", text: "Delicious food covered in one price" },
+  { icon: <Map size={30} strokeWidth={1.5} />, title: "Best Plans", text: "Crafted itineraries with maximum attractions" },
+];
+
+
+
+/* ── Tab config — add more entries here when making dynamic in future ── */
+const TABS = [
+  { key: "south", label: "South India", slug: "south-india" },
+  { key: "north", label: "North East India", slug: "north-east-india" },
+] as const;
+
+type TabKey = typeof TABS[number]["key"];
+
+/* ── Props ── */
+export interface SummerPackagesPageProps {
+  southOffer?: OfferData | null;
+  northOffer?: OfferData | null;
+}
+
 /* ── Component ── */
-export default function OfferLandingPage({
-  offer,
-  regionLabel,
-  fallbackPackages = [],
-}: OfferLandingPageProps) {
+export default function SummerPackagesPage({ southOffer, northOffer }: SummerPackagesPageProps) {
+  const [activeTab, setActiveTab] = useState<TabKey>(TABS[0].key);
   const [openModal, setOpenModal] = useState(false);
-  const page = offer?.page;
-  const bannerImg = page?.banner_img || "/images/Summer Offer.png";
-  const sectionTitle = page?.h1_heading || `${regionLabel} Tour Packages`;
 
-  const rawPackages = offer?.packages?.length
-    ? mapApiPackages(offer.packages)
-    : fallbackPackages;
+  const offerMap: Record<TabKey, OfferData | null | undefined> = {
+    south: southOffer,
+    north: northOffer,
+  };
 
-  // Split into rows of 3; last row centered if < 3 cards
-  const rows: PkgItem[][] = [];
-  for (let i = 0; i < rawPackages.length; i += 3) {
-    rows.push(rawPackages.slice(i, i + 3));
-  }
+  const activeOffer = offerMap[activeTab];
+  const activeTabConfig = TABS.find(t => t.key === activeTab)!;
+
+  const previewPackages = activeOffer?.packages?.length
+    ? mapApiPackages(activeOffer.packages).slice(0, 3)
+    : [];
 
   return (
     <main>
@@ -114,29 +108,30 @@ export default function OfferLandingPage({
       {/* 1. HERO BANNER */}
       <div className={styles.bannerWrap}>
         <img
-          src={bannerImg}
-          alt={sectionTitle}
+          src="/images/summer-banner.webp"
+          alt="Summer Tour Packages"
           className={styles.bannerImg}
           onError={(e: any) => { e.target.src = "/images/Summer Offer.png"; }}
         />
       </div>
 
-      {/* 2. DOODLE IMAGES LEFT/RIGHT + TITLE CENTER */}
+      {/* 2. DOODLE TITLE */}
       <div className={styles.titleBanner}>
         <div className={styles.titleDoodle}>
           <img src="/images/doodle-airplane-check-point-travel-around-world-concept 2.png" alt="" loading="lazy" decoding="async" />
         </div>
         <div className={styles.titleCenter}>
-          <h1 className={styles.sectionTitle}>{sectionTitle}</h1>
-          {page?.overview ? (
+          <h1 className={styles.sectionTitle}>
+            {activeOffer?.page?.h1_heading || "Summer Tour Packages"}
+          </h1>
+          {activeOffer?.page?.overview ? (
             <div
               className={styles.sectionSubtitle}
-              dangerouslySetInnerHTML={{ __html: page.overview }}
+              dangerouslySetInnerHTML={{ __html: activeOffer.page.overview }}
             />
           ) : (
             <p className={styles.sectionSubtitle}>
-              Discover thoughtfully curated {regionLabel} packages designed for summer - blending
-              nature, heritage, wellness, and comfort into one seamless journey.
+              Discover thoughtfully curated summer packages designed to blend nature, heritage, wellness, and comfort into one seamless journey.
             </p>
           )}
         </div>
@@ -145,16 +140,27 @@ export default function OfferLandingPage({
         </div>
       </div>
 
-      {rows.length > 0 && (
-        <div className="container">
-          <section className={styles.packagesSection}>
-            {rows.map((row, i) => (
-              <div
-                key={i}
-                className={row.length === 3 ? styles.packagesGrid : styles.packagesGridBottom}
-                style={i > 0 ? { marginTop: "24px" } : undefined}
+      {/* 3. TABS + PACKAGES */}
+      <div className="container">
+        <section className={styles.packagesSection}>
+
+          {/* TAB SWITCHER — driven by TABS config, add entries there to extend */}
+          <div className={tabStyles.tabWrapper}>
+            {TABS.map((tab) => (
+              <button
+                key={tab.key}
+                className={`${tabStyles.tab} ${activeTab === tab.key ? tabStyles.tabActive : ""}`}
+                onClick={() => setActiveTab(tab.key)}
               >
-                {row.map((pkg) => (
+                {tab.label}
+              </button>
+            ))}
+          </div>
+
+          {previewPackages.length > 0 ? (
+            <>
+              <div className={styles.packagesGrid}>
+                {previewPackages.map((pkg) => (
                   <PackageCard
                     key={pkg.slug || pkg.num}
                     pkg={pkg}
@@ -162,10 +168,25 @@ export default function OfferLandingPage({
                   />
                 ))}
               </div>
-            ))}
-          </section>
-        </div>
-      )}
+              <div className={tabStyles.viewAllWrap}>
+                <Link
+                  href={`/summer-tour-packages/${activeTabConfig.slug}`}
+                  className="btn orange-btn d-flex align-items-center gap-2"
+                  style={{ whiteSpace: "nowrap", fontSize: "13px", padding: "8px 20px" }}
+                >
+                  View All {activeTabConfig.label} Packages
+                  <span><img src="/images/button-arrow.png" alt="" width={16} height={16} /></span>
+                </Link>
+              </div>
+            </>
+          ) : (
+            <div className={tabStyles.emptyState}>
+              <p>No packages available for {activeTabConfig.label} at the moment. Please check back soon.</p>
+            </div>
+          )}
+
+        </section>
+      </div>
 
       {/* 4. MORE BENEFITS */}
       <section className={styles.benefitsSection}>
@@ -204,6 +225,7 @@ export default function OfferLandingPage({
   );
 }
 
+/* ── Package Card ── */
 function PackageCard({ pkg, onBookNow }: { pkg: PkgItem; onBookNow: () => void }) {
   return (
     <div className={styles.pkgCard}>
@@ -227,11 +249,7 @@ function PackageCard({ pkg, onBookNow }: { pkg: PkgItem; onBookNow: () => void }
           <Link href={`/packages/${pkg.slug}`} className={styles.pkgBtn}>
             Explore Now <span>→</span>
           </Link>
-          <button
-            type="button"
-            className={styles.pkgBookBtn}
-            onClick={onBookNow}
-          >
+          <button type="button" className={styles.pkgBookBtn} onClick={onBookNow}>
             Book Now <span>→</span>
           </button>
         </div>

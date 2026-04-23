@@ -1,0 +1,213 @@
+/* ============================================================
+   WHY CHOLAN TOURS — full-width image, text overlaid right
+============================================================ */
+
+.section {
+  position: relative;
+  overflow: hidden;
+  min-height: 650px;
+}
+
+/* Image fills the entire section */
+.bgImage {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.bgImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* White gradient from right → transparent, keeps dark text readable */
+.overlay {
+  position: absolute;
+  inset: 0;
+  /* background: linear-gradient(
+    to left,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 0.97) 35%,
+    rgba(255, 255, 255, 0.7) 58%,
+    rgba(255, 255, 255, 0) 80%
+  ); */
+  z-index: 1;
+}
+
+/* Row: left gap (image shows) + right text panel */
+.inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: stretch;
+  min-height: 500px;
+}
+
+/* Empty spacer — image visible through here */
+.gap {
+  flex: 0 0 48%;
+}
+
+/* Text panel */
+.textPanel {
+  flex: 1;
+  padding: 56px 60px 56px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+  box-sizing: border-box;
+}
+
+.heading {
+  font-size: 26px;
+  font-weight: 600;
+  color: #0a0a1f;
+  margin: 0;
+  line-height: 1.35;
+}
+
+.subtext {
+  font-size: 13px;
+  color: #666;
+  margin: 0;
+  line-height: 1.65;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: 6px;
+}
+
+.listItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.listItem:first-child {
+  padding-top: 0;
+}
+
+.listItem:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.listIcon {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #444;
+  margin-top: 1px;
+}
+
+.listTitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0 0 3px;
+}
+
+.listDesc {
+  font-size: 12px;
+  color: #888;
+  margin: 0;
+  line-height: 1.55;
+}
+
+/* ── RESPONSIVE ── */
+
+@media (max-width: 1200px) {
+  .gap {
+    flex: 0 0 42%;
+  }
+
+  .textPanel {
+    padding: 48px 44px 48px 0;
+  }
+}
+
+@media (max-width: 1024px) {
+  .gap {
+    flex: 0 0 36%;
+  }
+
+  .textPanel {
+    padding: 40px 36px 40px 0;
+  }
+
+  .heading {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Stack: image block on top, text below on white */
+  .section {
+    min-height: 0;
+  }
+
+  .bgImage {
+    position: relative;
+    height: 280px;
+    inset: unset;
+  }
+
+  .bgImage img {
+    position: absolute;
+    inset: 0;
+  }
+
+  /* Bottom-fade gradient so image blends into white text area below */
+  .overlay {
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.4) 60%,
+      rgba(255, 255, 255, 1) 100%
+    );
+  }
+
+  .inner {
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .gap {
+    display: none;
+  }
+
+  .textPanel {
+    padding: 36px 24px 40px;
+    background: #fff;
+  }
+
+  .heading {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .bgImage {
+    height: 220px;
+  }
+
+  .textPanel {
+    padding: 28px 16px 36px;
+  }
+
+  .heading {
+    font-size: 18px;
+  }
+}
