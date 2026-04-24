@@ -384,7 +384,7 @@ export default function Navigation({ headerData }: any) {
                                         width={300}
                                         height={180}
                                         className="rounded-1 mb-4 w-100 custom-hover"
-                                        style={{ width: "100%" }}
+                                        style={{ width: "100%", height: "auto" }}
                                       />
                                     </Link>
                                     <Link
@@ -856,7 +856,7 @@ export default function Navigation({ headerData }: any) {
                                         width={300}
                                         height={180}
                                         className="rounded-1 mb-4 w-100 custom-hover"
-                                        style={{ width: "100%" }}
+                                        style={{ width: "100%", height: "auto" }}
                                       />
                                     </Link>
                                     <Link

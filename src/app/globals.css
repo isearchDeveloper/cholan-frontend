@@ -3149,14 +3149,11 @@ span.flatpickr-weekday {
   color: #007bff;
 }
 
-.promo-image,
-.menu-promo img.w-100 {
+.promo-image {
   width: 100%;
-  height: 250px;
+  height: auto;
   border-radius: 8px;
-  margin-bottom: 6px !important;
-  object-fit: cover;
-  object-position: top center;
+  margin-bottom: 10px;
 }
 
 .menu-promo .promotion-titles {
@@ -4740,10 +4737,9 @@ h4.clickable-state a::after {
 }
 
 .menu-row {
-  display: flex;
-  flex-wrap: wrap;
+  columns: 3;
+  column-gap: 12px;
   padding: 10px 0;
-  gap: 12px;
 }
 
 .menu-columns .panel:last-child {
@@ -4751,15 +4747,16 @@ h4.clickable-state a::after {
 }
 
 .menu-column {
-  flex: 0 0 calc(33.33% - 10px);
-  /* 3 columns per row */
-
+  break-inside: avoid;
+  width: 100%;
+  display: inline-block;
   padding: 0px 10px;
   border-radius: 5px;
+  margin-bottom: 16px;
 }
 
-.menu-column.international-mega-menu {
-  flex: 0 0 calc(25% - 10px);
+.menu-row:has(.international-mega-menu) {
+  columns: 4;
 }
 
 /* Optional: make it responsive */
@@ -4774,9 +4771,8 @@ h4.clickable-state a::after {
     padding: 0px;
   }
 
-  .menu-column {
-    flex: 0 0 calc(50% - 10px);
-    /* 2 columns per row on tablets */
+  .menu-row {
+    columns: 2;
   }
 
   .tab-button {
@@ -5086,6 +5082,7 @@ input.sr-only[type="radio"] {
 .footer-menu.about-tab,
 .footer-menu.international-tab,
 .footer-menu.india-tab,
+.footer-menu.travel-tab,
 .footer-menu.blogs-tab {
   display: none;
 }
@@ -5094,6 +5091,7 @@ input.sr-only[type="radio"] {
 #tab-about:checked~.footer-content .about-tab,
 #tab-international:checked~.footer-content .international-tab,
 #tab-india:checked~.footer-content .india-tab,
+#tab-travel:checked~.footer-content .travel-tab,  
 #tab-blogs:checked~.footer-content .blogs-tab {
   display: block;
 }
@@ -5125,6 +5123,7 @@ footer .footer-tabs button label::before {
 #tab-about:checked~.footer-tabs label[for="tab-about"]::before,
 #tab-international:checked~.footer-tabs label[for="tab-international"]::before,
 #tab-india:checked~.footer-tabs label[for="tab-india"]::before,
+#tab-travel:checked~.footer-tabs label[for="tab-travel"]::before,
 #tab-blogs:checked~.footer-tabs label[for="tab-blogs"]::before {
   background-image: url("/images/minus.png");
 }
@@ -5145,7 +5144,6 @@ footer .footer-tabs button label::before {
 
 @media (max-width: 480px) {
   .menu-column {
-    flex: 0 0 calc(50% - 10px);
     padding: 0px !important;
   }
 
@@ -5170,6 +5168,7 @@ footer .footer-tabs button label::before {
   }
 
   .menu-row {
+    columns: 2;
     background: #fbf8f8;
     padding: 10px;
   }

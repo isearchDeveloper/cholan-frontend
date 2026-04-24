@@ -21,6 +21,22 @@ async function fetchSpecialVacationOffer(id: number) {
 export const fetchSouthIndiaOffer = () => fetchSpecialVacationOffer(2);
 export const fetchNorthIndiaOffer = () => fetchSpecialVacationOffer(1);
 
+export async function fetchSummerPageData() {
+  try {
+    const res = await fetch(`${baseUrl}/api/v1/setting/pages/summer`, {
+      method: "GET",
+      headers: { "X-Public-Token": XPublicToken },
+      next: { revalidate: 300 },
+    });
+    if (!res.ok) return null;
+    const json = await res.json();
+    return json?.data?.[0] ?? null;
+  } catch (error) {
+    console.error("Error fetching summer page data:", error);
+    return null;
+  }
+}
+
 export async function fetchGroupTourDetails(slug: string) {
   try {
     const res = await fetch(`${baseUrl}/api/v1/packages/group-tour/${slug}`, {

@@ -1,16 +1,21 @@
 import { getCanonical } from "@/app/lib/getCanonical";
-import { fetchSouthIndiaOffer, fetchNorthIndiaOffer } from "@/app/services/groupTourService";
+import { fetchSouthIndiaOffer, fetchNorthIndiaOffer, fetchSummerPageData } from "@/app/services/groupTourService";
 import SummerPackagesPage from "@/app/components/summerPackages/SummerPackagesPage";
 
 export async function generateMetadata() {
-  const canonical = await getCanonical("/summer-tour-packages");
-  const title = "Summer Tour Packages | North & South India | Cholan Tours";
-  const description = "Explore the best summer tour packages across North and South India. Curated itineraries blending nature, heritage, wellness, and comfort.";
+  const [canonical, summerPage] = await Promise.all([
+    getCanonical("/summer-tour-packages"),
+    fetchSummerPageData(),
+  ]);
+
+  const title = summerPage?.meta?.meta_title || "Summer Tour Packages | North & South India | Cholan Tours";
+  const description = summerPage?.meta?.meta_description || "Explore the best summer tour packages across North and South India. Curated itineraries blending nature, heritage, wellness, and comfort.";
+  const keywords = summerPage?.meta?.meta_keywords || "summer tour packages, north india tours, south india tours, cholan tours, summer holiday packages";
 
   return {
     title,
     description,
-    keywords: "summer tour packages, north india tours, south india tours, cholan tours, summer holiday packages",
+    keywords,
     alternates: { canonical },
     openGraph: {
       title,
@@ -25,10 +30,11 @@ export async function generateMetadata() {
 }
 
 export default async function SummerTourPackagesPage() {
-  const [southOffer, northOffer] = await Promise.all([
+  const [southOffer, northOffer, summerPage] = await Promise.all([
     fetchSouthIndiaOffer(),
     fetchNorthIndiaOffer(),
+    fetchSummerPageData(),
   ]);
 
-  return <SummerPackagesPage southOffer={southOffer} northOffer={northOffer} />;
+  return <SummerPackagesPage southOffer={southOffer} northOffer={northOffer} summerPage={summerPage} />;
 }

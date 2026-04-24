@@ -2,13 +2,13 @@
 
 import React, { useState } from "react";
 
-
 import Link from "next/link";
 import { Eye, Users, UtensilsCrossed, Map } from "lucide-react";
 import AtAGlance from "@/app/components/home/AtAGlance";
 import LogoSlider from "@/app/components/home/LogoSlider";
 import WhyCholanSection from "@/app/components/common/WhyCholanSection";
 import VacationContactSection from "@/app/components/common/VacationContactSection";
+import FAQAccordionCar from "@/app/components/car/CarFaq";
 import styles from "@/app/components/southIndia/southIndia.module.css";
 import tabStyles from "./summerPackages.module.css";
 import { OfferData } from "@/app/components/offerLanding/OfferLandingPage";
@@ -24,6 +24,23 @@ interface PkgItem {
   imageAlt?: string;
 }
 
+export interface SummerPageData {
+  title?: string;
+  overview?: string;
+  banner_img?: string;
+  banner_img_alt?: string;
+  is_active?: boolean;
+  faq_title?: string;
+  faqs?: { question: string; answer: string }[];
+  meta?: {
+    meta_title?: string;
+    meta_description?: string;
+    meta_keywords?: string;
+    h1_heading?: string;
+    meta_details?: string;
+  };
+}
+
 /* ── Helpers ── */
 function decodeEntities(text: string): string {
   return text
@@ -33,8 +50,8 @@ function decodeEntities(text: string): string {
     .replace(/&gt;/g, ">")
     .replace(/&quot;/g, '"')
     .replace(/&#39;/g, "'")
-    .replace(/&rsquo;/g, "’")
-    .replace(/&lsquo;/g, "‘")
+    .replace(/&rsquo;/g, "'")
+    .replace(/&lsquo;/g, "'")
     .replace(/&rdquo;/g, "”")
     .replace(/&ldquo;/g, "“")
     .replace(/&mdash;/g, "—")
@@ -67,9 +84,7 @@ const benefits = [
   { icon: <Map size={30} strokeWidth={1.5} />, title: "Best Plans", text: "Crafted itineraries with maximum attractions" },
 ];
 
-
-
-/* ── Tab config — add more entries here when making dynamic in future ── */
+/* ── Tab config ── */
 const TABS = [
   { key: "south", label: "South India", slug: "south-india" },
   { key: "north", label: "North East India", slug: "north-east-india" },
@@ -81,10 +96,11 @@ type TabKey = typeof TABS[number]["key"];
 export interface SummerPackagesPageProps {
   southOffer?: OfferData | null;
   northOffer?: OfferData | null;
+  summerPage?: SummerPageData | null;
 }
 
 /* ── Component ── */
-export default function SummerPackagesPage({ southOffer, northOffer }: SummerPackagesPageProps) {
+export default function SummerPackagesPage({ southOffer, northOffer, summerPage }: SummerPackagesPageProps) {
   const [activeTab, setActiveTab] = useState<TabKey>(TABS[0].key);
   const [openModal, setOpenModal] = useState(false);
 
@@ -100,6 +116,11 @@ export default function SummerPackagesPage({ southOffer, northOffer }: SummerPac
     ? mapApiPackages(activeOffer.packages).slice(0, 3)
     : [];
 
+  const bannerImg = summerPage?.banner_img || "/images/summer-banner.webp";
+  const bannerAlt = summerPage?.banner_img_alt || "Summer Tour Packages";
+  const h1Title = summerPage?.meta?.h1_heading || "Summer Tour Packages";
+  const hasFaqs = summerPage?.faqs && summerPage.faqs.length > 0;
+
   return (
     <main>
       {/* Single Plan Your Trip modal — shared by all Book Now buttons */}
@@ -108,8 +129,8 @@ export default function SummerPackagesPage({ southOffer, northOffer }: SummerPac
       {/* 1. HERO BANNER */}
       <div className={styles.bannerWrap}>
         <img
-          src="/images/summer-banner.webp"
-          alt="Summer Tour Packages"
+          src={bannerImg}
+          alt={bannerAlt}
           className={styles.bannerImg}
           onError={(e: any) => { e.target.src = "/images/Summer Offer.png"; }}
         />
@@ -121,10 +142,17 @@ export default function SummerPackagesPage({ southOffer, northOffer }: SummerPac
           <img src="/images/doodle-airplane-check-point-travel-around-world-concept 2.png" alt="" loading="lazy" decoding="async" />
         </div>
         <div className={styles.titleCenter}>
-          <h1 className={styles.sectionTitle}>Summer Tour Packages</h1>
-          <p className={styles.sectionSubtitle}>
-            Discover thoughtfully curated summer packages designed to blend nature, heritage, wellness, and comfort into one seamless journey.
-          </p>
+          <h1 className={styles.sectionTitle}>{h1Title}</h1>
+          {summerPage?.overview ? (
+            <div
+              className={styles.sectionSubtitle}
+              dangerouslySetInnerHTML={{ __html: summerPage.overview }}
+            />
+          ) : (
+            <p className={styles.sectionSubtitle}>
+              Discover thoughtfully curated summer packages designed to blend nature, heritage, wellness, and comfort into one seamless journey.
+            </p>
+          )}
         </div>
         <div className={styles.titleDoodle}>
           <img src="/images/doodle-airplane-check-point-travel-around-world-concept 1.png" alt="" loading="lazy" decoding="async" />
@@ -135,7 +163,7 @@ export default function SummerPackagesPage({ southOffer, northOffer }: SummerPac
       <div className="container">
         <section className={styles.packagesSection}>
 
-          {/* TAB SWITCHER — driven by TABS config, add entries there to extend */}
+          {/* TAB SWITCHER */}
           <div className={tabStyles.tabWrapper}>
             {TABS.map((tab) => (
               <button
@@ -206,10 +234,22 @@ export default function SummerPackagesPage({ southOffer, northOffer }: SummerPac
       {/* 6. BOOK YOUR HOLIDAYS */}
       <VacationContactSection />
 
-      {/* 7. AT A GLANCE */}
+      {/* 7. FAQ */}
+      {hasFaqs && (
+        <div className="py-5">
+          <div className="container">
+            <FAQAccordionCar
+              faqs={summerPage!.faqs!}
+              title={summerPage?.faq_title || "FAQs on Summer"}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* 8. AT A GLANCE */}
       <AtAGlance />
 
-      {/* 8. PARTNER LOGOS */}
+      {/* 9. PARTNER LOGOS */}
       <LogoSlider />
 
     </main>

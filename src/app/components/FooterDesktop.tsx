@@ -347,6 +347,31 @@ export default async function FooterDesktopSec() {
     { label: "Inspiration", href: "https://www.cholantours.com/blog/inspiration/" },
   ];
 
+  const travelThemeLinks = [
+    { label: "Family Tour Packages in India", href: "/india/family-tour-packages" },
+    { label: "Cruise Tour Packages in India", href: "/india/cruise-tour-packages" },
+    { label: "Cultural Tour Packages in India", href: "/india/cultural-tour-packages" },
+    { label: "Luxury Tour Packages in India", href: "/india/luxury-tour-packages" },
+    { label: "Weekend Tour Packages in India", href: "/india/weekend-tour-packages" },
+    { label: "Monuments Tour Packages in India", href: "/india/monuments-tour-packages" },
+    { label: "Friends Group Tour Packages in India", href: "/india/friends-group-tour-packages" },
+    { label: "Houseboat Tour Packages in India", href: "/india/houseboat-tour-packages" },
+    { label: "Adventure Tour Packages in India", href: "/india/adventure-tour-packages" },
+    { label: "Divya Desam Temples Tour", href: "/india/divya-desam-tour-packages" },
+    { label: "Honeymoon Tour Packages in India", href: "/india/honeymoon-tour-packages" },
+    { label: "Hill Station Tour Packages", href: "/india/hill-station-tour-packages" },
+    { label: "India Wildlife Tour Packages", href: "/india/wildlife-tour-packages" },
+    { label: "Temple Tour Packages", href: "/india/temple-tour-packages" },
+    { label: "Kerala Temple Tour Packages India", href: "/india/kerala-temple-tour-packages" },
+    { label: "Tamil Nadu Temple Tour Packages", href: "/india/tamil-nadu-temple-tour-packages" },
+    { label: "Rajasthan Temple Tour Packages", href: "/india/rajasthan-temple-tour-packages" },
+    { label: "Karnataka Temple Tour Packages", href: "/india/karnataka-temple-tour-packages" },
+    { label: "Gujarat Temple Tour Packages", href: "/india/gujarat-temple-tour-packages" },
+    { label: "Andhra Pradesh Temple Tour Packages", href: "/india/andhra-pradesh-temple-tour-packages" },
+    { label: "Pondicherry Temple Tour Packages", href: "/india/pondicherry-temple-tour-packages" },
+    { label: "Telangana Temple Tour Packages", href: "/india/telangana-temple-tour-packages" },
+  ];
+
   const quickLinks = [
     { label: "India Tour Packages", href: "/india" },
     {
@@ -401,6 +426,7 @@ export default async function FooterDesktopSec() {
           />
           <input type="radio" name="footer-tab" id="tab-international" hidden />
           <input type="radio" name="footer-tab" id="tab-india" hidden />
+          <input type="radio" name="footer-tab" id="tab-travel" hidden />
           <input type="radio" name="footer-tab" id="tab-blogs" hidden />
 
           <div className="footer-tabs">
@@ -412,6 +438,9 @@ export default async function FooterDesktopSec() {
             </button>
             <button>
               <label htmlFor="tab-india">India Tours</label>
+            </button>
+            <button>
+              <label htmlFor="tab-travel">Travel Themes</label>
             </button>
             <button>
               <label htmlFor="tab-blogs">Travel Blogs</label>
@@ -516,6 +545,19 @@ export default async function FooterDesktopSec() {
                       </ul>
                     </div>
                   </div>
+
+                  <div className="tab-content travel-tab">
+                    <div className="footer-menu">
+                      {/* <h3>Travel Theme</h3> */}
+                      <ul>
+                        {travelThemeLinks.slice(0, 7).map((link, i) => (
+                          <li key={i}>
+                            <Link href={link.href}>{link.label}</Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
                 </div>
 
                 {/* About Links */}
@@ -569,6 +611,17 @@ export default async function FooterDesktopSec() {
                       ))}
                     </ul>
                   </div>
+
+                  <div className="footer-menu travel-tab">
+                    {/* <h3>More Travel Themes</h3> */}
+                    <ul>
+                      {travelThemeLinks.slice(7, 14).map((link, i) => (
+                        <li key={i}>
+                          <Link href={link.href}>{link.label}</Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
 
                 {/* Quick Links */}
@@ -596,16 +649,7 @@ export default async function FooterDesktopSec() {
                       ))}{" "}
                     </ul>
                   </div>
-                  <div className="footer-menu blogs-tab">
-                    <h3>Best Time to Visit</h3>
-                    <ul>
-                      {travelBlogVisit.map((link, i) => (
-                        <li key={i}>
-                          <Link href={link.href}>{link.label}</Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+
                   <div className="footer-menu international-tab">
                     <h3>Top International Destinations</h3>
                     <ul>
@@ -623,6 +667,28 @@ export default async function FooterDesktopSec() {
                       {indiaTopDestinations.map((l, i) => (
                         <li key={i}>
                           <Link href={l.href}>{l.label}</Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="footer-menu travel-tab">
+                    {/* <h3>Special Interest Tours</h3> */}
+                    <ul>
+                      {travelThemeLinks.slice(14).map((link, i) => (
+                        <li key={i}>
+                          <Link href={link.href}>{link.label}</Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="footer-menu blogs-tab">
+                    <h3>Best Time to Visit</h3>
+                    <ul>
+                      {travelBlogVisit.map((link, i) => (
+                        <li key={i}>
+                          <Link href={link.href}>{link.label}</Link>
                         </li>
                       ))}
                     </ul>
@@ -659,6 +725,36 @@ export default async function FooterDesktopSec() {
                       </ul>
                     </div>
                   </div>
+
+                  <div className="footer-menu travel-tab">
+                    <h3>Discover us</h3>
+                    <ul>
+                      {DiscoverLink.map((l, i) => (
+                        <li key={i}>
+                          <Link href={l.href}>{l.label}</Link>
+                        </li>
+                      ))}
+                    </ul>
+                    {/* Social */}
+                    <div className="footer-media">
+                      <h5>Follow us on</h5>
+                      <ul>
+                        {socialMedia.map((media, i) => (
+                          <li key={i}>
+                            <Link href={media.href} target="_blank">
+                              <Image
+                                width={12}
+                                height={12}
+                                src={media.src}
+                                alt={media.alt}
+                              />
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
                   <div className="footer-contact about-tab">
                     <h3>Contact Us</h3>
                     <ul>
