@@ -6,6 +6,7 @@ import { fairFestivalDetail } from "@/app/services/fairfestivalService";
 import Breadcrumb from "@/app/components/common/Breadcrumb";
 import LogoSlider from "@/app/components/home/LogoSlider";
 import { notFound } from "next/navigation";
+import { getCanonical } from "@/app/lib/getCanonical";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -38,13 +39,20 @@ export async function generateMetadata({ params }: PageProps) {
 
   const description = stripHtml(festival.short_description).slice(0, 160);
 
+  const canonical = await getCanonical(`/india/fairs-festivals/${slug}`);
+
   return {
     title: festival?.meta?.meta_title || festival.title,
     description,
 
+    alternates: {
+      canonical,
+    },
+
     openGraph: {
       title: festival?.meta?.meta_title || festival.title,
       description,
+      url: canonical,
     },
 
     twitter: {
@@ -69,7 +77,7 @@ export default async function FestivalDetailPage({ params }: PageProps) {
   // dynamic breadcrumb
   const breadcrumbItems = [
     { label: "Home", href: "/" },
-    { label: "Fairs Festivals", href: "/india/fairs-festivals/" },
+    { label: "Fairs Festivals", href: "/india/fairs-festivals" },
     { label: festival.title, isCurrent: true },
   ];
 

@@ -1,5 +1,6 @@
 import FairFestival from "@/app/components/fairfestival/FairFestival";
 import { fairfestivalData } from "@/app/services/fairfestivalService";
+import { getCanonical } from "@/app/lib/getCanonical";
 
 /* ---------- ONE SHARED FETCH ---------- */
 async function getData() {
@@ -13,16 +14,16 @@ export async function generateMetadata() {
   const meta = data?.meta;
   const page = data?.page;
 
-  const canonical = "/india/fair-festival";
+  const canonical = await getCanonical("/india/fairs-festivals");
 
   const description =
     meta?.meta_description ||
     page?.overview?.replace(/<[^>]*>/g, "").slice(0, 160);
 
+  const title = meta?.meta_title || "Fair & Festival Tours | Cholan Tours";
+
   return {
-    title:
-      meta?.meta_title ||
-      "Fair & Festival Tours | Cholan Tours",
+    title,
 
     description,
 
@@ -31,13 +32,13 @@ export async function generateMetadata() {
     },
 
     openGraph: {
-      title: meta?.meta_title,
+      title,
       url: canonical,
       description,
     },
 
     twitter: {
-      title: meta?.meta_title,
+      title,
       description,
     },
   };

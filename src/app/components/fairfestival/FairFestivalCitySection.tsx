@@ -328,7 +328,7 @@ export default function FairFestivalCitySection({
 
         <div className={styles.festivalGrid}>
           {filteredList.map((item) => (
-            <Link key={item.slug} href={`/india/fairs-festivals/${item.slug}/`}>
+            <Link key={item.slug} href={`/india/fairs-festivals/${item.slug}`}>
               <article className={styles.festivalCard}>
                 <div className={styles.festivalImageWrapper}>
                   
