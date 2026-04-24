@@ -11221,5 +11221,14 @@ body {
   padding: 6px !important;
   border:1px solid #ddd !important;
   text-align: center !important;
+}
 
+.summer-special-link, 
+.summer-special-link:hover, 
+.summer-special-link:focus,
+.summer-special-link:active,
+.summer-special-link:visited {
+  color: #228B22 !important;
+  font-weight: 700 !important;
+  transition: none !important;
 }
