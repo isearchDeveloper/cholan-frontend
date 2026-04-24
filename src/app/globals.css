@@ -3149,19 +3149,21 @@ span.flatpickr-weekday {
   color: #007bff;
 }
 
-.promo-image {
+.promo-image,
+.menu-promo img.w-100 {
   width: 100%;
-  height: auto;
+  height: 250px;
   border-radius: 8px;
-  margin-bottom: 10px;
+  margin-bottom: 6px !important;
+  object-fit: cover;
+  object-position: top center;
 }
 
 .menu-promo .promotion-titles {
   font-size: 16px;
   margin-bottom: 10px;
   color: #333;
-  white-space: pre-wrap;
-  word-break: break-all;
+  word-break: break-word;
 }
 
 .menu-promo p {
@@ -3980,7 +3982,8 @@ button.go-back {
   .menu-promo {
     padding-top: 0px;
     text-align: left;
-    display: none;
+    display: flex;
+    flex-direction: column;
   }
 }
 
