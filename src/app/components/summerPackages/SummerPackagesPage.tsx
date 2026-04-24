@@ -121,19 +121,10 @@ export default function SummerPackagesPage({ southOffer, northOffer }: SummerPac
           <img src="/images/doodle-airplane-check-point-travel-around-world-concept 2.png" alt="" loading="lazy" decoding="async" />
         </div>
         <div className={styles.titleCenter}>
-          <h1 className={styles.sectionTitle}>
-            {activeOffer?.page?.h1_heading || "Summer Tour Packages"}
-          </h1>
-          {activeOffer?.page?.overview ? (
-            <div
-              className={styles.sectionSubtitle}
-              dangerouslySetInnerHTML={{ __html: activeOffer.page.overview }}
-            />
-          ) : (
-            <p className={styles.sectionSubtitle}>
-              Discover thoughtfully curated summer packages designed to blend nature, heritage, wellness, and comfort into one seamless journey.
-            </p>
-          )}
+          <h1 className={styles.sectionTitle}>Summer Tour Packages</h1>
+          <p className={styles.sectionSubtitle}>
+            Discover thoughtfully curated summer packages designed to blend nature, heritage, wellness, and comfort into one seamless journey.
+          </p>
         </div>
         <div className={styles.titleDoodle}>
           <img src="/images/doodle-airplane-check-point-travel-around-world-concept 1.png" alt="" loading="lazy" decoding="async" />
@@ -228,7 +219,7 @@ export default function SummerPackagesPage({ southOffer, northOffer }: SummerPac
 /* ── Package Card ── */
 function PackageCard({ pkg, onBookNow }: { pkg: PkgItem; onBookNow: () => void }) {
   return (
-    <div className={styles.pkgCard}>
+    <Link href={`/packages/${pkg.slug}`} className={styles.pkgCard} style={{ textDecoration: "none", color: "inherit", display: "block" }}>
       <div className={styles.pkgImageWrap}>
         <span className={styles.pkgHotBadge}>🔥 Hot Selling</span>
         <img
@@ -246,14 +237,14 @@ function PackageCard({ pkg, onBookNow }: { pkg: PkgItem; onBookNow: () => void }
         </div>
         <p className={styles.pkgDesc}>{pkg.desc}</p>
         <div className={styles.pkgBtnGroup}>
-          <Link href={`/packages/${pkg.slug}`} className={styles.pkgBtn}>
+          <span className={styles.pkgBtn}>
             Explore Now <span>→</span>
-          </Link>
-          <button type="button" className={styles.pkgBookBtn} onClick={onBookNow}>
+          </span>
+          <button type="button" className={styles.pkgBookBtn} onClick={(e) => { e.preventDefault(); e.stopPropagation(); onBookNow(); }}>
             Book Now <span>→</span>
           </button>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

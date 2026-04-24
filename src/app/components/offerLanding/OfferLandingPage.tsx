@@ -206,7 +206,7 @@ export default function OfferLandingPage({
 
 function PackageCard({ pkg, onBookNow }: { pkg: PkgItem; onBookNow: () => void }) {
   return (
-    <div className={styles.pkgCard}>
+    <Link href={`/packages/${pkg.slug}`} className={styles.pkgCard} style={{ textDecoration: "none", color: "inherit", display: "block" }}>
       <div className={styles.pkgImageWrap}>
         <span className={styles.pkgHotBadge}>🔥 Hot Selling</span>
         <img
@@ -224,18 +224,18 @@ function PackageCard({ pkg, onBookNow }: { pkg: PkgItem; onBookNow: () => void }
         </div>
         <p className={styles.pkgDesc}>{pkg.desc}</p>
         <div className={styles.pkgBtnGroup}>
-          <Link href={`/packages/${pkg.slug}`} className={styles.pkgBtn}>
+          <span className={styles.pkgBtn}>
             Explore Now <span>→</span>
-          </Link>
+          </span>
           <button
             type="button"
             className={styles.pkgBookBtn}
-            onClick={onBookNow}
+            onClick={(e) => { e.preventDefault(); e.stopPropagation(); onBookNow(); }}
           >
             Book Now <span>→</span>
           </button>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
