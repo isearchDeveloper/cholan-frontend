@@ -94,7 +94,8 @@ export default function OfferLandingPage({
   const [openModal, setOpenModal] = useState(false);
   const page = offer?.page;
   const bannerImg = page?.banner_img || "/images/Summer Offer.png";
-  const sectionTitle = page?.h1_heading || `${regionLabel} Tour Packages`;
+  const h1Heading = page?.h1_heading;
+  const fallbackTitle = page?.title || `${regionLabel} Tour Packages`;
 
   const rawPackages = offer?.packages?.length
     ? mapApiPackages(offer.packages)
@@ -114,7 +115,7 @@ export default function OfferLandingPage({
       <div className={styles.bannerWrap}>
         <img
           src={bannerImg}
-          alt={sectionTitle}
+          alt={h1Heading || fallbackTitle}
           className={styles.bannerImg}
           onError={(e: any) => { e.target.src = "/images/Summer Offer.png"; }}
         />
@@ -126,7 +127,7 @@ export default function OfferLandingPage({
           <img src="/images/doodle-airplane-check-point-travel-around-world-concept 2.png" alt="" loading="lazy" decoding="async" />
         </div>
         <div className={styles.titleCenter}>
-          <h1 className={styles.sectionTitle}>{sectionTitle}</h1>
+          <h1 className={styles.sectionTitle}>{h1Heading || fallbackTitle}</h1>
           {page?.overview ? (
             <div
               className={styles.sectionSubtitle}

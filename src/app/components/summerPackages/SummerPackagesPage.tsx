@@ -118,7 +118,8 @@ export default function SummerPackagesPage({ southOffer, northOffer, summerPage 
 
   const bannerImg = summerPage?.banner_img || "/images/summer-banner.webp";
   const bannerAlt = summerPage?.banner_img_alt || "Summer Tour Packages";
-  const h1Title = summerPage?.meta?.h1_heading || "Summer Tour Packages";
+  const h1Heading = summerPage?.meta?.h1_heading;
+  const fallbackTitle = summerPage?.title || "Summer Tour Packages";
   const hasFaqs = summerPage?.faqs && summerPage.faqs.length > 0;
 
   return (
@@ -141,7 +142,7 @@ export default function SummerPackagesPage({ southOffer, northOffer, summerPage 
           <img src="/images/doodle-airplane-check-point-travel-around-world-concept 2.png" alt="" loading="lazy" decoding="async" />
         </div>
         <div className={styles.titleCenter}>
-          <h1 className={styles.sectionTitle}>{h1Title}</h1>
+          <h1 className={styles.sectionTitle}>{h1Heading || fallbackTitle}</h1>
           {summerPage?.overview ? (
             <div
               className={styles.sectionSubtitle}
