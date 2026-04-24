@@ -182,6 +182,36 @@ export default function Navigation({ headerData }: any) {
             <div className={`mg-menu-wrap ${navOpen ? "show" : ""}`}>
               <ul className={`nav-links ${navOpen ? "show" : ""}`}>
 
+                {/* ================= SUMMER SPECIAL ================= */}
+                <li
+                  className="has-dropdown"
+                  onMouseEnter={() => { if (window.innerWidth > 991) setDropdownOpen("summer"); }}
+                  onMouseLeave={() => { if (window.innerWidth > 991) setDropdownOpen(null); }}
+                >
+                  <Link href="/summer-tour-packages" onClick={closeMobileMenu} style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <circle cx="12" cy="12" r="4.5" fill="#f59e0b" />
+                      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" stroke="#f59e0b" strokeWidth="2" strokeLinecap="round" />
+                    </svg>
+                    Summer Special
+                  </Link>
+                  <span className="arrow" onClick={(e) => handleDropdownToggle("summer", e)}>
+                    <ArrowIcon />
+                  </span>
+                  <ul className={`dropdown-menu ${dropdownOpen === "summer" ? "show slide-up" : ""}`}>
+                    <li>
+                      <Link href="/summer-tour-packages/south-india" onClick={closeMobileMenu}>
+                        South India
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/summer-tour-packages/north-east-india" onClick={closeMobileMenu}>
+                        North East India
+                      </Link>
+                    </li>
+                  </ul>
+                </li>
+
                 {headerData?.menus?.map((menu: any) => {
 
                   /* ================= INDIA ================= */
@@ -1042,6 +1072,7 @@ export default function Navigation({ headerData }: any) {
                     </li>
                   );
                 })}
+
               </ul>
             </div>
           </div>

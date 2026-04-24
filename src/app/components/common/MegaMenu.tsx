@@ -80,6 +80,7 @@ export default function Navigation({
   const [activeWorldTab, setActiveWorldTab] = useState("Trending");
   const [megaMenuOpen, setMegaMenuOpen] = useState<string | null>(null);
   const [toursDropdownOpen, setToursDropdownOpen] = useState(false);
+  const [summerDropdownOpen, setSummerDropdownOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [worldPage, setWorldPage] = useState(0);
   const [worldMenuData, setWorldMenuData] = useState<any>(null);
@@ -127,6 +128,7 @@ export default function Navigation({
     setNavOpen(false);
     setMegaMenuOpen(null);
     setToursDropdownOpen(false);
+    setSummerDropdownOpen(false);
     setWorldPage(0);
   };
 
@@ -216,6 +218,41 @@ export default function Navigation({
 
           <div className={`mg-menu-wrap ${navOpen ? "show" : ""}`}>
             <ul className={`nav-links ${navOpen ? "show" : ""}`}>
+
+              {/* ================= SUMMER SPECIAL ================= */}
+              <li
+                className="has-dropdown"
+                onMouseEnter={() => { if (window.innerWidth > 991) setSummerDropdownOpen(true); }}
+                onMouseLeave={() => { if (window.innerWidth > 991) setSummerDropdownOpen(false); }}
+              >
+                <Link href="/summer-tour-packages" onClick={closeMobileMenu} style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <circle cx="12" cy="12" r="4.5" fill="#f59e0b" />
+                    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" stroke="#f59e0b" strokeWidth="2" strokeLinecap="round" />
+                  </svg>
+                  Summer Special
+                </Link>
+                <span
+                  className="arrow"
+                  onClick={(e) => { e.preventDefault(); setSummerDropdownOpen(!summerDropdownOpen); }}
+                >
+                  <svg width="10" height="6" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3.89223 4.48336L0.880039 1.47117C0.658555 1.24969 0.658555 0.917464 0.880039 0.718128L1.36731 0.208714C1.58879 0.00937791 1.92102 0.00937791 2.12035 0.208714L4.2466 2.35711L6.395 0.208714C6.59434 0.00937791 6.92656 0.00937791 7.14805 0.208714L7.63531 0.718128C7.8568 0.917464 7.8568 1.24969 7.63531 1.47117L4.62313 4.48336C4.42379 4.6827 4.09156 4.6827 3.89223 4.48336Z" fill="black" />
+                  </svg>
+                </span>
+                <ul className={`dropdown-menu ${summerDropdownOpen ? "show slide-up" : ""}`}>
+                  <li>
+                    <Link href="/summer-tour-packages/south-india" onClick={closeMobileMenu}>
+                      South India
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/summer-tour-packages/north-east-india" onClick={closeMobileMenu}>
+                      North East India
+                    </Link>
+                  </li>
+                </ul>
+              </li>
 
               {headerData?.menus?.map((menu: any) => {
 
@@ -953,6 +990,7 @@ export default function Navigation({
                   </li>
                 );
               })}
+
             </ul>
           </div>
         </div>
