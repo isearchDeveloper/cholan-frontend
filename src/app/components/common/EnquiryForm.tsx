@@ -522,8 +522,7 @@ const EnquiryForm: React.FC<any> = ({ package_slug }) => {
     setIsSubmitting(true);
 
     try {
-      const payload = {
-        package_slug,
+      const basePayload = {
         name: formData.name.trim(),
         email: formData.email.trim(),
         phone: formData.phone,
@@ -539,8 +538,14 @@ const EnquiryForm: React.FC<any> = ({ package_slug }) => {
         ip: combinedData || "",
       };
 
+      const endpoint = package_slug
+        ? `${process.env.NEXT_PUBLIC_UAT_URL}/api/v1/enquiries/package`
+        : `${process.env.NEXT_PUBLIC_UAT_URL}/api/v1/enquiries/plan_trip`;
+
+      const payload = package_slug ? { package_slug, ...basePayload } : basePayload;
+
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_UAT_URL}/api/v1/enquiries/package`,
+        endpoint,
         payload,
         {
           headers: {

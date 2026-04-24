@@ -123,8 +123,7 @@ export default function SummerPackagesPage({ southOffer, northOffer, summerPage 
 
   return (
     <main>
-      {/* Single Plan Your Trip modal — shared by all Book Now buttons */}
-      <PlanTripButton openModal={openModal} setOpenModal={setOpenModal} hideButton={true} />
+      {openModal && <PlanTripButton openModal={openModal} setOpenModal={setOpenModal} hideButton={true} />}
 
       {/* 1. HERO BANNER */}
       <div className={styles.bannerWrap}>
