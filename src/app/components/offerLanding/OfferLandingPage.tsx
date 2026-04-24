@@ -206,7 +206,7 @@ export default function OfferLandingPage({
 
 function PackageCard({ pkg, onBookNow }: { pkg: PkgItem; onBookNow: () => void }) {
   return (
-    <Link href={`/packages/${pkg.slug}`} className={styles.pkgCard} style={{ textDecoration: "none", color: "inherit", display: "block" }}>
+    <Link href={`/packages/${pkg.slug}`} className={styles.pkgCard} style={{ textDecoration: "none", color: "inherit" }}>
       <div className={styles.pkgImageWrap}>
         <span className={styles.pkgHotBadge}>🔥 Hot Selling</span>
         <img
