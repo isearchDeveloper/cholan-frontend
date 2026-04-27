@@ -1,25 +1,25 @@
 "use client";
-
+ 
 import React, { useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { Swiper as SwiperType } from "swiper";
-
+ 
 import styles from "./homebanner.module.css";
-
+ 
 // @ts-ignore
 import "swiper/css";
 // @ts-ignore
 import "swiper/css/navigation";
 // @ts-ignore
 import "swiper/css/pagination";
-
+ 
 const HomeBanner = ({ bannerData }: any) => {
   const swiperRef = useRef<SwiperType | null>(null);
   const [openModal, setOpenModal] = useState(false);
-
+ 
   return (
     <section className={styles.hero}>
       <Swiper
@@ -40,7 +40,7 @@ const HomeBanner = ({ bannerData }: any) => {
         {bannerData?.slider_banners?.map((item: any) => (
           <SwiperSlide key={item.id}>
             <div className={styles.heroSlide}>
-              
+             
               {/* Background Image */}
               <div className={styles.heroImageWrapper}>
                 <Image
@@ -54,25 +54,25 @@ const HomeBanner = ({ bannerData }: any) => {
                   }}
                 />
               </div>
-
+ 
               {/* Overlay */}
               <div className={styles.heroOverlay} />
-
+ 
               {/* Content */}
               <div className={styles.heroContent}>
                 <div className={styles.heroTitle}>
                   {item.title || "Wildlife Tours of India"}
                 </div>
-
+ 
                 <div className={styles.heroDescription}>
                   Discover India’s rich wildlife, from majestic jungles to rare
                   species, through expertly curated safari and nature experiences.
                 </div>
-
+ 
                 <div className={styles.heroActions}>
-                  {item.package?.slug && (
+                  {item.url && (
                     <Link
-                      href={`/packages/${item.package.slug}`}
+                      href={item.url}
                       className={styles.ctaBtn}
                     >
                       Explore Now
@@ -88,11 +88,11 @@ const HomeBanner = ({ bannerData }: any) => {
                   )}
                 </div>
               </div>
-
+ 
             </div>
           </SwiperSlide>
         ))}
-
+ 
         {/* CUSTOM NAVIGATION ALIGNED WITH BOTTOM */}
         <div className={styles.navContainer}>
           {/* <button className={styles.prevBtn} onClick={() => swiperRef.current?.slidePrev()}>
@@ -106,5 +106,6 @@ const HomeBanner = ({ bannerData }: any) => {
     </section>
   );
 };
-
+ 
 export default HomeBanner;
+ 

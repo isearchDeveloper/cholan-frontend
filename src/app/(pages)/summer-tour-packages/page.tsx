@@ -8,6 +8,7 @@ export async function generateMetadata() {
     fetchSummerPageData(),
   ]);
 
+
   const title = summerPage?.meta?.meta_title || "Summer Tour Packages | North & South India | Cholan Tours";
   const description = summerPage?.meta?.meta_description || "Explore the best summer tour packages across North and South India. Curated itineraries blending nature, heritage, wellness, and comfort.";
   const keywords = summerPage?.meta?.meta_keywords || "summer tour packages, north india tours, south india tours, cholan tours, summer holiday packages";
