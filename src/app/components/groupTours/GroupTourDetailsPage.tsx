@@ -6,6 +6,7 @@ import Breadcrumb from "@/app/components/common/Breadcrumb";
 import TourPlanFAQ from "@/app/components/common/TourPlanFAQ";
 import EnquiryForm from "@/app/components/common/EnquiryForm";
 import EnquiryModal from "@/app/modals/enquiryModal";
+import GroupTourBookingModal from "@/app/modals/GroupTourBookingModal";
 import styles from "./grouptour.module.css";
 import detailStyles from "./groupTourDetails.module.css";
 
@@ -32,6 +33,11 @@ interface GroupTourDetailsPageProps {
 export default function GroupTourDetailsPage({ data }: GroupTourDetailsPageProps) {
   const pkg = data?.package;
   const [openModal, setOpenModal] = useState(false);
+  const [openBookingModal, setOpenBookingModal] = useState(false);
+  const [selectedDate, setSelectedDate] = useState<any>(null);
+  
+  // Log the dynamic data to see the exact keys coming from the backend
+  console.log("Dynamic Backend Package Data:", pkg);
 
   const nights = pkg?.details?.duration_nights ?? 0;
   const days = pkg?.details?.duration_days ?? 0;
@@ -48,11 +54,13 @@ export default function GroupTourDetailsPage({ data }: GroupTourDetailsPageProps
     return departures.map((d: any) => {
       const dateObj = new Date(d.departure_date);
       return {
+        id: d.id || d.journey_date_id || d.departure_id || 0,
         month: dateObj.toLocaleString("en", { month: "short" }),
         year: dateObj.getFullYear().toString(),
         date: String(dateObj.getDate()).padStart(2, "0"),
         day: dateObj.toLocaleString("en", { weekday: "short" }),
         price: Math.round(Number(d.price)).toLocaleString("en-IN"),
+        seats: d.seats_available !== undefined ? d.seats_available : (d.available_seats || d.seats || 0),
       };
     });
   };
@@ -176,7 +184,10 @@ export default function GroupTourDetailsPage({ data }: GroupTourDetailsPageProps
                 <button
                   type="button"
                   className="btn orange-btn d-flex align-items-center gap-2"
-                  onClick={() => setOpenModal(true)}
+                  onClick={() => {
+                    setSelectedDate(null);
+                    setOpenBookingModal(true);
+                  }}
                 >
                   Book Now
                   <span><img src="/images/button-arrow.png" alt="" width={16} height={16} /></span>
@@ -190,7 +201,17 @@ export default function GroupTourDetailsPage({ data }: GroupTourDetailsPageProps
                 <h2 className={detailStyles.sectionHeading}>Group Tour Packages</h2>
                 <div className={detailStyles.datesGrid}>
                   {availableDates.map((d: any, i: number) => (
-                    <div key={i} className={detailStyles.dateTile}>
+                    <div 
+                      key={i} 
+                      className={detailStyles.dateTile}
+                      onClick={() => {
+                        setSelectedDate(d);
+                        setOpenBookingModal(true);
+                      }}
+                      style={{ cursor: "pointer", transition: "transform 0.2s" }}
+                      onMouseEnter={(e) => e.currentTarget.style.transform = "translateY(-3px)"}
+                      onMouseLeave={(e) => e.currentTarget.style.transform = "translateY(0)"}
+                    >
                       {/* Left — colored month + year */}
                       <div
                         className={detailStyles.dateTileLeft}
@@ -203,6 +224,9 @@ export default function GroupTourDetailsPage({ data }: GroupTourDetailsPageProps
                       <div className={detailStyles.dateTileRight}>
                         <span className={detailStyles.dateDayRow}>{d.date} | {d.day}</span>
                         <span className={detailStyles.dateTilePrice}>₹{d.price}</span>
+                        {d.seats > 0 && (
+                          <span style={{ fontSize: "11px", color: "#d85711", fontWeight: 700, marginTop: "2px" }}>{d.seats} Seats Left</span>
+                        )}
                       </div>
                     </div>
                   ))}
@@ -250,6 +274,15 @@ export default function GroupTourDetailsPage({ data }: GroupTourDetailsPageProps
         title={pkg?.title}
         duration={durationLabel}
         slug={pkg?.slug}
+      />
+      <GroupTourBookingModal
+        openModal={openBookingModal}
+        setOpenModal={setOpenBookingModal}
+        packageId={pkg?.id || pkg?.package_id || 0}
+        title={pkg?.title || "Group Tour Package"}
+        selectedDate={selectedDate}
+        availableDates={availableDates}
+        basePrice={Number(price.replace(/,/g, "")) || 0}
       />
     </div>
   );

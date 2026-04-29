@@ -1,0 +1,69 @@
+.modalContent {
+  border: none;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.header {
+  background: linear-gradient(135deg, #ef6d27 0%, #d85711 100%);
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.body {
+  padding: 2rem;
+  background-color: #fff;
+}
+
+.summaryCard {
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid #eaeaea;
+  height: 100%;
+}
+
+.primaryBtn {
+  background-color: #ef6d27;
+  color: white;
+  font-weight: 600;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.primaryBtn:hover {
+  background-color: #d85711;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(239, 109, 39, 0.3);
+}
+
+.paymentContainer {
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+
+.successIcon {
+  width: 80px;
+  height: 80px;
+  background-color: #e8f5e9;
+  color: #4caf50;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.successIcon svg {
+  width: 40px;
+  height: 40px;
+}
