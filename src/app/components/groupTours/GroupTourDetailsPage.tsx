@@ -24,7 +24,6 @@ const Icons: Record<string, React.ReactNode> = {
   wifi: <img src="/wifi.svg" alt="Wi-Fi" width="16" height="16" />,
 };
 
-const DATE_COLORS = ["#ef6d27", "#ef6d27", "#cc2c2c", "#cc2c2c", "#1a7a4a", "#1a7a4a", "#ef6d27"];
 
 interface GroupTourDetailsPageProps {
   data: any;
@@ -36,37 +35,77 @@ export default function GroupTourDetailsPage({ data }: GroupTourDetailsPageProps
   const [openBookingModal, setOpenBookingModal] = useState(false);
   const [selectedDate, setSelectedDate] = useState<any>(null);
   
-  // Log the dynamic data to see the exact keys coming from the backend
-  console.log("Dynamic Backend Package Data:", pkg);
-
-  const nights = pkg?.details?.duration_nights ?? 0;
-  const days = pkg?.details?.duration_days ?? 0;
+  const nights = pkg?.duration_nights ?? 0;
+  const days = pkg?.duration_days ?? 0;
   const durationLabel = `${nights > 0 ? `${nights} ${nights === 1 ? "Night" : "Nights"} / ` : ""}${days} ${days === 1 ? "Day" : "Days"}`;
 
-  const badges: string[] = pkg?.badges || ["GROUP TOUR", "Short Trips"];
-  const facilities: string[] = pkg?.details?.facilities || [];
-  const cities: number = pkg?.cities ?? 0;
-  const price: string = pkg?.price || "0";
+  const badges: string[] = pkg?.badges || ["GROUP TOUR"];
+  const facilities: string[] = pkg?.facilities || [];
+  const cities: number = pkg?.cities_count ?? 0;
 
-  // Map groupDepartures from API → date tiles format
+  // Map ALL departures from API → date tiles (including cancelled/soldout)
   const parseDepartures = (departures: any[]) => {
-    if (!departures?.length) return pkg?.available_dates || [];
-    return departures.map((d: any) => {
-      const dateObj = new Date(d.departure_date);
-      return {
-        id: d.id || d.journey_date_id || d.departure_id || 0,
-        month: dateObj.toLocaleString("en", { month: "short" }),
-        year: dateObj.getFullYear().toString(),
-        date: String(dateObj.getDate()).padStart(2, "0"),
-        day: dateObj.toLocaleString("en", { weekday: "short" }),
-        price: Math.round(Number(d.price)).toLocaleString("en-IN"),
-        seats: d.seats_available !== undefined ? d.seats_available : (d.available_seats || d.seats || 0),
-      };
-    });
+    if (!departures?.length) return [];
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    return departures
+      .filter((d: any) => {
+        // Only hide past dates that are not cancelled/soldout
+        const depDate = new Date(d.departure_date);
+        // Show future dates always; also show past cancelled/soldout for reference? No — hide past.
+        return depDate >= today;
+      })
+      .map((d: any) => {
+        const dateObj = new Date(d.departure_date);
+        const tomorrow = new Date(today);
+        tomorrow.setDate(today.getDate() + 1);
+        const isLastDay = dateObj <= tomorrow; // departure is today or tomorrow
+
+        const availableSeats = d.available_seats ?? 0;
+        // computed_status comes from GroupTourPackageResource (departures array)
+        // status comes from PackageResource (groupDepartures array)
+        const computedStatus: string = d.status ?? "available";
+
+        // Determine tile variant
+        let variant: "green" | "yellow" | "red";
+        if (computedStatus === "cancelled" || computedStatus === "soldout" || availableSeats === 0) {
+          variant = "red";
+        } else if (availableSeats <= 5 || isLastDay) {
+          variant = "yellow";
+        } else {
+          variant = "green";
+        }
+
+        const isBookable = variant !== "red";
+
+        return {
+          id: d.id,
+          departure_date: d.departure_date,
+          month: dateObj.toLocaleString("en", { month: "short" }).toUpperCase(),
+          year: dateObj.getFullYear().toString(),
+          date: String(dateObj.getDate()).padStart(2, "0"),
+          day: dateObj.toLocaleString("en", { weekday: "short" }),
+          price: Math.round(Number(d.price)).toLocaleString("en-IN"),
+          seats: availableSeats,
+          status: computedStatus,
+          variant,
+          isBookable,
+        };
+      });
   };
 
-  const availableDates: any[] = parseDepartures(pkg?.groupDepartures);
-  const datesCount: number = pkg?.dates ?? availableDates.length;
+  const allDates: any[] = parseDepartures(pkg?.departures || pkg?.groupDepartures || []);
+  // For the booking modal, only pass bookable dates
+  const availableDates: any[] = allDates.filter((d) => d.isBookable);
+  const datesCount: number = pkg?.dates_count ?? availableDates.length;
+
+  // Starting price — from API or lowest available date
+  const startingPrice = pkg?.starting_price
+    ? Math.round(Number(pkg.starting_price)).toLocaleString("en-IN")
+    : availableDates.length > 0
+      ? availableDates[0].price
+      : "0";
 
   const breadcrumbItems = [
     { label: "Home", href: "/" },
@@ -149,7 +188,7 @@ export default function GroupTourDetailsPage({ data }: GroupTourDetailsPageProps
                 <div className={styles.priceBox}>
                     <div className={styles.priceCurrency}>INR</div>
                     <div className={styles.priceLabel}>Starting from</div>
-                    <div className={styles.priceValue}>{price}</div>
+                    <div className={styles.priceValue}>{startingPrice}</div>
                     <div className={styles.priceNote}>Per person on twin sharing</div>
                   </div>
               </div>
@@ -196,40 +235,62 @@ export default function GroupTourDetailsPage({ data }: GroupTourDetailsPageProps
             </div>
 
             {/* 2. Available Dates Grid */}
-            {availableDates.length > 0 && (
+            {allDates.length > 0 && (
               <div className={detailStyles.section}>
-                <h2 className={detailStyles.sectionHeading}>Group Tour Packages</h2>
+                <h2 className={detailStyles.sectionHeading}>Available Departure Dates</h2>
                 <div className={detailStyles.datesGrid}>
-                  {availableDates.map((d: any, i: number) => (
-                    <div 
-                      key={i} 
-                      className={detailStyles.dateTile}
-                      onClick={() => {
-                        setSelectedDate(d);
-                        setOpenBookingModal(true);
-                      }}
-                      style={{ cursor: "pointer", transition: "transform 0.2s" }}
-                      onMouseEnter={(e) => e.currentTarget.style.transform = "translateY(-3px)"}
-                      onMouseLeave={(e) => e.currentTarget.style.transform = "translateY(0)"}
-                    >
-                      {/* Left — colored month + year */}
+                  {allDates.map((d: any) => {
+                    const isRed    = d.variant === "red";
+                    const isYellow = d.variant === "yellow";
+                    const isGreen  = d.variant === "green";
+
+                    // Status label text
+                    const statusLabel =
+                      d.status === "cancelled"
+                        ? "Cancelled"
+                        : d.status === "soldout" || d.seats === 0
+                        ? "Sold Out"
+                        : `${d.seats} Seats`;
+
+                    return (
                       <div
-                        className={detailStyles.dateTileLeft}
-                        style={{ background: DATE_COLORS[i % DATE_COLORS.length] }}
+                        key={d.id}
+                        className={[
+                          detailStyles.dateTile,
+                          isRed    ? detailStyles.dateTileRed    : "",
+                          isYellow ? detailStyles.dateTileYellow : "",
+                          isGreen  ? detailStyles.dateTileGreen  : "",
+                          !d.isBookable ? detailStyles.dateTileDisabled : "",
+                        ].join(" ")}
+                        onClick={() => {
+                          if (!d.isBookable) return;
+                          setSelectedDate(d);
+                          setOpenBookingModal(true);
+                        }}
+                        title={
+                          !d.isBookable
+                            ? d.status === "cancelled"
+                              ? "This departure has been cancelled"
+                              : "This departure is sold out"
+                            : `Book for ${d.date} ${d.month} ${d.year}`
+                        }
                       >
-                        <span className={detailStyles.dateMon}>{d.month}</span>
-                        <span className={detailStyles.dateYear}>{d.year || "2026"}</span>
+                        {/* Day row */}
+                        <div className={detailStyles.dateTileDay}>{d.day}</div>
+
+                        {/* Date string */}
+                        <div className={detailStyles.dateTileDateStr}>
+                          {d.date}-{d.month}-{d.year.slice(2)}
+                        </div>
+
+                        {/* Status badge */}
+                        <div className={detailStyles.dateTileStatus}>{statusLabel}</div>
+
+                        {/* Price */}
+                        <div className={detailStyles.dateTilePriceNew}>₹ {d.price}</div>
                       </div>
-                      {/* Right — date | day + price */}
-                      <div className={detailStyles.dateTileRight}>
-                        <span className={detailStyles.dateDayRow}>{d.date} | {d.day}</span>
-                        <span className={detailStyles.dateTilePrice}>₹{d.price}</span>
-                        {d.seats > 0 && (
-                          <span style={{ fontSize: "11px", color: "#d85711", fontWeight: 700, marginTop: "2px" }}>{d.seats} Seats Left</span>
-                        )}
-                      </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             )}
@@ -237,7 +298,7 @@ export default function GroupTourDetailsPage({ data }: GroupTourDetailsPageProps
             {/* 3. Overview / Long Description */}
             {pkg?.long_description && (
               <div className={detailStyles.section}>
-                <h2 className={detailStyles.sectionHeading}>Group Tour Packages</h2>
+                <h2 className={detailStyles.sectionHeading}>Tour Overview</h2>
                 <div
                   className={detailStyles.overviewText}
                   dangerouslySetInnerHTML={{ __html: pkg.long_description }}
@@ -282,7 +343,7 @@ export default function GroupTourDetailsPage({ data }: GroupTourDetailsPageProps
         title={pkg?.title || "Group Tour Package"}
         selectedDate={selectedDate}
         availableDates={availableDates}
-        basePrice={Number(price.replace(/,/g, "")) || 0}
+        basePrice={pkg?.starting_price ? Number(pkg.starting_price) : 0}
       />
     </div>
   );

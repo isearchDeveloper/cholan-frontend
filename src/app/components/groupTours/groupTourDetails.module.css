@@ -43,29 +43,151 @@
   margin-bottom: 12px;
 }
 
-/* ── DATES GRID ── */
+/* ─────────────────────────────────────────────
+   DATE TILES — new vertical card design
+───────────────────────────────────────────── */
+
 .datesGrid {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
 }
 
+/* Base tile */
 .dateTile {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 120px;
+  min-height: 110px;
   border-radius: 10px;
-  overflow: hidden;
-  border: 1px solid #e0e0e0;
+  padding: 10px 10px 12px;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  border: 2px solid transparent;
+  text-align: center;
+  gap: 4px;
+  user-select: none;
 }
 
-.dateTile:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+.dateTile:hover:not(.dateTileDisabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
-/* LEFT — colored month+year box */
+/* ── GREEN — available, >5 seats ── */
+.dateTileGreen {
+  background: #e8f5e9;
+  border-color: #2e7d32;
+}
+
+.dateTileGreen .dateTileDay,
+.dateTileGreen .dateTileDateStr {
+  color: #1b5e20;
+}
+
+.dateTileGreen .dateTileStatus {
+  color: #2e7d32;
+  background: rgba(46, 125, 50, 0.12);
+}
+
+.dateTileGreen .dateTilePriceNew {
+  background: #2e7d32;
+  color: #ffffff;
+}
+
+/* ── YELLOW — few seats (≤5) or last day ── */
+.dateTileYellow {
+  background: #fffde7;
+  border-color: #f9a825;
+}
+
+.dateTileYellow .dateTileDay,
+.dateTileYellow .dateTileDateStr {
+  color: #5d4037;
+}
+
+.dateTileYellow .dateTileStatus {
+  color: #e65100;
+  background: rgba(249, 168, 37, 0.18);
+}
+
+.dateTileYellow .dateTilePriceNew {
+  background: #f9a825;
+  color: #ffffff;
+}
+
+/* ── RED — sold out or cancelled ── */
+.dateTileRed {
+  background: #fce4ec;
+  border-color: #c62828;
+}
+
+.dateTileRed .dateTileDay,
+.dateTileRed .dateTileDateStr {
+  color: #7f0000;
+}
+
+.dateTileRed .dateTileStatus {
+  color: #c62828;
+  background: rgba(198, 40, 40, 0.12);
+}
+
+.dateTileRed .dateTilePriceNew {
+  background: #c62828;
+  color: #ffffff;
+}
+
+/* ── DISABLED (sold out / cancelled) — no pointer ── */
+.dateTileDisabled {
+  cursor: not-allowed;
+  opacity: 0.82;
+}
+
+.dateTileDisabled:hover {
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* ── Inner elements ── */
+
+.dateTileDay {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  line-height: 1;
+}
+
+.dateTileDateStr {
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.dateTileStatus {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 20px;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.dateTilePriceNew {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 6px;
+  width: 100%;
+  text-align: center;
+  margin-top: 2px;
+  white-space: nowrap;
+}
+
+/* ── Legacy horizontal tile styles (kept for backward compat) ── */
 .dateTileLeft {
   display: flex;
   flex-direction: column;
@@ -91,7 +213,6 @@
   line-height: 1;
 }
 
-/* RIGHT — white date+price info */
 .dateTileRight {
   display: flex;
   flex-direction: column;
