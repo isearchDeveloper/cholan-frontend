@@ -1,11 +1,12 @@
 "use client";
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import styles from './eventsSection.module.css';
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import type { Swiper as SwiperType } from 'swiper';
+import type { EventItem } from '@/app/services/eventsService';
 
 // @ts-ignore
 import 'swiper/css';
@@ -14,35 +15,54 @@ import 'swiper/css/navigation';
 // @ts-ignore
 import 'swiper/css/pagination';
 
-const events = [
-  {
-    id: 1,
-    title: "Great India Travel Bazaar (GITB) 2026",
-    imageText: "GITB 2026",
-    date: "April 2026",
-    location: "Jaipur, Rajasthan, India",
-    stallNo: "65 & 66",
-    image: "/images/jaipurgibt.webp",
-    description: "Cholan Tours is participating in the upcoming GITB 2026 (Great India Travel Bazaar) in Jaipur."
-  },
-  //  {
-  //   id: 2,
-  //   title: "Great India Travel Bazaar (GITB) 2026",
-  //   imageText: "GITB 2026",
-  //   date: "April 2026",
-  //   location: "Jaipur, Rajasthan, India",
-  //   stallNo: "65 & 66",
-  //   image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?q=80&w=2071&auto=format&fit=crop",
-  //   description: "Cholan Tours is participating in the upcoming GITB 2026 (Great India Travel Bazaar) in Jaipur. Our stall numbers are 65 & 66."
-  // }
-];
+function formatDateRange(from: string | null, to: string | null): string {
+  if (!from && !to) return '';
+  
+  const formatDate = (dateStr: string) => {
+    const date = new Date(dateStr);
+    const day = date.getDate();
+    const month = date.toLocaleString('en-US', { month: 'long' });
+    const year = date.getFullYear();
+    return { day, month, year };
+  };
 
-const EventsSection = () => {
+  if (from && to) {
+    const fromDate = formatDate(from);
+    const toDate = formatDate(to);
+    
+    // Same month and year
+    if (fromDate.month === toDate.month && fromDate.year === toDate.year) {
+      return `${fromDate.day}-${toDate.day} ${fromDate.month} ${fromDate.year}`;
+    }
+    // Same year, different month
+    if (fromDate.year === toDate.year) {
+      return `${fromDate.day} ${fromDate.month} - ${toDate.day} ${toDate.month} ${fromDate.year}`;
+    }
+    // Different year
+    return `${fromDate.day} ${fromDate.month} ${fromDate.year} - ${toDate.day} ${toDate.month} ${toDate.year}`;
+  }
+  
+  if (from) {
+    const d = formatDate(from);
+    return `${d.day} ${d.month} ${d.year}`;
+  }
+  
+  if (to) {
+    const d = formatDate(to);
+    return `${d.day} ${d.month} ${d.year}`;
+  }
+  
+  return '';
+}
+
+const EventsSection = ({ events }: { events: EventItem[] }) => {
   const swiperRef = useRef<SwiperType | null>(null);
 
   useEffect(() => {
     AOS.init({ duration: 800, once: true });
   }, []);
+
+  if (!events || events.length === 0) return null;
 
   const hasMultipleEvents = events.length > 1;
 
@@ -63,7 +83,7 @@ const EventsSection = () => {
               slidesPerView={1}
               loop={true}
               autoplay={{ delay: 5000, disableOnInteraction: false }}
-              pagination={{ 
+              pagination={{
                 clickable: true,
                 el: `.${styles.customPagination}`,
                 bulletClass: styles.paginationBullet,
@@ -75,8 +95,8 @@ const EventsSection = () => {
               }}
               className={styles.swiper}
             >
-              {events.map((event) => (
-                <SwiperSlide key={event.id}>
+              {events.map((event, index) => (
+                <SwiperSlide key={index}>
                   <EventCard event={event} />
                 </SwiperSlide>
               ))}
@@ -85,7 +105,6 @@ const EventsSection = () => {
             <EventCard event={events[0]} />
           )}
 
-          {/* Custom Navigation & Pagination - Only shown if multiple events */}
           {hasMultipleEvents && (
             <div className={styles.navigationWrapper}>
               <button className={`${styles.navBtn} ${styles.navPrev}`}>
@@ -109,49 +128,59 @@ const EventsSection = () => {
   );
 };
 
-const EventCard = ({ event }: { event: any }) => (
+const EventCard = ({ event }: { event: EventItem }) => (
   <div className={styles.horizontalCard}>
-    {/* Left Section: Image with Overlay */}
     <div className={styles.cardLeft}>
-      <img src={event.image} alt={event.title} className={styles.cardImage} />
-      <div className={styles.imageOverlay}>
-        {/* <h3 className={styles.overlayText}>{event.imageText}</h3> */}
-      </div>
+      <img
+        src={event.banner_image ?? '/images/jaipurgibt.webp'}
+        alt={event.banner_image_alt ?? event.title}
+        className={styles.cardImage}
+      />
+      <div className={styles.imageOverlay} />
     </div>
 
-    {/* Right Section: Content */}
     <div className={styles.cardRight}>
       <div className={styles.cardHeader}>
         <h3 className={styles.eventTitle}>{event.title}</h3>
-        {event.description && <p className={styles.eventInfoText}>{event.description}</p>}
+        {event.description && (
+          <p className={styles.eventInfoText}>{event.description}</p>
+        )}
       </div>
 
-      <div className={styles.infoRow}>
-        <div className={styles.iconWrapper}>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.infoIcon}>
-            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-            <line x1="16" y1="2" x2="16" y2="6" />
-            <line x1="8" y1="2" x2="8" y2="6" />
-            <line x1="3" y1="10" x2="21" y2="10" />
-          </svg>
+      {(event.from_date || event.to_date) && (
+        <div className={styles.infoRow}>
+          <div className={styles.iconWrapper}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.infoIcon}>
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+              <line x1="16" y1="2" x2="16" y2="6" />
+              <line x1="8" y1="2" x2="8" y2="6" />
+              <line x1="3" y1="10" x2="21" y2="10" />
+            </svg>
+          </div>
+          <span className={styles.infoText}>
+            {formatDateRange(event.from_date, event.to_date)}
+          </span>
         </div>
-        <span className={styles.infoText}>{event.date}</span>
-      </div>
+      )}
 
-      <div className={styles.infoRow}>
-        <div className={styles.iconWrapper}>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.infoIcon}>
-            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-            <circle cx="12" cy="10" r="3" />
-          </svg>
+      {event.location && (
+        <div className={styles.infoRow}>
+          <div className={styles.iconWrapper}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.infoIcon}>
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+          </div>
+          <span className={styles.infoText}>{event.location}</span>
         </div>
-        <span className={styles.infoText}>{event.location}</span>
-      </div>
+      )}
 
-      <div className={styles.stallBox}>
-        <span className={styles.stallLabel}>Cholan Tours - Stall No. </span>
-        <span className={styles.stallValue}>{event.stallNo}</span>
-      </div>
+      {event.stall_no && (
+        <div className={styles.stallBox}>
+          <span className={styles.stallLabel}>Cholan Tours - Stall No. </span>
+          <span className={styles.stallValue}>{event.stall_no}</span>
+        </div>
+      )}
 
       <div className={styles.cardFooter}>
         <div className={styles.meetBtnAppearance}>

@@ -24,6 +24,7 @@ import {
   fetchHomeTabsData,
   trendingInternationalHomePackageData,
 } from "./services/homeService";
+import { fetchEventsData } from "./services/eventsService";
 import CountryTourPackage from "./components/home/CountryTourPackage";
 import { fetchPackageReviewData } from "./services/reveiwService";
 import { getCanonical } from "./lib/getCanonical";
@@ -86,6 +87,7 @@ export default async function Home() {
     discoverIndiaPackageData,
     packageReviewData,
     homeTabsData,
+    eventsData,
   ] = await Promise.all([
     fetchHomeData(),
     fetchHomeExclusiveData(),
@@ -94,6 +96,7 @@ export default async function Home() {
     discoverIndiaPackageHomeData(),
     fetchPackageReviewData(),
     fetchHomeTabsData(),
+    fetchEventsData(),
   ]);
 
 
@@ -103,7 +106,7 @@ export default async function Home() {
         {bannerData?.data?.single_banner == null &&
           bannerData?.data?.slider_banners?.length < 1 ? null : (
           <div style={{ position: 'relative' }} data-aos="fade-up" data-aos-delay="100">
-            <FloatingEvent />
+            <FloatingEvent event={eventsData[0] ?? null} />
             <HomeBanner bannerData={bannerData?.data} />
           </div>
         )}
@@ -172,9 +175,9 @@ export default async function Home() {
           </div>
         )}
 
-        {/* <div data-aos="fade-up" data-aos-delay="900">
-          <EventsSection />
-        </div> */}
+        <div data-aos="fade-up" data-aos-delay="900">
+          <EventsSection events={eventsData} />
+        </div>
 
         
 
