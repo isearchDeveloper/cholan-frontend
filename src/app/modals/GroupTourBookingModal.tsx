@@ -79,8 +79,8 @@ const GroupTourBookingModal: React.FC<GroupTourBookingModalProps> = ({
     setIsProcessing(true);
     try {
       const payload = {
-        package_id: packageId,
-        journey_date_id: date.id,
+        package_id: packageId || 839, // HARDCODED FOR TESTING: Remove '|| 839' later
+        journey_date_id: date?.id || 25, // HARDCODED FOR TESTING: Remove '|| 25' later
         adults: adults,
         child: children,
         infant: infant,
@@ -108,7 +108,7 @@ const GroupTourBookingModal: React.FC<GroupTourBookingModalProps> = ({
           }
 
           const options = {
-            key: res.data.key || "rzp_test_YOUR_KEY", // Will use backend key if provided
+            key: res.data.key || "rzp_test_SjCBbICvb6KoBJ", // Will use backend key if provided
             amount: res.data.amount,
             currency: "INR",
             name: "Cholan Tours",
