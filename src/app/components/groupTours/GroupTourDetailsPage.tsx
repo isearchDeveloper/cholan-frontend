@@ -4,8 +4,8 @@ import React, { useState } from "react";
 import TourDetailsBanner from "@/app/components/common/TourDetailsBanner";
 import Breadcrumb from "@/app/components/common/Breadcrumb";
 import TourPlanFAQ from "@/app/components/common/TourPlanFAQ";
-import EnquiryForm from "@/app/components/common/EnquiryForm";
 import EnquiryModal from "@/app/modals/enquiryModal";
+import GroupTourSummaryCard from "./GroupTourSummaryCard";
 import GroupTourBookingModal from "@/app/modals/GroupTourBookingModal";
 import styles from "./grouptour.module.css";
 import detailStyles from "./groupTourDetails.module.css";
@@ -62,7 +62,8 @@ export default function GroupTourDetailsPage({ data }: GroupTourDetailsPageProps
         tomorrow.setDate(today.getDate() + 1);
         const isLastDay = dateObj <= tomorrow; // departure is today or tomorrow
 
-        const availableSeats = d.available_seats ?? 0;
+        const availableSeats = d.available_seats ?? d.seats ?? 0;
+        
         // computed_status comes from GroupTourPackageResource (departures array)
         // status comes from PackageResource (groupDepartures array)
         const computedStatus: string = d.status ?? "available";
@@ -316,14 +317,21 @@ export default function GroupTourDetailsPage({ data }: GroupTourDetailsPageProps
 
           </div>
 
-          {/* ── RIGHT COLUMN — Sticky Form ── */}
+          {/* ── RIGHT COLUMN — Summary Card ── */}
           <div className="col-12 col-lg-4">
-            <div className="side-sticky-form">
-              <EnquiryForm
-                title={pkg?.title}
-                package_slug={pkg?.slug}
-              />
-            </div>
+            <GroupTourSummaryCard
+              title={pkg?.title ?? "Group Tour Package"}
+              badges={badges}
+              rating={pkg?.rating ?? 0}
+              startingPrice={startingPrice}
+              durationLabel={durationLabel}
+              cities={cities}
+              datesCount={datesCount}
+              facilities={facilities}
+              nextDate={availableDates[0] ?? null}
+              onBook={() => { setSelectedDate(null); setOpenBookingModal(true); }}
+              onEnquire={() => setOpenModal(true)}
+            />
           </div>
         </div>
       </div>

@@ -1,0 +1,305 @@
+/* ========================= */
+/* WRAPPER                   */
+/* ========================= */
+.card {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #eeeeee;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
+  overflow: hidden;
+  position: sticky;
+  top: 100px;
+}
+
+/* ========================= */
+/* HEADER BAND               */
+/* ========================= */
+.header {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  padding: 20px 20px 16px;
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.badge {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.title {
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  color: #ffffff !important;
+  line-height: 1.4;
+  margin: 0 0 8px !important;
+}
+
+.stars {
+  color: #f59e0b;
+  font-size: 13px;
+  letter-spacing: 1px;
+}
+
+/* ========================= */
+/* PRICE BLOCK               */
+/* ========================= */
+.priceBlock {
+  padding: 18px 20px;
+  background: #fff8f4;
+  border-bottom: 1px solid #f0e8e0;
+}
+
+.priceLabel {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #888;
+  margin-bottom: 4px;
+}
+
+.priceRow {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.priceCurrency {
+  font-size: 13px;
+  font-weight: 600;
+  color: #e07b39;
+}
+
+.priceValue {
+  font-size: 28px;
+  font-weight: 800;
+  color: #e07b39;
+  line-height: 1;
+}
+
+.priceNote {
+  font-size: 11px;
+  color: #888;
+  margin-top: 4px;
+}
+
+/* ========================= */
+/* BODY                      */
+/* ========================= */
+.body {
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ── Stats row ── */
+.statsRow {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: #f7f7f7;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.stat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 8px;
+  gap: 2px;
+}
+
+.stat + .stat {
+  border-left: 1px solid #ececec;
+}
+
+.statValue {
+  font-size: 15px;
+  font-weight: 800;
+  color: #1a1a1a;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+.statLabel {
+  font-size: 10px;
+  font-weight: 600;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+/* ── Section label ── */
+.sectionLabel {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #999;
+  margin-bottom: 8px;
+}
+
+/* ── Facilities ── */
+.facilities {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.facilityItem {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #444;
+  background: #f4f4f4;
+  padding: 4px 10px;
+  border-radius: 20px;
+  text-transform: capitalize;
+}
+
+/* ── Next departure ── */
+.nextDep {
+  background: #e8f5e9;
+  border: 1px solid #a5d6a7;
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.nextDepLabel {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #2e7d32;
+  margin-bottom: 3px;
+}
+
+.nextDepDate {
+  font-size: 15px;
+  font-weight: 800;
+  color: #1b5e20;
+}
+
+.nextDepSeats {
+  font-size: 11px;
+  color: #388e3c;
+  margin-top: 2px;
+}
+
+.nextDepPrice {
+  font-size: 14px;
+  font-weight: 800;
+  color: #ffffff;
+  background: #2e7d32;
+  padding: 6px 12px;
+  border-radius: 8px;
+  white-space: nowrap;
+}
+
+/* No dates state */
+.noDates {
+  text-align: center;
+  padding: 10px;
+  font-size: 12px;
+  color: #aaa;
+  background: #fafafa;
+  border-radius: 8px;
+  border: 1px dashed #ddd;
+}
+
+/* ========================= */
+/* ACTIONS                   */
+/* ========================= */
+.actions {
+  padding: 0 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btnBook {
+  width: 100%;
+  padding: 13px 20px;
+  background: #e07b39;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.btnBook:hover {
+  background: #c96a2a;
+  transform: translateY(-1px);
+}
+
+.btnEnquire {
+  width: 100%;
+  padding: 11px 20px;
+  background: transparent;
+  color: #1a1a1a;
+  border: 1.5px solid #ddd;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.btnEnquire:hover {
+  border-color: #e07b39;
+  background: #fff8f4;
+  color: #e07b39;
+}
+
+/* ========================= */
+/* TRUST ROW                 */
+/* ========================= */
+.trustRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 0 20px 16px;
+  font-size: 11px;
+  color: #aaa;
+}
+
+.trustDot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #ccc;
+  flex-shrink: 0;
+}

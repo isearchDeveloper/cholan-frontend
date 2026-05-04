@@ -44,7 +44,7 @@ export async function fetchGroupTourDetails(slug: string) {
       headers: {
         "X-Public-Token": XPublicToken,
       },
-      next: { revalidate: 60 },
+      cache: "no-store",
     });
 
     if (!res.ok) return null;

@@ -3,6 +3,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from "next/navigation";
 import styles from "./bookingModal.module.css";
 
 const API_BASE = process.env.NEXT_PUBLIC_UAT_URL || "";
@@ -48,6 +49,7 @@ const GroupTourBookingModal: React.FC<GroupTourBookingModalProps> = ({
   basePrice,
 }) => {
   const [step, setStep] = useState<"details" | "success">("details");
+  const router = useRouter();
 
   // Form state
   const [date, setDate] = useState<DepartureDate | null>(null);
@@ -105,13 +107,12 @@ const GroupTourBookingModal: React.FC<GroupTourBookingModalProps> = ({
   }, []);
 
   // ── Verify payment with backend after Razorpay success ──
-  const verifyPayment = useCallback(
-    async (
-      razorpay_order_id: string,
-      razorpay_payment_id: string,
-      razorpay_signature: string,
-      booking_id: number
-    ) => {
+  const verifyPayment = async (
+    razorpay_order_id: string,
+    razorpay_payment_id: string,
+    razorpay_signature: string,
+    booking_id: number
+  ) => {
       try {
         const res = await axios.post(
           `${API_BASE}/api/v1/booking/verify-payment`,
@@ -122,6 +123,9 @@ const GroupTourBookingModal: React.FC<GroupTourBookingModalProps> = ({
         if (res.data?.success) {
           setConfirmedBookingId(booking_id);
           setStep("success");
+          
+          // Instantly fetch the latest seat count in the background without a hard refresh
+          router.refresh();
         } else {
           toast.error(
             res.data?.message ||
@@ -136,16 +140,21 @@ const GroupTourBookingModal: React.FC<GroupTourBookingModalProps> = ({
             booking_id;
         toast.error(msg);
       }
-    },
-    []
-  );
+    };
 
   // ── Main submit handler ──
   const handleProceedToPayment = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!date || !date.id) {
+    // Guard: must have a date selected
+    if (!date) {
       toast.error("Please select a departure date.");
+      return;
+    }
+
+    // Guard: must have a valid journey_date_id from backend
+    if (!date.id) {
+      toast.error("This date is not yet bookable. The backend has not returned a valid Date ID. Please contact the administrator.");
       return;
     }
 
@@ -317,10 +326,10 @@ const GroupTourBookingModal: React.FC<GroupTourBookingModalProps> = ({
                         {availableDates.length > 0 ? (
                           <select
                             className="form-select shadow-none"
-                            value={date?.id ?? ""}
+                            value={date?.departure_date ?? ""}
                             onChange={(e) => {
                               const found = availableDates.find(
-                                (d) => String(d.id) === e.target.value
+                                (d) => d.departure_date === e.target.value
                               );
                               if (found) setDate(found);
                             }}
@@ -330,7 +339,7 @@ const GroupTourBookingModal: React.FC<GroupTourBookingModalProps> = ({
                               -- Select a date --
                             </option>
                             {availableDates.map((d) => (
-                              <option key={d.id} value={d.id}>
+                              <option key={d.departure_date} value={d.departure_date}>
                                 {d.date} {d.month} {d.year} — ₹{d.price}
                                 {d.seats > 0 ? ` (${d.seats} seats left)` : " (Sold Out)"}
                               </option>
