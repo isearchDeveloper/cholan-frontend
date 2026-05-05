@@ -7,8 +7,10 @@ import {
   fetchCountryPageData,
   fetchSpecialData,
 } from "@/app/services/countryService";
+import { fetchHomeTabsData } from "@/app/services/homeService";
 import CountryExpandableText from "../country/countryExpandableText";
-import ImageComponentCountry from "../country/tabWithImagesForCountry";
+// import ImageComponentCountry from "../country/tabWithImagesForCountry";
+import HomeTourPackage from "../home/IndiaTourPackage";
 import ExploreStatesAndCities from "../country/ExploreStatesAndCities";
 import { fetchCityList } from "@/app/services/cityService";
 import ThemedHolidayPackages from "../country/ThemedHolidayPackages";
@@ -48,13 +50,16 @@ export default async function PackagelistByCountry({
   country: string;
 }) {
   //  SAFE parallel fetching (very important on AWS)
-  const [countryData, exclusiveIndiaPackage, res, result] =
+  const [countryData, exclusiveIndiaPackage, res, result, homeTabsDataRaw] =
     await Promise.all([
       fetchCountryPageData(slug).catch(() => null),
       fetchSpecialData().catch(() => ({ data: [] })),
       fetchCityList(1, 1, 40).catch(() => null),
       fetchThemeList().catch(() => []),
+      fetchHomeTabsData().catch(() => null),
     ]);
+
+  const homeTabsData = homeTabsDataRaw?.homepage_tabs || [];
 
   //  STRONG guard (fixes ISR window crashes)
   if (!countryData?.data?.details || slug === "srilanka") {
@@ -133,11 +138,14 @@ export default async function PackagelistByCountry({
             />
           )}
 
-          {/*  safe image section */}
-          <ImageComponentCountry
+          {/*  safe image section - ImageComponentCountry commented out, replaced with HomeTourPackage */}
+          {/* <ImageComponentCountry
             slug={slug}
             initialData={countryData?.data}
-          />
+          /> */}
+          {homeTabsData.length > 0 && (
+            <HomeTourPackage homeTabsData={homeTabsData} />
+          )}
 
           {/*  safe city list */}
           {slug === "india" && (
@@ -181,4 +189,4 @@ export default async function PackagelistByCountry({
       </div>
     </div>
   );
-}
+}

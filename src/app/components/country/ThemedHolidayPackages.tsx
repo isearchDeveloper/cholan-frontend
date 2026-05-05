@@ -153,17 +153,23 @@ export default function ThemedHolidayPackages({ themeList, initialPackages }: an
                       <div className={styles.content}>
                         <h3>{pkg.title}</h3>
                         <div className={styles.meta}>
-                          <span className={styles.metaItem}>
-                            <MoonIcon />
-                            {pkg.details?.duration_nights ?? 0}{" "}
-                            {pkg.details?.duration_nights === 1 ? "night" : "nights"}
-                          </span>
-                          <span className={styles.sep}>|</span>
-                          <span className={styles.metaItem}>
-                            <SunIcon />
-                            {pkg.details?.duration_days ?? 0}{" "}
-                            {pkg.details?.duration_days === 1 ? "Day" : "Days"}
-                          </span>
+                          {pkg.details?.duration_nights ? (
+                            <span className={styles.metaItem}>
+                              <MoonIcon />
+                              {pkg.details.duration_nights}{" "}
+                              {pkg.details.duration_nights === 1 ? "Night" : "Nights"}
+                            </span>
+                          ) : null}
+                          {pkg.details?.duration_nights && pkg.details?.duration_days ? (
+                            <span className={styles.sep}>|</span>
+                          ) : null}
+                          {pkg.details?.duration_days ? (
+                            <span className={styles.metaItem}>
+                              <SunIcon />
+                              {pkg.details.duration_days}{" "}
+                              {pkg.details.duration_days === 1 ? "Day" : "Days"}
+                            </span>
+                          ) : null}
                         </div>
                       </div>
                       <div className={styles.icon}>
