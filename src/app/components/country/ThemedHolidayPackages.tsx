@@ -52,7 +52,7 @@ export default function ThemedHolidayPackages({ themeList, initialPackages }: an
 
   // Tabs are pre-filtered on the server to only show themes with packages
   const tabs = useMemo(
-    () => (Array.isArray(themeList) ? themeList : []),
+    () => (Array.isArray(themeList) ? themeList.slice(0, 7) : []),
     [themeList]
   );
 
