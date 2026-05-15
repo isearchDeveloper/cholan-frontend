@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Get-ChildItem -Path \"d:\\\\cholan-deploy-jan-13\\\\src\\\\app\\\\\\(pages\\)\\\\car-rental\\\\\" -Recurse -Force | Select-Object FullName | Sort-Object FullName)",
+      "Bash(npx tsc *)"
+    ]
+  }
+}

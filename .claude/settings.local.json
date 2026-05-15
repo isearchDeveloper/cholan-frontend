@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Get-ChildItem \"d:\\\\cholan-deploy-jan-13\\\\public\\\\images\" | Where-Object { $_.Name -match \"car|women|chauffeur|driver\" } | Select-Object Name)"
+    ]
+  }
+}

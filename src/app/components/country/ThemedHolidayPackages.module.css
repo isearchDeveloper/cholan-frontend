@@ -223,7 +223,7 @@
 }
 
 /* Pagination custom style to match screenshot */
-:global(.swiper-pagination-bullet) {
+.swiperContainer :global(.swiper-pagination-bullet) {
   width: 8px !important;
   height: 8px !important;
   background-color: #444 !important;
@@ -232,7 +232,7 @@
   transition: all 0.3s ease;
 }
 
-:global(.swiper-pagination-bullet-active) {
+.swiperContainer :global(.swiper-pagination-bullet-active) {
   background-color: #111 !important;
   box-shadow: 0 0 0 3px #fff, 0 0 0 4px #111 !important;
   border: none !important;

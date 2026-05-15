@@ -32,10 +32,14 @@ const nextConfig: NextConfig = {
 
   images: {
     domains: ["cdn.cholantours.com"],
-     remotePatterns: [
+    remotePatterns: [
       {
         protocol: "https",
         hostname: "images.unsplash.com",
+      },
+      {
+        protocol: "https",
+        hostname: "cholan-admin.maxbridgesolution.in",
       },
     ],
   },

@@ -7196,6 +7196,103 @@ border border-black group
 
 /* end luxury page city section */
 
+/* Women Chauffeur Section ############################################# */
+.wcs-section {
+  background: #fff;
+}
+
+.wcs-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+  margin-bottom: 2.5rem;
+}
+
+.wcs-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #000;
+  line-height: 1.25;
+  margin: 0;
+}
+
+.wcs-description {
+  font-size: 0.95rem;
+  color: #4f4f5d;
+  line-height: 1.75;
+  margin: 0;
+}
+
+.wcs-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.wcs-card {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  height: 420px;
+  cursor: default;
+}
+
+.wcs-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s ease;
+}
+
+.wcs-card:hover img {
+  transform: scale(1.04);
+}
+
+.wcs-card-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(245, 245, 245, 0.82);
+  padding: 0.75rem 1rem;
+  text-align: center;
+}
+
+.wcs-card-label {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+@media (max-width: 1024px) {
+  .wcs-header {
+    grid-template-columns: 1fr;
+  }
+  .wcs-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .wcs-card {
+    height: 300px;
+  }
+}
+
+@media (max-width: 640px) {
+  .wcs-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+  .wcs-card {
+    height: 220px;
+  }
+  .wcs-title {
+    font-size: 1.5rem;
+  }
+}
+/* Women Chauffeur Section End ########################################## */
+
 /* poloicy p[ages  */
 
 /* ================= ROOT ================= */
@@ -11232,3 +11329,282 @@ body {
   font-weight: 700 !important;
   transition: none !important;
 }
+.women-chauffeur-section .wcs-section{
+      padding-top: 3rem !important;
+    padding-bottom: 3rem !important;
+    background: linear-gradient(rgb(0 139 255 / 5%), rgba(90, 180, 255, .11) 35%, rgba(233, 227, 222, .35) 75%, #fffbf6);
+    width: 100%;
+}
+.group-tour-sidebar #gt-siebar{
+  height: 600px;
+}
+
+/* =============================================
+   Car Advertisement Banner
+   ============================================= */
+.car-ad-banner-section {
+  padding: 2.5rem 0 0;
+}
+
+.car-ad-banner {
+  /* background: linear-gradient(135deg, #0f2557 0%, #1e3a8a 40%, #305cde 80%, #4d76f0 100%); */
+  border-radius: 20px;
+  overflow: hidden;
+  /* box-shadow: 0 12px 45px rgba(48, 92, 222, 0.28); */
+  position: relative;
+      justify-self: center;
+}
+
+/* Decorative circles */
+.car-ad-banner__circle {
+  display: block;
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.car-ad-banner__circle--tl {
+  width: 260px;
+  height: 260px;
+  top: -80px;
+  left: -60px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.car-ad-banner__circle--br {
+  width: 200px;
+  height: 200px;
+  bottom: -70px;
+  right: 50%;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.car-ad-banner__inner {
+  display: grid;
+  grid-template-columns: 55% 45%;
+  min-height: 300px;
+}
+
+/* Left content */
+.car-ad-banner__content {
+  padding: 3rem 2.5rem 3rem 3rem;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.car-ad-banner__subtitle {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 30px;
+  margin-bottom: 1.1rem;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  width: fit-content;
+}
+
+.car-ad-banner__title {
+  color: #ffffff !important;
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.25;
+  margin-bottom: 1rem;
+}
+
+.car-ad-banner__desc {
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.9rem;
+  line-height: 1.65;
+  margin-bottom: 1.75rem;
+}
+
+.car-ad-banner__btns {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.car-ad-banner__btn {
+  display: inline-block;
+  padding: 11px 26px;
+  border-radius: 9px;
+  font-size: 0.87rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease, color 0.22s ease;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.car-ad-banner__btn--primary {
+  background: #ffffff;
+  color: #1e3a8a;
+}
+
+.car-ad-banner__btn--primary:hover {
+  background: #eef2ff;
+  color: #0f2557;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+
+.car-ad-banner__btn--outline {
+  background: transparent;
+  color: #ffffff;
+  border: 2px solid rgba(255, 255, 255, 0.55);
+}
+
+.car-ad-banner__btn--outline:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  border-color: #ffffff;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* Right image column */
+.car-ad-banner__img-col {
+  position: relative;
+}
+
+.car-ad-banner__img-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 300px;
+  overflow: hidden;
+}
+
+.car-ad-banner__img-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(15, 37, 87, 0.45) 0%, rgba(15, 37, 87, 0.08) 50%, transparent 100%);
+  z-index: 1;
+}
+
+.car-ad-banner__img {
+  transition: transform 0.5s ease;
+}
+
+.car-ad-banner:hover .car-ad-banner__img {
+  transform: scale(1.03);
+}
+
+/* Discount badge */
+.car-ad-banner__badge {
+  position: absolute;
+  top: 22px;
+  right: 22px;
+  background: linear-gradient(135deg, #f97316 0%, #ef4444 100%);
+  color: #ffffff;
+  font-size: 0.82rem;
+  font-weight: 800;
+  padding: 9px 18px;
+  border-radius: 30px;
+  z-index: 3;
+  box-shadow: 0 4px 18px rgba(239, 68, 68, 0.45);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  letter-spacing: 0.3px;
+  animation: cab-badge-pulse 2.4s ease-in-out infinite;
+}
+
+.car-ad-banner__badge-icon {
+  font-size: 0.9rem;
+}
+
+@keyframes cab-badge-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+  .car-ad-banner__inner {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .car-ad-banner__content {
+    padding: 2.5rem 1.75rem 2.5rem 2rem;
+  }
+
+  .car-ad-banner__title {
+    font-size: 1.45rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .car-ad-banner-section {
+    padding: 1.5rem 0 0;
+  }
+
+  .car-ad-banner {
+    border-radius: 14px;
+  }
+
+  .car-ad-banner__inner {
+    grid-template-columns: 1fr;
+  }
+
+  .car-ad-banner__content {
+    padding: 2rem 1.5rem 1.5rem;
+  }
+
+  .car-ad-banner__title {
+    font-size: 1.3rem;
+  }
+
+  .car-ad-banner__desc {
+    font-size: 0.87rem;
+    margin-bottom: 1.4rem;
+  }
+
+  .car-ad-banner__img-col {
+    order: -1;
+  }
+
+  .car-ad-banner__img-wrap {
+    min-height: 200px;
+    border-radius: 14px 14px 0 0;
+  }
+
+  .car-ad-banner__img-overlay {
+    background: linear-gradient(to bottom, rgba(15, 37, 87, 0.15) 0%, rgba(15, 37, 87, 0.5) 100%);
+  }
+
+  .car-ad-banner__badge {
+    top: 14px;
+    right: 14px;
+    font-size: 0.78rem;
+    padding: 7px 14px;
+  }
+
+  .car-ad-banner__btn {
+    padding: 10px 20px;
+    font-size: 0.84rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .car-ad-banner__btns {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .car-ad-banner__btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+/* =============================================
+   Car Advertisement Banner end
+   ============================================= */

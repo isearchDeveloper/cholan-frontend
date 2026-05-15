@@ -67,3 +67,60 @@ export async function fetchCityWiseCarData(slug: any) {
     return null; // or {} if you prefer
   }
 }
+
+
+export async function fetchCarAdBanner() {
+  try {
+    const res = await fetch(`${baseUrl}/api/v1/car-rental/ads-banner`, {
+      method: "GET",
+      headers: {
+        "X-Public-Token": XPublicToken,
+      },
+      next: { revalidate: 60 },
+    });
+
+    if (!res.ok) return null;
+
+    return await res.json();
+  } catch {
+    return null;
+  }
+}
+
+
+export async function fetchWomenChauffeurBanner() {
+  try {
+    const res = await fetch(`${baseUrl}/api/v1/women-chauffeur-banner`, {
+      method: "GET",
+      headers: {
+        "X-Public-Token": XPublicToken,
+      },
+      next: { revalidate: 60 },
+    });
+
+    if (!res.ok) return null;
+
+    return await res.json();
+  } catch {
+    return null;
+  }
+}
+
+
+export async function fetchWomenChauffeurPageData() {
+  try {
+    const res = await fetch(`${baseUrl}/api/v1/page/settings/women-chauffeur-driver`, {
+      method: "GET",
+      headers: {
+        "X-Public-Token": XPublicToken,
+      },
+      next: { revalidate: 60 },
+    });
+
+    if (!res.ok) return null;
+
+    return await res.json();
+  } catch {
+    return null;
+  }
+}

@@ -26,7 +26,6 @@ export default function PackageDetails({ initialData }: { initialData: any }) {
   const [packageDetails, setPackageDetails] = useState<any>(initialData);
   const [openFeedback, setOpenFeedback] = useState(false);
   const [showLoader, setShowLoader] = useState(true);
-// console.log(packageDetails);
 
 const pkg = packageDetails?.package;
 
@@ -160,13 +159,12 @@ const indiaCategorySlug =
               <TourPlanFAQ faqData={packageDetails?.package?.itineraries} />
             )}
 
-            {packageDetails?.package?.details?.includes.length ||
-              packageDetails?.package?.details?.includes.length < 1 ? (
+            {packageDetails?.package?.details && (
               <InclusionExclusionComponent
-                inclusion={packageDetails?.package?.details?.includes}
-                exclusion={packageDetails?.package?.details?.excludes}
+                inclusion={packageDetails?.package?.details?.includes || []}
+                exclusion={packageDetails?.package?.details?.excludes || []}
               />
-            ) : null}
+            )}
 
             {packageDetails?.package?.faqs.length < 1 ? null : (
               <FAQAccordion faqs={packageDetails?.package?.faqs} location={packageDetails?.package?.faq_title} />

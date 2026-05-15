@@ -1,63 +1,78 @@
-
-
 "use client";
 
 import { useEffect, useState } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import Breadcrumb from "@/app/components/common/Breadcrumb";
-import AboutSection from "@/app/components/home/AboutSection";
-import LogoSlider from "@/app/components/home/LogoSlider";
-import Image from "next/image";
-import CarBanner from "@/app/components/car/CarBanner";
-import CarExpandableText from "@/app/components/car/CarExpandableText";
-import CarTabWithImages from "@/app/components/car/CarTabWithImages";
-import CarCustomerRate from "@/app/components/car/CarCustomerRate";
-import CholanCarRental from "@/app/components/car/CholanCarRental";
-import FAQAccordion from "@/app/components/common/FAQAccordion";
-import HotelCard from "@/app/components/hotel/HotelCard";
-import CarCard from "@/app/components/car/CarCardEconomy";
-import CarRentalRoutes from "@/app/components/car/CarRentalRoutes";
-import CarCitySection from "@/app/components/car/CarCitySection";
-import CarCardEconomy from "@/app/components/car/CarCardEconomy";
-import CarCardLuxury from "./CarCardLuxury";
-import CarCardExecutive from "./CarCardExecutive";
-import CarEnquiryForm from "../common/CarenquiryForm";
-import FAQAccordionCar from "./CarFaq";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
-import CarEnquiryModal from "@/app/modals/carEnquiryModal";
-import ReviewsWidget from "../ReviewsWidget";
-import ReviewsWrapper from "@/app/components/ReviewsWrapper";
-import CarAdBanner from "@/app/components/car/CarAdBanner";
 
-const defaultBreadcrumbItems = [
+import Breadcrumb from "@/app/components/common/Breadcrumb";
+import LogoSlider from "@/app/components/home/LogoSlider";
+import CarBanner from "@/app/components/car/CarBanner";
+import CarExpandableText from "@/app/components/car/CarExpandableText";
+import CarCitySection from "@/app/components/car/CarCitySection";
+import CholanCarRental from "@/app/components/car/CholanCarRental";
+import CarTabWithImages from "@/app/components/car/CarTabWithImages";
+import CarRentalRoutes from "@/app/components/car/CarRentalRoutes";
+import CarCardEconomy from "@/app/components/car/CarCardEconomy";
+import CarCardLuxury from "@/app/components/car/CarCardLuxury";
+import CarCardExecutive from "@/app/components/car/CarCardExecutive";
+import FAQAccordionCar from "@/app/components/car/CarFaq";
+import CarEnquiryForm from "@/app/components/common/CarenquiryForm";
+import WomenChauffeurSection from "@/app/components/car/WomenChauffeurSection";
+import CarEnquiryModal from "@/app/modals/carEnquiryModal";
+import ReviewsWrapper from "@/app/components/ReviewsWrapper";
+
+interface WCSCard {
+  id: number;
+  title: string;
+  image: string;
+  image_alt: string;
+}
+
+interface ChauffeurSection {
+  section_title: string;
+  section_description: string;
+  cards: WCSCard[];
+}
+
+interface BreadcrumbItem {
+  label: string;
+  href?: string;
+  isCurrent?: boolean;
+}
+
+interface WomenChauffeurDriverProps {
+  data: any;
+  chauffeurSection?: ChauffeurSection | null;
+  breadcrumbItems?: BreadcrumbItem[];
+}
+
+const defaultBreadcrumbItems: BreadcrumbItem[] = [
   { label: "Home", href: "/" },
-  { label: "Car Rental", isCurrent: true },
+  { label: "Car Rental", href: "/car-rental" },
+  { label: "Women Chauffeur Driver", isCurrent: true },
 ];
 
-export default function CarRental({ data, breadcrumbItems, beforeCitySection }: any) {
+export default function WomenChauffeurDriver({
+  data,
+  chauffeurSection,
+  breadcrumbItems,
+}: WomenChauffeurDriverProps) {
   const [isMobile, setIsMobile] = useState(false);
-  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  // Initialize AOS
   useEffect(() => {
-    AOS.init({
-      duration: 800,
-      easing: "ease-in-out",
-      once: true,
-    });
+    AOS.init({ duration: 800, easing: "ease-in-out", once: true });
   }, []);
 
   const fleets = [
@@ -106,18 +121,17 @@ export default function CarRental({ data, breadcrumbItems, beforeCitySection }: 
     <>
       <div className="car-rent-wrapper">
         <CarBanner bannerData={data?.data?.details} />
+
         <div className="pt-4 pb-5">
           <div className="container">
             <Breadcrumb items={breadcrumbItems || defaultBreadcrumbItems} />
             <div className="row">
               <div className="col-lg-8">
-                <div>
-                  <CarExpandableText
-                    title={data?.data?.details?.title}
-                    text={data?.data?.details?.description}
-                    collapsedLines={2}
-                  />
-                </div>
+                <CarExpandableText
+                  title={data?.data?.details?.title}
+                  text={data?.data?.details?.description}
+                  collapsedLines={2}
+                />
               </div>
               <div className="col-lg-4 mt-4 mt-lg-0 car-sticky">
                 <CarEnquiryForm />
@@ -125,22 +139,14 @@ export default function CarRental({ data, breadcrumbItems, beforeCitySection }: 
             </div>
           </div>
 
-          <CarAdBanner />
-          
-          {/* <div className="pb-5" data-aos="fade-up" data-aos-delay="700"> */}
-
-          {/* {data?.data?.categories?.length < 1 ? null :
-                    <div className="pb-5">
-                        <CarTabWithImages />
-                    </div>} */}
-          {beforeCitySection && (
-            <div className="mt-5">
-              {beforeCitySection}
+          {chauffeurSection && (
+            <div className="mt-5 women-chauffeur-section">
+              <WomenChauffeurSection chauffeurSection={chauffeurSection} />
             </div>
           )}
 
           <div className="mt-5">
-            <CarCitySection cities={data?.data.carcity} />
+            <CarCitySection cities={data?.data?.carcity} />
           </div>
 
           <div
@@ -151,18 +157,11 @@ export default function CarRental({ data, breadcrumbItems, beforeCitySection }: 
             <CholanCarRental />
           </div>
 
-          {/* <div className="pt-5" >
-                    <CarCustomerRate />
-                </div> */}
-          {/* <div className="mt-5">
-                    <CarCitySection cities={data?.data.carcity} />
-                </div> */}
-
-          {data?.data?.categories?.length < 1 ? null : (
+          {/* {data?.data?.categories?.length < 1 ? null : (
             <div className="pb-5">
               <CarTabWithImages />
             </div>
-          )}
+          )} */}
 
           {data?.data?.details?.faqs?.length < 1 ? null : (
             <div className="py-5 center-faqs">
@@ -187,55 +186,45 @@ export default function CarRental({ data, breadcrumbItems, beforeCitySection }: 
               }
             />
           </div>
-          {/* <div className="pb-5" >
-                        <LogoSlider />
-                    </div> */}
 
           {fleets?.length < 1 ? null : (
             <div className="py-5 car-fleet px-2 px-lg-0">
               <div className="container">
                 <h2 className="mb-4 text-center fs-3">Browse our Fleet</h2>
 
-                {fleets?.length > 0 ? (
-                  isMobile ? (
-                    <Swiper
-                      spaceBetween={20}
-                      slidesPerView={1}
-                      modules={[Pagination, Autoplay]}
-                      pagination={{ clickable: true }}
-                      autoplay={{ delay: 3000, disableOnInteraction: false }}
-                      className="mySwiper"
-                    >
-                      {fleets?.map((fleet, idx) => (
-                        <SwiperSlide key={idx}>
-                          <div className="d-flex justify-content-center">
-                            {fleet.component}
-                          </div>
-                        </SwiperSlide>
-                      ))}
-                    </Swiper>
-                  ) : (
-                    <div className="row">
-                      {fleets?.map((fleet, idx) => (
-                        <div key={idx} className="col-lg-4 col-xl-4">
+                {isMobile ? (
+                  <Swiper
+                    spaceBetween={20}
+                    slidesPerView={1}
+                    modules={[Pagination, Autoplay]}
+                    pagination={{ clickable: true }}
+                    autoplay={{ delay: 3000, disableOnInteraction: false }}
+                    className="mySwiper"
+                  >
+                    {fleets.map((fleet, idx) => (
+                      <SwiperSlide key={idx}>
+                        <div className="d-flex justify-content-center">
                           {fleet.component}
                         </div>
-                      ))}
-                    </div>
-                  )
-                ) : null}
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
+                ) : (
+                  <div className="row">
+                    {fleets.map((fleet, idx) => (
+                      <div key={idx} className="col-lg-4 col-xl-4">
+                        {fleet.component}
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           )}
 
           <div className="py-5">
-            {/* <ReviewsWidget /> */}
             <ReviewsWrapper isCarPage={true} />
           </div>
-
-          {/* <div className="customize-holiday">
-                        <AboutSection />
-                    </div> */}
 
           <LogoSlider />
         </div>

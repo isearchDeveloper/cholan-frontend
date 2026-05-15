@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import TourDetailsBanner from "@/app/components/common/TourDetailsBanner";
 import Breadcrumb from "@/app/components/common/Breadcrumb";
 import TourPlanFAQ from "@/app/components/common/TourPlanFAQ";
@@ -34,7 +34,22 @@ export default function GroupTourDetailsPage({ data }: GroupTourDetailsPageProps
   const [openModal, setOpenModal] = useState(false);
   const [openBookingModal, setOpenBookingModal] = useState(false);
   const [selectedDate, setSelectedDate] = useState<any>(null);
-  
+  const [liveDepartures, setLiveDepartures] = useState<any[]>(
+    pkg?.departures || pkg?.groupDepartures || []
+  );
+
+  const handleBookingSuccess = useCallback((departureId: number, passengers: number) => {
+    setLiveDepartures((prev) =>
+      prev.map((d) => {
+        if (d.id === departureId) {
+          const current = d.available_seats ?? d.seats ?? 0;
+          return { ...d, available_seats: Math.max(0, current - passengers), seats: Math.max(0, current - passengers) };
+        }
+        return d;
+      })
+    );
+  }, []);
+
   const nights = pkg?.duration_nights ?? 0;
   const days = pkg?.duration_days ?? 0;
   const durationLabel = `${nights > 0 ? `${nights} ${nights === 1 ? "Night" : "Nights"} / ` : ""}${days} ${days === 1 ? "Day" : "Days"}`;
@@ -96,7 +111,7 @@ export default function GroupTourDetailsPage({ data }: GroupTourDetailsPageProps
       });
   };
 
-  const allDates: any[] = parseDepartures(pkg?.departures || pkg?.groupDepartures || []);
+  const allDates: any[] = parseDepartures(liveDepartures);
   // For the booking modal, only pass bookable dates
   const availableDates: any[] = allDates.filter((d) => d.isBookable);
   const datesCount: number = pkg?.dates_count ?? availableDates.length;
@@ -124,7 +139,10 @@ export default function GroupTourDetailsPage({ data }: GroupTourDetailsPageProps
         {pkg?.primary_image && (
           <TourDetailsBanner
             image={encodeURI(pkg.primary_image)}
-            images={pkg.images || []}
+            images={(pkg.images || []).map((img: any) => ({
+              image_path: img.url || img.image_path || "",
+              image_alt: img.alt || img.image_alt || "",
+            }))}
             alt={pkg.primary_image_alt || pkg.title}
             title={pkg.title}
           />
@@ -352,6 +370,7 @@ export default function GroupTourDetailsPage({ data }: GroupTourDetailsPageProps
         selectedDate={selectedDate}
         availableDates={availableDates}
         basePrice={pkg?.starting_price ? Number(pkg.starting_price) : 0}
+        onBookingSuccess={handleBookingSuccess}
       />
     </div>
   );

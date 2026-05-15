@@ -6,4 +6,6 @@ Sitemap: https://www.cholantours.com/sitemap.xml
 # llms.txt reference
 Allow: /llms.txt
 
+Disallow: /blog/author/
+Disallow: /blog/page/
 Disallow: /blog/tag/

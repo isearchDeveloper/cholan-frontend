@@ -71,7 +71,7 @@ export default async function AboutUs() {
           <section className="ct-section">
             <div className="ct-container">
               <div className="ct-left">
-                <h2 className="ct-title">Cholan Tours Pvt. Ltd</h2>
+                <h1 className="ct-title">Cholan Tours Pvt. Ltd</h1>
 
                 <p className="ct-copy">
                   For over 20 years, Cholan Tours has emerged as a leading force

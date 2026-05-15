@@ -35,6 +35,7 @@ interface GroupTourBookingModalProps {
   selectedDate: DepartureDate | null;
   availableDates: DepartureDate[];
   basePrice: number;
+  onBookingSuccess?: (departureId: number, passengers: number) => void;
 }
 
 const GST_RATE = 0.05;
@@ -47,6 +48,7 @@ const GroupTourBookingModal: React.FC<GroupTourBookingModalProps> = ({
   selectedDate,
   availableDates,
   basePrice,
+  onBookingSuccess,
 }) => {
   const [step, setStep] = useState<"details" | "success">("details");
   const router = useRouter();
@@ -123,8 +125,12 @@ const GroupTourBookingModal: React.FC<GroupTourBookingModalProps> = ({
         if (res.data?.success) {
           setConfirmedBookingId(booking_id);
           setStep("success");
-          
-          // Instantly fetch the latest seat count in the background without a hard refresh
+
+          // Optimistically decrease seat count on the parent page immediately
+          if (date && onBookingSuccess) {
+            onBookingSuccess(date.id, adults + children);
+          }
+
           router.refresh();
         } else {
           toast.error(

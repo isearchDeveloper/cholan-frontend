@@ -65,7 +65,7 @@ export default function PopularIndiaTours({
           </h2>
           <div className={styles.rightText}>
             <p>
-              For years, we&apos;ve curated unforgettable journeys across India — where
+              For years, we've curated unforgettable journeys across India - where
               every destination is best experienced through our travelers.
             </p>
             {/* <Link href="/india" className={styles.link}>

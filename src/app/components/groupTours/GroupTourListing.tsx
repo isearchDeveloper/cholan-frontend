@@ -24,13 +24,13 @@ const ITEMS_PER_PAGE = 10;
    Sidebar (no theme filter, only banner)
  ───────────────────────────────*/
 const GroupTourSidebar = () => (
-  <div className="sidebar-listing">
-    <div className={sidebarStyles.bannerContainer} data-aos="fade-up">
+  <div className="sidebar-listing group-tour-sidebar">
+    <div className={sidebarStyles.bannerContainer} id="gt-siebar" data-aos="fade-up">
       <Image
-        src="/images/sidebarbanner.png"
+        src="/images/bannerside.webp"
         alt="Group Tours"
         width={400}
-        height={600}
+        height={0}
         className={sidebarStyles.bannerImage}
       />
       <div className={sidebarStyles.bannerOverlay}>
@@ -88,7 +88,7 @@ const GroupTourListing = () => {
       <Banner
         title="Group Tour Packages"
         subtitle="Travel together, create memories forever"
-        imageUrl="/images/cholantours2.webp"
+        imageUrl="/images/cholan-group-tours-banner.webp"
       />
 
       <style jsx global>{`

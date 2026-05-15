@@ -66,9 +66,10 @@ export default async function RootLayout({
 
         {/* Google Tag Manager (head) */}
         {meta.meta_details && (
-          <div
+          <script
+            id="gtm-head"
             dangerouslySetInnerHTML={{
-              __html: meta.meta_details,
+              __html: meta.meta_details.replace(/<\/?script[^>]*>/gi, ""),
             }}
           />
         )}
