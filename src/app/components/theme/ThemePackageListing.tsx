@@ -26,45 +26,36 @@ export default function ThemePackageListing({
   if (!data) return null;
 
   
-// console.log(data);
+console.log(data);
   const details = data?.location?.details || {};
   const packages = Array.isArray(data?.packages) ? data.packages : [];
 
-  const formatTitle = (text: any) => {
+  const formatSlug = (text: any): string => {
     if (!text) return "";
-
     return text
       .toString()
-      .replace(/[-_]+/g, " ") // slug → words
+      .replace(/[-_]+/g, " ")
       .toLowerCase()
-      .replace(/\b\w/g, (c: string) => c.toUpperCase()) // Capitalize words
+      .replace(/\b\w/g, (c: string) => c.toUpperCase())
       .trim();
   };
 
-  // const city = formatTitle(cityName);
-  const theme = formatTitle(details?.title);
-// console.log( "title of dynamic page :" , data);
-  const pageTitle =
-     [theme].filter(Boolean).join(" ") || "Theme Tour Packages";
+  const apiTitle = details?.title ? formatSlug(details.title) : "";
+  const slugTitle = [cityName, formatSlug(themeSlug), "Tour Packages"]
+    .filter(Boolean)
+    .join(" ");
+  const pageTitle = apiTitle || slugTitle;
 
   const faqs = Array.isArray(data?.faqs) ? data.faqs : [];
 
   const faqTitle = data?.faq_title?.trim()
     ? data.faq_title
-    : `FAQs About ${data?.title} in ${cityName}`;
-
+    : `FAQs About ${pageTitle} in ${cityName}`;
 
   const breadcrumbItems = [
     { label: "Home", href: "/" },
     { label: "India", href: "/india" },
-    {
-      label: themeSlug,
-      href: `/india/${themeSlug}-tour-packages`,
-    },
-    {
-      label: data?.location?.details?.title,
-      isCurrent: true,
-    },
+    { label: pageTitle, isCurrent: true },
   ];
 
   return (
