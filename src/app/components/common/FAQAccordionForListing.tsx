@@ -14,9 +14,12 @@ interface FAQAccordionProps {
     location: any;
 }
 
+const INITIAL_FAQ_COUNT = 5;
+
 const FAQAccordionListing: React.FC<FAQAccordionProps> = ({ faqs, location }) => {
 
     const [openIndex, setOpenIndex] = useState<number | null>(0);
+    const [showAll, setShowAll] = useState<boolean>(false);
 
     useEffect(() => {
         AOS.init({
@@ -29,6 +32,9 @@ const FAQAccordionListing: React.FC<FAQAccordionProps> = ({ faqs, location }) =>
     const handleToggle = (index: number) => {
         setOpenIndex(openIndex === index ? null : index);
     };
+
+    const visibleFaqs = showAll ? (faqs ?? []) : (faqs?.slice(0, INITIAL_FAQ_COUNT) ?? []);
+    const hasMore = !showAll && (faqs?.length ?? 0) > INITIAL_FAQ_COUNT;
 
     const faqSchema =
         faqs?.length > 0
@@ -65,7 +71,7 @@ const FAQAccordionListing: React.FC<FAQAccordionProps> = ({ faqs, location }) =>
 
                 {faqs?.length > 0 && (
                     <div className="faq-accordion">
-                        {faqs.map((faq, index) => (
+                        {visibleFaqs.map((faq, index) => (
                             <div className="faq-item" key={index}>
                                 <div
                                     className={`faq-question ${openIndex === index ? 'active' : ''}`}
@@ -92,6 +98,21 @@ const FAQAccordionListing: React.FC<FAQAccordionProps> = ({ faqs, location }) =>
                                 </div>
                             </div>
                         ))}
+                    </div>
+                )}
+
+                {hasMore && (
+                    <div className="d-flex justify-content-center mt-4">
+                        <button
+                            type="button"
+                            className="btn blue-btn d-flex align-items-center gap-2"
+                            onClick={() => setShowAll(true)}
+                        >
+                            Load More FAQs
+                            <span>
+                                <img src="/images/button-arrow.png" alt="" width={16} height={16} />
+                            </span>
+                        </button>
                     </div>
                 )}
             </div>

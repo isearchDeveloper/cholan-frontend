@@ -1,7 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
@@ -16,8 +15,11 @@ interface FAQAccordionProps {
     faqtitle: any
 }
 
+const INITIAL_FAQ_COUNT = 5;
+
 const IntFaq: React.FC<FAQAccordionProps> = ({ faqs, faqtitle }) => {
     const [openIndex, setOpenIndex] = useState<number | null>(0);
+    const [showAll, setShowAll] = useState<boolean>(false);
     
     useEffect(() => {
 
@@ -32,6 +34,9 @@ const IntFaq: React.FC<FAQAccordionProps> = ({ faqs, faqtitle }) => {
         setOpenIndex(openIndex === index ? null : index);
     };
 
+    const visibleFaqs = showAll ? (faqs ?? []) : (faqs?.slice(0, INITIAL_FAQ_COUNT) ?? []);
+    const hasMore = !showAll && (faqs?.length ?? 0) > INITIAL_FAQ_COUNT;
+
     return (
 
         <div className="row justify-content-center">
@@ -41,7 +46,7 @@ const IntFaq: React.FC<FAQAccordionProps> = ({ faqs, faqtitle }) => {
                     <h2 className="mb-4 color-blue text-center fs-3">{faqtitle}</h2>
 
                     <div className="faq-accordion">
-                        {faqs.map((faq, index) => (
+                        {visibleFaqs.map((faq, index) => (
                             <div className="faq-item" key={index} >
                                 <div
                                     className={`faq-question ${openIndex === index ? 'active' : ''}`}
@@ -72,6 +77,21 @@ const IntFaq: React.FC<FAQAccordionProps> = ({ faqs, faqtitle }) => {
                             </div>
                         ))}
                     </div>
+
+                    {hasMore && (
+                        <div className="d-flex justify-content-center mt-4">
+                            <button
+                                type="button"
+                                className="btn blue-btn d-flex align-items-center gap-2"
+                                onClick={() => setShowAll(true)}
+                            >
+                                Load More FAQs
+                                <span>
+                                    <img src="/images/button-arrow.png" alt="" width={16} height={16} />
+                                </span>
+                            </button>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
@@ -79,4 +99,4 @@ const IntFaq: React.FC<FAQAccordionProps> = ({ faqs, faqtitle }) => {
     );
 };
 
-export default IntFaq;
+export default IntFaq;

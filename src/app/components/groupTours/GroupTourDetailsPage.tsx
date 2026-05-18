@@ -9,6 +9,7 @@ import GroupTourSummaryCard from "./GroupTourSummaryCard";
 import GroupTourBookingModal from "@/app/modals/GroupTourBookingModal";
 import styles from "./grouptour.module.css";
 import detailStyles from "./groupTourDetails.module.css";
+import InclusionExclusionComponent from "@/app/components/common/InclusionExclusionComponent";
 
 const Icons: Record<string, React.ReactNode> = {
   flight: <img src="/flight.svg" alt="Flights" width="16" height="16" />,
@@ -331,6 +332,14 @@ export default function GroupTourDetailsPage({ data }: GroupTourDetailsPageProps
                 <h2 className={detailStyles.sectionHeading}>Itinerary</h2>
                 <TourPlanFAQ faqData={pkg.itineraries} />
               </div>
+            )}
+
+            {/* 5. Inclusions & Exclusions */}
+            {(pkg?.details?.includes?.length > 0 || pkg?.details?.excludes?.length > 0) && (
+              <InclusionExclusionComponent
+                inclusion={pkg?.details?.includes || []}
+                exclusion={pkg?.details?.excludes || []}
+              />
             )}
 
           </div>
