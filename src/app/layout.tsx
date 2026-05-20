@@ -64,15 +64,24 @@ export default async function RootLayout({
           `}</style>
         </noscript>
 
-        {/* Google Tag Manager (head) */}
-        {meta.meta_details && (
-          <script
-            id="gtm-head"
-            dangerouslySetInnerHTML={{
-              __html: meta.meta_details.replace(/<\/?script[^>]*>/gi, ""),
-            }}
-          />
-        )}
+        {/* Google Site Verification meta tag */}
+        {meta.meta_details && (() => {
+          const metaMatch = meta.meta_details.match(/<meta[^>]+>/gi);
+          const scriptMatch = meta.meta_details.match(/<script[^>]*>([\s\S]*?)<\/script>/i);
+          return (
+            <>
+              {metaMatch && metaMatch.map((tag: string, i: number) => (
+                <meta key={i} name={tag.match(/name="([^"]+)"/)?.[1] || ""} content={tag.match(/content="([^"]+)"/)?.[1] || ""} />
+              ))}
+              {scriptMatch && (
+                <script
+                  id="gtm-head"
+                  dangerouslySetInnerHTML={{ __html: scriptMatch[1] }}
+                />
+              )}
+            </>
+          );
+        })()}
 
         {/* SEO Schema for Organization */}
         <script
