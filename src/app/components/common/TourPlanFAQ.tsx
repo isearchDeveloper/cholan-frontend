@@ -54,7 +54,7 @@ const TourPlanFAQ: React.FC<any> = ({ faqData }) => {
                     <circle cx="8" cy="8.94897" r="8" fill="#FF991B" />
                   </svg>
                 </span>{" "}
-               <span>{`Day ${index + 1}:`} {item.title}</span> 
+               <span>{`Day ${index + 1}:`} {item.title ?? item.day ?? item.heading ?? item.name ?? ""}</span>
                 <span className="faq-toggle">
                   {openIndex === index ? "−" : "+"}
                 </span>
@@ -63,7 +63,7 @@ const TourPlanFAQ: React.FC<any> = ({ faqData }) => {
                 className={`faq-answer  ${openIndex === index ? "open" : ""}`}
               >
                
-                <div dangerouslySetInnerHTML={{ __html: item.details }} />
+                <div dangerouslySetInnerHTML={{ __html: item.details ?? item.plan ?? item.description ?? item.content ?? "" }} />
               </div>
             </div>
           </div>

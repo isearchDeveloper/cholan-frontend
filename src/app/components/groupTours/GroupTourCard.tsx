@@ -118,7 +118,6 @@ const GroupTourCard: React.FC<GroupTourCardProps> = ({
               <div className={styles.priceCurrency}>INR</div>
               <div className={styles.priceLabel}>Starting from</div>
               <div className={styles.priceValue}>{price}</div>
-              <div className={styles.priceNote}>Per person on twin sharing</div>
             </div>
           </div>
 
@@ -147,14 +146,14 @@ const GroupTourCard: React.FC<GroupTourCardProps> = ({
             </div>
 
             <div className={styles.actions}>
-              <Link href={`/group-tours/${slug}`} className="btn orange-btn d-flex align-items-center gap-2" style={{ whiteSpace: "nowrap", fontSize: "13px", padding: "8px 16px" }}>
+              <Link href={`/group-tours/${slug}`} className="btn orange-btn d-flex align-items-center gap-2" style={{ fontSize: "13px", padding: "8px 16px" }}>
                 View Tour Details
                 <span><img src="/images/button-arrow.png" alt="" width={16} height={16} /></span>
               </Link>
               <button
                 type="button"
                 className={`${styles.btnFilled} d-flex align-items-center gap-2`}
-                style={{ borderRadius: "50px", whiteSpace: "nowrap", fontSize: "13px", padding: "8px 16px" }}
+                style={{ borderRadius: "50px", fontSize: "13px", padding: "8px 16px" }}
                 onClick={() => setOpenModal(true)}
               >
                 Book Now

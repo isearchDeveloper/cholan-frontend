@@ -10,6 +10,7 @@ import GroupTourBookingModal from "@/app/modals/GroupTourBookingModal";
 import styles from "./grouptour.module.css";
 import detailStyles from "./groupTourDetails.module.css";
 import InclusionExclusionComponent from "@/app/components/common/InclusionExclusionComponent";
+import FAQAccordion from "@/app/components/common/FAQAccordion";
 
 const Icons: Record<string, React.ReactNode> = {
   flight: <img src="/flight.svg" alt="Flights" width="16" height="16" />,
@@ -36,7 +37,8 @@ export default function GroupTourDetailsPage({ data }: GroupTourDetailsPageProps
   const [openBookingModal, setOpenBookingModal] = useState(false);
   const [selectedDate, setSelectedDate] = useState<any>(null);
   const [liveDepartures, setLiveDepartures] = useState<any[]>(
-    pkg?.departures || pkg?.groupDepartures || []
+    // API returns group_tour_schedules — fallback to old keys for safety
+    pkg?.group_tour_schedules || pkg?.departures || pkg?.groupDepartures || []
   );
 
   const handleBookingSuccess = useCallback((departureId: number, passengers: number) => {
@@ -51,13 +53,15 @@ export default function GroupTourDetailsPage({ data }: GroupTourDetailsPageProps
     );
   }, []);
 
-  const nights = pkg?.duration_nights ?? 0;
-  const days = pkg?.duration_days ?? 0;
+  // duration & facilities are nested under pkg.details in the new API
+  const nights = pkg?.details?.duration_nights ?? pkg?.duration_nights ?? 0;
+  const days   = pkg?.details?.duration_days   ?? pkg?.duration_days   ?? 0;
   const durationLabel = `${nights > 0 ? `${nights} ${nights === 1 ? "Night" : "Nights"} / ` : ""}${days} ${days === 1 ? "Day" : "Days"}`;
 
-  const badges: string[] = pkg?.badges || ["GROUP TOUR"];
-  const facilities: string[] = pkg?.facilities || [];
-  const cities: number = pkg?.cities_count ?? 0;
+  const badges: string[]    = pkg?.badges || ["GROUP TOUR"];
+  const facilities: string[] = pkg?.details?.facilities || pkg?.facilities || [];
+  // cities_count — API returns extra_destinations array, derive count from it
+  const cities: number = pkg?.cities_count ?? pkg?.extra_destinations?.length ?? 0;
 
   // Map ALL departures from API → date tiles (including cancelled/soldout)
   const parseDepartures = (departures: any[]) => {
@@ -67,22 +71,20 @@ export default function GroupTourDetailsPage({ data }: GroupTourDetailsPageProps
 
     return departures
       .filter((d: any) => {
-        // Only hide past dates that are not cancelled/soldout
         const depDate = new Date(d.departure_date);
-        // Show future dates always; also show past cancelled/soldout for reference? No — hide past.
         return depDate >= today;
       })
       .map((d: any) => {
         const dateObj = new Date(d.departure_date);
         const tomorrow = new Date(today);
         tomorrow.setDate(today.getDate() + 1);
-        const isLastDay = dateObj <= tomorrow; // departure is today or tomorrow
+        const isLastDay = dateObj <= tomorrow;
 
         const availableSeats = d.available_seats ?? d.seats ?? 0;
-        
-        // computed_status comes from GroupTourPackageResource (departures array)
-        // status comes from PackageResource (groupDepartures array)
         const computedStatus: string = d.status ?? "available";
+
+        // Price: new API nests price inside pricing.base_price
+        const rawPrice = d.pricing?.base_price ?? d.price ?? 0;
 
         // Determine tile variant
         let variant: "green" | "yellow" | "red";
@@ -103,11 +105,13 @@ export default function GroupTourDetailsPage({ data }: GroupTourDetailsPageProps
           year: dateObj.getFullYear().toString(),
           date: String(dateObj.getDate()).padStart(2, "0"),
           day: dateObj.toLocaleString("en", { weekday: "short" }),
-          price: Math.round(Number(d.price)).toLocaleString("en-IN"),
+          price: Math.round(Number(rawPrice)).toLocaleString("en-IN"),
           seats: availableSeats,
           status: computedStatus,
           variant,
           isBookable,
+          // pass full pricing object so booking modal can use room prices
+          pricing: d.pricing ?? null,
         };
       });
   };
@@ -117,12 +121,15 @@ export default function GroupTourDetailsPage({ data }: GroupTourDetailsPageProps
   const availableDates: any[] = allDates.filter((d) => d.isBookable);
   const datesCount: number = pkg?.dates_count ?? availableDates.length;
 
-  // Starting price — from API or lowest available date
-  const startingPrice = pkg?.starting_price
-    ? Math.round(Number(pkg.starting_price)).toLocaleString("en-IN")
-    : availableDates.length > 0
-      ? availableDates[0].price
-      : "0";
+  // Starting price — new API uses pkg.price; fallback to lowest available schedule price
+  const startingPrice =
+    pkg?.price && Number(pkg.price) > 0
+      ? Math.round(Number(pkg.price)).toLocaleString("en-IN")
+      : pkg?.starting_price && Number(pkg.starting_price) > 0
+        ? Math.round(Number(pkg.starting_price)).toLocaleString("en-IN")
+        : availableDates.length > 0
+          ? availableDates[0].price
+          : "—";
 
   const breadcrumbItems = [
     { label: "Home", href: "/" },
@@ -209,7 +216,6 @@ export default function GroupTourDetailsPage({ data }: GroupTourDetailsPageProps
                     <div className={styles.priceCurrency}>INR</div>
                     <div className={styles.priceLabel}>Starting from</div>
                     <div className={styles.priceValue}>{startingPrice}</div>
-                    <div className={styles.priceNote}>Per person on twin sharing</div>
                   </div>
               </div>
 
@@ -327,12 +333,19 @@ export default function GroupTourDetailsPage({ data }: GroupTourDetailsPageProps
             )}
 
             {/* 4. Itinerary */}
-            {pkg?.itineraries?.length > 0 && (
-              <div className={detailStyles.section}>
-                <h2 className={detailStyles.sectionHeading}>Itinerary</h2>
-                <TourPlanFAQ faqData={pkg.itineraries} />
-              </div>
-            )}
+            {(() => {
+              const itineraries = pkg?.itineraries?.length > 0
+                ? pkg.itineraries
+                : pkg?.details?.itineraries?.length > 0
+                  ? pkg.details.itineraries
+                  : null;
+              return itineraries ? (
+                <div className={detailStyles.section}>
+                  <h2 className={detailStyles.sectionHeading}>Itinerary</h2>
+                  <TourPlanFAQ faqData={itineraries} />
+                </div>
+              ) : null;
+            })()}
 
             {/* 5. Inclusions & Exclusions */}
             {(pkg?.details?.includes?.length > 0 || pkg?.details?.excludes?.length > 0) && (
@@ -340,6 +353,16 @@ export default function GroupTourDetailsPage({ data }: GroupTourDetailsPageProps
                 inclusion={pkg?.details?.includes || []}
                 exclusion={pkg?.details?.excludes || []}
               />
+            )}
+
+            {/* 6. FAQs */}
+            {pkg?.faqs?.length > 0 && (
+              <div className={detailStyles.section}>
+                <FAQAccordion
+                  faqs={pkg.faqs}
+                  location={pkg.faq_title || "Frequently Asked Questions"}
+                />
+              </div>
             )}
 
           </div>
@@ -375,10 +398,17 @@ export default function GroupTourDetailsPage({ data }: GroupTourDetailsPageProps
         openModal={openBookingModal}
         setOpenModal={setOpenBookingModal}
         packageId={pkg?.id || pkg?.package_id || 0}
+        packageSlug={pkg?.slug || ""}
         title={pkg?.title || "Group Tour Package"}
         selectedDate={selectedDate}
         availableDates={availableDates}
-        basePrice={pkg?.starting_price ? Number(pkg.starting_price) : 0}
+        basePrice={
+          pkg?.price && Number(pkg.price) > 0
+            ? Number(pkg.price)
+            : pkg?.starting_price
+              ? Number(pkg.starting_price)
+              : 0
+        }
         onBookingSuccess={handleBookingSuccess}
       />
     </div>

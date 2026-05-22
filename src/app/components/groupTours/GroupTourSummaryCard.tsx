@@ -72,7 +72,6 @@ export default function GroupTourSummaryCard({
           <span className={styles.priceCurrency}>₹</span>
           <span className={styles.priceValue}>{startingPrice}</span>
         </div>
-        <div className={styles.priceNote}>Per person on twin sharing</div>
       </div>
 
       {/* ── Body ── */}

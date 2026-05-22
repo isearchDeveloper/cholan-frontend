@@ -152,7 +152,13 @@ const GroupTourListing = () => {
                       dates={tour.dates_count || 0} 
                       nights={tour.duration_nights || 0}
                       days={tour.duration_days || 0}
-                      price={tour.starting_price?.toString() || "0"}
+                      price={
+                        tour.price && Number(tour.price) > 0
+                          ? Math.round(Number(tour.price)).toLocaleString("en-IN")
+                          : tour.starting_price && Number(tour.starting_price) > 0
+                            ? Math.round(Number(tour.starting_price)).toLocaleString("en-IN")
+                            : "0"
+                      }
                       imageUrl={tour.primary_image || "/images/default.jpg"}
                       badges={tour.badges}
                       includes={tour.facilities}

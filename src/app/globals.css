@@ -705,6 +705,13 @@ header .main-menu .nav-links li>a {
   text-transform: capitalize;
 }
 
+@media (max-width: 1400px) {
+  header .main-menu .nav-links li>a {
+    padding: 8px 8px;
+    font-size: 14px;
+  }
+}
+
 header .main-menu .nav-links li>a:hover {
   color: #05164d;
   transition: color 0.3s;

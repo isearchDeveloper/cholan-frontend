@@ -8,11 +8,8 @@
 }
 
 .detailTitle {
-  font-size: 22px;
-  font-weight: 700;
-  color: #1a1a1a;
   margin: 0;
-  line-height: 1.3;
+  /* Font properties removed to let global h1 styles apply */
 }
 
 /* ── SECTION WRAPPER ── */
