@@ -152,13 +152,30 @@ const GroupTourListing = () => {
                       dates={tour.dates_count || 0} 
                       nights={tour.duration_nights || 0}
                       days={tour.duration_days || 0}
-                      price={
-                        tour.price && Number(tour.price) > 0
-                          ? Math.round(Number(tour.price)).toLocaleString("en-IN")
-                          : tour.starting_price && Number(tour.starting_price) > 0
-                            ? Math.round(Number(tour.starting_price)).toLocaleString("en-IN")
-                            : "0"
-                      }
+                      price={(() => {
+                        if (tour.price && Number(tour.price) > 0)
+                          return Math.round(Number(tour.price)).toLocaleString("en-IN");
+                        if (tour.starting_price && Number(tour.starting_price) > 0)
+                          return Math.round(Number(tour.starting_price)).toLocaleString("en-IN");
+                        // Try nearest upcoming schedule price
+                        const schedules: any[] = tour.group_tour_schedules ?? tour.schedules ?? [];
+                        if (schedules.length > 0) {
+                          const now = new Date();
+                          const upcoming = schedules
+                            .filter((s: any) => {
+                              const depTime = s.departure_time ?? "00:00:00";
+                              const dep = new Date(`${s.departure_date}T${depTime}`);
+                              const cutoff = new Date(dep.getTime() - 60 * 60 * 1000);
+                              return cutoff >= now;
+                            })
+                            .sort((a: any, b: any) => new Date(a.departure_date).getTime() - new Date(b.departure_date).getTime());
+                          const source = upcoming.length > 0 ? upcoming[0] : schedules[0];
+                          const p = source?.pricing?.base_price ?? source?.price;
+                          if (p && Number(p) > 0)
+                            return Math.round(Number(p)).toLocaleString("en-IN");
+                        }
+                        return "—";
+                      })()}
                       imageUrl={tour.primary_image || "/images/default.jpg"}
                       badges={tour.badges}
                       includes={tour.facilities}

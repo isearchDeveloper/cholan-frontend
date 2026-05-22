@@ -63,57 +63,56 @@ export default function GroupTourDetailsPage({ data }: GroupTourDetailsPageProps
   // cities_count — API returns extra_destinations array, derive count from it
   const cities: number = pkg?.cities_count ?? pkg?.extra_destinations?.length ?? 0;
 
-  // Map ALL departures from API → date tiles (including cancelled/soldout)
+  // Map ALL departures from API → date tiles (past dates shown as red/expired, not hidden)
   const parseDepartures = (departures: any[]) => {
     if (!departures?.length) return [];
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    const now = new Date(); // exact current moment — includes time
 
-    return departures
-      .filter((d: any) => {
-        const depDate = new Date(d.departure_date);
-        return depDate >= today;
-      })
-      .map((d: any) => {
-        const dateObj = new Date(d.departure_date);
-        const tomorrow = new Date(today);
-        tomorrow.setDate(today.getDate() + 1);
-        const isLastDay = dateObj <= tomorrow;
+    return departures.map((d: any) => {
+      // Combine departure_date + departure_time; expire 1 hour before departure
+      const depTime = d.departure_time ?? "00:00:00";
+      const departureDateTime = new Date(`${d.departure_date}T${depTime}`);
+      const cutoff = new Date(departureDateTime.getTime() - 60 * 60 * 1000); // 1 hr before
+      const dateObj = new Date(d.departure_date); // date-only for display
+      const isPast = cutoff < now;
 
-        const availableSeats = d.available_seats ?? d.seats ?? 0;
-        const computedStatus: string = d.status ?? "available";
+      // "last day" = departure is today (same calendar date) but not yet past
+      const todayDateStr = now.toISOString().slice(0, 10);
+      const isLastDay = !isPast && d.departure_date === todayDateStr;
 
-        // Price: new API nests price inside pricing.base_price
-        const rawPrice = d.pricing?.base_price ?? d.price ?? 0;
+      const availableSeats = d.available_seats ?? d.seats ?? 0;
+      const computedStatus: string = isPast ? "expired" : (d.status ?? "available");
 
-        // Determine tile variant
-        let variant: "green" | "yellow" | "red";
-        if (computedStatus === "cancelled" || computedStatus === "soldout" || availableSeats === 0) {
-          variant = "red";
-        } else if (availableSeats <= 5 || isLastDay) {
-          variant = "yellow";
-        } else {
-          variant = "green";
-        }
+      // Price: new API nests price inside pricing.base_price
+      const rawPrice = d.pricing?.base_price ?? d.price ?? 0;
 
-        const isBookable = variant !== "red";
+      // Determine tile variant
+      let variant: "green" | "yellow" | "red";
+      if (isPast || computedStatus === "cancelled" || computedStatus === "soldout" || availableSeats === 0) {
+        variant = "red";
+      } else if (availableSeats <= 5 || isLastDay) {
+        variant = "yellow";
+      } else {
+        variant = "green";
+      }
 
-        return {
-          id: d.id,
-          departure_date: d.departure_date,
-          month: dateObj.toLocaleString("en", { month: "short" }).toUpperCase(),
-          year: dateObj.getFullYear().toString(),
-          date: String(dateObj.getDate()).padStart(2, "0"),
-          day: dateObj.toLocaleString("en", { weekday: "short" }),
-          price: Math.round(Number(rawPrice)).toLocaleString("en-IN"),
-          seats: availableSeats,
-          status: computedStatus,
-          variant,
-          isBookable,
-          // pass full pricing object so booking modal can use room prices
-          pricing: d.pricing ?? null,
-        };
-      });
+      const isBookable = variant !== "red";
+
+      return {
+        id: d.id,
+        departure_date: d.departure_date,
+        month: dateObj.toLocaleString("en", { month: "short" }).toUpperCase(),
+        year: dateObj.getFullYear().toString(),
+        date: String(dateObj.getDate()).padStart(2, "0"),
+        day: dateObj.toLocaleString("en", { weekday: "short" }),
+        price: Math.round(Number(rawPrice)).toLocaleString("en-IN"),
+        seats: availableSeats,
+        status: computedStatus,
+        variant,
+        isBookable,
+        pricing: d.pricing ?? null,
+      };
+    });
   };
 
   const allDates: any[] = parseDepartures(liveDepartures);
@@ -121,7 +120,7 @@ export default function GroupTourDetailsPage({ data }: GroupTourDetailsPageProps
   const availableDates: any[] = allDates.filter((d) => d.isBookable);
   const datesCount: number = pkg?.dates_count ?? availableDates.length;
 
-  // Starting price — new API uses pkg.price; fallback to lowest available schedule price
+  // Starting price — fallback chain: pkg.price → pkg.starting_price → first bookable date → first any date
   const startingPrice =
     pkg?.price && Number(pkg.price) > 0
       ? Math.round(Number(pkg.price)).toLocaleString("en-IN")
@@ -129,7 +128,9 @@ export default function GroupTourDetailsPage({ data }: GroupTourDetailsPageProps
         ? Math.round(Number(pkg.starting_price)).toLocaleString("en-IN")
         : availableDates.length > 0
           ? availableDates[0].price
-          : "—";
+          : allDates.length > 0
+            ? allDates[0].price
+            : "—";
 
   const breadcrumbItems = [
     { label: "Home", href: "/" },
@@ -272,7 +273,9 @@ export default function GroupTourDetailsPage({ data }: GroupTourDetailsPageProps
 
                     // Status label text
                     const statusLabel =
-                      d.status === "cancelled"
+                      d.status === "expired"
+                        ? "Expired"
+                        : d.status === "cancelled"
                         ? "Cancelled"
                         : d.status === "soldout" || d.seats === 0
                         ? "Sold Out"

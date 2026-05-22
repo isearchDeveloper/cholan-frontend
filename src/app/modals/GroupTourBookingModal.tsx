@@ -797,19 +797,6 @@ const GroupTourBookingModal: React.FC<GroupTourBookingModalProps> = ({
                                   + ₹{Math.round(displayGst).toLocaleString("en-IN")}
                                 </span>
                               </div>
-                              {/* Source badge */}
-                              {isPriceFromApi && (
-                                <div className="text-end mb-1">
-                                  <span
-                                    style={{
-                                      fontSize: "10px", background: "#d4edda",
-                                      color: "#155724", padding: "1px 6px", borderRadius: "8px",
-                                    }}
-                                  >
-                                    ✓ Confirmed by server
-                                  </span>
-                                </div>
-                              )}
                               {/* Total */}
                               <div className="d-flex justify-content-between border-top pt-3 mt-1 fw-bold fs-5">
                                 <span>Total</span>
