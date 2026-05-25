@@ -161,7 +161,7 @@ export default function GroupTourDetailsPage({ data }: GroupTourDetailsPageProps
         <div className="row mt-4 gap-4 gap-lg-0">
 
           {/* ── LEFT COLUMN ── */}
-          <div className="col-12 col-lg-8 d-flex flex-column gap-4">
+          <div className="col-12 col-lg-8 d-flex flex-column gap-4 exp-text-area">
 
             {/* 1. Tour Summary Card */}
             <div className={detailStyles.summaryCard}>
