@@ -184,6 +184,98 @@
   white-space: nowrap;
 }
 
+/* ── TERMS & CONDITIONS ── */
+.termsHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.termsIcon {
+  font-size: 22px;
+  line-height: 1;
+}
+
+.termsWrapper {
+  position: relative;
+}
+
+.termsContent {
+  font-size: 14px;
+  color: #444444;
+  line-height: 1.8;
+  transition: max-height 0.3s ease;
+}
+
+.termsContent p {
+  margin-bottom: 10px;
+  color: #555;
+}
+
+.termsContent h4 {
+  font-size: 15px;
+  font-weight: 700;
+  color: #05164d;
+  margin: 20px 0 8px;
+  font-style: italic;
+}
+
+.termsContent ol,
+.termsContent ul {
+  padding-left: 20px;
+  margin-bottom: 12px;
+}
+
+.termsContent li {
+  margin-bottom: 6px;
+  color: #555;
+  line-height: 1.7;
+}
+
+.termsContent li::marker {
+  color: #ef6d27;
+  font-weight: 600;
+}
+
+.termsFade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: linear-gradient(to bottom, transparent, #ffffff);
+  pointer-events: none;
+}
+
+.termsToggleBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 14px;
+  background: none;
+  border: 1.5px solid #05164d;
+  color: #05164d;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 7px 20px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.termsToggleBtn:hover {
+  background: #05164d;
+  color: #ffffff;
+}
+
+.termsChevron {
+  font-size: 10px;
+  line-height: 1;
+}
+
 /* ── Legacy horizontal tile styles (kept for backward compat) ── */
 .dateTileLeft {
   display: flex;

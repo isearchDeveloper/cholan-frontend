@@ -35,6 +35,7 @@ export default function GroupTourDetailsPage({ data }: GroupTourDetailsPageProps
   const pkg = data?.package;
   const [openModal, setOpenModal] = useState(false);
   const [openBookingModal, setOpenBookingModal] = useState(false);
+  const [termsExpanded, setTermsExpanded] = useState(false);
   const [selectedDate, setSelectedDate] = useState<any>(null);
   const [liveDepartures, setLiveDepartures] = useState<any[]>(
     // API returns group_tour_schedules — fallback to old keys for safety
@@ -358,7 +359,42 @@ export default function GroupTourDetailsPage({ data }: GroupTourDetailsPageProps
               />
             )}
 
-            {/* 6. FAQs */}
+            {/* 6. Terms & Conditions */}
+            {pkg?.privacy_policy && (
+              <div className={detailStyles.section}>
+                <div className={detailStyles.termsHeader}>
+                  <span className={detailStyles.termsIcon}>📋</span>
+                  <h2 className={detailStyles.sectionHeading} style={{ margin: 0 }}>
+                    Terms &amp; Conditions
+                  </h2>
+                </div>
+
+                <div className={detailStyles.termsWrapper}>
+                  <div
+                    className={detailStyles.termsContent}
+                    style={{ maxHeight: termsExpanded ? "none" : "160px", overflow: "hidden" }}
+                    dangerouslySetInnerHTML={{ __html: pkg.privacy_policy }}
+                  />
+                  {!termsExpanded && (
+                    <div className={detailStyles.termsFade} />
+                  )}
+                </div>
+
+                <button
+                  type="button"
+                  className={detailStyles.termsToggleBtn}
+                  onClick={() => setTermsExpanded((p) => !p)}
+                >
+                  {termsExpanded ? (
+                    <>Show Less <span className={detailStyles.termsChevron}>▲</span></>
+                  ) : (
+                    <>Read More <span className={detailStyles.termsChevron}>▼</span></>
+                  )}
+                </button>
+              </div>
+            )}
+
+            {/* 7. FAQs */}
             {pkg?.faqs?.length > 0 && (
               <div className={detailStyles.section}>
                 <FAQAccordion
