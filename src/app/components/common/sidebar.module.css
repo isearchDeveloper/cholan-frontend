@@ -20,7 +20,7 @@
 }
 
 .bannerContainer:hover .bannerImage {
-  transform: scale(1.05);
+  transform: none;
 }
 
 .bannerOverlay {
