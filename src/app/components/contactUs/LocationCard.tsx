@@ -13,7 +13,7 @@ export const locations = [
         id: 2,
         name: "Chennai",
         image: "https://www.southtourism.in/assets/images/branch/chennai.jpg",
-        address: "G102, Spencer Plaza, Anna Salai, Chennai - 600002",
+        address: "Sunil Sanctuary, F1, First Floor30/25, Cart Track RoadVelachery, Chennai 600042",
         phones: ["+91 8220005598", "044-28494114", "044-48538053"],
     },
     {
