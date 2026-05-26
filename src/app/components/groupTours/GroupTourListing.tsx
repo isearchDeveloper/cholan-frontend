@@ -25,7 +25,7 @@ const ITEMS_PER_PAGE = 10;
  ───────────────────────────────*/
 const GroupTourSidebar = () => (
   <div className="sidebar-listing group-tour-sidebar">
-    <div className={sidebarStyles.bannerContainer} id="gt-siebar" data-aos="fade-up">
+    <Link href="/group-tours" className={sidebarStyles.bannerContainer} id="gt-siebar" data-aos="fade-up" style={{ display: "block", textDecoration: "none" }}>
       <Image
         src="/images/bannerside.webp"
         alt="Group Tours"
@@ -34,14 +34,14 @@ const GroupTourSidebar = () => (
         className={sidebarStyles.bannerImage}
       />
       <div className={sidebarStyles.bannerOverlay}>
-        <Link href="/group-tours" className={sidebarStyles.exploreBtn}>
+        <span className={sidebarStyles.exploreBtn}>
           Explore Group Tours
           <span>
             <Image width={16} height={16} src="/images/button-arrow.png" alt="" />
           </span>
-        </Link>
+        </span>
       </div>
-    </div>
+    </Link>
   </div>
 );
 

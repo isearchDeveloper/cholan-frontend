@@ -73,13 +73,38 @@
   }
 
   .bannerContainer {
-    margin-top: 40px;
+    margin-top: 30px;
     max-width: 480px;
     margin-left: auto;
     margin-right: auto;
+    height: 280px;
   }
 
   .bannerImage {
-    height: 400px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+}
+
+@media (max-width: 576px) {
+  .bannerContainer {
+    margin-top: 20px;
+    max-width: 100%;
+    border-radius: 10px;
+    height: 200px;        /* fix container height */
+  }
+
+  .bannerImage {
+    width: 100%;
+    height: 100%;         /* fill full container */
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .exploreBtn {
+    font-size: 13px;
+    padding: 8px 16px;
   }
 }

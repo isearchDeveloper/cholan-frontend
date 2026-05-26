@@ -276,6 +276,95 @@
   line-height: 1;
 }
 
+/* ============================================================
+   RESPONSIVE — Details page
+============================================================ */
+
+@media (max-width: 768px) {
+  .section {
+    padding: 16px;
+    border-radius: 12px;
+  }
+
+  .summaryCard {
+    padding: 16px;
+    border-radius: 12px;
+  }
+
+  .sectionHeading {
+    font-size: 17px;
+    margin-bottom: 14px;
+  }
+
+  /* Date tiles: 2 columns on mobile */
+  .datesGrid {
+    gap: 8px;
+  }
+
+  .dateTile {
+    width: calc(50% - 4px);
+    min-height: 100px;
+  }
+
+  .termsContent {
+    font-size: 13px;
+  }
+
+  .termsContent h4 {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .section {
+    padding: 12px;
+    border-radius: 10px;
+  }
+
+  .summaryCard {
+    padding: 12px;
+  }
+
+  .sectionHeading {
+    font-size: 15px;
+    margin-bottom: 12px;
+  }
+
+  /* Date tiles: still 2 per row but smaller */
+  .dateTile {
+    width: calc(50% - 4px);
+    min-height: 90px;
+    padding: 8px 6px 10px;
+  }
+
+  .dateTileDay {
+    font-size: 11px;
+  }
+
+  .dateTileDateStr {
+    font-size: 11px;
+  }
+
+  .dateTileStatus {
+    font-size: 10px;
+    padding: 2px 6px;
+  }
+
+  .dateTilePriceNew {
+    font-size: 11px;
+    padding: 2px 6px;
+  }
+
+  .overviewText {
+    font-size: 13px;
+  }
+
+  .termsToggleBtn {
+    font-size: 12px;
+    padding: 6px 16px;
+  }
+}
+
 /* ── Legacy horizontal tile styles (kept for backward compat) ── */
 .dateTileLeft {
   display: flex;

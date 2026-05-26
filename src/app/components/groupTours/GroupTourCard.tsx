@@ -59,7 +59,7 @@ const GroupTourCard: React.FC<GroupTourCardProps> = ({
 
   return (
     <>
-      <div className={styles.card}>
+      <Link href={`/group-tours/${slug}`} className={styles.card} style={{ textDecoration: "none", color: "inherit" }}>
         {/* LEFT COLUMN: IMAGE */}
         <div className={styles.imgWrap}>
           <img src={validImage} alt={title} className={styles.img} />
@@ -146,15 +146,15 @@ const GroupTourCard: React.FC<GroupTourCardProps> = ({
             </div>
 
             <div className={styles.actions}>
-              <Link href={`/group-tours/${slug}`} className="btn orange-btn d-flex align-items-center gap-2" style={{ fontSize: "13px", padding: "8px 16px" }}>
+              <span className="btn orange-btn d-flex align-items-center gap-2" style={{ fontSize: "13px", padding: "8px 16px" }}>
                 View Tour Details
                 <span><img src="/images/button-arrow.png" alt="" width={16} height={16} /></span>
-              </Link>
+              </span>
               <button
                 type="button"
                 className={`${styles.btnFilled} d-flex align-items-center gap-2`}
                 style={{ borderRadius: "50px", fontSize: "13px", padding: "8px 16px" }}
-                onClick={() => setOpenModal(true)}
+                onClick={(e) => { e.stopPropagation(); e.preventDefault(); setOpenModal(true); }}
               >
                 Book Now
                 <span><img src="/images/button-arrow.png" alt="" width={16} height={16} /></span>
@@ -162,7 +162,8 @@ const GroupTourCard: React.FC<GroupTourCardProps> = ({
             </div>
           </div>
         </div>
-      </div>
+      </Link>
+
 
       <EnquiryModal
         openModal={openModal}
