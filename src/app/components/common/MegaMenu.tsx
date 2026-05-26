@@ -225,7 +225,7 @@ export default function Navigation({
                 onMouseEnter={() => { if (window.innerWidth > 991) setSummerDropdownOpen(true); }}
                 onMouseLeave={() => { if (window.innerWidth > 991) setSummerDropdownOpen(false); }}
               >
-                <Link href="/summer-tour-packages" onClick={closeMobileMenu} className="summer-special-link" style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+                <Link href="/summer-tour-packages" onClick={closeMobileMenu} className="summer-special-link" style={{ display: "inline-flex", alignItems: "center", gap: "5px" }}>
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                     <circle cx="12" cy="12" r="4.5" fill="#f59e0b" />
                     <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" stroke="#f59e0b" strokeWidth="2" strokeLinecap="round" />

@@ -5,6 +5,30 @@
   box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
+@media (max-width: 576px) {
+  .dialogWrapper {
+    align-items: flex-start !important;
+    padding-top: 6dvh !important;
+    margin: 0 12px !important;
+    max-width: calc(100% - 24px) !important;
+  }
+
+  .modalContent {
+    border-radius: 14px;
+    max-height: 88dvh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .body {
+    padding: 1.2rem 1rem 1.5rem;
+    overflow-y: auto;
+    flex: 1;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
 .header {
   background: linear-gradient(135deg, #ef6d27 0%, #d85711 100%);
   padding: 1rem 1.5rem;

@@ -471,7 +471,7 @@ const GroupTourBookingModal: React.FC<GroupTourBookingModalProps> = ({
         aria-modal="true"
         role="dialog"
       >
-        <div className="modal-dialog modal-lg modal-dialog-centered">
+        <div className={`modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable ${styles.dialogWrapper}`}>
           <div className={`modal-content ${styles.modalContent}`}>
 
             {/* ── Header ── */}
@@ -495,7 +495,7 @@ const GroupTourBookingModal: React.FC<GroupTourBookingModalProps> = ({
             </div>
 
             {/* ── Body ── */}
-            <div className={styles.body}>
+            <div className={`modal-body ${styles.body}`}>
 
               {/* ════════ STEP: DETAILS ════════ */}
               {step === "details" && (
@@ -537,10 +537,11 @@ const GroupTourBookingModal: React.FC<GroupTourBookingModalProps> = ({
                       </div>
 
                       {/* Passengers */}
-                      <div className="row g-3 mb-3">
+                      <div className="row g-2 mb-3">
                         <div className="col-4">
-                          <label className="form-label text-muted small mb-1">
-                            Adults (12+ Yrs) <span className="text-danger">*</span>
+                          <label className="form-label text-muted mb-1" style={{ fontSize: "12px", lineHeight: 1.3 }}>
+                            Adults <span className="text-danger">*</span><br />
+                            <span style={{ fontSize: "10px" }}>(12+ yrs)</span>
                           </label>
                           <select
                             className="form-select shadow-none"
@@ -554,8 +555,9 @@ const GroupTourBookingModal: React.FC<GroupTourBookingModalProps> = ({
                           </select>
                         </div>
                         <div className="col-4">
-                          <label className="form-label text-muted small mb-1">
-                            Child (6–11 Yrs)
+                          <label className="form-label text-muted mb-1" style={{ fontSize: "12px", lineHeight: 1.3 }}>
+                            Child<br />
+                            <span style={{ fontSize: "10px" }}>(6–11 yrs)</span>
                           </label>
                           <select
                             className="form-select shadow-none"
@@ -576,8 +578,9 @@ const GroupTourBookingModal: React.FC<GroupTourBookingModalProps> = ({
                           </select>
                         </div>
                         <div className="col-4">
-                          <label className="form-label text-muted small mb-1">
-                            Infant (0–5 Yrs)
+                          <label className="form-label text-muted mb-1" style={{ fontSize: "12px", lineHeight: 1.3 }}>
+                            Infant<br />
+                            <span style={{ fontSize: "10px" }}>(0–5 yrs)</span>
                           </label>
                           <select
                             className="form-select shadow-none"

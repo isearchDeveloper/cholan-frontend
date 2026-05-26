@@ -11332,11 +11332,18 @@ body {
   text-align: center !important;
 }
 
-.summer-special-link, 
-.summer-special-link:hover, 
+.summer-special-link,
+.summer-special-link:hover,
 .summer-special-link:focus,
 .summer-special-link:active,
-.summer-special-link:visited {
+.summer-special-link:visited,
+.main-menu li > a.summer-special-link,
+.main-menu li > a.summer-special-link:hover,
+.main-menu li > a.summer-special-link:focus,
+.main-menu li > a.summer-special-link:active,
+.main-menu li > a.summer-special-link:visited,
+header .main-menu .nav-links li > a.summer-special-link,
+header .main-menu .nav-links li > a.summer-special-link:hover {
   color: #228B22 !important;
   font-weight: 700 !important;
   transition: none !important;
