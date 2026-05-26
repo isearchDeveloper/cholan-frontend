@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import TourDetailsBanner from "@/app/components/common/TourDetailsBanner";
 import Breadcrumb from "@/app/components/common/Breadcrumb";
 import TourPlanFAQ from "@/app/components/common/TourPlanFAQ";
@@ -36,6 +36,7 @@ export default function GroupTourDetailsPage({ data }: GroupTourDetailsPageProps
   const [openModal, setOpenModal] = useState(false);
   const [openBookingModal, setOpenBookingModal] = useState(false);
   const [termsExpanded, setTermsExpanded] = useState(false);
+  const termsRef = useRef<HTMLDivElement>(null);
   const [selectedDate, setSelectedDate] = useState<any>(null);
   const [liveDepartures, setLiveDepartures] = useState<any[]>(
     // API returns group_tour_schedules — fallback to old keys for safety
@@ -161,7 +162,7 @@ export default function GroupTourDetailsPage({ data }: GroupTourDetailsPageProps
         <div className="row mt-4 gap-4 gap-lg-0">
 
           {/* ── LEFT COLUMN ── */}
-          <div className="col-12 col-lg-8 d-flex flex-column gap-4">
+          <div className="col-12 col-lg-8 d-flex flex-column gap-4 exp-text-area">
 
             {/* 1. Tour Summary Card */}
             <div className={detailStyles.summaryCard}>
@@ -361,7 +362,7 @@ export default function GroupTourDetailsPage({ data }: GroupTourDetailsPageProps
 
             {/* 6. Terms & Conditions */}
             {pkg?.privacy_policy && (
-              <div className={detailStyles.section}>
+              <div ref={termsRef} className={detailStyles.section}>
                 <div className={detailStyles.termsHeader}>
                   <span className={detailStyles.termsIcon}>📋</span>
                   <h2 className={detailStyles.sectionHeading} style={{ margin: 0 }}>
@@ -383,7 +384,13 @@ export default function GroupTourDetailsPage({ data }: GroupTourDetailsPageProps
                 <button
                   type="button"
                   className={detailStyles.termsToggleBtn}
-                  onClick={() => setTermsExpanded((p) => !p)}
+                  onClick={() => {
+                    const isCollapsing = termsExpanded;
+                    setTermsExpanded((p) => !p);
+                    if (isCollapsing && termsRef.current) {
+                      termsRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+                    }
+                  }}
                 >
                   {termsExpanded ? (
                     <>Show Less <span className={detailStyles.termsChevron}>▲</span></>
