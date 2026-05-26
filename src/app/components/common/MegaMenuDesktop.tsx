@@ -237,7 +237,6 @@ export default function Navigation({ headerData }: any) {
                           <ArrowIcon />
                         </span>
 
-                        {megaMenuOpen === "india" && (
                           <div
                             className={`mega-menu ${megaMenuOpen === "india"
                               ? "show slide-up hovered"
@@ -461,7 +460,6 @@ export default function Navigation({ headerData }: any) {
                               </div>
                             </div>
                           </div>
-                        )}
                       </li>
                     );
                   }
@@ -494,7 +492,6 @@ export default function Navigation({ headerData }: any) {
                           <ArrowIcon />
                         </span>
 
-                        {megaMenuOpen === "international" && (
                           <div
                             className={`mega-menu ${megaMenuOpen === "international"
                               ? "show slide-up hovered"
@@ -645,7 +642,6 @@ export default function Navigation({ headerData }: any) {
                               </div>
                             </div>
                           </div>
-                        )}
                       </li>
                     );
                   }
@@ -676,7 +672,6 @@ export default function Navigation({ headerData }: any) {
                           <ArrowIcon />
                         </span>
 
-                        {megaMenuOpen === "holidays" && (
                           <div
                             className={`mega-menu ${megaMenuOpen === "holidays"
                               ? "show slide-up hovered"
@@ -933,7 +928,6 @@ export default function Navigation({ headerData }: any) {
                               </div>
                             </div>
                           </div>
-                        )}
                       </li>
                       <li key="group-tours-nav" style={{ display: "none" }}>
                         <Link href="/group-tours" onClick={closeMobileMenu}>Group Tours</Link>
@@ -968,8 +962,7 @@ export default function Navigation({ headerData }: any) {
                           <ArrowIcon />
                         </span>
 
-                        {megaMenuOpen === "indian-dmc" && (
-                          <div className="mega-menu dmc-menu show">
+                          <div className={`mega-menu dmc-menu ${megaMenuOpen === "indian-dmc" ? "show" : ""}`}>
                             <div className="container">
                               <div className="row">
                                 <div className="col-lg-12 menu-columns">
@@ -993,7 +986,6 @@ export default function Navigation({ headerData }: any) {
                               </div>
                             </div>
                           </div>
-                        )}
                       </li>
                     );
                   }

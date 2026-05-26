@@ -4908,11 +4908,13 @@ body.no-js .js-only {
   display: inline-block;
 }
 
-/* Hover triggers visibility */
-.has-mega-menu a:hover>.mega-menu {
-  visibility: visible;
-  opacity: 1;
-  transform: translateY(0);
+/* Hover triggers visibility — works with and without JS */
+@media (min-width: 992px) {
+  .has-mega-menu:hover .mega-menu {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* add line new for header  */
@@ -4943,9 +4945,12 @@ body.no-js .js-only {
   transition: all 0.3s ease;
 }
 
-.has-dropdown a:hover>.dropdown-menu {
-  opacity: 1;
-  visibility: visible;
+@media (min-width: 992px) {
+  .has-dropdown:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
 }
 
 .mega-menu .menu-columns .panel {
