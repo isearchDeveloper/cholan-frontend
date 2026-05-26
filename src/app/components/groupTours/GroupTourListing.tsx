@@ -27,7 +27,7 @@ const GroupTourSidebar = () => (
   <div className="sidebar-listing group-tour-sidebar">
     <Link href="/group-tours" className={sidebarStyles.bannerContainer} id="gt-siebar" data-aos="fade-up" style={{ display: "block", textDecoration: "none" }}>
       <Image
-        src="/images/bannerside.webp"
+        src="/images/india-group-tours-cholantours.webp"
         alt="Group Tours"
         width={400}
         height={0}

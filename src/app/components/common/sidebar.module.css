@@ -93,14 +93,14 @@
     margin-top: 20px;
     max-width: 100%;
     border-radius: 10px;
-    height: 200px;        /* fix container height */
+    height: auto;         /* let image determine height naturally */
   }
 
   .bannerImage {
     width: 100%;
-    height: 100%;         /* fill full container */
-    object-fit: cover;
-    object-position: center;
+    height: auto !important;   /* full image — no cropping */
+    object-fit: unset;
+    display: block;
   }
 
   .exploreBtn {

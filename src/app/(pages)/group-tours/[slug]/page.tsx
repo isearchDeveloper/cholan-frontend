@@ -4,7 +4,8 @@ import GroupTourDetailsPage from "@/app/components/groupTours/GroupTourDetailsPa
 import "aos/dist/aos.css";
 
 export async function generateMetadata({ params }: any) {
-  const data = await fetchGroupTourDetailsData(params.slug);
+  const { slug } = await params;
+  const data = await fetchGroupTourDetailsData(slug);
   if (!data?.data?.package) return { title: "Group Tour | Cholan Tours" };
   const pkg = data.data.package;
   return {
@@ -19,7 +20,8 @@ export async function generateMetadata({ params }: any) {
 }
 
 export default async function GroupTourDetailPage({ params }: any) {
-  const data = await fetchGroupTourDetailsData(params.slug);
+  const { slug } = await params;
+  const data = await fetchGroupTourDetailsData(slug);
 
   if (!data?.data?.package) {
     notFound();

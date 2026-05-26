@@ -11,9 +11,11 @@ interface WhyChooseItem {
 
 interface WhyChooseProps {
   data: WhyChooseItem[];
+  heading?: string;
+  description?: string;
 }
 
-const WhyChoose: React.FC<WhyChooseProps> = ({ data }) => {
+const WhyChoose: React.FC<WhyChooseProps> = ({ data, heading, description }) => {
   const [activeIndex, setActiveIndex] = useState<number | null>(0);
 
   if (!data || data.length === 0) return null;
@@ -27,11 +29,10 @@ const WhyChoose: React.FC<WhyChooseProps> = ({ data }) => {
 
         {/* HEADER */}
         <div className={styles.header}>
-          <h2>Why Choose Cholan Tours?</h2>
+          <h2>{heading ?? "Why Choose Cholan Tours?"}</h2>
 
           <p>
-            Combining experience, reliability, and personalized service, we ensure
-            every journey is smooth, memorable, and truly exceptional.
+            {description ?? "Combining experience, reliability, and personalized service, we ensure every journey is smooth, memorable, and truly exceptional."}
           </p>
         </div>
 

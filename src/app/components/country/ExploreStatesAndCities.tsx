@@ -53,19 +53,16 @@ export default function ExploreStatesAndCities({
 
   return (
     <section className={styles.section}>
-      <div className="container">
-        <div className="row">
-          {/* Left Side: Sticky Image */}
-          <div className="col-lg-5 d-none d-lg-block">
-            <div className={styles.stickyImageWrapper}>
-              <Image
-                src="/images/couple-tourists-woman-man 1.webp"
-                alt="Explore Destinations"
-                width={400}
-                height={550}
-                className={styles.image}
-              />
-            </div>
+      <div className={`row g-0 ${styles.mainRow}`}>
+          {/* Left Side: Full height image */}
+          <div className={`col-lg-5 d-none d-lg-block ${styles.imageCol}`}>
+            <Image
+              src="/images/india-tours-states-and-cities.webp"
+              alt="Explore States and Cities of India"
+              fill
+              className={styles.image}
+              sizes="40vw"
+            />
           </div>
 
           {/* Right Side: Content */}
@@ -136,7 +133,6 @@ export default function ExploreStatesAndCities({
             </div>
           </div>
         </div>
-      </div>
     </section>
   );
 }
